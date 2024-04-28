@@ -1,0 +1,25 @@
+name: Update Docs
+description: ✍️ The documentation is outdated/I think we should add something!
+title: ⚠️ Insert a short title for your issue.
+labels: ["documentation"]
+assignees: [calejvaldez]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Summarize the change we should make to the documentation.
+    validations:
+      required: true
+  - type: dropdown
+    id: type_of_issue
+    attributes:
+      label: Type of Docs Issue
+      description: What is wrong with the docs?
+      options:
+        - Docs is outdated
+        - Docs has wrong information
+        - Adding to docs
+        - Other
+    validations:
+      required: true

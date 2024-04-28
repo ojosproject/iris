@@ -1,0 +1,15 @@
+{
+    "files.associations": {
+        "LICENSE": "plaintext"
+    },
+    "[markdown][plaintext]": {
+        "editor.rulers": [80],
+        "editor.wordWrap": "off"
+    },
+    "cSpell.words": [
+        "choosealicense",
+        "Ojos",
+        "ojosproject"
+    ],
+    "indentRainbow.indentSetter": {"markdown": 2},
+}

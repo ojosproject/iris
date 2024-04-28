@@ -1,0 +1,19 @@
+name: Feature Request
+description: 💡 I have an idea I'd like to suggest!
+title: ⚠️ Insert a short title for your feature request.
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Summarize the proposed feature concisely.
+    validations:
+      required: true
+  - type: textarea
+    id: relevance
+    attributes:
+      label: Concept images and/or code
+      description: Use code blocks (```) to format console output, logs, and code, as it's very hard to read otherwise.
+    validations:
+      required: true

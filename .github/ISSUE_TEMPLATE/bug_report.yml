@@ -1,0 +1,60 @@
+name: Bug Report
+description: 🪲 I found a bug I'd like to report!
+title: ⚠️ Insert a short title for your bug report.
+labels: ["bug"]
+body:
+  - type: textarea
+    id: bug_report
+    attributes:
+      label: Summary
+      description: Summarize the bug encountered concisely.
+    validations:
+      required: true
+  - type: textarea
+    id: expected_behavior
+    attributes:
+      label: What is the expected correct behavior?
+      description: What you should see instead.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: How one can reproduce the issue - this is very important.
+    validations:
+      required: true
+  - type: textarea
+    id: relevance
+    attributes:
+      label: Relevant logs and/or screenshots
+      description: Paste any relevant logs - use code blocks (```) to format console output, logs, and code, as it's very hard to read otherwise.
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating System
+      description: What operating system are you using?
+      options:
+        - iOS
+        - Android
+        - Windows
+        - macOS
+        - ChromeOS
+        - Linux
+    validations:
+      required: true
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser
+      description: What browser are you using?
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Microsoft Edge
+        - Other
+    validations:
+      required: true

@@ -1,0 +1,20 @@
+name: Repository Change
+description: We should add/remove something in the repository.
+title: ⚠️ Insert a short title for your proposal.
+labels: ["repo related"]
+assignees: ["calejvaldez"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Summarize the proposed change concisely.
+    validations:
+      required: true
+  - type: textarea
+    id: reasoning
+    attributes:
+      label: Reasoning
+      description: Why should we change the repo? What's wrong with the current structure?
+    validations:
+      required: true
