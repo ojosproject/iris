@@ -21,8 +21,8 @@
   - [Code Contributions](#code-contributions)
     - [`git` policies](#git-policies)
     - [Setting up your coding environment](#setting-up-your-coding-environment)
-    - [Installing dependencies](#installing-dependencies)
-    - [Run the program](#run-the-program)
+      - [Installing dependencies](#installing-dependencies)
+      - [Run the program](#run-the-program)
       - [Visual Studio Code](#visual-studio-code)
 
 ## Introduction
@@ -160,17 +160,13 @@ Please make sure to follow our
 
 ### Setting up your coding environment
 
-> [!IMPORTANT]
-> Ojos Project is still figuring out which language we'd like to use. We will
-> update this as soon as possible.
-
 ```shell
 # Clone the repository
 git clone git@github.com:ojosproject/iris.git
 cd iris
 ```
 
-### Installing dependencies
+#### Installing dependencies
 
 This program uses [Pipenv](https://pipenv.pypa.io/en/latest/). Please learn how
 to use it using
@@ -182,7 +178,7 @@ To install the dependencies, run:
 pipenv install
 ```
 
-### Run the program
+#### Run the program
 
 To run the program, run:
 
