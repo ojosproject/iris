@@ -6,10 +6,14 @@
         "editor.rulers": [80],
         "editor.wordWrap": "off"
     },
+    "[python]": {
+        "editor.rulers": [120]
+    },
     "cSpell.words": [
         "choosealicense",
         "Ojos",
-        "ojosproject"
+        "ojosproject",
+        "Pipenv"
     ],
     "indentRainbow.indentSetter": {"markdown": 2},
 }
