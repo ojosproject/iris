@@ -7,6 +7,8 @@
         "yzhang.markdown-all-in-one", // Extra Markdown features
         "DavidAnson.vscode-markdownlint", // Markdown linting,
 
-        "ryanluker.vscode-coverage-gutters" // Python code coverage
+        "ryanluker.vscode-coverage-gutters", // Python code coverage
+
+        "alexcvzz.vscode-sqlite", // SqLite
     ]
 }
