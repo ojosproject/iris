@@ -168,6 +168,10 @@ cd iris
 
 #### Installing dependencies
 
+Before anything, you must install PyGObject, the Python wrapper for GTK. You
+can
+[go to their website to install](https://pygobject.gnome.org/getting_started.html).
+
 This program uses [Pipenv](https://pipenv.pypa.io/en/latest/). Please learn how
 to use it using
 [this guide from the Developers team](https://ojosproject.org/docs/url/developers/using-pipfiles/).
