@@ -6,7 +6,7 @@
 from main import DB
 
 def get_medications():
-    pass
+    pass 
 
 class Medication:
     def __init__(self, name : str, brand : str, dosage : float):
