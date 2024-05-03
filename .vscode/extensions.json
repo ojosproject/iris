@@ -3,7 +3,10 @@
         "aaron-bond.better-comments", // Color codes comments
         "streetsidesoftware.code-spell-checker", // Spell checks code
         "oderwat.indent-rainbow", // Ensures we're indending properly
+
         "yzhang.markdown-all-in-one", // Extra Markdown features
-        "DavidAnson.vscode-markdownlint", // Markdown linting
+        "DavidAnson.vscode-markdownlint", // Markdown linting,
+
+        "ryanluker.vscode-coverage-gutters" // Python code coverage
     ]
 }

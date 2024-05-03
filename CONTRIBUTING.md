@@ -23,6 +23,7 @@
     - [Setting up your coding environment](#setting-up-your-coding-environment)
       - [Installing dependencies](#installing-dependencies)
       - [Run the program](#run-the-program)
+      - [Running tests](#running-tests)
       - [Visual Studio Code](#visual-studio-code)
 
 ## Introduction
@@ -189,6 +190,20 @@ To run the program, run:
 ```shell
 pipenv run start
 ```
+
+#### Running tests
+
+This repository uses Coverage to test our code. However, [since pipenv doesn't
+support multiple commands in a single script](https://github.com/pypa/pipenv/issues/2038#issuecomment-383527361),
+we're going to have to run two commands. You can do so in a single line with:
+
+```shell
+pipenv run coverage; pipenv run report;
+```
+
+However, the report is only useful with the
+[Coverage Gutters](https://marketplace.visualstudio.com/items?itemName=ryanluker.vscode-coverage-gutters)
+VS Code extension so that you can see which lines were covered.
 
 #### Visual Studio Code
 

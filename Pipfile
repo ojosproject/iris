@@ -5,12 +5,16 @@ name = "pypi"
 
 [scripts]
 start = "echo 'Not configured. Please edit Pipfile.'"
+coverage = "coverage run -m pytest"
+report = "coverage xml"
 
 [packages]
-pygobject-stubs = "==2.11.0"
 
 [dev-packages]
 pipenv = "==2023.12.1"
+pytest = "==8.2.0"
+coverage = "==7.5.0"
+pygobject-stubs = "==2.11.0"
 
 [requires]
 python_version = "3.11"
