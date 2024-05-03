@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [scripts]
-start = "echo 'Not configured. Please edit Pipfile.'"
+start = "python3 src/main.py"
 coverage = "coverage run -m pytest"
 report = "coverage xml"
 

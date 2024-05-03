@@ -205,6 +205,11 @@ However, the report is only useful with the
 [Coverage Gutters](https://marketplace.visualstudio.com/items?itemName=ryanluker.vscode-coverage-gutters)
 VS Code extension so that you can see which lines were covered.
 
+> [!IMPORTANT]
+> If you want to add a new test file, you need to prepend `test_` to your
+> filename, otherwise Coverage won't recognize it. Please make sure to add this
+> to the `tests` folder in the root of this repository.
+
 #### Visual Studio Code
 
 If you use [Visual Studio Code](https://code.visualstudio.com/), we have a few
