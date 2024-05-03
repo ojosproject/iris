@@ -10,6 +10,7 @@ start = "echo 'Not configured. Please edit Pipfile.'"
 pygobject-stubs = "==2.11.0"
 
 [dev-packages]
+pipenv = "==2023.12.1"
 
 [requires]
 python_version = "3.11"
