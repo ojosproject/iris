@@ -21,6 +21,8 @@
   - [Code Contributions](#code-contributions)
     - [`git` policies](#git-policies)
     - [Setting up your coding environment](#setting-up-your-coding-environment)
+    - [Installing dependencies](#installing-dependencies)
+    - [Run the program](#run-the-program)
       - [Visual Studio Code](#visual-studio-code)
 
 ## Introduction
@@ -166,6 +168,26 @@ Please make sure to follow our
 # Clone the repository
 git clone git@github.com:ojosproject/iris.git
 cd iris
+```
+
+### Installing dependencies
+
+This program uses [Pipenv](https://pipenv.pypa.io/en/latest/). Please learn how
+to use it using
+[this guide from the Developers team](https://ojosproject.org/docs/url/developers/using-pipfiles/).
+
+To install the dependencies, run:
+
+```shell
+pipenv install
+```
+
+### Run the program
+
+To run the program, run:
+
+```shell
+pipenv run start
 ```
 
 #### Visual Studio Code
