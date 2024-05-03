@@ -3,6 +3,8 @@
 # 
 # Contains user-related material
 
+import Medication
+
 class User():
     def __init__(self, type_of_user):
         self.type = type_of_user
@@ -20,7 +22,7 @@ class User():
         '''
         Returns the patient's list of Medications
         '''
-        pass
+        return Medication.get_medications()
     
     def get_care_instructions() -> str[]:
         '''
