@@ -10,6 +10,8 @@
         "ms-python.python", // VS Code extension for Python
         "ryanluker.vscode-coverage-gutters", // Python code coverage
 
+        "rogalmic.bash-debug", // Bash script
+
         "alexcvzz.vscode-sqlite", // SqLite
     ]
 }

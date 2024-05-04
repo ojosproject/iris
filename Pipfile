@@ -13,10 +13,10 @@ pycairo = "*"
 pygobject = "*"
 
 [dev-packages]
-pipenv = "==2023.12.1"
-pytest = "==8.2.0"
-coverage = "==7.5.0"
-pygobject-stubs = "==2.11.0"
+pipenv = "*"
+pytest = "*"
+coverage = "*"
+pygobject-stubs = "*"
 
 [requires]
 python_version = "3.11"
