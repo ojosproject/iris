@@ -1,9 +1,10 @@
 # User.py
 # Ojos Project
-# 
+#
 # Contains user-related material
 from main import DB
 from Medications import Medication
+
 
 class User():
     def __init__(self, pin: int):
@@ -12,7 +13,7 @@ class User():
         if self._type == None:
             raise Exception("The pin is not valid.")
 
-    def verify_pin(self, pin : int) -> str:
+    def verify_pin(self, pin: int) -> str:
         '''
         Verifies that the inputted pin is valid
 
@@ -30,12 +31,13 @@ class User():
         Returns the patient's list of Medications
         '''
         return Medication.get_all_medications()
-    
+
     def get_care_instructions(self) -> list[str]:
         '''
         Returns a list of care instructions pertaining to the Patient
         '''
         pass
+
 
 class Patient(User):
     def __init__(self, type_of_user):

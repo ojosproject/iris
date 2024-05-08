@@ -1,16 +1,17 @@
 # Database.py
 # Ojos Project
-# 
+#
 # This file will contain database-related content.
 import json
 import sqlite3
 from pathlib import Path
 
+
 class Database:
     def __init__(self, path_to_db: str) -> None:
         self._connection = sqlite3.connect(path_to_db)
 
-    def get_medications(self, include_only: list[str]=[]) -> list[dict]:
+    def get_medications(self, include_only: list[str] = []) -> list[dict]:
         # todo: need to include the `include_only` feature
         """Return all medications in the database unless `include_only` is specified.
 
@@ -26,7 +27,8 @@ class Database:
             cursor = db.execute("SELECT * FROM Medications")
 
             for medication in cursor.fetchall():
-                list_to_return.append({"name": medication[0], "brand": medication[1], "dose": float(medication[2]), "supply": float(medication[3]), "first_added": float(medication[4]), "last_token": float(medication[5])})
+                list_to_return.append({"name": medication[0], "brand": medication[1], "dose": float(medication[2]), "supply": float(
+                    medication[3]), "first_added": float(medication[4]), "last_token": float(medication[5])})
 
         return list_to_return
 
@@ -34,7 +36,8 @@ class Database:
         with self._connection as db:
             # todo: run tests
             db.execute(
-                'UPDATE Medications SET dosage = :dosage WHERE name = :name', {'dosage': dosage, 'name': name}
+                'UPDATE Medications SET dosage = :dosage WHERE name = :name', {
+                    'dosage': dosage, 'name': name}
             )
 
             db.commit()
@@ -43,7 +46,8 @@ class Database:
         with self._connection as db:
             # todo: run tests
             db.execute(
-                'UPDATE Medications SET supply = :supply WHERE name = :name', {'supply': supply, 'name': name}
+                'UPDATE Medications SET supply = :supply WHERE name = :name', {
+                    'supply': supply, 'name': name}
             )
 
             db.commit()
