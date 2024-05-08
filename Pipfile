@@ -17,6 +17,7 @@ pipenv = "*"
 pytest = "*"
 coverage = "*"
 pygobject-stubs = "*"
+autopep8 = "==2.1.0"
 
 [requires]
 python_version = "3.11"

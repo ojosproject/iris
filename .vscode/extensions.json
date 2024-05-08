@@ -9,6 +9,7 @@
 
         "ms-python.python", // VS Code extension for Python
         "ryanluker.vscode-coverage-gutters", // Python code coverage
+        "ms-python.autopep8", // Python formatter
 
         "rogalmic.bash-debug", // Bash script
 
