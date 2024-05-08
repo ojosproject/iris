@@ -10,6 +10,7 @@
         "ms-python.python", // VS Code extension for Python
         "ryanluker.vscode-coverage-gutters", // Python code coverage
         "ms-python.autopep8", // Python formatter
+        "donjayamanne.python-environment-manager", // Python virtual environment manager
 
         "rogalmic.bash-debug", // Bash script
 
