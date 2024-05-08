@@ -17,5 +17,7 @@
         "ojosproject",
         "Pipenv"
     ],
-    "indentRainbow.indentSetter": {"markdown": 2},
+    "indentRainbow.indentSetter": {
+        "markdown": 2
+    }
 }

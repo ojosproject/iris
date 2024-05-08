@@ -4,9 +4,12 @@
 # This is the file where it all begins.
 from Database import Database
 
-# DB = Database("some path")
+DB = Database("database.db")
 
-if __name__ == "__main__":
+
+def run():
+    """Runs the actual program.
+    """
     import sys
     import gi
 
@@ -27,3 +30,7 @@ if __name__ == "__main__":
     app = MyApplication()
     exit_status = app.run(sys.argv)
     sys.exit(exit_status)
+
+
+if __name__ == "__main__":
+    run()

@@ -24,7 +24,7 @@ class Database:
         list_to_return = []
 
         with self._connection as db:
-            cursor = db.execute("SELECT * FROM Medications")
+            cursor = db.execute("SELECT * FROM medication")
 
             for medication in cursor.fetchall():
                 list_to_return.append({"name": medication[0], "brand": medication[1], "dose": float(medication[2]), "supply": float(
@@ -36,7 +36,7 @@ class Database:
         with self._connection as db:
             # todo: run tests
             db.execute(
-                'UPDATE Medications SET dosage = :dosage WHERE name = :name', {
+                'UPDATE medication SET dosage = :dosage WHERE name = :name', {
                     'dosage': dosage, 'name': name}
             )
 
@@ -46,7 +46,7 @@ class Database:
         with self._connection as db:
             # todo: run tests
             db.execute(
-                'UPDATE Medications SET supply = :supply WHERE name = :name', {
+                'UPDATE medication SET supply = :supply WHERE name = :name', {
                     'supply': supply, 'name': name}
             )
 
