@@ -23,14 +23,6 @@ class Database:
         self._last_cached = time.time()
 
     def _med_in_db(self, name: str) -> bool:
-        """Checks to see if the medication exists in the database.
-
-        Args:
-            name (str): The name of the medication, case sensitive.
-
-        Returns:
-            bool: Boolean indicating whether the medication was found
-        """
         with self._connection as con:
             cur = con.execute(
                 "SELECT name FROM medication WHERE name=:name", {'name': name})
@@ -46,14 +38,6 @@ class Database:
 
     def get_medications(self, include_only: tuple[str] = (), *, force_update_cache=False) -> tuple[dict]:
         # TODO: need to include the `include_only` feature
-        """Return all medications in the database unless `include_only` is specified.
-
-        Args:
-            include_only (tuple[str], optional): A immutable tuples of strings with the name of the medication. Defaults to ().
-
-        Returns:
-            tuple: Returns a tuple of dictionaries where each value represents a medication object
-        """
         if self._medication_cache and not force_update_cache:
             # Cache is updated after 20 minutes, or until _update_cache() is called
             # 1200 seconds is 20 minutes
