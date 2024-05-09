@@ -12,7 +12,7 @@ from pathlib import Path
 import os
 
 
-class TestDatabase(unittest.TestCase):
+class TestMedicationDatabase(unittest.TestCase):
     path = Path('database.db')
 
     def setUp(self):
@@ -62,3 +62,12 @@ class TestDatabase(unittest.TestCase):
             {'name': 'name', 'brand': 'brand', 'dose': 1, 'supply': 2, 'first_added': 3, 'last_taken': 4}])
         self.db.del_medication('name')
         self.assertEqual(self.db.get_medications(), [])
+
+    def test_med_in_database_check(self):
+        self.db.add_medication('name of a medication',
+                               'medication branding', 1, 2, 3, 4)
+
+        self.assertTrue(self.db._med_in_db('name of a medication'))
+
+    def test_not_in_database_check(self):
+        self.assertFalse(self.db._med_in_db('not included'))
