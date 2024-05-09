@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "e98c3525eebbfecbacb40237b85a1cb6619b287e691c287011e380ddb597eaf7"
+            "sha256": "43ccd19bf419d037a15d3f41e49cf7334f18cf35bfc95be9cdfc2d25edd8fcf4"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -15,38 +15,7 @@
             }
         ]
     },
-    "default": {
-        "pycairo": {
-            "hashes": [
-                "sha256:1d54e28170a5e790269d9db4c195cca5152ff018ba7e330d0ed05d86ccc2ea7d",
-                "sha256:20a31af89d92ffd5fc60c08e65ff649f16e18621a14a40dbdb049fc74942d7a9",
-                "sha256:2dddd0a874fbddb21e14acd9b955881ee1dc6e63b9c549a192d613a907f9cbeb",
-                "sha256:3e4e18ea03122e60abe3eb611e2849859cc950083ff85d8369328eadf3df63f5",
-                "sha256:5986b8da3e7de7ab931d7ad527938df38f75d3a3bdea2b515c786c5ca2c5093c",
-                "sha256:675578bc6d62d15ff8669f264783efc9c8c73e3a6f564b294a70fb45a2f78667",
-                "sha256:696ba8024d2827e66e088a6e05a3b0aea30d289476bcb2ca47c9670d40900a50",
-                "sha256:8616408ae93de4824a3777ec532ea75643e4bf74e49d601062c0b1788180c962",
-                "sha256:9fa51168010e2dfb45499df071fca2d921893f724646f3454951000a7ad0cabb",
-                "sha256:a611e4d82ad8470138bb46d465d47e8db826d9d80b6a520ccd83ee007f2073e4",
-                "sha256:a8f3b567ba2ad55624a809823ccf75aff8d768c20216cb5888365f6fc695c1d2",
-                "sha256:aac447b423b33b64119ecdd1ffebf9163b07f5401c5da50c707197efdd1c918a",
-                "sha256:b6690a00fb225c19f42d76660e676aba7ae7cb18f3632cb02bce7f0d9b9c3800",
-                "sha256:d374d9ec6d2f791bf57105d87a9028db1ef2b687848f64a524e447033eae7229",
-                "sha256:d63929ab5a2f890a333f2f2f51de9f1c9fe20d1bddc982c2ca577b737448d72f"
-            ],
-            "index": "pypi",
-            "markers": "python_version >= '3.8'",
-            "version": "==1.26.0"
-        },
-        "pygobject": {
-            "hashes": [
-                "sha256:c3c0a7afbe5b2c1c64dc0530109b4dd571085153dbedfbccb8ec7c5ad233f977"
-            ],
-            "index": "pypi",
-            "markers": "python_version >= '3.8' and python_version < '4'",
-            "version": "==3.48.2"
-        }
-    },
+    "default": {},
     "develop": {
         "autopep8": {
             "hashes": [

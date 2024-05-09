@@ -5,9 +5,9 @@ Ojos Project
 This schema shows the structure of our database and is often used in testing.
 */
 CREATE TABLE IF NOT EXISTS medication_log (
-    timestamp INTEGER NOT NULL PRIMARY KEY,
-    name TEXT NOT NULL,
-    dose TEXT NOT NULL,
+    log_timestamp INTEGER NOT NULL PRIMARY KEY,
+    medication_name TEXT NOT NULL,
+    medication_dose TEXT NOT NULL,
     comments TEXT NOT NULL
 ) STRICT;
 
@@ -18,28 +18,28 @@ CREATE TABLE IF NOT EXISTS medication (
     supply INTEGER NOT NULL,
     first_added INTEGER NOT NULL,
     last_taken INTEGER NOT NULL,
-    FOREIGN KEY (last_taken) REFERENCES medication_log(timestamp)
+    FOREIGN KEY (last_taken) REFERENCES medication_log(log_timestamp)
 ) STRICT;
 
 
 CREATE TABLE IF NOT EXISTS resource (
-    label TEXT NOT NULL NOT NULL,
+    resource_label TEXT NOT NULL NOT NULL,
     resource_value TEXT NOT NULL PRIMARY KEY NOT NULL,
     added_by TEXT NOT NULL NOT NULL,
     resource_type TEXT NOT NULL NOT NULL
 ) STRICT;
 
-CREATE TABLE IF NOT EXISTS contact_info (
+CREATE TABLE IF NOT EXISTS nurse_info (
     nurse_name TEXT NOT NULL PRIMARY KEY NOT NULL,
-    label TEXT NOT NULL NOT NULL,
+    nurse_label TEXT NOT NULL NOT NULL,
     info_value TEXT NOT NULL NOT NULL
 ) STRICT;
 
-CREATE TABLE IF NOT EXISTS pro (
-    pro_date TEXT NOT NULL,
+CREATE TABLE IF NOT EXISTS patient_recorded_outcome (
+    recorded_date TEXT NOT NULL,
     question TEXT NOT NULL,
     response TEXT NOT NULL,
-    PRIMARY KEY (pro_date, question)
+    PRIMARY KEY (recorded_date, question)
 ) STRICT;
 
 CREATE TABLE IF NOT EXISTS care_instruction (
