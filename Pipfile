@@ -12,8 +12,8 @@ report = "coverage xml"
 # ? There may be an error when installing these.
 # ? Before running `pipenv install`, please install PyGObject from
 # ? https://pygobject.gnome.org/getting_started.html
-pycairo = "*"
-pygobject = "*"
+#pycairo = "*"
+#pygobject = "*"
 
 [dev-packages]
 pipenv = "*"
