@@ -17,8 +17,8 @@ CREATE TABLE IF NOT EXISTS medication (
     dose INTEGER NOT NULL,
     supply INTEGER NOT NULL,
     first_added INTEGER NOT NULL,
-    last_taken INTEGER NOT NULL,
-    FOREIGN KEY (last_taken) REFERENCES medication_log(log_timestamp)
+    last_taken INTEGER NOT NULL
+    -- FOREIGN KEY (last_taken) REFERENCES medication_log(log_timestamp)
 ) STRICT;
 
 

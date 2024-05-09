@@ -51,3 +51,6 @@ class Database:
             )
 
             db.commit()
+
+    def add_medication(self) -> None:
+        ...
