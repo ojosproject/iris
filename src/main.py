@@ -3,6 +3,7 @@
 #
 # This is the file where it all begins.
 from Database import Database
+from GObjects.demo import Demo
 
 DB = Database("database.db")
 
@@ -16,7 +17,7 @@ def run():
     gi.require_version("Gtk", "4.0")
     from gi.repository import GLib, Gtk
 
-    class MyApplication(Gtk.Application):
+    class Application(Gtk.Application):
         def __init__(self):
             super().__init__(application_id="org.ojosproject.Iris")
             GLib.set_application_name('Iris Hospice Management System')
@@ -27,7 +28,8 @@ def run():
             window.fullscreen()
             window.present()
 
-    app = MyApplication()
+    app = Application()
+    app.add_window(Demo)
     exit_status = app.run(sys.argv)
     sys.exit(exit_status)
 
