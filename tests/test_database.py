@@ -32,4 +32,24 @@ class TestDatabase(unittest.TestCase):
                 con.commit()
 
     def test_medication_starts_empty(self):
-        self.assertEquals(self.db.get_medications(), [])
+        self.assertEqual(self.db.get_medications(), [])
+
+    def test_add_med_adds_to_db(self):
+        self.db.add_medication('name', 'brand', 1, 2, 3, 4)
+        self.assertEqual(self.db.get_medications(), [{'name': 'name', 'brand': 'brand', 'dose': 1, 'supply': 2, 'first_added': 3, 'last_taken': 4}])
+    
+    def test_medication_dosage_updated(self):
+        self.db.add_medication('name', 'brand', 1, 2, 3, 4)
+        self.db.set_medication_dose('name', 10)
+        self.assertEqual(self.db.get_medications(), [{'name': 'name', 'brand': 'brand', 'dose': 10, 'supply': 2, 'first_added': 3, 'last_taken': 4}])
+    
+    def test_medication_supply_updated(self):
+        self.db.add_medication('name', 'brand', 1, 2, 3, 4)
+        self.db.set_medication_supply('name', 10)
+        self.assertEqual(self.db.get_medications(), [{'name': 'name', 'brand': 'brand', 'dose': 1, 'supply': 10, 'first_added': 3, 'last_taken': 4}])
+
+    def test_medication_deleted(self):
+        self.db.add_medication('name', 'brand', 1, 2, 3, 4)
+        self.assertEqual(self.db.get_medications(), [{'name': 'name', 'brand': 'brand', 'dose': 1, 'supply': 2, 'first_added': 3, 'last_taken': 4}])
+        self.db.del_medication('name')
+        self.assertEqual(self.db.get_medications(), [])
