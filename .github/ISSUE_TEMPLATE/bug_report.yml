@@ -45,16 +45,3 @@ body:
         - Linux
     validations:
       required: true
-  - type: dropdown
-    id: browser
-    attributes:
-      label: Browser
-      description: What browser are you using?
-      options:
-        - Chrome
-        - Firefox
-        - Safari
-        - Microsoft Edge
-        - Other
-    validations:
-      required: true
