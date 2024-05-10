@@ -32,11 +32,13 @@ class TestMedicationDatabase(unittest.TestCase):
                 with self.connection as con:
                     con.executescript(f.read())
                     con.commit()
+                    con.close()
         except OperationalError as e:
             print(e)
 
     def tearDown(self):
         # After every test, if `database.db` exists, delete it
+        self.connection.close()
         if self.path.exists():
             os.remove(self.path)
 

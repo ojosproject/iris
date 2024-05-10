@@ -31,6 +31,7 @@ class Database:
             if items:
                 return name in items
 
+            cur.close()
             return False
 
     def _update_cache(self) -> None:
@@ -58,6 +59,8 @@ class Database:
             if include_only:
                 cursor = db.execute("SELECT * FROM medication WHERE ")
 
+            cursor.close()
+
         self._medication_cache = cursor.fetchall()
         self._last_cached = time.time()
 
@@ -69,12 +72,13 @@ class Database:
                 f"Database.set_medication_dose: '{name}' was not found in the database.")
 
         with self._connection as db:
-            db.execute(
+            cur = db.execute(
                 'UPDATE medication SET dose = :dose WHERE name = :name', {
                     'dose': dose, 'name': name}
             )
 
             db.commit()
+            cur.close()
 
         self._update_cache()
 
@@ -84,18 +88,19 @@ class Database:
                 f"Database.set_medication_dose: '{name}' was not found in the database.")
 
         with self._connection as db:
-            db.execute(
+            cur = db.execute(
                 'UPDATE medication SET supply = :supply WHERE name = :name', {
                     'supply': supply, 'name': name}
             )
 
             db.commit()
+            cur.close()
 
         self._update_cache()
 
     def add_medication(self, name: str, brand: str, dose: int, supply: int, first_added: int, last_taken: int, frequency="AS NEEDED") -> None:
         with self._connection as db:
-            db.execute(
+            cur = db.execute(
                 '''INSERT INTO medication (name, brand, dose, frequency, supply, first_added, last_taken)
                     VALUES (:name, :brand, :dose, :frequency, :supply, :first_added, :last_taken)''',
                 {'name': name, 'brand': brand, 'dose': dose, 'supply': supply,
@@ -103,23 +108,25 @@ class Database:
             )
 
             db.commit()
+            cur.close()
 
         self._update_cache()
 
     def del_medication(self, name: str) -> None:
         with self._connection as db:
-            db.execute(
+            cur = db.execute(
                 'DELETE FROM medication WHERE name = ?',
                 (name,)
             )
 
             db.commit()
+            cur.close()
         self._update_cache()
 
     def log_medication(self, name: str, dosage: str, comments=None) -> float:
         timestamp = time.time()
         with self._connection as con:
-            con.execute(
+            cur = con.execute(
                 "INSERT INTO medication_log (log_timestamp, medication_name, medication_dose, comments) VALUES (:timestamp, :name, :dose, :comments)", {
                     'timestamp': timestamp,
                     'name': name,
@@ -129,4 +136,8 @@ class Database:
             )
 
             con.commit()
+            cur.close()
             return timestamp
+
+    def close_connection(self) -> None:
+        self._connection.close()
