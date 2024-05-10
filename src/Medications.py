@@ -4,8 +4,10 @@
 # This file will include medication-related material.
 
 from src.main import DB
+from functools import total_ordering
 
 
+@total_ordering # this implements all other operators with just eq and lt implemented
 class Medication:
     def __init__(self, name: str, brand: str, dosage: float, supply: float = None, first_added: float = None, last_taken: float = None, frequency="AS NEEDED"):
         self._name = name
@@ -72,6 +74,14 @@ class Medication:
             value) is str, f'Medication.__eq__: `value` must be string, not `{type(value)}`'
 
         return self.name == value
+    
+    def __lt__(self, value: object) -> bool:
+         # __lt__ is used for comparison so that we can implement medication objects in lists, which are ordered:
+         # `"med name" in list[Medication]`
+         assert type(value) is Medication, f'Medication.__lt__: `value` must be string, not `{type(value)}`'
+
+         return self.name < value.name
+
 
     def log(self, comments: str = None) -> None:
         self._last_taken = DB.log_medication(
