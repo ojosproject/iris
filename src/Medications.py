@@ -8,10 +8,11 @@ import time
 
 
 class Medication:
-    def __init__(self, name: str, brand: str, dosage: float, supply: float = None, first_added: float = None, last_taken: float = None):
+    def __init__(self, name: str, brand: str, dosage: float, supply: float = None, first_added: float = None, last_taken: float = None, frequency="AS NEEDED"):
         self._name = name
         self._brand = brand
         self._dosage = dosage
+        self._frequency = frequency
         self._supply = supply
         self._first_added = first_added
         self._last_taken = last_taken
@@ -28,6 +29,11 @@ class Medication:
     def dosage(self) -> float:
         return self._dosage
 
+    @property
+    def frequency(self) -> str:
+        return self._frequency
+
+    @frequency.setter()
     @dosage.setter
     def dosage(self, value: float) -> None:
         ...  # todo: run checks, ensure it's a valid value
@@ -50,30 +56,29 @@ class Medication:
 
     @property
     def last_taken(self) -> float:
+        return self._last_take
+
+    @property
+    def last_taken(self) -> int:
         return self._last_taken
 
-    def taken(self) -> bool:
-        pass
+    def __eq__(self, value: object) -> bool:
+        # __eq__ is used for lists so that we can use:
+        # `"med name" in list[Medication]`
+        assert type(
+            value) is str, f'Medication.__eq__: `value` must be string, not `{type(value)}`'
 
-    def log(self) -> None:
-        '''
-        Returns the time, name of the medication, the dosage, and any comments
-        '''
-        pass
+        return self.name == value
+
+    def log(self, comments: str = None) -> None:
+        self._last_taken = DB.log_medication(
+            name=self.name,
+            dosage=self.dosage,
+            comments=comments
+        )
 
     def get_all_medications() -> list['Medication']:
-        """Parses a dictionary of medication objects, often used with Database.get_medications.
-
-        Returns:
-            list[Medication]: A list of Medication
-        """
         return [Medication(**med) for med in DB.get_medications()]
 
     def change_dosage(self, new_dosage: float) -> None:
-        self.dosage = new_dosage
-
-
-if __name__ == "__main__":
-    med = Medication("Zoloft", "Brand", 25.0, 5.0)
-
-    print(med.name)
+        self._dosage = new_dosage

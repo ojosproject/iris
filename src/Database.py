@@ -116,11 +116,12 @@ class Database:
             db.commit()
         self._update_cache()
 
-    def log_medication(self, name: str, dosage: str, comments=None) -> None:
+    def log_medication(self, name: str, dosage: str, comments=None) -> float:
+        timestamp = time.time()
         with self._connection as con:
             con.execute(
                 "INSERT INTO medication_log (log_timestamp, medication_name, medication_dose, comments) VALUES (:timestamp, :name, :dose, :comments)", {
-                    'timestamp': time.time(),
+                    'timestamp': timestamp,
                     'name': name,
                     'dose': dosage,
                     'comments': comments
@@ -128,3 +129,4 @@ class Database:
             )
 
             con.commit()
+            return timestamp
