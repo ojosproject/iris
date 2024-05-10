@@ -3,7 +3,7 @@
 #
 # This file will include medication-related material.
 
-from main import DB
+from src.main import DB
 
 
 class Medication:

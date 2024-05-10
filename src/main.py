@@ -2,7 +2,7 @@
 # Ojos Project
 #
 # This is the file where it all begins.
-from Database import Database
+from src.Database import Database
 
 DB = Database("database.db")
 
