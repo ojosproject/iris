@@ -10,6 +10,7 @@ from src.Database import Database
 from sqlite3 import Connection, OperationalError
 from pathlib import Path
 import os
+import time
 
 
 class TestMedicationDatabase(unittest.TestCase):
@@ -75,3 +76,7 @@ class TestMedicationDatabase(unittest.TestCase):
 
     def test_not_in_database_check(self):
         self.assertFalse(self.db._med_in_db('not included'))
+
+    # def test_log_medication_returns_correct_time(self):
+    #     log_time = self.db.log_medication()
+    #     self.assertAlmostEquals(log_time, time.time())

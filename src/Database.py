@@ -55,8 +55,8 @@ class Database:
                     medication[4]), "first_added": int(medication[5]), "last_taken": int(medication[6])})
 
             # if there are specific medication(s) that the user wants to find
-            if include_only:
-                cursor = db.execute("SELECT * FROM medication WHERE ")
+            # if include_only:
+            #    cursor = db.execute("SELECT * FROM medication WHERE ")
 
         self._medication_cache = cursor.fetchall()
         self._last_cached = time.time()
