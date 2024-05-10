@@ -51,8 +51,8 @@ class Database:
             cursor = db.execute("SELECT * FROM medication")
 
             for medication in cursor.fetchall():
-                tuple_to_return.append({"name": medication[0], "brand": medication[1], "dose": medication[2], "supply": int(
-                    medication[3]), "first_added": int(medication[4]), "last_taken": int(medication[5])})
+                tuple_to_return.append({"name": medication[0], "brand": medication[1], "dose": medication[2], "frequency": medication[3], "supply": int(
+                    medication[4]), "first_added": int(medication[5]), "last_taken": int(medication[6])})
 
             # if there are specific medication(s) that the user wants to find
             if include_only:
@@ -93,13 +93,13 @@ class Database:
 
         self._update_cache()
 
-    def add_medication(self, name: str, brand: str, dose: int, supply: int, first_added: int, last_taken: int) -> None:
+    def add_medication(self, name: str, brand: str, dose: int, supply: int, first_added: int, last_taken: int, frequency="AS NEEDED") -> None:
         with self._connection as db:
             db.execute(
-                '''INSERT INTO medication (name, brand, dose, supply, first_added, last_taken)
-                    VALUES (:name, :brand, :dose, :supply, :first_added, :last_taken)''',
+                '''INSERT INTO medication (name, brand, dose, frequency, supply, first_added, last_taken)
+                    VALUES (:name, :brand, :dose, :frequency, :supply, :first_added, :last_taken)''',
                 {'name': name, 'brand': brand, 'dose': dose, 'supply': supply,
-                    'first_added': first_added, 'last_taken': last_taken}
+                    'first_added': first_added, 'last_taken': last_taken, 'frequency': frequency}
             )
 
             db.commit()

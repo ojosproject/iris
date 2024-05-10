@@ -7,7 +7,7 @@
 # Windows: python -m pipenv run coverage; python -m pipenv run report;
 import unittest
 from src.Database import Database
-from sqlite3 import Connection
+from sqlite3 import Connection, OperationalError
 from pathlib import Path
 import os
 
@@ -26,10 +26,14 @@ class TestMedicationDatabase(unittest.TestCase):
         self.db = Database(self.path)
         self.connection: Connection = self.db._connection
 
-        with open("src/schema.sql", "r") as f:
-            with self.connection as con:
-                con.executescript(f.read())
-                con.commit()
+        try:
+
+            with open("src/schema.sql", "r") as f:
+                with self.connection as con:
+                    con.executescript(f.read())
+                    con.commit()
+        except OperationalError as e:
+            print(e)
 
     def tearDown(self):
         # After every test, if `database.db` exists, delete it
@@ -42,24 +46,24 @@ class TestMedicationDatabase(unittest.TestCase):
     def test_add_med_adds_to_db(self):
         self.db.add_medication('name', 'brand', 1, 2, 3, 4)
         self.assertEqual(self.db.get_medications(), [
-            {'name': 'name', 'brand': 'brand', 'dose': 1, 'supply': 2, 'first_added': 3, 'last_taken': 4}])
+            {'name': 'name', 'brand': 'brand', 'dose': 1, 'frequency': 'AS NEEDED', 'supply': 2, 'first_added': 3, 'last_taken': 4}])
 
     def test_medication_dosage_updated(self):
         self.db.add_medication('name', 'brand', 1, 2, 3, 4)
         self.db.set_medication_dose('name', 10)
         self.assertEqual(self.db.get_medications(), [
-            {'name': 'name', 'brand': 'brand', 'dose': 10, 'supply': 2, 'first_added': 3, 'last_taken': 4}])
+            {'name': 'name', 'brand': 'brand', 'dose': 10, 'frequency': 'AS NEEDED', 'supply': 2, 'first_added': 3, 'last_taken': 4}])
 
     def test_medication_supply_updated(self):
         self.db.add_medication('name', 'brand', 1, 2, 3, 4)
         self.db.set_medication_supply('name', 10)
         self.assertEqual(self.db.get_medications(), [
-            {'name': 'name', 'brand': 'brand', 'dose': 1, 'supply': 10, 'first_added': 3, 'last_taken': 4}])
+            {'name': 'name', 'brand': 'brand', 'dose': 1, 'frequency': 'AS NEEDED', 'supply': 10, 'first_added': 3, 'last_taken': 4}])
 
     def test_medication_deleted(self):
         self.db.add_medication('name', 'brand', 1, 2, 3, 4)
         self.assertEqual(self.db.get_medications(), [
-            {'name': 'name', 'brand': 'brand', 'dose': 1, 'supply': 2, 'first_added': 3, 'last_taken': 4}])
+            {'name': 'name', 'brand': 'brand', 'dose': 1, 'frequency': 'AS NEEDED', 'supply': 2, 'first_added': 3, 'last_taken': 4}])
         self.db.del_medication('name')
         self.assertEqual(self.db.get_medications(), [])
 
