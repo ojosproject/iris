@@ -4,7 +4,6 @@
 # This file will include medication-related material.
 
 from main import DB
-import time
 
 
 class Medication:
@@ -33,7 +32,11 @@ class Medication:
     def frequency(self) -> str:
         return self._frequency
 
-    @frequency.setter()
+    @frequency.setter
+    def frequency(self, value: str) -> None:
+        # todo: at some point, add checks to make sure this is a proper frequency
+        self._frequency = value
+
     @dosage.setter
     def dosage(self, value: float) -> None:
         ...  # todo: run checks, ensure it's a valid value
