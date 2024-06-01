@@ -2,6 +2,11 @@
 
 ![Ojos Project header](https://ojosproject.org/images/header.png)
 
+> [!WARNING]
+> Ojos Project's Developers team is going to convert this code into Rust. It
+> might be a good idea to hold off on contributions until this transition is
+> finished. Thank you for your understanding. ❤️
+
 ## Table of Contents
 
 - [Iris Contribution Guidelines](#iris-contribution-guidelines)
