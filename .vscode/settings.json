@@ -4,7 +4,9 @@
     },
     "[markdown][plaintext]": {
         "editor.rulers": [80],
-        "editor.wordWrap": "off"
+        "editor.wordWrap": "off",
+        "editor.defaultFormatter": "yzhang.markdown-all-in-one",
+        "editor.formatOnSave": true
     },
     "[python]": {
         "editor.rulers": [120],
