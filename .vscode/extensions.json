@@ -3,7 +3,17 @@
         "aaron-bond.better-comments", // Color codes comments
         "streetsidesoftware.code-spell-checker", // Spell checks code
         "oderwat.indent-rainbow", // Ensures we're indending properly
+
         "yzhang.markdown-all-in-one", // Extra Markdown features
-        "DavidAnson.vscode-markdownlint", // Markdown linting
+        "DavidAnson.vscode-markdownlint", // Markdown linting,
+
+        "ms-python.python", // VS Code extension for Python
+        "ryanluker.vscode-coverage-gutters", // Python code coverage
+        "ms-python.autopep8", // Python formatter
+        "donjayamanne.python-environment-manager", // Python virtual environment manager
+
+        "rogalmic.bash-debug", // Bash script
+
+        "alexcvzz.vscode-sqlite", // SqLite
     ]
 }

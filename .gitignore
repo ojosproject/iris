@@ -1,0 +1,10 @@
+.coverage
+*.xml
+.pytest_cache
+__pycache__
+*.db
+.history
+
+# Added by cargo
+
+/target

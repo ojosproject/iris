@@ -13,6 +13,8 @@ LICENSE INFORMATION HERE.
 ```
 
 -->
+<!-- markdownlint-disable MD034 MD024 -->
+<!-- cSpell:disable -->
 # Credits
 
 This software uses code from third parties. This document is here to accredit

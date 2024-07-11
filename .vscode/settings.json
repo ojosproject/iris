@@ -4,12 +4,22 @@
     },
     "[markdown][plaintext]": {
         "editor.rulers": [80],
-        "editor.wordWrap": "off"
+        "editor.wordWrap": "off",
+        "editor.defaultFormatter": "yzhang.markdown-all-in-one",
+        "editor.formatOnSave": true
+    },
+    "[python]": {
+        "editor.rulers": [120],
+        "editor.defaultFormatter": "ms-python.autopep8",
+        "editor.formatOnSave": true
     },
     "cSpell.words": [
         "choosealicense",
         "Ojos",
-        "ojosproject"
+        "ojosproject",
+        "Pipenv"
     ],
-    "indentRainbow.indentSetter": {"markdown": 2},
+    "indentRainbow.indentSetter": {
+        "markdown": 2
+    }
 }
