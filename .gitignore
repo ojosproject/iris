@@ -4,3 +4,7 @@
 __pycache__
 *.db
 .history
+
+# Added by cargo
+
+/target
