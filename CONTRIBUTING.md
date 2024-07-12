@@ -2,11 +2,6 @@
 
 ![Ojos Project header](https://ojosproject.org/images/header.png)
 
-> [!WARNING]
-> Ojos Project's Developers team is going to convert this code into Rust. It
-> might be a good idea to hold off on contributions until this transition is
-> finished. Thank you for your understanding. ❤️
-
 ## Table of Contents
 
 - [Iris Contribution Guidelines](#iris-contribution-guidelines)
@@ -29,7 +24,6 @@
       - [Installing dependencies](#installing-dependencies)
       - [Run the program](#run-the-program)
       - [Running tests](#running-tests)
-      - [Visual Studio Code](#visual-studio-code)
 
 ## Introduction
 
@@ -119,16 +113,12 @@ Here's a few good examples:
 
 ### Writing documentation
 
-You can also contribute to Iris by helping us ensure that our documentation is
-always up to date! For more information on that, please go to our [website
-repository](https://github.com/ojosproject/website/), as we hold all of our
-documentation there.
+Since Iris is not yet production-ready, we are keeping all Iris-related
+documentation in the `docs` folder at the root of the repository. It's written
+in simple Markdown! (That is... until we figure out ojosproject/iris#10)
 
-Our documentation is written with Markdown and
-[Docusaurus](https://docusaurus.io/), making it an easy experience for everyone!
-
-You can help by updating the [README file](/README.md), this contribution guide,
-API Documentation, tutorials, and guides for Iris.
+Once Iris is production ready, we will be publishing the documents on
+[ojosproject.org](https://ojosproject.org/docs/).
 
 ### UI/UX Design
 
@@ -161,6 +151,11 @@ information.
 
 ### `git` policies
 
+> [!IMPORTANT]
+> Our git policies states that when you want to merge your work, you should
+> use `dev`. Until we have a stable version of Iris, **please request to merge
+> into `main`.**
+
 Please make sure to follow our
 [git policies](https://ojosproject.org/docs/policies/git/).
 
@@ -174,54 +169,27 @@ cd iris
 
 #### Installing dependencies
 
-If you're running macOS or Linux, you can run our
-[`pre-install.sh` script](/scripts/pre-install.sh).
+Please install the following dependencies:
 
-```shell
-bash scripts/pre-install.sh
-```
-
-This program uses [Pipenv](https://pipenv.pypa.io/en/latest/). Please learn how
-to use it using
-[this guide from the Developers team](https://ojosproject.org/docs/url/developers/using-pipfiles/).
-
-To install the dependencies, run:
-
-```shell
-pipenv install
-```
+- [Rust](https://www.rust-lang.org/tools/install)
+- [Our VS Code recommended extensions with `@recommended`](https://code.visualstudio.com/docs/editor/extension-marketplace#_extensions-view-filters)
+  - When you open the repository in VS Code, you can open the Extensions tab and
+type `@recommended` to see all of the extensions we use. Please install them.
 
 #### Run the program
 
 To run the program, run:
 
 ```shell
-pipenv run start
+cargo run
 ```
+
+This will run `main.rs`.
 
 #### Running tests
 
-This repository uses Coverage to test our code. However, [since pipenv doesn't
-support multiple commands in a single script](https://github.com/pypa/pipenv/issues/2038#issuecomment-383527361),
-we're going to have to run two commands. You can do so in a single line with:
-
 ```shell
-pipenv run coverage; pipenv run report;
+cargo test
 ```
 
-However, the report is only useful with the
-[Coverage Gutters](https://marketplace.visualstudio.com/items?itemName=ryanluker.vscode-coverage-gutters)
-VS Code extension so that you can see which lines were covered.
-
-> [!IMPORTANT]
-> If you want to add a new test file, you need to prepend `test_` to your
-> filename, otherwise Coverage won't recognize it. Please make sure to add this
-> to the `tests` folder in the root of this repository.
-
-#### Visual Studio Code
-
-If you use [Visual Studio Code](https://code.visualstudio.com/), we have a few
-extensions that may be useful for you to use.
-
-When you open the repository in VS Code, you can open the Extensions tab and
-type `@recommended` to see all of the extensions we use. Please install them.
+This will run all of the tests we have in the `tests` folder.
