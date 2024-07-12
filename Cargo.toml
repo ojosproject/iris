@@ -2,5 +2,13 @@
 name = "Iris"
 version = "0.0.0"
 edition = "2021"
+authors = ["Ojos Project"]
+documentation = "https://ojosproject.org/docs/iris/"
+readme = "README.md"
+homepage = "https://ojosproject.org/iris/"
+repository = "https://github.com/ojosproject/iris/"
+license = "GPL-3.0-only"
+license-file = "LICENSE"
+
 
 [dependencies]
