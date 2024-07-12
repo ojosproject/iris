@@ -7,10 +7,9 @@
         "yzhang.markdown-all-in-one", // Extra Markdown features
         "DavidAnson.vscode-markdownlint", // Markdown linting,
 
-        "ms-python.python", // VS Code extension for Python
-        "ryanluker.vscode-coverage-gutters", // Python code coverage
-        "ms-python.autopep8", // Python formatter
-        "donjayamanne.python-environment-manager", // Python virtual environment manager
+        "ryanluker.vscode-coverage-gutters", // Code coverage
+        "rust-lang.rust-analyzer", // Rust code support for VS Code
+        "tamasfe.even-better-toml", // TOML support
 
         "rogalmic.bash-debug", // Bash script
 
