@@ -1,5 +1,9 @@
 # Iris: The At-Home Hospice Management System
 
+> [!CAUTION]
+> This project is still in active development with no stable version ready.
+> **Do not compile and use this as it is not yet ready.**
+
 ![Ojos Project header](https://ojosproject.org/images/header.png)
 
 ## Table of Contents
