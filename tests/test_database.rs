@@ -4,3 +4,13 @@
 // This is the test file for `database.rs`. To learn how to write tests, read:
 // https://doc.rust-lang.org/book/ch11-01-writing-tests.html
 #[path = "../src/database.rs"] mod database;
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_medication_starts_empty() {
+        // todo: implement test
+    }
+}
