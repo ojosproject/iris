@@ -17,7 +17,8 @@
         "choosealicense",
         "Ojos",
         "ojosproject",
-        "Pipenv"
+        "Pipenv",
+        "Tauri"
     ],
     "indentRainbow.indentSetter": {
         "markdown": 2
