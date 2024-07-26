@@ -3,11 +3,11 @@
 // 
 // This handles a lot of medication-related functions.
 pub struct Medication {
-    name: String,
-    brand: String,
-    dosage: f64,
-    frequency: Option<String>,
-    supply: Option<f64>,
-    first_added: Option<f64>,
-    last_taken: Option<f64>,
+    pub name: String,
+    pub brand: String,
+    pub dosage: f64,
+    pub frequency: Option<String>,
+    pub supply: Option<f64>,
+    pub first_added: Option<f64>,
+    pub last_taken: Option<f64>,
 }
