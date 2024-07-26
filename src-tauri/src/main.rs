@@ -1,7 +1,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
-// mod database;
-// mod medications;
-// mod user;
+mod database;
+mod medications;
+mod user;
 
 fn main() {
 tauri::Builder::default()
