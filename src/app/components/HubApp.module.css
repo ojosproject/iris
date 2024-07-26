@@ -1,0 +1,20 @@
+.app {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.link {
+    text-decoration: none;
+}
+
+.link:visited {
+    color: inherit;
+}
+
+.iconPL {
+    background-color: slateblue;
+    width: 200px;
+    height: 200px;
+}

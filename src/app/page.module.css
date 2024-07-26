@@ -1,4 +1,31 @@
-.main {
+.appList {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding: 0;
+}
+
+.flex {
+  display: flex;
+}
+
+.side1 {
+  width: 70%;
+}
+
+.side2 {
+  background-color: white;
+  width: 30%;
+  border: 4px solid rgb(150, 150, 150);
+  border-radius: 8px;
+}
+
+.upcomingHeader {
+  text-align: center;
+}
+
+/* .main {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -109,7 +136,7 @@
   position: relative;
 }
 /* Enable hover only on non-touch devices */
-@media (hover: hover) and (pointer: fine) {
+/* @media (hover: hover) and (pointer: fine) {
   .card:hover {
     background: rgba(var(--card-rgb), 0.1);
     border: 1px solid rgba(var(--card-border-rgb), 0.15);
@@ -124,10 +151,10 @@
   .card:hover span {
     transform: none;
   }
-}
+} */
 
 /* Mobile */
-@media (max-width: 700px) {
+/* @media (max-width: 700px) {
   .content {
     padding: 4rem;
   }
@@ -201,9 +228,9 @@
     );
     z-index: 1;
   }
-}
+}  */
 
-/* Tablet and Smaller Desktop */
+/* Tablet and Smaller Desktop
 @media (min-width: 701px) and (max-width: 1120px) {
   .grid {
     grid-template-columns: repeat(2, 50%);
@@ -227,4 +254,4 @@
   to {
     transform: rotate(0deg);
   }
-}
+} */
