@@ -14,5 +14,6 @@
         "rogalmic.bash-debug", // Bash script
 
         "alexcvzz.vscode-sqlite", // SqLite
+        "tauri-apps.tauri-vscode" // Tauri support
     ]
 }
