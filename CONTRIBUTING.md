@@ -26,6 +26,7 @@
       - [Rust](#rust)
       - [VS Code Extensions](#vs-code-extensions)
       - [Run the program](#run-the-program)
+      - [Testing Rust](#testing-rust)
 
 ## Introduction
 
@@ -206,3 +207,16 @@ npm i
 ```shell
 cargo tauri dev
 ```
+
+> [!NOTE]
+> If `cargo tauri dev` does not work, you might have to install the Tauri CLI.
+> You can do so by running:
+>
+> ```shell
+> cargo install tauri-cli
+> ```
+
+#### Testing Rust
+
+You can test the Rust files by ensuring you're in the `src-tauri` folder and
+running `cargo test`.
