@@ -18,6 +18,7 @@
         "Ojos",
         "ojosproject",
         "Pipenv",
+        "rusqlite",
         "Tauri"
     ],
     "indentRainbow.indentSetter": {
