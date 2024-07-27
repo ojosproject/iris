@@ -9,7 +9,7 @@ use crate::medications::Medication;
 
 fn create_database() {
     let connection = Connection::open("./iris.db").expect("Failed to open the database.");
-    connection.execute(fs::read_to_string("./src/schema.sql").expect("Reading the schema file went wrong.").as_str(), ()).expect("Creating file from SQL schema went wrong.");
+    connection.execute_batch(fs::read_to_string("./src/schema.sql").expect("Reading the schema file failed.").as_str()).expect("Creating the file from SQL Schema failed.")
 }
 
 pub struct Database {
