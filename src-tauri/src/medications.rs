@@ -2,6 +2,7 @@
 // Ojos Project
 // 
 // This handles a lot of medication-related functions.
+#![allow(dead_code)] // ! Remove after we start working in `main.rs`
 pub struct Medication {
     pub name: String,
     pub brand: String,
