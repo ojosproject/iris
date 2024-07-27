@@ -22,11 +22,11 @@
     - [`git` policies](#git-policies)
     - [Setting up your coding environment](#setting-up-your-coding-environment)
       - [Tauri](#tauri)
-      - [Vite](#vite)
+      - [Next.js](#nextjs)
       - [Rust](#rust)
       - [VS Code Extensions](#vs-code-extensions)
-      - [Run the program](#run-the-program)
-      - [Testing Rust](#testing-rust)
+    - [Run the program](#run-the-program)
+    - [Testing Rust](#testing-rust)
 
 ## Introduction
 
@@ -177,10 +177,10 @@ Iris is written with a lot of different tools; however, we primarily use the
 please follow their
 [prerequisite guide here](https://tauri.app/v1/guides/getting-started/prerequisites).
 
-#### Vite
+#### Next.js
 
 Because of Tauri, we're also allowed to write the frontend using
-[Vite](https://vitejs.dev/) using [React](https://react.dev/) and
+[Next.js](https://nextjs.org/) using [React](https://react.dev/) and
 [Typescript](https://www.typescriptlang.org/).
 
 #### Rust
@@ -194,7 +194,7 @@ Please install Rust using [this guide](https://www.rust-lang.org/tools/install).
 When you open the repository in VS Code, you can open the Extensions tab and
 type `@recommended` to see all of the extensions we use. Please install them.
 
-#### Run the program
+### Run the program
 
 After getting all tests, please install the npm dependencies:
 
@@ -216,7 +216,7 @@ cargo tauri dev
 > cargo install tauri-cli
 > ```
 
-#### Testing Rust
+### Testing Rust
 
 You can test the Rust files by ensuring you're in the `src-tauri` folder and
 running `cargo test`.
