@@ -7,8 +7,8 @@ use rusqlite::{Connection, Result, named_params};
 use std::{fs, path::Path, time::{SystemTime, UNIX_EPOCH}};
 use crate::medications::Medication;
 
-fn create_database() {
-    let connection = Connection::open("./iris.db").expect("Failed to open the database.");
+fn create_database(file_path: &str) {
+    let connection = Connection::open(file_path).expect("Failed to open the database.");
     connection.execute_batch(fs::read_to_string("./src/schema.sql").expect("Reading the schema file failed.").as_str()).expect("Creating the file from SQL Schema failed.")
 }
 
@@ -19,11 +19,11 @@ pub struct Database {
 }
 
 impl Database {
-    pub fn new(path_to_db: &str) -> Database {
-        if !Path::new("./iris.db").exists() {
-            create_database();
+    pub fn new(path: &str) -> Database {
+        if !Path::new(path).exists() {
+            create_database(path);
         }
-        let connection = Connection::open(path_to_db).expect("Failed to open the database.");
+        let connection = Connection::open(path).expect("Failed to open the database.");
         Database {
             connection,
             medication_cache: vec![], //this creates an empty vector
@@ -47,7 +47,6 @@ impl Database {
         last_taken: i64,
         frequency: Option<String>,
     ) -> Result<()> {
-        // todo: implement function
         // assuming connection is initialized properly
 
         // Change to using the actual connection, but for now, using a connection in memory
@@ -55,15 +54,15 @@ impl Database {
 
         self.connection.execute(
             "INSERT INTO medication (name, brand, dose, frequency, supply, first_added, last_taken)
-        VALUES (?name, ?brand, ?dose, ?frequency, ?supply, ?first_added, ?last_taken)",
+        VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)",
             (
                 name,
                 brand,
                 dose,
+                frequency,
                 supply,
                 first_added,
                 last_taken,
-                frequency,
             ),
         )?;
 
@@ -104,24 +103,44 @@ impl Database {
         Ok(())
     }
 
-    pub fn get_medications(&mut self, query: Option<&str>) -> Vec<Medication> {
+    pub fn get_all_medications(&mut self) -> Vec<Medication> {
         // todo: do actual error handling
         // ! DO NOT LEAVE IN PRODUCTION WITHOUT ERROR HANDLING
-        let mut statement;
-
-        match query {
-            Some(x) => {
-                statement = self.connection.prepare(
-                    "SELECT * FROM medication WHERE name LIKE %?query%".replace("?query", x).as_str()
-                ).expect("This did not work!");
-            },
-            None => {
-                statement = self.connection.prepare(
-                    "SELECT * FROM medication").expect("This did not work!");
-            }
-        }
+        let mut statement = self.connection.prepare(
+                    "SELECT * FROM medication").expect("This did not work!"
+                    );
 
         let matched_meds = statement.query_map([], |row| {
+            Ok(Medication {
+                name: row.get(0)?,
+                brand: row.get(1)?,
+                dosage: row.get(2)?,
+                frequency: row.get(3)?,
+                supply: row.get(4)?,
+                first_added: row.get(5)?,
+                last_taken: row.get(6)?
+            })
+        }).expect("That did not work.");
+
+        let mut vec_to_return: Vec<Medication> = vec![];
+
+        for med in matched_meds {
+            vec_to_return.push(med.expect("ok"));
+        }
+
+        return vec_to_return;
+    }
+
+    pub fn search_medications(&mut self, query: &str) -> Vec<Medication> {
+        // todo: do actual error handling
+        // ! DO NOT LEAVE IN PRODUCTION WITHOUT ERROR HANDLING
+        let mut statement  = self.connection.prepare(
+                    // https://github.com/rusqlite/rusqlite/issues/600#issuecomment-562258168
+                    "SELECT * FROM medication WHERE name LIKE '%' || ? || '%'"
+                ).expect("This did not work!");
+        
+
+        let matched_meds = statement.query_map([query], |row| {
             Ok(Medication {
                 name: row.get(0)?,
                 brand: row.get(1)?,
@@ -162,12 +181,26 @@ mod tests {
     // I'm searching for a way to initialize testing with creating a fresh
     // database. However, I don't think I can find Rust's way of a "setup"
     // method for testing. So I'm going to keep searching. Until then,
-    // ! please delete the `iris.db` file inside of /src-tauri/ before testing.
+    // ! please delete any `.db` file inside of /src-tauri/ before testing.
     use super::*;
 
     #[test]
     fn starts_empty() {
-        let mut d = Database::new("iris.db");
-        assert_eq!(d.get_medications(None).len(), 0);
+        let path = "./iris-starts-empty.db";
+
+        let mut d = Database::new(path);
+        assert_eq!(d.get_all_medications().len(), 0);
+        fs::remove_file(path).expect("Deleting the file failed.");
+    }
+
+    #[test]
+    fn medication_successfully_added() {
+        let path = "./iris-medication-successfully-added.db";
+
+        let mut d = Database::new(path);
+        d.add_medication("Sertraline", "Zoloft", 25, 20, 0, 0, Some("Once daily".to_string())).expect("Adding the medication failed.");
+
+        assert_eq!(d.search_medications("Sertraline").len(), 1);
+        fs::remove_file(path).expect("Deleting the file failed.");
     }
 }
