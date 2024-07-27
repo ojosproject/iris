@@ -73,7 +73,7 @@ impl Database {
     }
 
     pub fn del_medication(&mut self, name: &str) -> Result<()> {
-        // todo: implement function
+        // todo: testing required
         // Change to using the actual connection, but for now, using a connection in memory
         // let conn = Connection::open_in_memory()?;
 
@@ -84,7 +84,7 @@ impl Database {
     }
 
     pub fn set_medication_dose(&mut self, name: &str, dose: &f64) -> Result<()> {
-        // todo: add check to see if the medication name is in the DB, and raise error if not
+        // todo: testing required
         self.connection.execute(
             "UPDATE medication SET dose = ?dose WHERE name = ?name",
             (dose, name),
@@ -94,7 +94,7 @@ impl Database {
     }
 
     pub fn set_medication_supply(&mut self, name: &str, supply: f64) -> Result<()> {
-        // todo: add check to see if the medication name is in the DB, and raise error if not
+        // todo: testing required
         self.connection.execute(
             "UPDATE medication SET supply = ?supply WHERE name = ?name",
             (supply, name),
@@ -164,6 +164,7 @@ impl Database {
 
 
     pub fn log_medication(&mut self, name: &str, dosage: &str, comments: Option<String>) -> f64 {
+        // todo: testing required
         let timestamp = SystemTime::now().duration_since(UNIX_EPOCH).expect("Time went backwards").as_secs_f64();
         
         let insertion = self.connection.execute(
