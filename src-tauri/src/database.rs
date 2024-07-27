@@ -112,7 +112,7 @@ impl Database {
                     "SELECT * FROM medication").expect("This did not work!"
                     );
 
-        let matched_meds = statement.query_map([], |row| {
+        let matched_medications = statement.query_map([], |row| {
             Ok(Medication {
                 name: row.get(0)?,
                 brand: row.get(1)?,
@@ -126,7 +126,7 @@ impl Database {
 
         let mut vec_to_return: Vec<Medication> = vec![];
 
-        for med in matched_meds {
+        for med in matched_medications {
             vec_to_return.push(med.expect("ok"));
         }
 
@@ -142,7 +142,7 @@ impl Database {
                 ).expect("This did not work!");
         
 
-        let matched_meds = statement.query_map([query], |row| {
+        let matched_medications = statement.query_map([query], |row| {
             Ok(Medication {
                 name: row.get(0)?,
                 brand: row.get(1)?,
@@ -156,7 +156,7 @@ impl Database {
 
         let mut vec_to_return: Vec<Medication> = vec![];
 
-        for med in matched_meds {
+        for med in matched_medications {
             vec_to_return.push(med.expect("ok"));
         }
 
@@ -169,10 +169,10 @@ impl Database {
         // todo: testing required
         let timestamp = SystemTime::now().duration_since(UNIX_EPOCH).expect("Time went backwards").as_secs_f64();
         
-        let insertion = self.connection.execute(
+        self.connection.execute(
             "INSERT INTO medication_log (name, dosage, comments) VALUES (:timestamp, :name, :dose, :comments)", 
             named_params! {":timestamp": timestamp, ":name": name, ":dose": dosage, ":comments": comments}
-        );
+        ).expect("Inserting into log_medication failed.");
         return timestamp;
     }
 }
@@ -201,9 +201,9 @@ mod tests {
         let path = "./iris-medication-successfully-added.db";
 
         let mut d = Database::new(path);
-        d.add_medication("Sertraline", "Zoloft", 25, 20, 0, 0, Some("Once daily".to_string())).expect("Adding the medication failed.");
+        d.add_medication("Zoloft", "Zoloft", 25, 20, 0, 0, Some("Once daily".to_string())).expect("Adding the medication failed.");
 
-        assert_eq!(d.search_medications("Sertraline").len(), 1);
+        assert_eq!(d.search_medications("Zoloft").len(), 1);
         fs::remove_file(path).expect("Deleting the file failed.");
     }
 }
