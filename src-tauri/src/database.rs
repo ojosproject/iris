@@ -158,6 +158,11 @@ impl Database {
 // Unit tests
 #[cfg(test)]
 mod tests {
+    // Note about testing:
+    // I'm searching for a way to initialize testing with creating a fresh
+    // database. However, I don't think I can find Rust's way of a "setup"
+    // method for testing. So I'm going to keep searching. Until then,
+    // ! please delete the `iris.db` file inside of /src-tauri/ before testing.
     use super::*;
 
     #[test]
