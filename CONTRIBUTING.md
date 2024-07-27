@@ -27,6 +27,7 @@
       - [VS Code Extensions](#vs-code-extensions)
     - [Run the program](#run-the-program)
     - [Testing Rust](#testing-rust)
+    - [Structure (Frontend v. Backend)](#structure-frontend-v-backend)
 
 ## Introduction
 
@@ -220,3 +221,11 @@ cargo tauri dev
 
 You can test the Rust files by ensuring you're in the `src-tauri` folder and
 running `cargo test`.
+
+### Structure (Frontend v. Backend)
+
+Our frontend code is inside the `/src/` folder at the root. It is written with
+React and TypeScript using the Next.js framework.
+
+Our backend code is inside the `/src-tauri/src/` folder. It is written in Rust
+using the Tauri toolkit. Tauri connects everything together.
