@@ -4,8 +4,13 @@
 // This handles all of the database-related functions for Iris.
 // Use this for reference: https://github.com/ojosproject/iris/tree/python
 use rusqlite::{Connection, Result, named_params};
-use std::time::{SystemTime, UNIX_EPOCH};
+use std::{fs, path::Path, time::{SystemTime, UNIX_EPOCH}};
 use crate::medications::Medication;
+
+fn create_database() {
+    let connection = Connection::open("./iris.db").expect("Failed to open the database.");
+    connection.execute(fs::read_to_string("./src/schema.sql").expect("Reading the schema file went wrong.").as_str(), ()).expect("Creating file from SQL schema went wrong.");
+}
 
 pub struct Database {
     connection: Connection,
@@ -15,7 +20,10 @@ pub struct Database {
 
 impl Database {
     pub fn new(path_to_db: &str) -> Database {
-        let connection = Connection::open(path_to_db).expect("An error occurred.");
+        if !Path::new("./iris.db").exists() {
+            create_database();
+        }
+        let connection = Connection::open(path_to_db).expect("Failed to open the database.");
         Database {
             connection,
             medication_cache: vec![], //this creates an empty vector
@@ -101,13 +109,16 @@ impl Database {
         // ! DO NOT LEAVE IN PRODUCTION WITHOUT ERROR HANDLING
         let mut statement;
 
-        if query.unwrap() == "" {
-            statement = self.connection.prepare(
-                "SELECT * FROM medication").expect("This did not work!");
-        } else {
-            statement = self.connection.prepare(
-                "SELECT * FROM medication WHERE name LIKE %?query%".replace("?query", query.unwrap()).as_str()
-            ).expect("This did not work!");
+        match query {
+            Some(x) => {
+                statement = self.connection.prepare(
+                    "SELECT * FROM medication WHERE name LIKE %?query%".replace("?query", x).as_str()
+                ).expect("This did not work!");
+            },
+            None => {
+                statement = self.connection.prepare(
+                    "SELECT * FROM medication").expect("This did not work!");
+            }
         }
 
         let matched_meds = statement.query_map([], |row| {
@@ -141,5 +152,17 @@ impl Database {
             named_params! {":timestamp": timestamp, ":name": name, ":dose": dosage, ":comments": comments}
         );
         return timestamp;
+    }
+}
+
+// Unit tests
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn starts_empty() {
+        let mut d = Database::new("iris.db");
+        assert_eq!(d.get_medications(None).len(), 0);
     }
 }
