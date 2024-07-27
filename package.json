@@ -1,6 +1,12 @@
 {
   "name": "iris",
-  "version": "0.1.0",
+  "version": "0.0.0",
+  "description": "Iris, the at-home hospice management system by the Ojos Project.",
+  "homepage": "https://ojosproject.org/iris/",
+  "bugs": "https://github.com/ojosproject/iris/issues/",
+  "license": "GPL-3.0-only",
+  "author": {"name": "Ojos Project", "url": "https://ojosproject.org/"},
+  "repository": {"type": "git", "url": "https://github.com/ojosproject/iris/"},
   "private": true,
   "scripts": {
     "dev": "next dev",

@@ -1,11 +1,12 @@
 [package]
-name = "app"
-version = "0.1.0"
-description = "A Tauri App"
-authors = ["you"]
-license = ""
-repository = ""
-default-run = "app"
+name = "iris"
+version = "0.0.0"
+description = "Iris, the at-home hospice management system by the Ojos Project."
+homepage = "https://ojosproject.org/iris/"
+documentation = "https://ojosproject.org/docs/iris/"
+authors = ["Ojos Project"]
+license = "GPL-3.0-only"
+repository = "https://github.com/ojosproject/iris/"
 edition = "2021"
 rust-version = "1.60"
 
