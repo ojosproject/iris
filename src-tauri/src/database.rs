@@ -96,12 +96,19 @@ impl Database {
         Ok(())
     }
 
-    pub fn get_medications(&mut self, query: &str) -> Vec<Medication> {
+    pub fn get_medications(&mut self, query: Option<&str>) -> Vec<Medication> {
         // todo: do actual error handling
         // ! DO NOT LEAVE IN PRODUCTION WITHOUT ERROR HANDLING
-        let mut statement = self.connection.prepare(
-            "SELECT * FROM medication WHERE name LIKE %?query%".replace("?query", query).as_str()
-        ).expect("This did not work!");
+        let mut statement;
+
+        if query.unwrap() == "" {
+            statement = self.connection.prepare(
+                "SELECT * FROM medication").expect("This did not work!");
+        } else {
+            statement = self.connection.prepare(
+                "SELECT * FROM medication WHERE name LIKE %?query%".replace("?query", query.unwrap()).as_str()
+            ).expect("This did not work!");
+        }
 
         let matched_meds = statement.query_map([], |row| {
             Ok(Medication {
