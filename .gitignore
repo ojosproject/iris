@@ -9,6 +9,7 @@ lerna-debug.log*
 
 .next
 *.db
+*.session.sql
 
 node_modules
 dist
@@ -16,8 +17,6 @@ dist-ssr
 *.local
 
 # Editor directories and files
-.vscode/*
-!.vscode/extensions.json
 .idea
 .DS_Store
 *.suo
