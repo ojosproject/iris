@@ -27,15 +27,17 @@ Rows:
     supply      - The amount they have left
     first_added - A Unix timestamp of when this was first added
     last_taken  - (Optional) Last time this medication was given to the patient
+    measurement - Unit of measurement to use (e.g.: mg)
 */
 CREATE TABLE IF NOT EXISTS medication (
     name TEXT NOT NULL PRIMARY KEY,
     brand TEXT,
-    dose INTEGER NOT NULL,
+    dose REAL NOT NULL,
     frequency TEXT NOT NULL,
-    supply INTEGER NOT NULL,
-    first_added INTEGER NOT NULL,
-    last_taken INTEGER
+    supply REAL NOT NULL,
+    first_added REAL NOT NULL,
+    last_taken REAL,
+    measurement TEXT NOT NULL
 ) STRICT;
 
 /*
