@@ -43,11 +43,12 @@ impl Database {
         &mut self,
         name: &str,
         brand: &str,
-        dose: i64,
-        supply: i64,
-        first_added: i64,
-        last_taken: i64,
+        dose: f64,
+        supply: f64,
+        first_added: f64,
+        last_taken: f64,
         frequency: Option<String>,
+        measurement: &str
     ) -> Result<()> {
         // assuming connection is initialized properly
 
@@ -55,8 +56,8 @@ impl Database {
         // let conn = Connection::open_in_memory()?;
 
         self.connection.execute(
-            "INSERT INTO medication (name, brand, dose, frequency, supply, first_added, last_taken)
-        VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)",
+            "INSERT INTO medication (name, brand, dose, frequency, supply, first_added, last_taken, measurement)
+        VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)",
             (
                 name,
                 brand,
@@ -65,6 +66,7 @@ impl Database {
                 supply,
                 first_added,
                 last_taken,
+                measurement
             ),
         )?;
 
@@ -120,7 +122,8 @@ impl Database {
                 frequency: row.get(3)?,
                 supply: row.get(4)?,
                 first_added: row.get(5)?,
-                last_taken: row.get(6)?
+                last_taken: row.get(6)?,
+                measurement: row.get(7)?,
             })
         }).expect("That did not work.");
 
@@ -150,7 +153,8 @@ impl Database {
                 frequency: row.get(3)?,
                 supply: row.get(4)?,
                 first_added: row.get(5)?,
-                last_taken: row.get(6)?
+                last_taken: row.get(6)?,
+                measurement: row.get(7)?,
             })
         }).expect("That did not work.");
 
@@ -165,7 +169,7 @@ impl Database {
 
 
 
-    pub fn log_medication(&mut self, name: &str, dosage: &str, comments: Option<String>) -> f64 {
+    pub fn log_medication(&mut self, name: String, dosage: String, comments: Option<String>) -> f64 {
         // todo: testing required
         let timestamp = SystemTime::now().duration_since(UNIX_EPOCH).expect("Time went backwards").as_secs_f64();
         
@@ -201,7 +205,7 @@ mod tests {
         let path = "./iris-medication-successfully-added.db";
 
         let mut d = Database::new(path);
-        d.add_medication("Zoloft", "Zoloft", 25, 20, 0, 0, Some("Once daily".to_string())).expect("Adding the medication failed.");
+        d.add_medication("Zoloft", "Zoloft", 25.0, 20.0, 0.0, 0.0, Some("Once daily".to_string()), "mg").expect("Adding the medication failed.");
 
         assert_eq!(d.search_medications("Zoloft").len(), 1);
         fs::remove_file(path).expect("Deleting the file failed.");
