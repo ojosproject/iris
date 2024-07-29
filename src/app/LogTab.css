@@ -1,0 +1,117 @@
+.container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    height: fit-content;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.header {
+    font-size: 45px;
+    font-weight: bold;
+    color: #000000;
+    text-align: center;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.inputContainer {
+    padding-bottom: 200px;
+}
+
+.searchInput {
+    background-color: #f9f9f9;
+    color: #000000;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    max-width: 600px;
+    padding: 15px;
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.logsContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.logItem {
+    margin-top: 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #b0b0b0;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+.logMeds {
+    flex-direction: column;
+    width: calc(33.333% - 20px);
+    margin: 5px;
+    padding: 15px;
+    border: 2px solid #000000;
+    border-radius: 8px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.logItem:hover {
+    background-color: #e3e3e3;
+}
+
+.logMeds .logName,
+.logMeds .logDosage,
+.logMeds .logFrequency,
+.logMeds .logLastTake {
+    color: #000000;
+    margin: 5px 0;
+}
+
+input {
+    margin-bottom: 10px;
+    padding: 5px;
+    width: 100%;
+}
+
+.medication-log {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.medication-card {
+    width: 48%;
+    margin: 1%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.medication-card div {
+    margin-bottom: 5px;
+}
+
+.medsWrap {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 2px solid #000000;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+}
