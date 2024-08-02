@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import './LogTab.css';
+import ConfirmationModal from './LogConfirmation';
 
 
 //TODO: change to reflect medication information
@@ -24,11 +25,29 @@ const LogTab: React.FC = () => {
     setSearchQuery(event.target.value);
   };
 
-  const [selectedMedication, setSelectedMedication] = useState<string | null>(null);
+  const [selectedMedication, setSelectedMedication] = useState<MedicationLog | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const medicationSelect = (log: MedicationLog) => {
-    alert(`${log.medName} is selected, directing to the medication...`);
-    setSelectedMedication(log.medName);
+    setSelectedMedication(log);
+    setIsModalOpen(true);
+  };
+
+  const medicationView = (log: MedicationLog) => {
+    //TODO: add a way to use the med view log
+  }
+
+  const closeModal = () => {
+    setSelectedMedication(null);
+    setIsModalOpen(false);
+  };
+
+  const confirmSelection = () => {
+    if (selectedMedication) {
+      alert(`${selectedMedication.medName} is selected, logging now...`);
+      setSelectedMedication(null);
+      setIsModalOpen(false);
+    }
   };
 
   const filteredLogs = medicationLogs.filter(log =>
@@ -57,17 +76,35 @@ const LogTab: React.FC = () => {
               <div className="logLastTake">Last Taken - {log.lastTaken}</div>
               <button
                 onClick={(e) => {
-                  e.stopPropagation(); // Prevent click event on logItem
+                  e.stopPropagation();
                   medicationSelect(log);
                 }}
                 className="logItem"
               >
                 Log
               </button>
+                //TODO: add view individual buttons
+              {/*
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    medicationSelect(log);
+                  }}
+                  className="logItem"
+                >
+                  View
+                </button>
+                 */}
             </div>
           ))}
         </div>
       </div>
+      <ConfirmationModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onConfirm={confirmSelection}
+        medicationName={selectedMedication}
+      />
     </div>
   );
 }

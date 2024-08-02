@@ -1,8 +1,21 @@
 import Image from "next/image";
 import classes from "./page.module.css";
 import HubHeader from "./components/HubHeader";
-import HubApp from "./components/HubApp";
+import HubApp, { HubAppProps } from "./components/HubApp";
 import UpcomingList from "./components/UpcomingList";
+
+const HubApps: HubAppProps[] = [
+  {
+    link: './',
+    icon: 'pl',
+    name: 'Medication Log'
+  },
+  {
+    link: './',
+    icon: 'pl',
+    name: 'Video Call'
+  }
+]
 
 export default function Home() {
   return (
@@ -12,12 +25,11 @@ export default function Home() {
         <section className={classes.side1}>
           <h2> Your Apps </h2>
           <ul className={classes.appList}>
-            <li>
-              <HubApp link="./" icon="pl" name="Medication Log"></HubApp>
-            </li>
-            <li>
-              <HubApp link="./" icon="pl" name="Video Call"></HubApp>
-            </li>
+            {
+              HubApps.map((hubApp) => (
+                <HubApp link={hubApp.link} icon={hubApp.icon} name={hubApp.name} />
+              ))
+            }
           </ul>
         </section>
 

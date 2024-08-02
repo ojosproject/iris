@@ -4,8 +4,9 @@
     flex-direction: column;
     align-items: center;
     height: fit-content;
-    padding: 20px;
     box-sizing: border-box;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .header {
@@ -40,12 +41,17 @@ body {
     flex-direction: row;
     flex-wrap: wrap;
     gap: 15px;
+    max-height: 60vh;
+    overflow-y: auto;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
 .logItem {
-    margin-top: 10px;
+    flex: 1;
+    margin: 0 5px;
     padding: 10px;
-    border: none;
     border-radius: 5px;
     background-color: #b0b0b0;
     color: white;
@@ -57,6 +63,7 @@ body {
 
 
 .logMeds {
+    display: flex;
     flex-direction: column;
     width: calc(33.333% - 20px);
     margin: 5px;
@@ -66,10 +73,12 @@ body {
     box-sizing: border-box;
     background-color: #ffffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    align-items: center;
+    min-height: 200px;
 }
 
 .logItem:hover {
-    background-color: #e3e3e3;
+    background-color: #414141;
 }
 
 .logMeds .logName,
@@ -78,6 +87,7 @@ body {
 .logMeds .logLastTake {
     color: #000000;
     margin: 5px 0;
+    text-align: center;
 }
 
 input {

@@ -14,7 +14,9 @@
 }
 
 .iconPL {
-    background-color: slateblue;
+    /* background-color: slateblue; */
+    background-color: var(--light-blue);
     width: 200px;
     height: 200px;
+    border-radius: 12px;
 }
