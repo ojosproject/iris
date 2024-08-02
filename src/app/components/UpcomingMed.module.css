@@ -1,5 +1,5 @@
 .med {
-    border: 2px solid rgb(204, 204, 204);
+    border: 2px solid var(--dark-gray);
     border-radius: 8px;
     display: flex;
     justify-content: space-between;
