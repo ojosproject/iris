@@ -13,3 +13,23 @@
 .iris {
     opacity: 0;
 }
+
+.time {
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+}
+
+.time time {
+    text-align: right;
+}
+
+.hourMin {
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.date {
+    font-weight: 600;
+    font-size: 1rem;
+}

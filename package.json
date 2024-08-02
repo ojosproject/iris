@@ -5,8 +5,14 @@
   "homepage": "https://ojosproject.org/iris/",
   "bugs": "https://github.com/ojosproject/iris/issues/",
   "license": "GPL-3.0-only",
-  "author": {"name": "Ojos Project", "url": "https://ojosproject.org/"},
-  "repository": {"type": "git", "url": "https://github.com/ojosproject/iris/"},
+  "author": {
+    "name": "Ojos Project",
+    "url": "https://ojosproject.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ojosproject/iris/"
+  },
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -17,7 +23,8 @@
   "dependencies": {
     "next": "^14.2.5",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-live-clock": "^6.1.23-beta"
   },
   "devDependencies": {
     "@types/next": "^9.0.0",
