@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import classes from './HubApp.module.css';
 
-type HubAppProps = {
+export type HubAppProps = {
     name: string,
     link: string,
     icon: string
