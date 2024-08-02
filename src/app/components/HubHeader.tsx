@@ -10,6 +10,9 @@ export default function HubHeader() {
 
   return (
     <header className={classes.head}>
+      <div className={classes.iris}>
+        <p>iris</p>
+      </div>
       <div className={classes.greeting}>
         <h1>
           Good {timeOfDay}, {userName}

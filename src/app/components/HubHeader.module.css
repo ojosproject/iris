@@ -3,4 +3,13 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+
+.greeting {
+    text-align: center;
+}
+
+.iris {
+    opacity: 0;
 }

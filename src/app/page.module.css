@@ -16,6 +16,7 @@
 
 .side1 {
   width: 70%;
+  margin-left: 1.5rem;
 }
 
 .side2 {
@@ -23,6 +24,7 @@
   width: 30%;
   border: 4px solid var(--dark-blue);
   border-radius: 8px;
+  margin-right: 1.5rem;
 }
 
 .upcomingHeader {
