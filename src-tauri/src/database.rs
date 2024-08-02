@@ -3,33 +3,30 @@
 // 
 // This handles all of the database-related functions for Iris.
 // Use this for reference: https://github.com/ojosproject/iris/tree/python
-#![allow(dead_code)] // ! Remove after we start working in `main.rs`
-
 use rusqlite::{Connection, Result, named_params};
 use std::{fs, path::Path, time::{SystemTime, UNIX_EPOCH}};
 use crate::medications::Medication;
+use crate::user::User;
+use uuid::Uuid;
 
 fn create_database(file_path: &str) {
     let connection = Connection::open(file_path).expect("Failed to open the database.");
-    connection.execute_batch(fs::read_to_string("./src/schema.sql").expect("Reading the schema file failed.").as_str()).expect("Creating the file from SQL Schema failed.")
+    connection.execute_batch(fs::read_to_string("./src/schema.sql").expect("Reading the schema file failed.").as_str()).expect("Creating the file from SQL Schema failed.");
 }
 
 pub struct Database {
     connection: Connection,
-    medication_cache: Vec<String>,
-    last_cached: f64,
 }
 
 impl Database {
-    pub fn new(path: &str) -> Database {
+    pub fn new() -> Database {
+        let path = "./iris.db";
         if !Path::new(path).exists() {
             create_database(path);
         }
-        let connection = Connection::open(path).expect("Failed to open the database.");
+
         Database {
-            connection,
-            medication_cache: vec![], //this creates an empty vector
-            last_cached: 0.0,         // i'm not sure how we're implementing time
+            connection: Connection::open(path).expect("Opening the connection failed.")
         }
     }
 
@@ -107,6 +104,10 @@ impl Database {
         Ok(())
     }
 
+    pub fn set_medication_last_taken(&mut self, name: &str, timestamp: f64) {
+        self.connection.execute("UPDATE medication SET last_taken = ?last_taken WHERE name = ?name", (timestamp, name)).expect("Updating the medication last_taken value did not work.");
+    }
+
     pub fn get_all_medications(&mut self) -> Vec<Medication> {
         // todo: do actual error handling
         // ! DO NOT LEAVE IN PRODUCTION WITHOUT ERROR HANDLING
@@ -143,7 +144,6 @@ impl Database {
                     // https://github.com/rusqlite/rusqlite/issues/600#issuecomment-562258168
                     "SELECT * FROM medication WHERE name LIKE '%' || ? || '%'"
                 ).expect("This did not work!");
-        
 
         let matched_medications = statement.query_map([query], |row| {
             Ok(Medication {
@@ -179,6 +179,38 @@ impl Database {
         ).expect("Inserting into log_medication failed.");
         return timestamp;
     }
+
+    pub fn user_exists(&mut self, credential: String) -> Result<User, &'static str> {
+        // todo: count the results, if result == 0, do Err(error message)
+        // todo: if result == 1, return a User
+        let mut statement = self.connection.prepare(
+            "SELECT * FROM user WHERE credential = :credential"
+        ).expect("This did not work");
+
+        let mut matched_user = statement.query_map(&[(":credential", credential.to_string().as_str())], |row| {
+            Ok(User {
+                id: row.get(0)?,
+                full_name: row.get(1)?,
+                type_of: row.get(2)?,
+                credential: row.get(3)?,
+            })
+        }).expect("This did not work");
+
+        let result = matched_user.next();
+        match result {
+            Some(Ok(result)) => Ok(result),
+            Some(Err(_)) => Err("No user found"),
+            None => Err("No user found")
+        }
+
+    }
+
+    pub fn create_user(&mut self, name: String, type_of: String, credential: String) -> User {
+        let user_id = Uuid::new_v4().to_string();
+        self.connection.execute("INSERT INTO user (id, name, type, credential) VALUES (?1, ?2, ?3, ?4)", (&user_id, &name, &type_of, &credential)).expect("Failed to create a new user in the database.");
+
+        User::new(credential).expect("Newly created user was not found in the database.")
+    }
 }
 
 // Unit tests
@@ -193,21 +225,47 @@ mod tests {
 
     #[test]
     fn starts_empty() {
-        let path = "./iris-starts-empty.db";
-
-        let mut d = Database::new(path);
+        let mut d = Database::new();
         assert_eq!(d.get_all_medications().len(), 0);
-        fs::remove_file(path).expect("Deleting the file failed.");
+        fs::remove_file("./iris.db").expect("Deleting the file failed.");
     }
 
     #[test]
     fn medication_successfully_added() {
-        let path = "./iris-medication-successfully-added.db";
-
-        let mut d = Database::new(path);
+        let mut d = Database::new();
         d.add_medication("Zoloft", "Zoloft", 25.0, 20.0, 0.0, 0.0, Some("Once daily".to_string()), "mg").expect("Adding the medication failed.");
 
         assert_eq!(d.search_medications("Zoloft").len(), 1);
-        fs::remove_file(path).expect("Deleting the file failed.");
+        fs::remove_file("./iris.db").expect("Deleting the file failed.");
+    }
+
+    #[test]
+    fn user_successfully_retrieved() {
+        let mut d = Database::new();
+        let conn = Connection::open("./iris.db").expect("failed to open connection");
+
+        conn.execute(
+            "INSERT INTO user (id, name, type, credential)
+            VALUES(?1, ?2, ?3, ?4)",
+            ("1", "User", "Patient", "1234")
+        ).expect("Failed");
+
+        let test_user = d.user_exists("1234".to_string());
+
+        match test_user {
+            Ok(test_user) => {assert_eq!(test_user.id, "1");},
+            Err(test_user) => panic!("Failed")
+        }
+        
+        fs::remove_file("./iris.db").expect("Deleting the file failed.");
+    }
+
+    #[test]
+    fn user_successfully_created() {
+        let mut d = Database::new();
+        let test_user = d.create_user("User".to_string(), "Patient".to_string(), "1234".to_string());
+
+        assert_eq!(test_user.full_name, "User");
+        fs::remove_file("./iris.db").expect("Deleting the file failed.");
     }
 }

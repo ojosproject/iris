@@ -2,8 +2,6 @@
 // Ojos Project
 // 
 // This handles a lot of medication-related functions.
-#![allow(dead_code)] // ! Remove after we start working in `main.rs`
-
 use crate::database::Database;
 
 pub struct Medication {
@@ -34,18 +32,24 @@ impl Medication {
         }
     }
 
-    pub fn log(&mut self, comments: Option<String>) {
-        let mut db = Database::new("./iris.db");
+    pub fn log(&mut self, comments: Option<String>) -> f64 {
+        // returns the timestamp of the log
+        let mut db = Database::new();
+        
 
         self.last_taken = Some(db.log_medication(
             self.name.to_string(),
             self.dosage.to_string(),
             comments,
-        ))
+        ));
+
+        db.set_medication_last_taken(self.name.as_str(), self.last_taken.expect("Last taken was not found even though it was set..."));
+
+        self.last_taken.expect("Last taken was not found even though it was set...")
     }
 
     pub fn update_dose(&mut self, value: f64) {
-        let mut db = Database::new("./iris.db");
+        let mut db = Database::new();
         self.dosage = value;
 
         db.set_medication_dose(&self.name, &self.dosage).expect("Updating the dosage did not work.");
@@ -55,7 +59,7 @@ impl Medication {
     pub fn update_supply(&mut self, value: f64) {
         self.dosage = value;
 
-        let mut db = Database::new("./iris.db");
+        let mut db = Database::new();
         db.set_medication_supply(&self.name, value).expect("Updating the supply did not work.");
     }
 
