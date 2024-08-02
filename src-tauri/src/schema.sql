@@ -107,3 +107,16 @@ CREATE TABLE IF NOT EXISTS care_instruction (
     added_by TEXT NOT NULL,
     first_added INTEGER NOT NULL
 ) STRICT;
+
+/*
+    * id        - User ID
+    name        - Name of the individual
+    type        - "PATIENT", "CAREGIVER", or "NURSE"
+    credential  - A pin
+*/
+CREATE TABLE IF NOT EXISTS user (
+    id TEXT PRIMARY KEY NOT NULL,
+    name TEXT NOT NULL,
+    type TEXT NOT NULL,
+    credential TEXT NOT NULL
+)
