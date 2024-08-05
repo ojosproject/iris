@@ -2,6 +2,7 @@
 // Ojos Project
 // 
 // This handles a lot of user-related functions for Iris.
+#![allow(dead_code)]
 use crate::database::Database;
 use crate::medications::Medication;
 use serde::{Deserialize, Serialize};

@@ -3,6 +3,7 @@
 // 
 // This handles all of the database-related functions for Iris.
 // Use this for reference: https://github.com/ojosproject/iris/tree/python
+#![allow(dead_code)]
 use rusqlite::{Connection, Result, named_params};
 use std::{fs, path::Path, time::{SystemTime, UNIX_EPOCH}};
 use crate::medications::Medication;

@@ -2,6 +2,7 @@
 // Ojos Project
 // 
 // This handles a lot of medication-related functions.
+#![allow(dead_code)]
 use crate::database::Database;
 
 pub struct Medication {
