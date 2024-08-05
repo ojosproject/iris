@@ -10,6 +10,7 @@ lerna-debug.log*
 .next
 *.db
 *.session.sql
+*.info
 
 node_modules
 dist

@@ -219,8 +219,42 @@ cargo tauri dev
 
 ### Testing Rust
 
-You can test the Rust files by ensuring you're in the `src-tauri` folder and
-running `cargo test`.
+> [!NOTE]
+> Code coverage should be used sparingly as every time you run the
+> `cargo tarpaulin` command, it compiles the entire project. Every. Single.
+> Time.
+>
+> Therefore, if you only need to test one thing quickly, it's recommended you
+> run this command:
+>
+> ```shell
+> cargo test -- --test-threads=1
+> ```
+>
+> Instead of compiling every single time, it will just compile one time and use
+> that compiled code for the next tests.
+
+To test our Rust code in Visual Studio Code, we use a few different tools:
+
+- [Coverage Gutters](https://marketplace.visualstudio.com/items?itemName=ryanluker.vscode-coverage-gutters)
+- [`cargo-tarpaulin`](https://crates.io/crates/cargo-tarpaulin)
+
+Please install `cargo-tarpaulin` using the following command:
+
+```shell
+cargo install cargo-tarpaulin
+```
+
+Then, ensure you're watching for code coverage changes using the Coverage
+Gutters extension. Once you do that, run the following command to generate the
+coverage report:
+
+```shell
+cargo tarpaulin --ignore-tests --out Lcov
+```
+
+This will compile and generate a `lcov.info` file that Coverage Gutters can read
+and display code coverage in Visual Studio Code.
 
 ### Structure (Frontend v. Backend)
 

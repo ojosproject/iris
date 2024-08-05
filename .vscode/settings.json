@@ -15,6 +15,7 @@
     },
     "cSpell.words": [
         "choosealicense",
+        "lcov",
         "Ojos",
         "ojosproject",
         "Pipenv",
@@ -32,5 +33,9 @@
             "name": "Iris DB"
         }
     ],
-    "sqltools.useNodeRuntime": true
+    "sqltools.useNodeRuntime": true,
+    //"coverage-gutters.manualCoverageFilePaths": ["src-tauri/lcov.info"],
+    "coverage-gutters.coverageFileNames": [
+        "src-tauri/lcov.info",
+    ]
 }
