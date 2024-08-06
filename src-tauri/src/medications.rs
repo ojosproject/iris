@@ -4,7 +4,9 @@
 // This handles a lot of medication-related functions.
 #![allow(dead_code)]
 use crate::database::Database;
+use serde::{Deserialize, Serialize};
 
+#[derive(Serialize, Deserialize)]
 pub struct Medication {
     pub name: String,
     pub brand: String,
