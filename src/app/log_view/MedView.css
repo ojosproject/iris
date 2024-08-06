@@ -14,7 +14,12 @@
     margin: 0;
 }
 
+body {
+    font-family: Arial, sans-serif;
+}
+
 .content {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
@@ -28,12 +33,12 @@
 .left-panel {
     flex: 1;
     border-right: 1px solid #ddd;
-    padding-right: 20px;
+    padding: 20px;
 }
 
 .right-panel {
     flex: 2;
-    padding-left: 20px;
+    padding: 20px;
 }
 
 .details-container {
@@ -47,23 +52,36 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     border: 1px solid #ddd;
     border-radius: 10px;
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    box-sizing: border-box;
 }
 
-.circle {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.detail-box span {
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    font-weight: bold;
+}
+
+.detail-box.pills-remaining .circle-background {
+    position: absolute;
     width: 80px;
     height: 80px;
-    border: 5px solid yellow;
     border-radius: 50%;
+    background: conic-gradient(
+        yellow calc(var(--pills-percentage) * 1%), 
+        lightgray calc(var(--pills-percentage) * 1%)
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
 }
 
 .circle span {
