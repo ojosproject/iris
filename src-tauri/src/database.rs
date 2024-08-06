@@ -16,10 +16,10 @@ fn create_database(file_path: &str) {
 }
 
 pub struct MedicationLog {
-    timestamp: f64,
-    medication_name: String,
-    given_dose: f64,
-    comment: Option<String>
+    pub timestamp: f64,
+    pub medication_name: String,
+    pub given_dose: f64,
+    pub comment: Option<String>
 }
 
 pub struct Database {
@@ -382,6 +382,7 @@ mod tests {
     fn user_not_found() {
         let mut d = Database::new();
         d.user_exists("dummy_cred".to_string()).expect("user not found");
+        fs::remove_file("./iris.db").expect("Deleting the file failed.");
     }
 
 }
