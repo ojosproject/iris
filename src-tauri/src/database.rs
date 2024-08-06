@@ -15,6 +15,13 @@ fn create_database(file_path: &str) {
     connection.execute_batch(fs::read_to_string("./src/schema.sql").expect("Reading the schema file failed.").as_str()).expect("Creating the file from SQL Schema failed.");
 }
 
+pub struct MedicationLog {
+    timestamp: f64,
+    medication_name: String,
+    given_dose: f64,
+    comment: Option<String>
+}
+
 pub struct Database {
     connection: Connection,
 }
@@ -29,11 +36,6 @@ impl Database {
         Database {
             connection: Connection::open(path).expect("Opening the connection failed.")
         }
-    }
-
-    fn med_in_db(&mut self, name: &str) -> bool {
-        // if at least 1 with the name is in the database, it exists
-        self.connection.execute("SELECT name FROM medication WHERE name = ?name", (name,)).into_iter().len() > 0
     }
 
 
@@ -80,15 +82,15 @@ impl Database {
         // let conn = Connection::open_in_memory()?;
 
         self.connection
-            .execute("DELETE FROM medication WHERE name = ?name", (name,))?;
+            .execute("DELETE FROM medication WHERE name = ?1", (name,))?;
 
         Ok(())
     }
 
-    pub fn set_medication_dose(&mut self, name: &str, dose: &f64) -> Result<()> {
+    pub fn set_medication_dose(&mut self, name: &str, dose: f64) -> Result<()> {
         // todo: testing required
         self.connection.execute(
-            "UPDATE medication SET dose = ?dose WHERE name = ?name",
+            "UPDATE medication SET dose = ?1 WHERE name = ?2",
             (dose, name),
         )?;
 
@@ -98,15 +100,15 @@ impl Database {
     pub fn set_medication_supply(&mut self, name: &str, supply: f64) -> Result<()> {
         // todo: testing required
         self.connection.execute(
-            "UPDATE medication SET supply = ?supply WHERE name = ?name",
+            "UPDATE medication SET supply = ?1 WHERE name = ?2",
             (supply, name),
         )?;
 
         Ok(())
     }
 
-    pub fn set_medication_last_taken(&mut self, name: &str, timestamp: f64) {
-        self.connection.execute("UPDATE medication SET last_taken = ?last_taken WHERE name = ?name", (timestamp, name)).expect("Updating the medication last_taken value did not work.");
+    fn set_medication_last_taken(&mut self, name: &str, timestamp: f64) {
+        self.connection.execute("UPDATE medication SET last_taken = ?1 WHERE name = ?2", (timestamp, name)).expect("Updating the medication last_taken value did not work.");
     }
 
     pub fn get_all_medications(&mut self) -> Vec<Medication> {
@@ -168,17 +170,42 @@ impl Database {
         return vec_to_return;
     }
 
-
-
-    pub fn log_medication(&mut self, name: String, dosage: String, comments: Option<String>) -> f64 {
+    pub fn log_medication(&mut self, name: &str, dosage: f64, comment: Option<String>) -> f64 {
         // todo: testing required
         let timestamp = SystemTime::now().duration_since(UNIX_EPOCH).expect("Time went backwards").as_secs_f64();
         
         self.connection.execute(
-            "INSERT INTO medication_log (name, dosage, comments) VALUES (:timestamp, :name, :dose, :comments)", 
-            named_params! {":timestamp": timestamp, ":name": name, ":dose": dosage, ":comments": comments}
+            "INSERT INTO medication_log (timestamp, medication_name, given_dose, comment) VALUES (:timestamp, :medication_name, :given_dose, :comment)", 
+            named_params! {":timestamp": timestamp, ":medication_name": name, ":given_dose": dosage, ":comment": comment}
         ).expect("Inserting into log_medication failed.");
+
+        self.set_medication_last_taken(&name, timestamp);
         return timestamp;
+    }
+
+
+    pub fn get_medication_log(&self, name: &str) -> Vec<MedicationLog> {
+        let mut statement  = self.connection.prepare(
+            // https://github.com/rusqlite/rusqlite/issues/600#issuecomment-562258168
+            "SELECT * FROM medication_log WHERE medication_name LIKE '%' || ? || '%'"
+        ).expect("This did not work!");
+
+        let matched_logs = statement.query_map([name], |row| {
+            Ok(MedicationLog {
+                timestamp: row.get(0)?,
+                medication_name: row.get(1)?,
+                given_dose: row.get(2)?,
+                comment: row.get(3)?
+            })
+        }).expect("That did not work.");
+
+        let mut vec_to_return: Vec<MedicationLog> = vec![];
+
+        for log in matched_logs {
+            vec_to_return.push(log.expect("ok"));
+        }
+
+        vec_to_return
     }
 
     pub fn user_exists(&mut self, credential: String) -> Result<User, &'static str> {
@@ -255,9 +282,9 @@ mod tests {
 
         match test_user {
             Ok(test_user) => {assert_eq!(test_user.id, "1");},
-            Err(test_user) => panic!("Failed")
+            Err(_) => panic!("Failed")
         }
-        
+
         fs::remove_file("./iris.db").expect("Deleting the file failed.");
     }
 
@@ -269,4 +296,92 @@ mod tests {
         assert_eq!(test_user.full_name, "User");
         fs::remove_file("./iris.db").expect("Deleting the file failed.");
     }
+
+    #[test]
+    fn medication_successfully_deleted() {
+        let mut d = Database::new();
+        d.add_medication("Zoloft", "Zoloft", 25.0, 20.0, 0.0, 0.0, Some("Once daily".to_string()), "mg").expect("Adding the medication failed.");
+        let result = d.del_medication("Zoloft");
+        
+        assert_eq!(result, Ok(()));
+        fs::remove_file("./iris.db").expect("Deleting the file failed.");
+    }
+
+    #[test]
+    fn set_medication_dose_succeeds() {
+        let mut d = Database::new();
+        d.add_medication("Zoloft", "Zoloft", 15.0, 20.0, 0.0, 0.0, Some("Once daily".to_string()), "mg").expect("Adding the medication failed.");
+        d.set_medication_dose("Zoloft", 50.0).expect("Medication failed to set dosage.");
+        let res = d.search_medications("Zoloft");
+
+        if res.len() == 1 {assert_eq!(res[0].dosage, 50.0)}
+        fs::remove_file("./iris.db").expect("Deleting the file failed.");
+    }
+
+    #[test]
+    fn set_medication_supply_succeeds() {
+        let mut d = Database::new();
+        d.add_medication("Zoloft", "Zoloft", 15.0, 20.0, 0.0, 0.0, Some("Once daily".to_string()), "mg").expect("Adding the medication failed.");
+        d.set_medication_supply("Zoloft", 100.0).expect("Setting medication supply failed.");
+
+        let res = d.search_medications("Zoloft");
+
+        if res.len() == 1 {assert_eq!(res[0].supply.unwrap(), 100.0)}
+        fs::remove_file("./iris.db").expect("Deleting the file failed.");
+    }
+
+    #[test]
+    fn set_medication_last_taken_succeeds() {
+        let mut d = Database::new();
+        d.add_medication("Zoloft", "Zoloft", 15.0, 20.0, 0.0, 0.0, Some("Once daily".to_string()), "mg").expect("Adding the medication failed.");
+        d.set_medication_last_taken("Zoloft", 15.0);
+        
+        let res = d.search_medications("Zoloft");
+
+        if res.len() == 1 { assert_eq!(res[0].last_taken.unwrap(), 15.0) }
+        fs::remove_file("./iris.db").expect("Deleting the file failed.");
+    }
+
+    #[test]
+    fn gets_all_medications_when_multiple_medications() {
+        let mut d = Database::new();
+        d.add_medication("Zoloft", "Zoloft", 15.0, 20.0, 0.0, 0.0, Some("Once daily".to_string()), "mg").expect("Adding the medication failed.");
+        d.add_medication("Prozac", "Prozac", 15.0, 20.0, 0.0, 0.0, Some("Once daily".to_string()), "mg").expect("Adding the medication failed.");
+
+        let all_medications = d.get_all_medications();
+        assert_eq!(all_medications[0].brand, "Zoloft");
+        fs::remove_file("./iris.db").expect("Deleting the file failed.");
+    }
+
+    #[test]
+    fn log_medication_successfully_without_comment() {
+        let mut d = Database::new();
+        d.add_medication("Zoloft", "Zoloft", 15.0, 20.0, 0.0, 0.0, Some("Once daily".to_string()), "mg").expect("Adding the medication failed.");
+
+        d.log_medication("Zoloft", 15.0, None); // without comment
+        let res = d.get_medication_log("Zoloft");
+        assert_eq!(res.len(), 1);
+        
+        fs::remove_file("./iris.db").expect("Deleting the file failed.");
+    }
+
+    #[test]
+    fn log_medication_successfully_with_comment() {
+        let mut d = Database::new();
+        d.add_medication("Zoloft", "Zoloft", 15.0, 20.0, 0.0, 0.0, Some("Once daily".to_string()), "mg").expect("Adding the medication failed.");
+
+        d.log_medication("Zoloft", 30.0, Some("This is a comment.".to_string()));
+        let res = d.get_medication_log("Zoloft");
+        if res.len() == 1 { assert_eq!(res[0].comment, Some("This is a comment.".to_string())) }
+        
+        fs::remove_file("./iris.db").expect("Deleting the file failed.");
+    }
+
+    #[test]
+    #[should_panic]
+    fn user_not_found() {
+        let mut d = Database::new();
+        d.user_exists("dummy_cred".to_string()).expect("user not found");
+    }
+
 }
