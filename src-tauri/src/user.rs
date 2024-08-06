@@ -41,6 +41,37 @@ impl User {
     }
 
     pub fn get_upcoming_medications(&mut self) -> Vec<Medication> {
+
+
+
+        /*
+            https://unixtime.org/
+
+            consider rn: 1722980026
+
+            new Date("Aug 6 2024").setTime("6am")
+
+            new Date(1722980026) > new Date("Aug 6 2024").setTime("6am")
+
+            [6am, 12pm, 6pm, 12am]
+
+            Medication.frequency = 21600
+            24 hours = 86400 / Medication.frequency
+
+            ask user: first dosage?
+
+            Medication.schedule = 6am,12pm,6pm,12am
+
+            Medication.last_taken: timestamp
+
+            every 6 hours: 21600
+
+            todo:
+                - Medication.schedule
+                - Find Rust way of new Date()
+                - Ask user for input
+        */
+
         let time_right_now = SystemTime::now().duration_since(UNIX_EPOCH).expect("Time went backwards").as_secs_f64();
         let upcoming: Vec<Medication> = vec![];
 
@@ -49,6 +80,8 @@ impl User {
             // todo: convert "frequency" into seconds ("every 6 hours" convert 6 hours into seconds)
             
         }
+
+        
 
         upcoming
     }

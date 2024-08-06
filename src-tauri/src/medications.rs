@@ -11,30 +11,16 @@ pub struct Medication {
     pub name: String,
     pub brand: String,
     pub dosage: f64,
-    pub frequency: Option<String>,
+    pub frequency: Option<f64>,
     pub supply: Option<f64>,
     pub first_added: Option<f64>,
     pub last_taken: Option<f64>,
     pub measurement: String,
+    pub upcoming_dose: Option<f64>,
+    pub schedule: Option<String>
 }
 
 impl Medication {
-    pub fn new(name: &str, brand: &str, dosage: f64, frequency: Option<&str>, supply: Option<f64>, first_added: Option<f64>, last_taken: Option<f64>, measurement: &str) -> Medication {
-        Medication {
-            name: name.to_string(),
-            brand: brand.to_string(),
-            dosage,
-            frequency: match frequency {
-                Some(f) => {Some(f.to_string())}
-                None => {None}
-            },
-            supply,
-            first_added,
-            last_taken,
-            measurement: measurement.to_string(),
-        }
-    }
-
     pub fn log(&mut self, comments: Option<String>) -> f64 {
         // returns the timestamp of the log
         let mut db = Database::new();
@@ -79,7 +65,7 @@ mod tests {
 
     #[test]
     fn can_get_value() {
-        let m = Medication::new("Zoloft", "Zoloft", 50.0, None, None, None, None, "mg");
+        let m = Medication::new("Zoloft", "Zoloft", 50.0, None, None, None, None, "mg", None, None);
         
         assert_eq!(m.name, "Zoloft");
         assert_eq!(m.brand, "Zoloft");
@@ -87,13 +73,13 @@ mod tests {
     }
 
     fn can_set_value() {
-        let mut m = Medication::new("Zoloft", "Zoloft", 50.0, None, None, None, None, "mg");
+        let mut m = Medication::new("Zoloft", "Zoloft", 50.0, None, None, None, None, "mg", None, None);
         m.dosage = 35.0;
     }
 
     #[test]
     fn logs_medications_without_comments() {
-        let mut m = Medication::new("Zoloft", "Zoloft", 50.0, None, None, None, None, "mg");
+        let mut m = Medication::new("Zoloft", "Zoloft", 50.0, None, None, None, None, "mg", None, None);
         let d = Database::new();
 
         m.log(None); // no comments
@@ -105,7 +91,7 @@ mod tests {
 
     #[test]
     fn logs_medications_with_comments() {
-        let mut m = Medication::new("Zoloft", "Zoloft", 50.0, None, None, None, None, "mg");
+        let mut m = Medication::new("Zoloft", "Zoloft", 50.0, None, None, None, None, "mg", None, None);
         let d = Database::new();
 
         m.log(Some("This is a comment.".to_string())); // no comments
@@ -117,7 +103,7 @@ mod tests {
 
     #[test]
     fn successfully_updates_dose() {
-        let mut m = Medication::new("Zoloft", "Zoloft", 50.0, None, None, None, None, "mg");
+        let mut m = Medication::new("Zoloft", "Zoloft", 50.0, None, None, None, None, "mg", None, None);
         m.update_dose(20.0);
         
         assert_eq!(m.dosage, 20.0);
@@ -125,7 +111,7 @@ mod tests {
     
     #[test]
     fn successfully_updates_supply() {
-        let mut m = Medication::new("Zoloft", "Zoloft", 50.0, None, None, None, None, "mg");
+        let mut m = Medication::new("Zoloft", "Zoloft", 50.0, None, None, None, None, "mg", None, None);
         m.update_supply(99.0);
         
         assert_eq!(m.supply, Some(99.0));

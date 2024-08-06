@@ -44,11 +44,12 @@ impl Database {
         name: &str,
         brand: &str,
         dose: f64,
-        supply: f64,
-        first_added: f64,
-        last_taken: f64,
         frequency: Option<String>,
-        measurement: &str
+        supply: f64,
+        last_taken: Option<f64>,
+        measurement: &str,
+        upcoming_dose: Option<f64>,
+        schedule: Option<String>
     ) -> Result<()> {
         // assuming connection is initialized properly
 
@@ -57,15 +58,17 @@ impl Database {
 
         self.connection.execute(
             "INSERT INTO medication (name, brand, dose, frequency, supply, first_added, last_taken, measurement)
-        VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)",
+        VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9)",
             (
                 name,
                 brand,
                 dose,
                 frequency,
                 supply,
-                first_added,
+                SystemTime::now().duration_since(UNIX_EPOCH).expect("Time went backwards").as_secs_f64(),
                 last_taken,
+                upcoming_dose,
+                schedule,
                 measurement
             ),
         )?;
@@ -127,7 +130,9 @@ impl Database {
                 supply: row.get(4)?,
                 first_added: row.get(5)?,
                 last_taken: row.get(6)?,
-                measurement: row.get(7)?,
+                upcoming_dose: row.get(7)?,
+                schedule: row.get(8)?,
+                measurement: row.get(9)?,
             })
         }).expect("That did not work.");
 
@@ -157,7 +162,9 @@ impl Database {
                 supply: row.get(4)?,
                 first_added: row.get(5)?,
                 last_taken: row.get(6)?,
-                measurement: row.get(7)?,
+                upcoming_dose: row.get(7)?,
+                schedule: row.get(8)?,
+                measurement: row.get(9)?,
             })
         }).expect("That did not work.");
 
