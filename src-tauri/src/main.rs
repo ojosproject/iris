@@ -4,6 +4,7 @@ mod medications;
 mod user;
 
 use crate::user::User;
+use crate::medications::Medication;
 
 #[tauri::command(rename_all = "snake_case")]
 fn authenticate_user(credential: String) -> Result<user::User, String> {
@@ -18,9 +19,14 @@ fn create_user(full_name: String, type_of: String, credential: String) -> User {
     User::create(full_name, type_of, credential)
 }
 
+#[tauri::command(rename_all = "snake_case")]
+fn get_medications(credential: String) -> Vec<Medication> {
+    User::new(credential).expect("Credential is invalid.").get_medications().expect("Medications failed to get.")
+}
+
 fn main() {
 tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![authenticate_user, create_user])
+    .invoke_handler(tauri::generate_handler![authenticate_user, create_user, get_medications])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }

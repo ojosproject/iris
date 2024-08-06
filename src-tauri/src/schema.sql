@@ -9,9 +9,9 @@ Rows:
     comment         - (Optional) Any comments that might be important to note
 */
 CREATE TABLE IF NOT EXISTS medication_log (
-    timestamp INTEGER NOT NULL PRIMARY KEY,
+    timestamp REAL NOT NULL PRIMARY KEY,
     medication_name TEXT NOT NULL,
-    given_dose TEXT NOT NULL,
+    given_dose REAL NOT NULL,
     comment TEXT
 ) STRICT;
 

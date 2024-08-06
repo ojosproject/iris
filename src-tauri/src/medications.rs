@@ -4,7 +4,9 @@
 // This handles a lot of medication-related functions.
 #![allow(dead_code)]
 use crate::database::Database;
+use serde::{Deserialize, Serialize};
 
+#[derive(Serialize, Deserialize)]
 pub struct Medication {
     pub name: String,
     pub brand: String,
@@ -39,12 +41,10 @@ impl Medication {
         
 
         self.last_taken = Some(db.log_medication(
-            self.name.to_string(),
-            self.dosage.to_string(),
+            self.name.as_str(),
+            self.dosage,
             comments,
         ));
-
-        db.set_medication_last_taken(self.name.as_str(), self.last_taken.expect("Last taken was not found even though it was set..."));
 
         self.last_taken.expect("Last taken was not found even though it was set...")
     }
@@ -53,12 +53,12 @@ impl Medication {
         let mut db = Database::new();
         self.dosage = value;
 
-        db.set_medication_dose(&self.name, &self.dosage).expect("Updating the dosage did not work.");
+        db.set_medication_dose(&self.name, self.dosage).expect("Updating the dosage did not work.");
         
     }
 
     pub fn update_supply(&mut self, value: f64) {
-        self.dosage = value;
+        self.supply = Some(value);
 
         let mut db = Database::new();
         db.set_medication_supply(&self.name, value).expect("Updating the supply did not work.");
@@ -75,6 +75,7 @@ mod tests {
     // method for testing. So I'm going to keep searching. Until then,
     // ! please delete any `.db` file inside of /src-tauri/ before testing.
     use super::*;
+    use std::fs;
 
     #[test]
     fn can_get_value() {
@@ -88,5 +89,45 @@ mod tests {
     fn can_set_value() {
         let mut m = Medication::new("Zoloft", "Zoloft", 50.0, None, None, None, None, "mg");
         m.dosage = 35.0;
+    }
+
+    #[test]
+    fn logs_medications_without_comments() {
+        let mut m = Medication::new("Zoloft", "Zoloft", 50.0, None, None, None, None, "mg");
+        let d = Database::new();
+
+        m.log(None); // no comments
+
+        let res = d.get_medication_log("Zoloft");
+        assert_eq!(res.len(), 1);
+        fs::remove_file("./iris.db").expect("Deleting the file failed.");
+    }
+
+    #[test]
+    fn logs_medications_with_comments() {
+        let mut m = Medication::new("Zoloft", "Zoloft", 50.0, None, None, None, None, "mg");
+        let d = Database::new();
+
+        m.log(Some("This is a comment.".to_string())); // no comments
+
+        let res = d.get_medication_log("Zoloft");
+        if res.len() == 1 { assert_eq!(res[0].comment, Some("This is a comment.".to_string())) }
+        fs::remove_file("./iris.db").expect("Deleting the file failed.");
+    }
+
+    #[test]
+    fn successfully_updates_dose() {
+        let mut m = Medication::new("Zoloft", "Zoloft", 50.0, None, None, None, None, "mg");
+        m.update_dose(20.0);
+        
+        assert_eq!(m.dosage, 20.0);
+    }
+    
+    #[test]
+    fn successfully_updates_supply() {
+        let mut m = Medication::new("Zoloft", "Zoloft", 50.0, None, None, None, None, "mg");
+        m.update_supply(99.0);
+        
+        assert_eq!(m.supply, Some(99.0));
     }
 }
