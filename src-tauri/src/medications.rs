@@ -41,12 +41,10 @@ impl Medication {
         
 
         self.last_taken = Some(db.log_medication(
-            self.name.to_string(),
-            self.dosage.to_string(),
+            self.name.as_str(),
+            self.dosage,
             comments,
         ));
-
-        db.set_medication_last_taken(self.name.as_str(), self.last_taken.expect("Last taken was not found even though it was set..."));
 
         self.last_taken.expect("Last taken was not found even though it was set...")
     }
@@ -55,7 +53,7 @@ impl Medication {
         let mut db = Database::new();
         self.dosage = value;
 
-        db.set_medication_dose(&self.name, &self.dosage).expect("Updating the dosage did not work.");
+        db.set_medication_dose(&self.name, self.dosage).expect("Updating the dosage did not work.");
         
     }
 
