@@ -1,0 +1,9 @@
+.back {
+  color: var(--white);
+  background-color: var(--blue);
+  border: 4px solid var(--blue);
+  border-radius: 56px;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 8px 32px;
+}
