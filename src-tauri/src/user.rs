@@ -60,7 +60,7 @@ impl User {
 
             ask user: first dosage?
 
-            Medication.schedule = 6am,12pm,6pm,12am
+            Medication.schedule = 6,12,18,0
 
             Medication.last_taken: timestamp
 

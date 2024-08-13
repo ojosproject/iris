@@ -50,8 +50,28 @@ impl Medication {
         db.set_medication_supply(&self.name, value).expect("Updating the supply did not work.");
     }
 
+    pub fn create_schedule(&mut self, mut initial_dose : f64, interval : f64) -> String {
+        // this assumes that interval is a factor of 24(1, 2, 3, 4, 6, 8, 12, 24), meaning it will eventually get back to the initial dose provided. idk what to do if it isn't
+        // ? If you input whole numbers, i.e. 8.0, then it will return integers (1,2,3,4)
+        let mut schedule_vec : Vec<String> = vec![];
+        schedule_vec.push(initial_dose.to_string());
+        let mut next_dosage;
+        for _ in 0..((24.0 / interval) as i32 - 1){
+            if initial_dose + interval < 24.1{
+                next_dosage = initial_dose + interval;
+                }
+            else{
+                next_dosage = (initial_dose + interval) - 24.0;
+                }
+            schedule_vec.push(next_dosage.to_string());
+            initial_dose = next_dosage;
+        }
+
+        schedule_vec.join(",")
+    }
+
 }
-/*
+
 // Unit tests
 #[cfg(test)]
 mod tests {
@@ -63,6 +83,62 @@ mod tests {
     use super::*;
     use std::fs;
 
+    #[test]
+    fn test_schedule_creation() {
+        let mut m = Medication {
+            name: "Zoloft".to_string(),
+            brand: "Zoloft".to_string(),
+            dosage: 50.0,
+            frequency: None,
+            supply: None,
+            first_added: None,
+            last_taken: None,
+            measurement: "mg".to_string(),
+            upcoming_dose: None,
+            schedule: None
+        };
+
+        assert_eq!(m.create_schedule(8.0, 6.0), "8,14,20,2");
+    }
+
+    #[test]
+    fn test_schedule_created_with_half_hours() {
+        let mut m = Medication {
+            name: "Zoloft".to_string(),
+            brand: "Zoloft".to_string(),
+            dosage: 50.0,
+            frequency: None,
+            supply: None,
+            first_added: None,
+            last_taken: None,
+            measurement: "mg".to_string(),
+            upcoming_dose: None,
+            schedule: None
+        };
+
+        assert_eq!(m.create_schedule(8.5, 6.0), "8.5,14.5,20.5,2.5");
+    }
+
+    #[test]
+    fn test_schedule_created_every_24_hours() {
+        let mut m = Medication {
+            name: "Zoloft".to_string(),
+            brand: "Zoloft".to_string(),
+            dosage: 50.0,
+            frequency: None,
+            supply: None,
+            first_added: None,
+            last_taken: None,
+            measurement: "mg".to_string(),
+            upcoming_dose: None,
+            schedule: None
+        };
+
+        assert_eq!(m.create_schedule(8.5, 24.0), "8.5");
+    }
+
+}
+/*
     #[test]
     fn can_get_value() {
         let m = Medication::new("Zoloft", "Zoloft", 50.0, None, None, None, None, "mg", None, None);
