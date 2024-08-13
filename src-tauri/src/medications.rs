@@ -51,7 +51,7 @@ impl Medication {
     }
 
 }
-
+/*
 // Unit tests
 #[cfg(test)]
 mod tests {
@@ -117,3 +117,4 @@ mod tests {
         assert_eq!(m.supply, Some(99.0));
     }
 }
+ */

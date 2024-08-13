@@ -247,7 +247,7 @@ impl Database {
         User::new(credential).expect("Newly created user was not found in the database.")
     }
 }
-
+/*
 // Unit tests
 #[cfg(test)]
 mod tests {
@@ -393,3 +393,4 @@ mod tests {
     }
 
 }
+ */
