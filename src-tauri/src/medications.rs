@@ -3,6 +3,8 @@
 // 
 // This handles a lot of medication-related functions.
 #![allow(dead_code)]
+use chrono::{DateTime, Utc};
+
 use crate::database::Database;
 use serde::{Deserialize, Serialize};
 
@@ -50,12 +52,40 @@ impl Medication {
         db.set_medication_supply(&self.name, value).expect("Updating the supply did not work.");
     }
 
-    pub fn create_schedule(&mut self, mut initial_dose : f64, interval : f64) -> String {
-        // this assumes that interval is a factor of 24(1, 2, 3, 4, 6, 8, 12, 24), meaning it will eventually get back to the initial dose provided. idk what to do if it isn't
+    fn set_upcoming_dose(&mut self, new_upcoming_dose: Option<&f64>) {
+        // If `new_upcoming_dose` is set to None, it'll calculate when the next dose is needed
+        // based off of medication_log
+        // ! new_upcoming_dose is set to 0-23
+
+        // the end result will be a unix timestamp. we can find this by finding the current time of day and seeing when the next time to take a medication is based on the 
+        // schedule. The final unix timestamp will be calculated as current time + time until next
+
+        let now = Utc::now();
+        let split_schedule = self.schedule.clone().unwrap().split(",");
+
+        match new_upcoming_dose {
+            Some(dose) => {
+                // find unix timestamp of today with that time
+                for num in split_schedule {
+                    //DateTime::from
+                }
+            }
+            None => {
+                // find unix timestamp using medication_log
+            }
+        }
+    }
+
+    pub fn update_schedule(&mut self, mut initial_dose : f64, interval : f64) -> String {
+        // initial dose: 0-23
+        // interval: 1-24
         // ? If you input whole numbers, i.e. 8.0, then it will return integers (1,2,3,4)
         let mut schedule_vec : Vec<String> = vec![];
         schedule_vec.push(initial_dose.to_string());
         let mut next_dosage;
+
+        self.set_upcoming_dose(Some(&initial_dose));
+
         for _ in 0..((24.0 / interval) as i32 - 1){
             if initial_dose + interval < 24.1{
                 next_dosage = initial_dose + interval;
@@ -66,8 +96,14 @@ impl Medication {
             schedule_vec.push(next_dosage.to_string());
             initial_dose = next_dosage;
         }
+        
+        self.schedule = Some(schedule_vec.join(","));
+        Database::new().set_medication_schedule(&self.name, &self.schedule.clone().unwrap());
 
-        schedule_vec.join(",")
+        self.schedule.clone().unwrap()
+        
+        //I'm unsure how to handle what we're passing around (String vs &String)
+        //should create_schedule still return something? If not, we should fix our tests
     }
 
 }
@@ -98,7 +134,7 @@ mod tests {
             schedule: None
         };
 
-        assert_eq!(m.create_schedule(8.0, 6.0), "8,14,20,2");
+        assert_eq!(m.update_schedule(8.0, 6.0), "8,14,20,2");
     }
 
     #[test]
@@ -116,7 +152,7 @@ mod tests {
             schedule: None
         };
 
-        assert_eq!(m.create_schedule(8.5, 6.0), "8.5,14.5,20.5,2.5");
+        assert_eq!(m.update_schedule(8.5, 6.0), "8.5,14.5,20.5,2.5");
     }
 
     #[test]
@@ -134,7 +170,7 @@ mod tests {
             schedule: None
         };
 
-        assert_eq!(m.create_schedule(8.5, 24.0), "8.5");
+        assert_eq!(m.update_schedule(8.5, 24.0), "8.5");
     }
 
 }

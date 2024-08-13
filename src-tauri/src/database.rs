@@ -246,6 +246,10 @@ impl Database {
 
         User::new(credential).expect("Newly created user was not found in the database.")
     }
+
+    pub fn set_medication_schedule(&mut self, name : &String, schedule: &String) {
+        self.connection.execute("UPDATE medication SET schedule = ?1 WHERE name = ?2", (schedule, name)).expect("Updating schedule failed.");
+    }
 }
 /*
 // Unit tests
