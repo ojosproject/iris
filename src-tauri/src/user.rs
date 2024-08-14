@@ -4,17 +4,8 @@
 // This handles a lot of user-related functions for Iris.
 #![allow(dead_code)]
 use crate::database::Database;
-use crate::medications::Medication;
-use serde::{Deserialize, Serialize};
+use crate::structs::{Medication, User};
 use std::time::{SystemTime, UNIX_EPOCH};
-
-#[derive(Serialize, Deserialize)]
-pub struct User {
-    pub id: String,
-    pub full_name: String,
-    pub type_of: String,
-    pub credential: String
-}
 
 impl User {
     pub fn new(credential: String) -> Result<User, &'static str> {

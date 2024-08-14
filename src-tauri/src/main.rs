@@ -2,13 +2,13 @@
 mod database;
 mod medications;
 mod user;
+mod structs;
 
-use crate::user::User;
-use crate::medications::Medication;
+use crate::structs::{Medication, User};
 
 #[tauri::command(rename_all = "snake_case")]
-fn authenticate_user(credential: String) -> Result<user::User, String> {
-    match user::User::new(credential) {
+fn authenticate_user(credential: String) -> Result<User, String> {
+    match User::new(credential) {
         Ok(matched_user) => {Ok(matched_user)}
         Err(_) => {Err("User does not exist.".into())}
     }

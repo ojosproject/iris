@@ -6,20 +6,12 @@
 #![allow(dead_code)]
 use rusqlite::{Connection, Result, named_params};
 use std::{fs, path::Path, time::{SystemTime, UNIX_EPOCH}};
-use crate::medications::Medication;
-use crate::user::User;
+use crate::structs::{Medication, User, MedicationLog};
 use uuid::Uuid;
 
 fn create_database(file_path: &str) {
     let connection = Connection::open(file_path).expect("Failed to open the database.");
     connection.execute_batch(fs::read_to_string("./src/schema.sql").expect("Reading the schema file failed.").as_str()).expect("Creating the file from SQL Schema failed.");
-}
-
-pub struct MedicationLog {
-    pub timestamp: f64,
-    pub medication_name: String,
-    pub given_dose: f64,
-    pub comment: Option<String>
 }
 
 pub struct Database {
