@@ -17,12 +17,12 @@ pub struct User {
     pub id: String,
     pub full_name: String,
     pub type_of: String,
-    pub credential: String
+    pub credential: String,
 }
 
 pub struct MedicationLog {
     pub timestamp: f64,
     pub medication_name: String,
     pub given_dose: f64,
-    pub comment: Option<String>
+    pub comment: Option<String>,
 }
