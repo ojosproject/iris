@@ -1,10 +1,10 @@
 :root {
   font-family: "Noto Sans", "Inter", "sans-serif";
   --dark-blue: #094595;
-  --blue: #0063D7;
-  --light-blue: #83B3F3;
+  --blue: #0063d7;
+  --light-blue: #83b3f3;
   --white: #fcfcfc;
-  --dark-gray: #3E454D;
+  --dark-gray: #3e454d;
   --black: #1c1c1c;
   color: var(--black);
 }
@@ -33,7 +33,6 @@ button {
   font-size: 1rem;
   font-weight: 700;
 }
-
 
 /* :root {
   --max-width: 1100px;

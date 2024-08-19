@@ -6,16 +6,16 @@ import UpcomingList from "./components/UpcomingList";
 
 const HubApps: HubAppProps[] = [
   {
-    link: './log_view',
-    icon: 'pl',
-    name: 'Medication Log'
+    link: "./log_view",
+    icon: "pl",
+    name: "Medication Log",
   },
   {
-    link: './call',
-    icon: 'pl',
-    name: 'Video Call'
-  }
-]
+    link: "./call",
+    icon: "pl",
+    name: "Video Call",
+  },
+];
 
 export default function Home() {
   return (
@@ -25,11 +25,13 @@ export default function Home() {
         <section className={classes.side1}>
           <h2> Your Apps </h2>
           <ul className={classes.appList}>
-            {
-              HubApps.map((hubApp) => (
-                <HubApp link={hubApp.link} icon={hubApp.icon} name={hubApp.name} />
-              ))
-            }
+            {HubApps.map((hubApp) => (
+              <HubApp
+                link={hubApp.link}
+                icon={hubApp.icon}
+                name={hubApp.name}
+              />
+            ))}
           </ul>
         </section>
 

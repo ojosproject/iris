@@ -6,7 +6,7 @@ export default function Recordings() {
   return (
     <>
       <header>
-      <BackButton />
+        <BackButton />
       </header>
       <main>
         <h1>Video Recordings</h1>

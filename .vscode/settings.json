@@ -1,39 +1,41 @@
 {
-    "files.associations": {
-        "LICENSE": "plaintext"
-    },
-    "[markdown][plaintext]": {
-        "editor.rulers": [80],
-        "editor.wordWrap": "off",
-        "editor.defaultFormatter": "yzhang.markdown-all-in-one",
-        "editor.formatOnSave": true
-    },
-    "[rust]": {
-        "editor.defaultFormatter": "rust-lang.rust-analyzer",
-        "editor.formatOnSave": true
-    },
-    "cSpell.words": [
-        "choosealicense",
-        "lcov",
-        "Ojos",
-        "ojosproject",
-        "Pipenv",
-        "rusqlite",
-        "Tauri"
-    ],
-    "indentRainbow.indentSetter": {
-        "markdown": 2
-    },
-    "sqltools.connections": [
-        {
-            "previewLimit": 50,
-            "driver": "SQLite",
-            "database": "${workspaceFolder:iris}/src-tauri/iris.db",
-            "name": "Iris DB"
-        }
-    ],
-    "sqltools.useNodeRuntime": true,
-    "coverage-gutters.coverageFileNames": [
-        "src-tauri/lcov.info",
-    ]
+  "files.associations": {
+    "LICENSE": "plaintext"
+  },
+  "[markdown][plaintext]": {
+    "editor.rulers": [80],
+    "editor.wordWrap": "off",
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one",
+    "editor.formatOnSave": true
+  },
+  "[rust]": {
+    "editor.defaultFormatter": "rust-lang.rust-analyzer",
+    "editor.formatOnSave": true
+  },
+  "[typescriptreact][css][scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "cSpell.words": [
+    "choosealicense",
+    "lcov",
+    "Ojos",
+    "ojosproject",
+    "Pipenv",
+    "rusqlite",
+    "Tauri"
+  ],
+  "indentRainbow.indentSetter": {
+    "markdown": 2
+  },
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "driver": "SQLite",
+      "database": "${workspaceFolder:iris}/src-tauri/iris.db",
+      "name": "Iris DB"
+    }
+  ],
+  "sqltools.useNodeRuntime": true,
+  "coverage-gutters.coverageFileNames": ["src-tauri/lcov.info"]
 }

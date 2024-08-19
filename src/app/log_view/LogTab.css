@@ -1,127 +1,126 @@
 .container {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    height: fit-content;
-    box-sizing: border-box;
-    height: 100vh;
-    overflow: hidden;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  height: fit-content;
+  box-sizing: border-box;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .header {
-    font-size: 45px;
-    font-weight: bold;
-    color: #000000;
-    text-align: center;
+  font-size: 45px;
+  font-weight: bold;
+  color: #000000;
+  text-align: center;
 }
 
 body {
-    font-family: Arial, sans-serif;
+  font-family: Arial, sans-serif;
 }
 
 .inputContainer {
-    padding-bottom: 200px;
+  padding-bottom: 200px;
 }
 
 .searchInput {
-    background-color: #f9f9f9;
-    color: #000000;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    max-width: 600px;
-    padding: 15px;
-    width: 100%;
-    box-sizing: border-box;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: #f9f9f9;
+  color: #000000;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  max-width: 600px;
+  padding: 15px;
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .logsContainer {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 15px;
-    max-height: 60vh;
-    overflow-y: auto;
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 15px;
+  max-height: 60vh;
+  overflow-y: auto;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 .logItem {
-    flex: 1;
-    margin: 0 5px;
-    padding: 10px;
-    border-radius: 5px;
-    background-color: #b0b0b0;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  flex: 1;
+  margin: 0 5px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #b0b0b0;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-
 .logMeds {
-    display: flex;
-    flex-direction: column;
-    width: calc(33.333% - 20px);
-    margin: 5px;
-    padding: 15px;
-    border: 2px solid #000000;
-    border-radius: 8px;
-    box-sizing: border-box;
-    background-color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    align-items: center;
-    min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  width: calc(33.333% - 20px);
+  margin: 5px;
+  padding: 15px;
+  border: 2px solid #000000;
+  border-radius: 8px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  align-items: center;
+  min-height: 200px;
 }
 
 .logItem:hover {
-    background-color: #414141;
+  background-color: #414141;
 }
 
 .logMeds .logName,
 .logMeds .logDosage,
 .logMeds .logFrequency,
 .logMeds .logLastTake {
-    color: #000000;
-    margin: 5px 0;
-    text-align: center;
+  color: #000000;
+  margin: 5px 0;
+  text-align: center;
 }
 
 input {
-    margin-bottom: 10px;
-    padding: 5px;
-    width: 100%;
+  margin-bottom: 10px;
+  padding: 5px;
+  width: 100%;
 }
 
 .medication-log {
-    display: flex;
-    flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .medication-card {
-    width: 48%;
-    margin: 1%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+  width: 48%;
+  margin: 1%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
 }
 
 .medication-card div {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 
 .medsWrap {
-    width: 100%;
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    border: 2px solid #000000;
-    border-radius: 10px;
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    box-sizing: border-box;
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 2px solid #000000;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
 }
