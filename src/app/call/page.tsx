@@ -1,6 +1,7 @@
 import Link from "next/link";
 import classes from "./page.module.css";
 import Controls from "./components/controls";
+import Camera from "./components/camera";
 
 export default function Call() {
   return (
@@ -12,6 +13,7 @@ export default function Call() {
       </header>
       <main>
         <h1>Video Call</h1>
+        <Camera />
         <Controls />
       </main>
     </>
