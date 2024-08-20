@@ -1,0 +1,9 @@
+.viewRecordings {
+  color: var(--white);
+  background-color: var(--dark-blue);
+  padding: 8px 32px;
+  border-radius: 32px;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+}

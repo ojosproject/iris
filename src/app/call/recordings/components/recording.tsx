@@ -59,7 +59,8 @@ export default function Recording({
         </h2>
         <h3 className={classes.times}>
           {" "}
-          {start.hr}:{start.min} - {end.hr}:{end.min}{" "}
+          {start.hr}:{start.min.toString().padStart(2, "0")} - {end.hr}:
+          {end.min.toString().padStart(2, "0")}{" "}
         </h3>
         <p className={classes.duration}>
           {" "}

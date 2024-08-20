@@ -5,7 +5,7 @@ import Webcam from "react-webcam";
 export default function Camera() {
   return (
     <div className={classes.camContainer}>
-      <Webcam className={classes.cam} />;
+      <Webcam mirrored className={classes.cam} />;
     </div>
   );
 }
