@@ -1,7 +1,7 @@
 "use client";
 import classes from "./HubHeader.module.css";
 import { useState } from "react";
-import Clock from 'react-live-clock';
+import Clock from "react-live-clock";
 
 export default function HubHeader() {
   // todo: Possibly change these from useState to fetching from the backend for the user name and current time of day

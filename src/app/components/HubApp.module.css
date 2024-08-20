@@ -1,22 +1,23 @@
 .app {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .link {
-    text-decoration: none;
+  text-decoration: none;
+  color: inherit;
 }
 
 .link:visited {
-    color: inherit;
+  color: inherit;
 }
 
 .iconPL {
-    /* background-color: slateblue; */
-    background-color: var(--light-blue);
-    width: 200px;
-    height: 200px;
-    border-radius: 12px;
+  /* background-color: slateblue; */
+  background-color: var(--light-blue);
+  width: 200px;
+  height: 200px;
+  border-radius: 12px;
 }

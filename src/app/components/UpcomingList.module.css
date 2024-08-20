@@ -1,13 +1,13 @@
 .medList {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    padding: 0;
-  }
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 0;
+}
 
 .medList li {
-    width: 90%;
+  width: 90%;
 }

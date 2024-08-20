@@ -1,20 +1,11 @@
 // user.rs
 // Ojos Project
-// 
+//
 // This handles a lot of user-related functions for Iris.
 #![allow(dead_code)]
 use crate::database::Database;
-use crate::medications::Medication;
-use serde::{Deserialize, Serialize};
+use crate::structs::{Medication, User};
 use std::time::{SystemTime, UNIX_EPOCH};
-
-#[derive(Serialize, Deserialize)]
-pub struct User {
-    pub id: String,
-    pub full_name: String,
-    pub type_of: String,
-    pub credential: String
-}
 
 impl User {
     pub fn new(credential: String) -> Result<User, &'static str> {
@@ -23,8 +14,8 @@ impl User {
         let user = db.user_exists(credential);
 
         match user {
-            Ok(matched_user) => {Ok(matched_user)}
-            Err(e) => {Err(e)}
+            Ok(matched_user) => Ok(matched_user),
+            Err(e) => Err(e),
         }
     }
 
@@ -41,7 +32,6 @@ impl User {
     }
 
     pub fn get_upcoming_medications(&mut self) -> Vec<Medication> {
-
 
 
         /*
@@ -75,10 +65,12 @@ impl User {
         let time_right_now = SystemTime::now().duration_since(UNIX_EPOCH).expect("Time went backwards").as_secs_f64();
         let upcoming: Vec<Medication> = vec![];
 
-        for med in self.get_medications().expect("Fetching medications failed.") {
+        for med in self
+            .get_medications()
+            .expect("Fetching medications failed.")
+        {
             // todo: get upcoming 5 medications
             // todo: convert "frequency" into seconds ("every 6 hours" convert 6 hours into seconds)
-            
         }
 
         

@@ -1,35 +1,35 @@
 .head {
-    margin: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  margin: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .greeting {
-    text-align: center;
+  text-align: center;
 }
 
 .iris {
-    opacity: 0;
+  opacity: 0;
 }
 
 .time {
-    display: flex;
-    flex-direction: column;
-    justify-content: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: right;
 }
 
 .time time {
-    text-align: right;
+  text-align: right;
 }
 
 .hourMin {
-    font-weight: 700;
-    font-size: 1.5rem;
+  font-weight: 700;
+  font-size: 1.5rem;
 }
 
 .date {
-    font-weight: 600;
-    font-size: 1rem;
+  font-weight: 600;
+  font-size: 1rem;
 }

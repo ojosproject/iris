@@ -1,109 +1,109 @@
 .medicine-container {
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    color: #000;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  color: #000;
 }
 
 .header {
-    text-align: center;
+  text-align: center;
 }
 
 .header h1 {
-    margin: 0;
+  margin: 0;
 }
 
 body {
-    font-family: Arial, sans-serif;
+  font-family: Arial, sans-serif;
 }
 
 .content {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-    border: 1px solid #ddd;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
 }
 
 .left-panel {
-    flex: 1;
-    border-right: 1px solid #ddd;
-    padding: 20px;
+  flex: 1;
+  border-right: 1px solid #ddd;
+  padding: 20px;
 }
 
 .right-panel {
-    flex: 2;
-    padding: 20px;
+  flex: 2;
+  padding: 20px;
 }
 
 .details-container {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
 }
 
 .detail-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 150px;
-    height: 150px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    position: relative;
-    box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 150px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  box-sizing: border-box;
 }
 
 .detail-box span {
-    white-space: nowrap; 
-    overflow: hidden; 
-    text-overflow: ellipsis;
-    font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: bold;
 }
 
 .detail-box.pills-remaining .circle-background {
-    position: absolute;
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: conic-gradient(
-        yellow calc(var(--pills-percentage) * 1%), 
-        lightgray calc(var(--pills-percentage) * 1%)
-    );
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1;
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: conic-gradient(
+    yellow calc(var(--pills-percentage) * 1%),
+    lightgray calc(var(--pills-percentage) * 1%)
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
 }
 
 .circle span {
-    font-size: 24px;
-    font-weight: bold;
+  font-size: 24px;
+  font-weight: bold;
 }
 
 .log-section {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .log-section table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .log-section th,
 .log-section td {
-    padding: 10px;
-    text-align: left;
-    border: 1px solid #ddd;
-    background-color: #f9f9f9;
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
 }

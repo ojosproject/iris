@@ -1,16 +1,16 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 mod database;
 mod medications;
+mod structs;
 mod user;
 
-use crate::user::User;
-use crate::medications::Medication;
+use crate::structs::{Medication, User};
 
 #[tauri::command(rename_all = "snake_case")]
-fn authenticate_user(credential: String) -> Result<user::User, String> {
-    match user::User::new(credential) {
-        Ok(matched_user) => {Ok(matched_user)}
-        Err(_) => {Err("User does not exist.".into())}
+fn authenticate_user(credential: String) -> Result<User, String> {
+    match User::new(credential) {
+        Ok(matched_user) => Ok(matched_user),
+        Err(_) => Err("User does not exist.".into()),
     }
 }
 
@@ -21,12 +21,19 @@ fn create_user(full_name: String, type_of: String, credential: String) -> User {
 
 #[tauri::command(rename_all = "snake_case")]
 fn get_medications(credential: String) -> Vec<Medication> {
-    User::new(credential).expect("Credential is invalid.").get_medications().expect("Medications failed to get.")
+    User::new(credential)
+        .expect("Credential is invalid.")
+        .get_medications()
+        .expect("Medications failed to get.")
 }
 
 fn main() {
-tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![authenticate_user, create_user, get_medications])
-    .run(tauri::generate_context!())
-    .expect("error while running tauri application");
+    tauri::Builder::default()
+        .invoke_handler(tauri::generate_handler![
+            authenticate_user,
+            create_user,
+            get_medications
+        ])
+        .run(tauri::generate_context!())
+        .expect("error while running tauri application");
 }

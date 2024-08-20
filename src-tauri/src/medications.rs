@@ -1,6 +1,6 @@
 // medications.rs
 // Ojos Project
-// 
+//
 // This handles a lot of medication-related functions.
 #![allow(dead_code)]
 use chrono::{DateTime, Utc};
@@ -26,30 +26,27 @@ impl Medication {
     pub fn log(&mut self, comments: Option<String>) -> f64 {
         // returns the timestamp of the log
         let mut db = Database::new();
-        
 
-        self.last_taken = Some(db.log_medication(
-            self.name.as_str(),
-            self.dosage,
-            comments,
-        ));
+        self.last_taken = Some(db.log_medication(self.name.as_str(), self.dosage, comments));
 
-        self.last_taken.expect("Last taken was not found even though it was set...")
+        self.last_taken
+            .expect("Last taken was not found even though it was set...")
     }
 
     pub fn update_dose(&mut self, value: f64) {
         let mut db = Database::new();
         self.dosage = value;
 
-        db.set_medication_dose(&self.name, self.dosage).expect("Updating the dosage did not work.");
-        
+        db.set_medication_dose(&self.name, self.dosage)
+            .expect("Updating the dosage did not work.");
     }
 
     pub fn update_supply(&mut self, value: f64) {
         self.supply = Some(value);
 
         let mut db = Database::new();
-        db.set_medication_supply(&self.name, value).expect("Updating the supply did not work.");
+        db.set_medication_supply(&self.name, value)
+            .expect("Updating the supply did not work.");
     }
 
     fn set_upcoming_dose(&mut self, new_upcoming_dose: Option<&f64>) {
@@ -209,7 +206,9 @@ mod tests {
         m.log(Some("This is a comment.".to_string())); // no comments
 
         let res = d.get_medication_log("Zoloft");
-        if res.len() == 1 { assert_eq!(res[0].comment, Some("This is a comment.".to_string())) }
+        if res.len() == 1 {
+            assert_eq!(res[0].comment, Some("This is a comment.".to_string()))
+        }
         fs::remove_file("./iris.db").expect("Deleting the file failed.");
     }
 
@@ -217,15 +216,15 @@ mod tests {
     fn successfully_updates_dose() {
         let mut m = Medication::new("Zoloft", "Zoloft", 50.0, None, None, None, None, "mg", None, None);
         m.update_dose(20.0);
-        
+
         assert_eq!(m.dosage, 20.0);
     }
-    
+
     #[test]
     fn successfully_updates_supply() {
         let mut m = Medication::new("Zoloft", "Zoloft", 50.0, None, None, None, None, "mg", None, None);
         m.update_supply(99.0);
-        
+
         assert_eq!(m.supply, Some(99.0));
     }
 }

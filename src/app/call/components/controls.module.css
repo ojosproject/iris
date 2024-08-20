@@ -1,0 +1,36 @@
+.controls {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+}
+
+/* .controls button {
+  color: var(--white);
+  background-color: var(--blue);
+  border: 4px solid var(--blue);
+  border-radius: 56px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 8px 32px;
+} */
+
+.controls button {
+  transition-property: background-color;
+  transition-duration: 0.25s;
+}
+
+.normalButton {
+  color: var(--white);
+  background-color: var(--blue);
+  border: 4px solid var(--blue);
+  border-radius: 56px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 8px 32px;
+  width: 300px;
+}
+
+.invert {
+  color: var(--blue);
+  background-color: var(--white);
+}
