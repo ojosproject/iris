@@ -1,0 +1,25 @@
+.recording {
+  border: 2px solid var(--black);
+  border-radius: 4px;
+  display: flex;
+  gap: 24px;
+}
+
+.image {
+  background-color: rgb(185, 185, 185);
+  width: 25%;
+  height: 200 px;
+}
+
+.date {
+  margin-bottom: 2px;
+}
+
+.times {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.duration {
+  margin-top: 2px;
+}
