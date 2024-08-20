@@ -50,7 +50,7 @@ impl Database {
         last_taken: Option<f64>,
         measurement: &str,
         upcoming_dose: Option<f64>,
-        schedule: Option<String>
+        schedule: Option<String>,
     ) -> Result<()> {
         // assuming connection is initialized properly
 
@@ -123,22 +123,26 @@ impl Database {
     pub fn get_all_medications(&mut self) -> Vec<Medication> {
         // todo: do actual error handling
         // ! DO NOT LEAVE IN PRODUCTION WITHOUT ERROR HANDLING
-        let mut statement = self.connection.prepare(
-                    "SELECT * FROM medication").expect("This did not work!"
-                    );
 
-        let matched_medications = statement.query_map([], |row| {
-            Ok(Medication {
-                name: row.get(0)?,
-                brand: row.get(1)?,
-                dosage: row.get(2)?,
-                frequency: row.get(3)?,
-                supply: row.get(4)?,
-                first_added: row.get(5)?,
-                last_taken: row.get(6)?,
-                upcoming_dose: row.get(7)?,
-                schedule: row.get(8)?,
-                measurement: row.get(9)?,
+        let mut statement = self
+            .connection
+            .prepare("SELECT * FROM medication")
+            .expect("This did not work!");
+
+        let matched_medications = statement
+            .query_map([], |row| {
+                Ok(Medication {
+                    name: row.get(0)?,
+                    brand: row.get(1)?,
+                    dosage: row.get(2)?,
+                    frequency: row.get(3)?,
+                    supply: row.get(4)?,
+                    first_added: row.get(5)?,
+                    last_taken: row.get(6)?,
+                    upcoming_dose: row.get(7)?,
+                    schedule: row.get(8)?,
+                    measurement: row.get(9)?,
+                })
             })
             .expect("That did not work.");
 
@@ -154,23 +158,28 @@ impl Database {
     pub fn search_medications(&mut self, query: &str) -> Vec<Medication> {
         // todo: do actual error handling
         // ! DO NOT LEAVE IN PRODUCTION WITHOUT ERROR HANDLING
-        let mut statement  = self.connection.prepare(
-                    // https://github.com/rusqlite/rusqlite/issues/600#issuecomment-562258168
-                    "SELECT * FROM medication WHERE name LIKE '%' || ? || '%'"
-                ).expect("This did not work!");
+        let mut statement = self
+            .connection
+            .prepare(
+                // https://github.com/rusqlite/rusqlite/issues/600#issuecomment-562258168
+                "SELECT * FROM medication WHERE name LIKE '%' || ? || '%'",
+            )
+            .expect("This did not work!");
 
-        let matched_medications = statement.query_map([query], |row| {
-            Ok(Medication {
-                name: row.get(0)?,
-                brand: row.get(1)?,
-                dosage: row.get(2)?,
-                frequency: row.get(3)?,
-                supply: row.get(4)?,
-                first_added: row.get(5)?,
-                last_taken: row.get(6)?,
-                upcoming_dose: row.get(7)?,
-                schedule: row.get(8)?,
-                measurement: row.get(9)?,
+        let matched_medications = statement
+            .query_map([query], |row| {
+                Ok(Medication {
+                    name: row.get(0)?,
+                    brand: row.get(1)?,
+                    dosage: row.get(2)?,
+                    frequency: row.get(3)?,
+                    supply: row.get(4)?,
+                    first_added: row.get(5)?,
+                    last_taken: row.get(6)?,
+                    upcoming_dose: row.get(7)?,
+                    schedule: row.get(8)?,
+                    measurement: row.get(9)?,
+                })
             })
             .expect("That did not work.");
 
@@ -267,8 +276,13 @@ impl Database {
         User::new(credential).expect("Newly created user was not found in the database.")
     }
 
-    pub fn set_medication_schedule(&mut self, name : &String, schedule: &String) {
-        self.connection.execute("UPDATE medication SET schedule = ?1 WHERE name = ?2", (schedule, name)).expect("Updating schedule failed.");
+    pub fn set_medication_schedule(&mut self, name: &String, schedule: &String) {
+        self.connection
+            .execute(
+                "UPDATE medication SET schedule = ?1 WHERE name = ?2",
+                (schedule, name),
+            )
+            .expect("Updating schedule failed.");
     }
 }
 /*
