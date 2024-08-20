@@ -5,7 +5,7 @@
 #![allow(dead_code)]
 use crate::database::Database;
 use crate::structs::Medication;
-use chrono::{DateTime, Datelike, Local, NaiveDateTime, NaiveTime, Utc};
+use chrono::{Local, NaiveTime};
 use itertools::Itertools;
 
 impl Medication {
@@ -35,62 +35,24 @@ impl Medication {
             .expect("Updating the supply did not work.");
     }
 
-    fn set_upcoming_dose(&mut self, new_upcoming_dose: Option<&f64>) {
-        // If `new_upcoming_dose` is set to None, it'll calculate when the next dose is needed
-        // based off of medication_log
-        // ! new_upcoming_dose is set to 0-23
-
-        // the end result will be a unix timestamp. we can find this by finding the current time of day and seeing when the next time to take a medication is based on the
-        // schedule. The final unix timestamp will be calculated as current time + time until next
-
+    fn set_upcoming_dose(&mut self) {
         let now = Local::now();
         let midnight = now
             .with_time(NaiveTime::parse_from_str(format!("0:00").as_str(), "%-H:%M").unwrap())
             .unwrap()
             .timestamp();
 
-        match new_upcoming_dose {
-            Some(dose) => {
-                let next_dose_in_seconds = dose * 60.0 * 60.0;
-                let next_dose = (midnight as f64) + next_dose_in_seconds;
+        // ? Assumes self.schedule is already set.
+        let split_schedule = self.schedule.as_ref().unwrap().split(',').sorted();
+        // find unix timestamp of today with that time
+        for scheduled_time in split_schedule {
+            let next_dose_in_seconds = scheduled_time.parse::<f64>().unwrap() * 60.0 * 60.0;
+            let next_dose = (midnight as f64) + next_dose_in_seconds;
 
+            if now.timestamp() < next_dose as i64 {
                 Database::new().set_upcoming_dose(&self.name, next_dose);
                 self.upcoming_dose = Some(next_dose);
-            }
-            None => {
-                // ? Assumes self.schedule is already set.
-                let split_schedule = self.schedule.as_ref().unwrap().split(',').sorted();
-                // find unix timestamp of today with that time
-                for scheduled_time in split_schedule {
-                    // ? let custom = DateTime::parse_from_str("5.8.1994 8:00 am +0000", "%d.%m.%Y %H:%M %P %z")?;
-                    // https://rust-lang-nursery.github.io/rust-cookbook/datetime/parse.html#parse-string-into-datetime-struct
-
-                    // todo: convert the scheduled time as if it were today
-                    // if scheduled time's epoch is bigger than current, it's upcoming
-
-                    let scheduled_utc = NaiveDateTime::parse_from_str(
-                        format!(
-                            "{day}.{month}.{year} {hour}:{minute}",
-                            day = now.day(),
-                            month = now.month(),
-                            year = now.year(),
-                            hour = scheduled_time,
-                            minute = 0.0,
-                        )
-                        .as_str(),
-                        "%d.%m.%Y %-H:%M",
-                    )
-                    .unwrap();
-
-                    if now.timestamp() < scheduled_utc.and_utc().timestamp() {
-                        Database::new().set_upcoming_dose(
-                            &self.name,
-                            (scheduled_utc.and_utc().timestamp()) as f64,
-                        );
-
-                        self.upcoming_dose = Some((scheduled_utc.and_utc().timestamp()) as f64);
-                    }
-                }
+                break;
             }
         }
     }
@@ -102,8 +64,6 @@ impl Medication {
         let mut schedule_vec: Vec<String> = vec![];
         schedule_vec.push(initial_dose.to_string());
         let mut next_dosage;
-
-        self.set_upcoming_dose(Some(&initial_dose));
 
         for _ in 0..((24.0 / interval) as i32 - 1) {
             if initial_dose + interval < 24.1 {
@@ -118,6 +78,8 @@ impl Medication {
         self.schedule = Some(schedule_vec.join(","));
         Database::new()
             .set_medication_schedule(&self.name, &String::from(self.schedule.as_ref().unwrap()));
+
+        self.set_upcoming_dose(); //updates the medication's upcoming_dose
 
         String::from(self.schedule.as_ref().unwrap())
 
