@@ -5,7 +5,7 @@
 #![allow(dead_code)]
 use crate::database::Database;
 use crate::structs::Medication;
-use chrono::{DateTime, Datelike, NaiveDateTime, TimeZone, Utc};
+use chrono::{DateTime, Datelike, Local, NaiveDateTime, NaiveTime, Utc};
 use itertools::Itertools;
 
 impl Medication {
@@ -43,27 +43,19 @@ impl Medication {
         // the end result will be a unix timestamp. we can find this by finding the current time of day and seeing when the next time to take a medication is based on the
         // schedule. The final unix timestamp will be calculated as current time + time until next
 
-        let now = Utc::now();
+        let now = Local::now();
+        let midnight = now
+            .with_time(NaiveTime::parse_from_str(format!("0:00").as_str(), "%-H:%M").unwrap())
+            .unwrap()
+            .timestamp();
 
         match new_upcoming_dose {
             Some(dose) => {
-                let scheduled_utc = NaiveDateTime::parse_from_str(
-                    format!(
-                        "{day}.{month}.{year} {hour}:{minute}",
-                        day = now.day(),
-                        month = now.month(),
-                        year = now.year(),
-                        hour = dose,
-                        minute = 0.0,
-                    )
-                    .as_str(),
-                    "%d.%m.%Y %-H:%M",
-                )
-                .unwrap();
+                let next_dose_in_seconds = dose * 60.0 * 60.0;
+                let next_dose = (midnight as f64) + next_dose_in_seconds;
 
-                Database::new()
-                    .set_upcoming_dose(&self.name, (scheduled_utc.and_utc().timestamp()) as f64);
-                self.upcoming_dose = Some((scheduled_utc.and_utc().timestamp()) as f64);
+                Database::new().set_upcoming_dose(&self.name, next_dose);
+                self.upcoming_dose = Some(next_dose);
             }
             None => {
                 // ? Assumes self.schedule is already set.
