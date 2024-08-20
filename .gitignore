@@ -17,6 +17,8 @@ dist
 dist-ssr
 *.local
 
+src-tauri/gen
+
 # Editor directories and files
 .idea
 .DS_Store
