@@ -45,39 +45,55 @@ impl Database {
         name: &str,
         brand: &str,
         dose: f64,
-        frequency: Option<String>,
+        frequency: f64,
         supply: f64,
         last_taken: Option<f64>,
         measurement: &str,
         upcoming_dose: Option<f64>,
         schedule: Option<String>,
-    ) -> Result<()> {
+    ) -> Medication {
         // assuming connection is initialized properly
 
         // Change to using the actual connection, but for now, using a connection in memory
         // let conn = Connection::open_in_memory()?;
 
+        let timestamp = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("Time went backwards")
+            .as_secs_f64();
+
         self.connection.execute(
-            "INSERT INTO medication (name, brand, dose, frequency, supply, first_added, last_taken, measurement)
-        VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9)",
+            "INSERT INTO medication (name, brand, dose, frequency, supply, first_added, last_taken, upcoming_dose, schedule, measurement)
+        VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10)",
             (
                 name,
                 brand,
                 dose,
                 frequency,
                 supply,
-                SystemTime::now().duration_since(UNIX_EPOCH).expect("Time went backwards").as_secs_f64(),
+                timestamp,
                 last_taken,
                 upcoming_dose,
-                schedule,
+                &schedule,
                 measurement
             ),
-        )?;
+        ).unwrap();
+
+        Medication {
+            name: name.to_string(),
+            brand: brand.to_string(),
+            dosage: dose,
+            frequency,
+            supply: Some(supply),
+            first_added: Some(timestamp),
+            last_taken,
+            upcoming_dose,
+            schedule,
+            measurement: measurement.to_string(),
+        }
 
         // In the Python version we called a function to commit the change to the db and close the cursor that was returned by the execute function
         // Is this not relevant to this version in rust?
-
-        Ok(())
     }
 
     pub fn del_medication(&mut self, name: &str) -> Result<()> {
@@ -285,7 +301,7 @@ impl Database {
             .expect("Updating schedule failed.");
     }
 
-    pub fn set_upcoming_dose(&mut self, name: &String, upcoming_dose: f64) {
+    pub fn set_medication_upcoming_dose(&mut self, name: &String, upcoming_dose: f64) {
         self.connection
             .execute(
                 "UPDATE medication SET upcoming_dose = ?1 WHERE name = ?2",

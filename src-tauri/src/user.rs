@@ -7,6 +7,13 @@ use crate::database::Database;
 use crate::structs::{Medication, User};
 use std::time::{SystemTime, UNIX_EPOCH};
 
+fn is_none(o: Option<f64>) -> bool {
+    match o {
+        Some(_) => false,
+        None => true,
+    }
+}
+
 impl User {
     pub fn new(credential: String) -> Result<User, &'static str> {
         let mut db = Database::new();
@@ -32,49 +39,65 @@ impl User {
     }
 
     pub fn get_upcoming_medications(&mut self) -> Vec<Medication> {
+        let mut returning_medications: Vec<Medication> = vec![];
 
-
-        /*
-            https://unixtime.org/
-
-            consider rn: 1722980026
-
-            new Date("Aug 6 2024").setTime("6am")
-
-            new Date(1722980026) > new Date("Aug 6 2024").setTime("6am")
-
-            [6am, 12pm, 6pm, 12am]
-
-            Medication.frequency = 21600
-            24 hours = 86400 / Medication.frequency
-
-            ask user: first dosage?
-
-            Medication.schedule = 6,12,18,0
-
-            Medication.last_taken: timestamp
-
-            every 6 hours: 21600
-
-            todo:
-                - Medication.schedule
-                - Find Rust way of new Date()
-                - Ask user for input
-        */
-
-        let time_right_now = SystemTime::now().duration_since(UNIX_EPOCH).expect("Time went backwards").as_secs_f64();
-        let upcoming: Vec<Medication> = vec![];
-
-        for med in self
-            .get_medications()
-            .expect("Fetching medications failed.")
-        {
-            // todo: get upcoming 5 medications
-            // todo: convert "frequency" into seconds ("every 6 hours" convert 6 hours into seconds)
+        for med in self.get_medications().unwrap() {
+            if !is_none(med.upcoming_dose) {
+                returning_medications.push(med);
+            }
         }
 
-        
+        returning_medications.sort_by(|med_a, med_b| {
+            med_a
+                .upcoming_dose
+                .unwrap()
+                .total_cmp(&med_b.upcoming_dose.unwrap())
+        });
 
-        upcoming
+        returning_medications
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::create_user;
+
+    use super::*;
+    use std::fs;
+
+    #[test]
+    fn test_upcoming_medications_all() {
+        let mut john = create_user(
+            "John Doe".to_string(),
+            "PATIENT".to_string(),
+            "12345".to_string(),
+        );
+
+        let mut db = Database::new();
+
+        let mut zoloft =
+            db.add_medication("Zoloft", "Zoloft", 25.0, 0.0, 25.0, None, "mg", None, None);
+        zoloft.update_schedule(8.0, 12.0);
+
+        let mut prozac =
+            db.add_medication("Prozac", "Prozac", 25.0, 0.0, 25.0, None, "mg", None, None);
+        prozac.update_schedule(6.0, 4.0);
+
+        let mut wellbutrin = db.add_medication(
+            "Wellbutrin",
+            "Wellbutrin",
+            25.0,
+            0.0,
+            25.0,
+            None,
+            "mg",
+            None,
+            None,
+        );
+        wellbutrin.update_schedule(8.0, 4.0);
+
+        assert_eq!(john.get_upcoming_medications()[0].name, "Wellbutrin");
+        assert_eq!(john.get_upcoming_medications()[1].name, "Prozac");
+        assert_eq!(john.get_upcoming_medications()[2].name, "Zoloft");
     }
 }

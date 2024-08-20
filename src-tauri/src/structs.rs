@@ -5,7 +5,7 @@ pub struct Medication {
     pub name: String,
     pub brand: String,
     pub dosage: f64,
-    pub frequency: Option<f64>,
+    pub frequency: f64,
     pub supply: Option<f64>,
     pub first_added: Option<f64>,
     pub last_taken: Option<f64>,
