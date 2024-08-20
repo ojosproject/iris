@@ -9,6 +9,7 @@ export type RecordingProps = {
   timeStart: number; // in minutes
   timeEnd: number;
   id: number;
+  img: string;
 };
 
 const months = [
@@ -37,7 +38,6 @@ function minToHrMin(minutes: number): time {
   return { hr: hr, min: min };
 }
 
-// todo: add an img element within the div that has the "image" class
 export default function Recording({
   dayOfWeek,
   month,
@@ -45,13 +45,16 @@ export default function Recording({
   year,
   timeStart,
   timeEnd,
+  img,
 }: RecordingProps) {
   const start = minToHrMin(timeStart);
   const end = minToHrMin(timeEnd);
   const duration = minToHrMin(timeEnd - timeStart);
   return (
     <li className={classes.recording}>
-      <div className={classes.image}></div>
+      <div className={classes.imageContainer}>
+        <img src={img} alt="Recording image" />
+      </div>
       <div className={classes.info}>
         <h2 className={classes.date}>
           {" "}

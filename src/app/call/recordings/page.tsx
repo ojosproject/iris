@@ -13,6 +13,7 @@ const sampleRecordings: RecordingProps[] = [
     timeStart: 480,
     timeEnd: 500,
     id: 0,
+    img: "https://images.pexels.com/photos/20780436/pexels-photo-20780436/free-photo-of-table-near-window-in-kitchen.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
   },
   {
     dayOfWeek: "a",
@@ -22,6 +23,7 @@ const sampleRecordings: RecordingProps[] = [
     timeStart: 0,
     timeEnd: 0,
     id: 1,
+    img: "https://images.pexels.com/photos/10647646/pexels-photo-10647646.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
   },
 ];
 
@@ -44,6 +46,7 @@ export default function Recordings() {
                 timeStart={rec.timeStart}
                 timeEnd={rec.timeEnd}
                 id={rec.id}
+                img={rec.img}
                 key={rec.id}
               />
             ))}

@@ -3,12 +3,25 @@
   border-radius: 4px;
   display: flex;
   gap: 24px;
+  height: 7.5rem;
 }
 
-.image {
+.info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.imageContainer {
   background-color: rgb(185, 185, 185);
   width: 25%;
-  height: 200 px;
+  height: 100%;
+}
+
+.imageContainer img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
 }
 
 .date {
