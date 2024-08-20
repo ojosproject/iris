@@ -17,7 +17,7 @@ dist
 dist-ssr
 *.local
 
-src-tauri/gen
+src-tauri/gen/schemas
 src-tauri/capabilities/schemas
 
 # Editor directories and files
