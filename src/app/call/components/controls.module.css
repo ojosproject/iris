@@ -2,6 +2,11 @@
   display: flex;
   gap: 32px;
   justify-content: center;
+  position: fixed;
+  bottom: 5%;
+  /* https://stackoverflow.com/questions/3157372/css-horizontal-centering-of-a-fixed-div */
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 /* .controls button {
