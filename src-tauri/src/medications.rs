@@ -5,7 +5,8 @@
 #![allow(dead_code)]
 use crate::database::Database;
 use crate::structs::Medication;
-use chrono::{DateTime, Utc};
+use chrono::{DateTime, Datelike, NaiveDateTime, TimeZone, Utc};
+use itertools::Itertools;
 
 impl Medication {
     pub fn log(&mut self, comments: Option<String>) -> f64 {
@@ -43,17 +44,61 @@ impl Medication {
         // schedule. The final unix timestamp will be calculated as current time + time until next
 
         let now = Utc::now();
-        let split_schedule = self.schedule.clone().unwrap().split(",");
 
         match new_upcoming_dose {
             Some(dose) => {
-                // find unix timestamp of today with that time
-                for num in split_schedule {
-                    //DateTime::from
-                }
+                let scheduled_utc = NaiveDateTime::parse_from_str(
+                    format!(
+                        "{day}.{month}.{year} {hour}:{minute}",
+                        day = now.day(),
+                        month = now.month(),
+                        year = now.year(),
+                        hour = dose,
+                        minute = 0.0,
+                    )
+                    .as_str(),
+                    "%d.%m.%Y %-H:%M",
+                )
+                .unwrap();
+
+                Database::new()
+                    .set_upcoming_dose(&self.name, (scheduled_utc.and_utc().timestamp()) as f64);
+                self.upcoming_dose = Some((scheduled_utc.and_utc().timestamp()) as f64);
             }
             None => {
-                // find unix timestamp using medication_log
+                // ? Assumes self.schedule is already set.
+                let split_schedule = self.schedule.as_ref().unwrap().split(',').sorted();
+                // find unix timestamp of today with that time
+                for scheduled_time in split_schedule {
+                    // ? let custom = DateTime::parse_from_str("5.8.1994 8:00 am +0000", "%d.%m.%Y %H:%M %P %z")?;
+                    // https://rust-lang-nursery.github.io/rust-cookbook/datetime/parse.html#parse-string-into-datetime-struct
+
+                    // todo: convert the scheduled time as if it were today
+                    // if scheduled time's epoch is bigger than current, it's upcoming
+
+                    let scheduled_utc = NaiveDateTime::parse_from_str(
+                        format!(
+                            "{day}.{month}.{year} {hour}:{minute}",
+                            day = now.day(),
+                            month = now.month(),
+                            year = now.year(),
+                            hour = scheduled_time,
+                            minute = 0.0,
+                        )
+                        .as_str(),
+                        "%d.%m.%Y %-H:%M",
+                    )
+                    .unwrap();
+
+                    if now.timestamp() < scheduled_utc.and_utc().timestamp() {
+                        Database::new().set_upcoming_dose(
+                            &self.name,
+                            (scheduled_utc.and_utc().timestamp()) as f64,
+                        );
+
+                        self.upcoming_dose = Some((scheduled_utc.and_utc().timestamp()) as f64);
+                    }
+                }
             }
         }
     }
@@ -79,9 +124,10 @@ impl Medication {
         }
 
         self.schedule = Some(schedule_vec.join(","));
-        Database::new().set_medication_schedule(&self.name, &self.schedule.clone().unwrap());
+        Database::new()
+            .set_medication_schedule(&self.name, &String::from(self.schedule.as_ref().unwrap()));
 
-        self.schedule.clone().unwrap()
+        String::from(self.schedule.as_ref().unwrap())
 
         //I'm unsure how to handle what we're passing around (String vs &String)
         //should create_schedule still return something? If not, we should fix our tests
@@ -151,6 +197,26 @@ mod tests {
         };
 
         assert_eq!(m.update_schedule(8.5, 24.0), "8.5");
+    }
+
+    #[test]
+    fn test_upcoming_medications() {
+        let mut m = Medication {
+            name: "Zoloft".to_string(),
+            brand: "Zoloft".to_string(),
+            dosage: 50.0,
+            frequency: None,
+            supply: None,
+            first_added: None,
+            last_taken: None,
+            measurement: "mg".to_string(),
+            upcoming_dose: None,
+            schedule: None,
+        };
+
+        m.update_schedule(12.0, 6.0);
+
+        assert_eq!(m.upcoming_dose.unwrap(), 0.0);
     }
 }
 /*

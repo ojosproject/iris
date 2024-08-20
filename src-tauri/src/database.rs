@@ -284,6 +284,15 @@ impl Database {
             )
             .expect("Updating schedule failed.");
     }
+
+    pub fn set_upcoming_dose(&mut self, name: &String, upcoming_dose: f64) {
+        self.connection
+            .execute(
+                "UPDATE medication SET upcoming_dose = ?1 WHERE name = ?2",
+                (upcoming_dose, name),
+            )
+            .expect("Updating upcoming dose failed.");
+    }
 }
 /*
 // Unit tests
