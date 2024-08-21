@@ -310,7 +310,7 @@ impl Database {
             .expect("Updating upcoming dose failed.");
     }
 }
-/*
+
 // Unit tests
 #[cfg(test)]
 mod tests {
@@ -331,17 +331,7 @@ mod tests {
     #[test]
     fn medication_successfully_added() {
         let mut d = Database::new();
-        d.add_medication(
-            "Zoloft",
-            "Zoloft",
-            25.0,
-            20.0,
-            0.0,
-            0.0,
-            Some("Once daily".to_string()),
-            "mg",
-        )
-        .expect("Adding the medication failed.");
+        d.add_medication("Zoloft", "Zoloft", 25.0, 0.0, 25.0, None, "mg", None, None);
 
         assert_eq!(d.search_medications("Zoloft").len(), 1);
         fs::remove_file("./iris.db").expect("Deleting the file failed.");
@@ -387,17 +377,7 @@ mod tests {
     #[test]
     fn medication_successfully_deleted() {
         let mut d = Database::new();
-        d.add_medication(
-            "Zoloft",
-            "Zoloft",
-            25.0,
-            20.0,
-            0.0,
-            0.0,
-            Some("Once daily".to_string()),
-            "mg",
-        )
-        .expect("Adding the medication failed.");
+        d.add_medication("Zoloft", "Zoloft", 25.0, 0.0, 25.0, None, "mg", None, None);
         let result = d.del_medication("Zoloft");
 
         assert_eq!(result, Ok(()));
@@ -407,17 +387,7 @@ mod tests {
     #[test]
     fn set_medication_dose_succeeds() {
         let mut d = Database::new();
-        d.add_medication(
-            "Zoloft",
-            "Zoloft",
-            15.0,
-            20.0,
-            0.0,
-            0.0,
-            Some("Once daily".to_string()),
-            "mg",
-        )
-        .expect("Adding the medication failed.");
+        d.add_medication("Zoloft", "Zoloft", 25.0, 0.0, 25.0, None, "mg", None, None);
         d.set_medication_dose("Zoloft", 50.0)
             .expect("Medication failed to set dosage.");
         let res = d.search_medications("Zoloft");
@@ -431,17 +401,7 @@ mod tests {
     #[test]
     fn set_medication_supply_succeeds() {
         let mut d = Database::new();
-        d.add_medication(
-            "Zoloft",
-            "Zoloft",
-            15.0,
-            20.0,
-            0.0,
-            0.0,
-            Some("Once daily".to_string()),
-            "mg",
-        )
-        .expect("Adding the medication failed.");
+        d.add_medication("Zoloft", "Zoloft", 25.0, 0.0, 25.0, None, "mg", None, None);
         d.set_medication_supply("Zoloft", 100.0)
             .expect("Setting medication supply failed.");
 
@@ -456,17 +416,7 @@ mod tests {
     #[test]
     fn set_medication_last_taken_succeeds() {
         let mut d = Database::new();
-        d.add_medication(
-            "Zoloft",
-            "Zoloft",
-            15.0,
-            20.0,
-            0.0,
-            0.0,
-            Some("Once daily".to_string()),
-            "mg",
-        )
-        .expect("Adding the medication failed.");
+        d.add_medication("Zoloft", "Zoloft", 25.0, 0.0, 25.0, None, "mg", None, None);
         d.set_medication_last_taken("Zoloft", 15.0);
 
         let res = d.search_medications("Zoloft");
@@ -480,28 +430,8 @@ mod tests {
     #[test]
     fn gets_all_medications_when_multiple_medications() {
         let mut d = Database::new();
-        d.add_medication(
-            "Zoloft",
-            "Zoloft",
-            15.0,
-            20.0,
-            0.0,
-            0.0,
-            Some("Once daily".to_string()),
-            "mg",
-        )
-        .expect("Adding the medication failed.");
-        d.add_medication(
-            "Prozac",
-            "Prozac",
-            15.0,
-            20.0,
-            0.0,
-            0.0,
-            Some("Once daily".to_string()),
-            "mg",
-        )
-        .expect("Adding the medication failed.");
+        d.add_medication("Zoloft", "Zoloft", 25.0, 0.0, 25.0, None, "mg", None, None);
+        d.add_medication("Prozac", "Prozac", 15.0, 0.0, 25.0, None, "mg", None, None);
 
         let all_medications = d.get_all_medications();
         assert_eq!(all_medications[0].brand, "Zoloft");
@@ -511,17 +441,7 @@ mod tests {
     #[test]
     fn log_medication_successfully_without_comment() {
         let mut d = Database::new();
-        d.add_medication(
-            "Zoloft",
-            "Zoloft",
-            15.0,
-            20.0,
-            0.0,
-            0.0,
-            Some("Once daily".to_string()),
-            "mg",
-        )
-        .expect("Adding the medication failed.");
+        d.add_medication("Zoloft", "Zoloft", 25.0, 0.0, 25.0, None, "mg", None, None);
 
         d.log_medication("Zoloft", 15.0, None); // without comment
         let res = d.get_medication_log("Zoloft");
@@ -533,17 +453,7 @@ mod tests {
     #[test]
     fn log_medication_successfully_with_comment() {
         let mut d = Database::new();
-        d.add_medication(
-            "Zoloft",
-            "Zoloft",
-            15.0,
-            20.0,
-            0.0,
-            0.0,
-            Some("Once daily".to_string()),
-            "mg",
-        )
-        .expect("Adding the medication failed.");
+        d.add_medication("Zoloft", "Zoloft", 25.0, 0.0, 25.0, None, "mg", None, None);
 
         d.log_medication("Zoloft", 30.0, Some("This is a comment.".to_string()));
         let res = d.get_medication_log("Zoloft");
@@ -563,4 +473,3 @@ mod tests {
         fs::remove_file("./iris.db").expect("Deleting the file failed.");
     }
 }
- */
