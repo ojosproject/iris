@@ -33,10 +33,12 @@ CREATE TABLE IF NOT EXISTS medication (
     name TEXT NOT NULL PRIMARY KEY,
     brand TEXT,
     dose REAL NOT NULL,
-    frequency TEXT NOT NULL,
+    frequency REAL NOT NULL,
     supply REAL NOT NULL,
     first_added REAL NOT NULL,
     last_taken REAL,
+    upcoming_dose REAL,
+    schedule TEXT,
     measurement TEXT NOT NULL
 ) STRICT;
 

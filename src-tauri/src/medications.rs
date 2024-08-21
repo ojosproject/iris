@@ -5,38 +5,19 @@
 #![allow(dead_code)]
 use crate::database::Database;
 use crate::structs::Medication;
+use chrono::{Local, NaiveTime};
+use itertools::Itertools;
 
 impl Medication {
-    pub fn new(
-        name: &str,
-        brand: &str,
-        dosage: f64,
-        frequency: Option<&str>,
-        supply: Option<f64>,
-        first_added: Option<f64>,
-        last_taken: Option<f64>,
-        measurement: &str,
-    ) -> Medication {
-        Medication {
-            name: name.to_string(),
-            brand: brand.to_string(),
-            dosage,
-            frequency: match frequency {
-                Some(f) => Some(f.to_string()),
-                None => None,
-            },
-            supply,
-            first_added,
-            last_taken,
-            measurement: measurement.to_string(),
-        }
-    }
-
     pub fn log(&mut self, comments: Option<String>) -> f64 {
         // returns the timestamp of the log
         let mut db = Database::new();
 
         self.last_taken = Some(db.log_medication(self.name.as_str(), self.dosage, comments));
+
+        self.set_upcoming_dose();
+        //updates the medication's upcoming_dose such that every time a patient logs that they've taken a medication,
+        //the next time they need to take that medication will be calculated and stored in the database
 
         self.last_taken
             .expect("Last taken was not found even though it was set...")
@@ -57,6 +38,61 @@ impl Medication {
         db.set_medication_supply(&self.name, value)
             .expect("Updating the supply did not work.");
     }
+
+    fn set_upcoming_dose(&mut self) {
+        let now = Local::now();
+        let midnight = now
+            .with_time(NaiveTime::parse_from_str(format!("0:00").as_str(), "%-H:%M").unwrap())
+            .unwrap()
+            .timestamp();
+
+        if self.schedule.is_none() {
+            // ? If Medication.schedule is not set, it cannot set an upcoming medication. It can only log it.
+            println!("medications::50 self.schedule not found, ignoring request...");
+            return;
+        }
+
+        // ? Assumes self.schedule is already set.
+        let split_schedule = self.schedule.as_ref().unwrap().split(',').sorted();
+        // find unix timestamp of today with that time
+        for scheduled_time in split_schedule {
+            let next_dose_in_seconds = scheduled_time.parse::<f64>().unwrap() * 60.0 * 60.0;
+            let next_dose = (midnight as f64) + next_dose_in_seconds;
+
+            if now.timestamp() < next_dose as i64 {
+                Database::new().set_medication_upcoming_dose(&self.name, next_dose);
+                self.upcoming_dose = Some(next_dose);
+                break;
+            }
+        }
+    }
+
+    pub fn update_schedule(&mut self, mut initial_dose: f64, interval: f64) -> String {
+        // initial dose: 0-23
+        // interval: 1-24
+        // ? If you input whole numbers, i.e. 8.0, then it will return integers (1,2,3,4)
+        let mut schedule_vec: Vec<String> = vec![];
+        schedule_vec.push(initial_dose.to_string());
+        let mut next_dosage;
+
+        for _ in 0..((24.0 / interval) as i32 - 1) {
+            if initial_dose + interval < 24.1 {
+                next_dosage = initial_dose + interval;
+            } else {
+                next_dosage = (initial_dose + interval) - 24.0;
+            }
+            schedule_vec.push(next_dosage.to_string());
+            initial_dose = next_dosage;
+        }
+
+        self.schedule = Some(schedule_vec.join(","));
+        Database::new()
+            .set_medication_schedule(&self.name, &String::from(self.schedule.as_ref().unwrap()));
+
+        self.set_upcoming_dose(); //updates the medication's upcoming_dose
+
+        String::from(self.schedule.as_ref().unwrap())
+    }
 }
 
 // Unit tests
@@ -71,8 +107,73 @@ mod tests {
     use std::fs;
 
     #[test]
+    fn test_schedule_creation() {
+        let mut m = Medication {
+            name: "Zoloft".to_string(),
+            brand: "Zoloft".to_string(),
+            dosage: 50.0,
+            frequency: 0.0,
+            supply: None,
+            first_added: None,
+            last_taken: None,
+            measurement: "mg".to_string(),
+            upcoming_dose: None,
+            schedule: None,
+        };
+
+        assert_eq!(m.update_schedule(8.0, 6.0), "8,14,20,2");
+    }
+
+    #[test]
+    fn test_schedule_created_with_half_hours() {
+        let mut m = Medication {
+            name: "Zoloft".to_string(),
+            brand: "Zoloft".to_string(),
+            dosage: 50.0,
+            frequency: 0.0,
+            supply: None,
+            first_added: None,
+            last_taken: None,
+            measurement: "mg".to_string(),
+            upcoming_dose: None,
+            schedule: None,
+        };
+
+        assert_eq!(m.update_schedule(8.5, 6.0), "8.5,14.5,20.5,2.5");
+    }
+
+    #[test]
+    fn test_schedule_created_every_24_hours() {
+        let mut m = Medication {
+            name: "Zoloft".to_string(),
+            brand: "Zoloft".to_string(),
+            dosage: 50.0,
+            frequency: 0.0,
+            supply: None,
+            first_added: None,
+            last_taken: None,
+            measurement: "mg".to_string(),
+            upcoming_dose: None,
+            schedule: None,
+        };
+
+        assert_eq!(m.update_schedule(8.5, 24.0), "8.5");
+    }
+
+    #[test]
     fn can_get_value() {
-        let m = Medication::new("Zoloft", "Zoloft", 50.0, None, None, None, None, "mg");
+        let m = Medication {
+            name: "Zoloft".to_string(),
+            brand: "Zoloft".to_string(),
+            dosage: 50.0,
+            frequency: 0.0,
+            supply: None,
+            first_added: None,
+            last_taken: None,
+            upcoming_dose: None,
+            schedule: None,
+            measurement: "mg".to_string(),
+        };
 
         assert_eq!(m.name, "Zoloft");
         assert_eq!(m.brand, "Zoloft");
@@ -80,13 +181,37 @@ mod tests {
     }
 
     fn can_set_value() {
-        let mut m = Medication::new("Zoloft", "Zoloft", 50.0, None, None, None, None, "mg");
+        let mut m = Medication {
+            name: "Zoloft".to_string(),
+            brand: "Zoloft".to_string(),
+            dosage: 50.0,
+            frequency: 0.0,
+            supply: None,
+            first_added: None,
+            last_taken: None,
+            upcoming_dose: None,
+            schedule: None,
+            measurement: "mg".to_string(),
+        };
+
         m.dosage = 35.0;
+        assert_eq!(m.dosage, 35.0);
     }
 
     #[test]
     fn logs_medications_without_comments() {
-        let mut m = Medication::new("Zoloft", "Zoloft", 50.0, None, None, None, None, "mg");
+        let mut m = Medication {
+            name: "Zoloft".to_string(),
+            brand: "Zoloft".to_string(),
+            dosage: 50.0,
+            frequency: 0.0,
+            supply: None,
+            first_added: None,
+            last_taken: None,
+            upcoming_dose: None,
+            schedule: None,
+            measurement: "mg".to_string(),
+        };
         let d = Database::new();
 
         m.log(None); // no comments
@@ -98,7 +223,18 @@ mod tests {
 
     #[test]
     fn logs_medications_with_comments() {
-        let mut m = Medication::new("Zoloft", "Zoloft", 50.0, None, None, None, None, "mg");
+        let mut m = Medication {
+            name: "Zoloft".to_string(),
+            brand: "Zoloft".to_string(),
+            dosage: 50.0,
+            frequency: 0.0,
+            supply: None,
+            first_added: None,
+            last_taken: None,
+            upcoming_dose: None,
+            schedule: None,
+            measurement: "mg".to_string(),
+        };
         let d = Database::new();
 
         m.log(Some("This is a comment.".to_string())); // no comments
@@ -112,7 +248,18 @@ mod tests {
 
     #[test]
     fn successfully_updates_dose() {
-        let mut m = Medication::new("Zoloft", "Zoloft", 50.0, None, None, None, None, "mg");
+        let mut m = Medication {
+            name: "Zoloft".to_string(),
+            brand: "Zoloft".to_string(),
+            dosage: 50.0,
+            frequency: 0.0,
+            supply: None,
+            first_added: None,
+            last_taken: None,
+            upcoming_dose: None,
+            schedule: None,
+            measurement: "mg".to_string(),
+        };
         m.update_dose(20.0);
 
         assert_eq!(m.dosage, 20.0);
@@ -120,7 +267,18 @@ mod tests {
 
     #[test]
     fn successfully_updates_supply() {
-        let mut m = Medication::new("Zoloft", "Zoloft", 50.0, None, None, None, None, "mg");
+        let mut m = Medication {
+            name: "Zoloft".to_string(),
+            brand: "Zoloft".to_string(),
+            dosage: 50.0,
+            frequency: 0.0,
+            supply: None,
+            first_added: None,
+            last_taken: None,
+            upcoming_dose: None,
+            schedule: None,
+            measurement: "mg".to_string(),
+        };
         m.update_supply(99.0);
 
         assert_eq!(m.supply, Some(99.0));

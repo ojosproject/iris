@@ -5,7 +5,13 @@
 #![allow(dead_code)]
 use crate::database::Database;
 use crate::structs::{Medication, User};
-use std::time::{SystemTime, UNIX_EPOCH};
+
+fn is_none(o: Option<f64>) -> bool {
+    match o {
+        Some(_) => false,
+        None => true,
+    }
+}
 
 impl User {
     pub fn new(credential: String) -> Result<User, &'static str> {
@@ -32,20 +38,21 @@ impl User {
     }
 
     pub fn get_upcoming_medications(&mut self) -> Vec<Medication> {
-        let time_right_now = SystemTime::now()
-            .duration_since(UNIX_EPOCH)
-            .expect("Time went backwards")
-            .as_secs_f64();
-        let upcoming: Vec<Medication> = vec![];
+        let mut returning_medications: Vec<Medication> = vec![];
 
-        for med in self
-            .get_medications()
-            .expect("Fetching medications failed.")
-        {
-            // todo: get upcoming 5 medications
-            // todo: convert "frequency" into seconds ("every 6 hours" convert 6 hours into seconds)
+        for med in self.get_medications().unwrap() {
+            if !is_none(med.upcoming_dose) {
+                returning_medications.push(med);
+            }
         }
 
-        upcoming
+        returning_medications.sort_by(|med_a, med_b| {
+            med_a
+                .upcoming_dose
+                .unwrap()
+                .total_cmp(&med_b.upcoming_dose.unwrap())
+        });
+
+        returning_medications
     }
 }

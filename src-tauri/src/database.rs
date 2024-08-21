@@ -45,36 +45,55 @@ impl Database {
         name: &str,
         brand: &str,
         dose: f64,
+        frequency: f64,
         supply: f64,
-        first_added: f64,
-        last_taken: f64,
-        frequency: Option<String>,
+        last_taken: Option<f64>,
         measurement: &str,
-    ) -> Result<()> {
+        upcoming_dose: Option<f64>,
+        schedule: Option<String>,
+    ) -> Medication {
         // assuming connection is initialized properly
 
         // Change to using the actual connection, but for now, using a connection in memory
         // let conn = Connection::open_in_memory()?;
 
+        let timestamp = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("Time went backwards")
+            .as_secs_f64();
+
         self.connection.execute(
-            "INSERT INTO medication (name, brand, dose, frequency, supply, first_added, last_taken, measurement)
-        VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)",
+            "INSERT INTO medication (name, brand, dose, frequency, supply, first_added, last_taken, upcoming_dose, schedule, measurement)
+        VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10)",
             (
                 name,
                 brand,
                 dose,
                 frequency,
                 supply,
-                first_added,
+                timestamp,
                 last_taken,
+                upcoming_dose,
+                &schedule,
                 measurement
             ),
-        )?;
+        ).unwrap();
+
+        Medication {
+            name: name.to_string(),
+            brand: brand.to_string(),
+            dosage: dose,
+            frequency,
+            supply: Some(supply),
+            first_added: Some(timestamp),
+            last_taken,
+            upcoming_dose,
+            schedule,
+            measurement: measurement.to_string(),
+        }
 
         // In the Python version we called a function to commit the change to the db and close the cursor that was returned by the execute function
         // Is this not relevant to this version in rust?
-
-        Ok(())
     }
 
     pub fn del_medication(&mut self, name: &str) -> Result<()> {
@@ -120,6 +139,7 @@ impl Database {
     pub fn get_all_medications(&mut self) -> Vec<Medication> {
         // todo: do actual error handling
         // ! DO NOT LEAVE IN PRODUCTION WITHOUT ERROR HANDLING
+
         let mut statement = self
             .connection
             .prepare("SELECT * FROM medication")
@@ -135,7 +155,9 @@ impl Database {
                     supply: row.get(4)?,
                     first_added: row.get(5)?,
                     last_taken: row.get(6)?,
-                    measurement: row.get(7)?,
+                    upcoming_dose: row.get(7)?,
+                    schedule: row.get(8)?,
+                    measurement: row.get(9)?,
                 })
             })
             .expect("That did not work.");
@@ -170,7 +192,9 @@ impl Database {
                     supply: row.get(4)?,
                     first_added: row.get(5)?,
                     last_taken: row.get(6)?,
-                    measurement: row.get(7)?,
+                    upcoming_dose: row.get(7)?,
+                    schedule: row.get(8)?,
+                    measurement: row.get(9)?,
                 })
             })
             .expect("That did not work.");
@@ -267,6 +291,24 @@ impl Database {
 
         User::new(credential).expect("Newly created user was not found in the database.")
     }
+
+    pub fn set_medication_schedule(&mut self, name: &String, schedule: &String) {
+        self.connection
+            .execute(
+                "UPDATE medication SET schedule = ?1 WHERE name = ?2",
+                (schedule, name),
+            )
+            .expect("Updating schedule failed.");
+    }
+
+    pub fn set_medication_upcoming_dose(&mut self, name: &String, upcoming_dose: f64) {
+        self.connection
+            .execute(
+                "UPDATE medication SET upcoming_dose = ?1 WHERE name = ?2",
+                (upcoming_dose, name),
+            )
+            .expect("Updating upcoming dose failed.");
+    }
 }
 
 // Unit tests
@@ -289,17 +331,7 @@ mod tests {
     #[test]
     fn medication_successfully_added() {
         let mut d = Database::new();
-        d.add_medication(
-            "Zoloft",
-            "Zoloft",
-            25.0,
-            20.0,
-            0.0,
-            0.0,
-            Some("Once daily".to_string()),
-            "mg",
-        )
-        .expect("Adding the medication failed.");
+        d.add_medication("Zoloft", "Zoloft", 25.0, 0.0, 25.0, None, "mg", None, None);
 
         assert_eq!(d.search_medications("Zoloft").len(), 1);
         fs::remove_file("./iris.db").expect("Deleting the file failed.");
@@ -345,17 +377,7 @@ mod tests {
     #[test]
     fn medication_successfully_deleted() {
         let mut d = Database::new();
-        d.add_medication(
-            "Zoloft",
-            "Zoloft",
-            25.0,
-            20.0,
-            0.0,
-            0.0,
-            Some("Once daily".to_string()),
-            "mg",
-        )
-        .expect("Adding the medication failed.");
+        d.add_medication("Zoloft", "Zoloft", 25.0, 0.0, 25.0, None, "mg", None, None);
         let result = d.del_medication("Zoloft");
 
         assert_eq!(result, Ok(()));
@@ -365,17 +387,7 @@ mod tests {
     #[test]
     fn set_medication_dose_succeeds() {
         let mut d = Database::new();
-        d.add_medication(
-            "Zoloft",
-            "Zoloft",
-            15.0,
-            20.0,
-            0.0,
-            0.0,
-            Some("Once daily".to_string()),
-            "mg",
-        )
-        .expect("Adding the medication failed.");
+        d.add_medication("Zoloft", "Zoloft", 25.0, 0.0, 25.0, None, "mg", None, None);
         d.set_medication_dose("Zoloft", 50.0)
             .expect("Medication failed to set dosage.");
         let res = d.search_medications("Zoloft");
@@ -389,17 +401,7 @@ mod tests {
     #[test]
     fn set_medication_supply_succeeds() {
         let mut d = Database::new();
-        d.add_medication(
-            "Zoloft",
-            "Zoloft",
-            15.0,
-            20.0,
-            0.0,
-            0.0,
-            Some("Once daily".to_string()),
-            "mg",
-        )
-        .expect("Adding the medication failed.");
+        d.add_medication("Zoloft", "Zoloft", 25.0, 0.0, 25.0, None, "mg", None, None);
         d.set_medication_supply("Zoloft", 100.0)
             .expect("Setting medication supply failed.");
 
@@ -414,17 +416,7 @@ mod tests {
     #[test]
     fn set_medication_last_taken_succeeds() {
         let mut d = Database::new();
-        d.add_medication(
-            "Zoloft",
-            "Zoloft",
-            15.0,
-            20.0,
-            0.0,
-            0.0,
-            Some("Once daily".to_string()),
-            "mg",
-        )
-        .expect("Adding the medication failed.");
+        d.add_medication("Zoloft", "Zoloft", 25.0, 0.0, 25.0, None, "mg", None, None);
         d.set_medication_last_taken("Zoloft", 15.0);
 
         let res = d.search_medications("Zoloft");
@@ -438,28 +430,8 @@ mod tests {
     #[test]
     fn gets_all_medications_when_multiple_medications() {
         let mut d = Database::new();
-        d.add_medication(
-            "Zoloft",
-            "Zoloft",
-            15.0,
-            20.0,
-            0.0,
-            0.0,
-            Some("Once daily".to_string()),
-            "mg",
-        )
-        .expect("Adding the medication failed.");
-        d.add_medication(
-            "Prozac",
-            "Prozac",
-            15.0,
-            20.0,
-            0.0,
-            0.0,
-            Some("Once daily".to_string()),
-            "mg",
-        )
-        .expect("Adding the medication failed.");
+        d.add_medication("Zoloft", "Zoloft", 25.0, 0.0, 25.0, None, "mg", None, None);
+        d.add_medication("Prozac", "Prozac", 15.0, 0.0, 25.0, None, "mg", None, None);
 
         let all_medications = d.get_all_medications();
         assert_eq!(all_medications[0].brand, "Zoloft");
@@ -469,17 +441,7 @@ mod tests {
     #[test]
     fn log_medication_successfully_without_comment() {
         let mut d = Database::new();
-        d.add_medication(
-            "Zoloft",
-            "Zoloft",
-            15.0,
-            20.0,
-            0.0,
-            0.0,
-            Some("Once daily".to_string()),
-            "mg",
-        )
-        .expect("Adding the medication failed.");
+        d.add_medication("Zoloft", "Zoloft", 25.0, 0.0, 25.0, None, "mg", None, None);
 
         d.log_medication("Zoloft", 15.0, None); // without comment
         let res = d.get_medication_log("Zoloft");
@@ -491,17 +453,7 @@ mod tests {
     #[test]
     fn log_medication_successfully_with_comment() {
         let mut d = Database::new();
-        d.add_medication(
-            "Zoloft",
-            "Zoloft",
-            15.0,
-            20.0,
-            0.0,
-            0.0,
-            Some("Once daily".to_string()),
-            "mg",
-        )
-        .expect("Adding the medication failed.");
+        d.add_medication("Zoloft", "Zoloft", 25.0, 0.0, 25.0, None, "mg", None, None);
 
         d.log_medication("Zoloft", 30.0, Some("This is a comment.".to_string()));
         let res = d.get_medication_log("Zoloft");
