@@ -15,7 +15,6 @@
   - [Acknowledgements](#acknowledgements)
   - [Support](#support)
     - [GitHub Issues](#github-issues)
-    - [Slack](#slack)
     - [Contact Carlos](#contact-carlos)
   - [License](#license)
 
@@ -66,11 +65,6 @@ to see if anybody else has had the same issue.
 
 If nobody's had the same issue,
 [please open an issue here](https://github.com/ojosproject/iris/issues/new/choose)!
-
-### Slack
-
-The Ojos Project team primarily communicates using Slack. It might be beneficial
-to [join our Slack workspace](https://ojosproject.slack.com/) if you need help.
 
 ### Contact Carlos
 
