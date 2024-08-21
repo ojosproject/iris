@@ -27,12 +27,18 @@ fn get_medications(credential: String) -> Vec<Medication> {
         .expect("Medications failed to get.")
 }
 
+#[tauri::command(rename_all = "snake_case")]
+fn get_upcoming_medications(credential: String) -> Vec<Medication> {
+    User::new(credential).unwrap().get_upcoming_medications()
+}
+
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             authenticate_user,
             create_user,
-            get_medications
+            get_medications,
+            get_upcoming_medications
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
