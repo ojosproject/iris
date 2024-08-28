@@ -5,6 +5,7 @@
 #![allow(dead_code)]
 use crate::database::Database;
 use crate::structs::{Medication, User};
+use std::hash::{DefaultHasher, Hash, Hasher};
 
 fn is_none(o: Option<f64>) -> bool {
     match o {
@@ -55,4 +56,17 @@ impl User {
 
         returning_medications
     }
+}
+
+impl Hash for User {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        self.credential.hash(state);
+        self.full_name.hash(state);
+    }
+}
+
+fn calculate_hash<T: Hash>(t: &T) -> u64 {
+    let mut s = DefaultHasher::new();
+    t.hash(&mut s);
+    s.finish()
 }
