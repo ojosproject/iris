@@ -118,6 +118,6 @@ CREATE TABLE IF NOT EXISTS care_instruction (
 */
 CREATE TABLE IF NOT EXISTS user (
     id TEXT PRIMARY KEY NOT NULL,
-    name TEXT NOT NULL,
-    type TEXT NOT NULL,
-)
+    full_name TEXT NOT NULL,
+    type TEXT NOT NULL
+);
