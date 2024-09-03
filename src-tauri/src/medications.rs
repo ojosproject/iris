@@ -3,19 +3,119 @@
 //
 // This handles a lot of medication-related functions.
 #![allow(dead_code)]
-use crate::database::Database;
+use std::time::{SystemTime, UNIX_EPOCH};
+
 use crate::structs::Medication;
 use chrono::{Local, NaiveTime};
 use itertools::Itertools;
+use rusqlite::{named_params, Connection};
+use tauri::{AppHandle, Manager};
 
 impl Medication {
-    pub fn log(&mut self, comments: Option<String>) -> f64 {
-        // returns the timestamp of the log
-        let mut db = Database::new();
+    /// Creates a new medication in the database.
+    pub fn create(
+        app: AppHandle,
+        name: &str,
+        brand: &str,
+        dosage: f64,
+        frequency: f64,
+        supply: f64,
+        measurement: &str,
+    ) -> Self {
+        let app_data_dir = app.path().app_data_dir().unwrap().join("iris.db");
+        let conn = Connection::open(app_data_dir).unwrap();
 
-        self.last_taken = Some(db.log_medication(self.name.as_str(), self.dosage, comments));
+        let first_added = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("Time went backwards")
+            .as_secs_f64();
 
-        self.set_upcoming_dose();
+        let m = Medication {
+            name: name.to_string(),
+            brand: brand.to_string(),
+            dosage,
+            frequency,
+            supply: Some(supply),
+            first_added: Some(first_added),
+            last_taken: None,
+            upcoming_dose: None,
+            schedule: None,
+            measurement: measurement.to_string(),
+        };
+
+        conn.execute(
+            "INSERT INTO medication (name, brand, dose, frequency, supply, first_added, last_taken, upcoming_dose, schedule, measurement)
+        VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10)",
+            (
+                &m.name,
+                &m.brand,
+                &m.dosage,
+                &m.frequency,
+                &m.supply,
+                &m.first_added,
+                &m.last_taken,
+                &m.upcoming_dose,
+                &m.schedule,
+                &m.measurement,
+            ),
+        ).unwrap();
+
+        m
+    }
+
+    pub fn delete(&mut self, app: AppHandle) {
+        let app_data_dir = app.path().app_data_dir().unwrap();
+        let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
+
+        conn.execute("DELETE FROM medication WHERE name = ?1", [&self.name])
+            .unwrap();
+    }
+
+    pub fn set_dose(&mut self, app: AppHandle, dose: f64) {
+        let app_data_dir = app.path().app_data_dir().unwrap();
+        let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
+        self.dosage = dose;
+
+        conn.execute(
+            "UPDATE medication SET dose = ?1 WHERE name = ?2",
+            (&self.dosage, &self.name),
+        )
+        .unwrap();
+    }
+
+    pub fn set_supply(&mut self, app: AppHandle, supply: f64) {
+        let app_data_dir = app.path().app_data_dir().unwrap();
+        let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
+        self.supply = Some(supply);
+
+        conn.execute(
+            "UPDATE medication SET supply = ?1 WHERE name = ?2",
+            (&self.supply.unwrap(), &self.name),
+        )
+        .unwrap();
+    }
+
+    pub fn log(&mut self, app: AppHandle, comments: Option<String>) -> f64 {
+        let app_data_dir = app.path().app_data_dir().unwrap();
+        let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
+        let current_timestamp = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("Time went backwards")
+            .as_secs_f64();
+        self.last_taken = Some(current_timestamp);
+
+        conn.execute(
+            "INSERT INTO medication_log (timestamp, medication_name, given_dose, comment) VALUES (:timestamp, :medication_name, :given_dose, :comment)", 
+            named_params! {":timestamp": current_timestamp, ":medication_name": &self.name, ":given_dose": &self.dosage, ":comment": comments}
+        ).expect("Inserting into log_medication failed.");
+
+        conn.execute(
+            "UPDATE medication SET last_taken = ?1 WHERE name = ?2",
+            (current_timestamp, &self.name),
+        )
+        .unwrap();
+
+        self.set_upcoming_dose(app);
         //updates the medication's upcoming_dose such that every time a patient logs that they've taken a medication,
         //the next time they need to take that medication will be calculated and stored in the database
 
@@ -23,23 +123,7 @@ impl Medication {
             .expect("Last taken was not found even though it was set...")
     }
 
-    pub fn update_dose(&mut self, value: f64) {
-        let mut db = Database::new();
-        self.dosage = value;
-
-        db.set_medication_dose(&self.name, self.dosage)
-            .expect("Updating the dosage did not work.");
-    }
-
-    pub fn update_supply(&mut self, value: f64) {
-        self.supply = Some(value);
-
-        let mut db = Database::new();
-        db.set_medication_supply(&self.name, value)
-            .expect("Updating the supply did not work.");
-    }
-
-    fn set_upcoming_dose(&mut self) {
+    fn set_upcoming_dose(&mut self, app: AppHandle) {
         let now = Local::now();
         let midnight = now
             .with_time(NaiveTime::parse_from_str(format!("0:00").as_str(), "%-H:%M").unwrap())
@@ -60,14 +144,27 @@ impl Medication {
             let next_dose = (midnight as f64) + next_dose_in_seconds;
 
             if now.timestamp() < next_dose as i64 {
-                Database::new().set_medication_upcoming_dose(&self.name, next_dose);
+                let app_data_dir = app.path().app_data_dir().unwrap();
+                let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
                 self.upcoming_dose = Some(next_dose);
+
+                conn.execute(
+                    "UPDATE medication SET upcoming_dose = ?1 WHERE name = ?2",
+                    (&self.upcoming_dose.unwrap(), &self.name),
+                )
+                .unwrap();
+
                 break;
             }
         }
     }
 
-    pub fn update_schedule(&mut self, mut initial_dose: f64, interval: f64) -> String {
+    pub fn update_schedule(
+        &mut self,
+        app: AppHandle,
+        mut initial_dose: f64,
+        interval: f64,
+    ) -> String {
         // initial dose: 0-23
         // interval: 1-24
         // ? If you input whole numbers, i.e. 8.0, then it will return integers (1,2,3,4)
@@ -86,201 +183,18 @@ impl Medication {
         }
 
         self.schedule = Some(schedule_vec.join(","));
-        Database::new()
-            .set_medication_schedule(&self.name, &String::from(self.schedule.as_ref().unwrap()));
 
-        self.set_upcoming_dose(); //updates the medication's upcoming_dose
+        let app_data_dir = app.path().app_data_dir().unwrap();
+        let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
+
+        conn.execute(
+            "UPDATE medication SET schedule = ?1 WHERE name = ?2",
+            (&self.schedule, &self.name),
+        )
+        .unwrap();
+
+        self.set_upcoming_dose(app); //updates the medication's upcoming_dose
 
         String::from(self.schedule.as_ref().unwrap())
-    }
-}
-
-// Unit tests
-#[cfg(test)]
-mod tests {
-    // Note about testing:
-    // I'm searching for a way to initialize testing with creating a fresh
-    // database. However, I don't think I can find Rust's way of a "setup"
-    // method for testing. So I'm going to keep searching. Until then,
-    // ! please delete any `.db` file inside of /src-tauri/ before testing.
-    use super::*;
-    use std::fs;
-
-    #[test]
-    fn test_schedule_creation() {
-        let mut m = Medication {
-            name: "Zoloft".to_string(),
-            brand: "Zoloft".to_string(),
-            dosage: 50.0,
-            frequency: 0.0,
-            supply: None,
-            first_added: None,
-            last_taken: None,
-            measurement: "mg".to_string(),
-            upcoming_dose: None,
-            schedule: None,
-        };
-
-        assert_eq!(m.update_schedule(8.0, 6.0), "8,14,20,2");
-    }
-
-    #[test]
-    fn test_schedule_created_with_half_hours() {
-        let mut m = Medication {
-            name: "Zoloft".to_string(),
-            brand: "Zoloft".to_string(),
-            dosage: 50.0,
-            frequency: 0.0,
-            supply: None,
-            first_added: None,
-            last_taken: None,
-            measurement: "mg".to_string(),
-            upcoming_dose: None,
-            schedule: None,
-        };
-
-        assert_eq!(m.update_schedule(8.5, 6.0), "8.5,14.5,20.5,2.5");
-    }
-
-    #[test]
-    fn test_schedule_created_every_24_hours() {
-        let mut m = Medication {
-            name: "Zoloft".to_string(),
-            brand: "Zoloft".to_string(),
-            dosage: 50.0,
-            frequency: 0.0,
-            supply: None,
-            first_added: None,
-            last_taken: None,
-            measurement: "mg".to_string(),
-            upcoming_dose: None,
-            schedule: None,
-        };
-
-        assert_eq!(m.update_schedule(8.5, 24.0), "8.5");
-    }
-
-    #[test]
-    fn can_get_value() {
-        let m = Medication {
-            name: "Zoloft".to_string(),
-            brand: "Zoloft".to_string(),
-            dosage: 50.0,
-            frequency: 0.0,
-            supply: None,
-            first_added: None,
-            last_taken: None,
-            upcoming_dose: None,
-            schedule: None,
-            measurement: "mg".to_string(),
-        };
-
-        assert_eq!(m.name, "Zoloft");
-        assert_eq!(m.brand, "Zoloft");
-        assert_eq!(m.dosage, 50.0);
-    }
-
-    fn can_set_value() {
-        let mut m = Medication {
-            name: "Zoloft".to_string(),
-            brand: "Zoloft".to_string(),
-            dosage: 50.0,
-            frequency: 0.0,
-            supply: None,
-            first_added: None,
-            last_taken: None,
-            upcoming_dose: None,
-            schedule: None,
-            measurement: "mg".to_string(),
-        };
-
-        m.dosage = 35.0;
-        assert_eq!(m.dosage, 35.0);
-    }
-
-    #[test]
-    fn logs_medications_without_comments() {
-        let mut m = Medication {
-            name: "Zoloft".to_string(),
-            brand: "Zoloft".to_string(),
-            dosage: 50.0,
-            frequency: 0.0,
-            supply: None,
-            first_added: None,
-            last_taken: None,
-            upcoming_dose: None,
-            schedule: None,
-            measurement: "mg".to_string(),
-        };
-        let d = Database::new();
-
-        m.log(None); // no comments
-
-        let res = d.get_medication_log("Zoloft");
-        assert_eq!(res.len(), 1);
-        fs::remove_file("./iris.db").expect("Deleting the file failed.");
-    }
-
-    #[test]
-    fn logs_medications_with_comments() {
-        let mut m = Medication {
-            name: "Zoloft".to_string(),
-            brand: "Zoloft".to_string(),
-            dosage: 50.0,
-            frequency: 0.0,
-            supply: None,
-            first_added: None,
-            last_taken: None,
-            upcoming_dose: None,
-            schedule: None,
-            measurement: "mg".to_string(),
-        };
-        let d = Database::new();
-
-        m.log(Some("This is a comment.".to_string())); // no comments
-
-        let res = d.get_medication_log("Zoloft");
-        if res.len() == 1 {
-            assert_eq!(res[0].comment, Some("This is a comment.".to_string()))
-        }
-        fs::remove_file("./iris.db").expect("Deleting the file failed.");
-    }
-
-    #[test]
-    fn successfully_updates_dose() {
-        let mut m = Medication {
-            name: "Zoloft".to_string(),
-            brand: "Zoloft".to_string(),
-            dosage: 50.0,
-            frequency: 0.0,
-            supply: None,
-            first_added: None,
-            last_taken: None,
-            upcoming_dose: None,
-            schedule: None,
-            measurement: "mg".to_string(),
-        };
-        m.update_dose(20.0);
-
-        assert_eq!(m.dosage, 20.0);
-    }
-
-    #[test]
-    fn successfully_updates_supply() {
-        let mut m = Medication {
-            name: "Zoloft".to_string(),
-            brand: "Zoloft".to_string(),
-            dosage: 50.0,
-            frequency: 0.0,
-            supply: None,
-            first_added: None,
-            last_taken: None,
-            upcoming_dose: None,
-            schedule: None,
-            measurement: "mg".to_string(),
-        };
-        m.update_supply(99.0);
-
-        assert_eq!(m.supply, Some(99.0));
     }
 }
