@@ -13,7 +13,8 @@ interface MedicationLog {
 const LogTab: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [medicationLogs, setMedicationLogs] = useState<MedicationLog[]>([
-    //TODO: Place holder and need to link with the backend
+    //TODO: Place holder and need to link with the backend, allow manual input of medication
+
     {
       medName: "Med #1",
       medDosage: "10mg",
@@ -88,12 +89,17 @@ const LogTab: React.FC = () => {
         <div className="logsContainer">
           {filteredLogs.map((log, index) => (
             <div key={index} className="logMeds">
-              <div className="logName">Name - {log.medName}</div>
-              <div className="logDosage">Med Dosage - {log.medDosage}</div>
-              <div className="logFrequency">
-                Med Frequency - {log.medFrequency}
+              <div className="logName">
+                <strong>{log.medName}</strong>
               </div>
-              <div className="logLastTake">Last Taken - {log.lastTaken}</div>
+              <div className="circle"></div> {/* Circle */}
+              <div className="logDosage">{log.medDosage}</div>
+              <div className="logFrequency">{log.medFrequency}</div>
+              <div className="logLastTake">
+                <strong>Last Taken </strong>
+                <br />
+                {log.lastTaken}
+              </div>
               <button
                 onClick={(e) => {
                   e.stopPropagation();

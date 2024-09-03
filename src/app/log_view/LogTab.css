@@ -50,10 +50,10 @@ body {
 
 .logItem {
   flex: 1;
-  margin: 0 5px;
-  padding: 10px;
+  margin-top: 15px;
+  padding: 10px 20px;
   border-radius: 5px;
-  background-color: #b0b0b0;
+  background-color: #0000ff;
   color: white;
   font-size: 16px;
   cursor: pointer;
@@ -64,16 +64,25 @@ body {
 .logMeds {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   width: calc(33.333% - 20px);
   margin: 5px;
-  padding: 15px;
-  border: 2px solid #000000;
+  border: 2px solid #0000ff;
   border-radius: 8px;
   box-sizing: border-box;
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   align-items: center;
   min-height: 200px;
+  padding: 2px;
+}
+
+.circle {
+  width: 50px;
+  height: 50px;
+  background-color: #acacac;
+  border-radius: 50%;
+  margin: 10px auto;
 }
 
 .logItem:hover {
@@ -123,4 +132,9 @@ input {
   background-color: #f9f9f9;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: center;
 }
