@@ -45,15 +45,17 @@ fn update_specs(app: AppHandle, camera_available: bool, audio_available: bool){
 }
 
 #[tauri::command(rename_all = "snake_case")]
-fn get_specs(app: AppHandle){
-    specs::get_specs(app.clone());
+fn get_specs(app: AppHandle) -> structs::Config {
+    specs::get_specs(app.clone())
 }
 
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             get_medications,
-            get_upcoming_medications
+            get_upcoming_medications,
+            update_specs,
+            get_specs,
         ])
         .setup(|app| {
             app.set_menu(menu(app.app_handle().clone())).unwrap();
