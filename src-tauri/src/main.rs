@@ -5,37 +5,28 @@ mod structs;
 mod user;
 
 use crate::structs::{Medication, User};
+use database::Database;
 
 #[tauri::command(rename_all = "snake_case")]
-fn authenticate_user(credential: String) -> Result<User, String> {
-    match User::new(credential) {
-        Ok(matched_user) => Ok(matched_user),
-        Err(_) => Err("User does not exist.".into()),
-    }
+fn create_user(full_name: String, type_of: String) -> User {
+    User::create(full_name, type_of)
 }
 
 #[tauri::command(rename_all = "snake_case")]
-fn create_user(full_name: String, type_of: String, credential: String) -> User {
-    User::create(full_name, type_of, credential)
+fn get_medications() -> Vec<Medication> {
+    Database::new().get_all_medications()
 }
 
 #[tauri::command(rename_all = "snake_case")]
-fn get_medications(credential: String) -> Vec<Medication> {
-    User::new(credential)
-        .expect("Credential is invalid.")
-        .get_medications()
-        .expect("Medications failed to get.")
-}
-
-#[tauri::command(rename_all = "snake_case")]
-fn get_upcoming_medications(credential: String) -> Vec<Medication> {
-    User::new(credential).unwrap().get_upcoming_medications()
+fn get_upcoming_medications() -> Vec<Medication> {
+    User::new("patient".to_string())
+        .unwrap()
+        .get_upcoming_medications()
 }
 
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
-            authenticate_user,
             create_user,
             get_medications,
             get_upcoming_medications
