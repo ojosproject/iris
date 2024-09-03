@@ -6,6 +6,7 @@ mod user;
 
 use crate::structs::{Medication, User};
 use database::Database;
+use tauri::Manager;
 
 #[tauri::command(rename_all = "snake_case")]
 fn create_user(full_name: String, type_of: String) -> User {
@@ -31,6 +32,15 @@ fn main() {
             get_medications,
             get_upcoming_medications
         ])
+        .setup(|_| {
+            let mut db = Database::new();
+            match db.user_exists("patient".to_string()) {
+                // if no user exists in the beginning, create one named "patient"
+                Err(_) => db.create_user("patient".to_string(), "PATIENT".to_string()),
+                Ok(u) => u,
+            };
+            Ok(())
+        })
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

@@ -274,8 +274,8 @@ impl Database {
         let result = matched_user.next();
         match result {
             Some(Ok(result)) => Ok(result),
-            Some(Err(_)) => Err("No user found"),
-            None => Err("No user found"),
+            Some(Err(_)) => Err("User not found"),
+            None => Err("User not found"),
         }
     }
 
@@ -283,7 +283,7 @@ impl Database {
         let user_id = Uuid::new_v4().to_string();
         self.connection
             .execute(
-                "INSERT INTO user (id, name, type) VALUES (?1, ?2, ?3)",
+                "INSERT INTO user (id, full_name, type) VALUES (?1, ?2, ?3)",
                 (&user_id, &name, &type_of),
             )
             .expect("Failed to create a new user in the database.");
