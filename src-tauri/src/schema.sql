@@ -114,11 +114,10 @@ CREATE TABLE IF NOT EXISTS care_instruction (
     * id        - User ID
     name        - Name of the individual
     type        - "PATIENT", "CAREGIVER", or "NURSE"
-    credential  - A pin
+    credential  - A pin. Temporarily removed for developmental purposes.
 */
 CREATE TABLE IF NOT EXISTS user (
     id TEXT PRIMARY KEY NOT NULL,
     name TEXT NOT NULL,
     type TEXT NOT NULL,
-    credential TEXT NOT NULL
 )

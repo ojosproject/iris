@@ -14,10 +14,10 @@ fn is_none(o: Option<f64>) -> bool {
 }
 
 impl User {
-    pub fn new(credential: String) -> Result<User, &'static str> {
+    pub fn new(full_name: String) -> Result<User, &'static str> {
         let mut db = Database::new();
 
-        let user = db.user_exists(credential);
+        let user = db.user_exists(full_name);
 
         match user {
             Ok(matched_user) => Ok(matched_user),
@@ -25,8 +25,8 @@ impl User {
         }
     }
 
-    pub fn create(name: String, type_of: String, credential: String) -> User {
-        Database::new().create_user(name, type_of, credential)
+    pub fn create(name: String, type_of: String) -> User {
+        Database::new().create_user(name, type_of)
     }
 
     pub fn get_medications(&mut self) -> Result<Vec<Medication>, String> {

@@ -20,7 +20,6 @@ pub struct User {
     pub id: String,
     pub full_name: String,
     pub type_of: String,
-    pub credential: String,
 }
 
 pub struct MedicationLog {
