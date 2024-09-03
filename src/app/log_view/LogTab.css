@@ -40,6 +40,7 @@ body {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: space-around;
   gap: 15px;
   max-height: 60vh;
   overflow-y: auto;
@@ -66,6 +67,7 @@ body {
   flex-direction: column;
   justify-content: center;
   width: calc(33.333% - 20px);
+  min-width: 250px;
   margin: 5px;
   border: 2px solid #0000ff;
   border-radius: 8px;
@@ -137,4 +139,10 @@ input {
 .buttonGroup {
   display: flex;
   justify-content: center;
+}
+
+.searchBarContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
 }

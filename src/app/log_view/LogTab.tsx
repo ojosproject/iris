@@ -74,17 +74,19 @@ const LogTab: React.FC = () => {
   const filteredLogs = medicationLogs.filter((log) =>
     log.medName.toLowerCase().includes(searchQuery.toLowerCase()),
   );
-
+  //TODO: fix search display
   return (
     <div className="container">
       <h1 className="header">Your Medication</h1>
-      <input
-        type="text"
-        placeholder="Search Medication..."
-        value={searchQuery}
-        onChange={handleSearchChange}
-        className="searchInput"
-      />
+      <div className="searchBarContainer">
+        <input
+          type="text"
+          placeholder="Search Medication..."
+          value={searchQuery}
+          onChange={handleSearchChange}
+          className="searchInput"
+        />
+      </div>
       <div className="medsWrap">
         <div className="logsContainer">
           {filteredLogs.map((log, index) => (
