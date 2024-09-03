@@ -5,8 +5,7 @@
 
 #![allow(dead_code)]
 use crate::structs::Config;
-use serde;
-use std::fs::write;
+use std::fs;
 use tauri::{AppHandle, Manager};
 
 pub fn update_specs(app: AppHandle, camera_available: bool, audio_available: bool) {
@@ -15,9 +14,16 @@ pub fn update_specs(app: AppHandle, camera_available: bool, audio_available: boo
         camera_available: camera_available,
         audio_available: audio_available,
     };
-
-    write(
+    fs::write(
         path,
         serde_json::to_string(&config).expect("Failed to convert struct into a string"),
-    ).expect("Failed to save to app's config dir");
+    )
+    .expect("Failed to save to app's config dir");
+}
+
+pub fn get_specs(app: AppHandle) -> Config {
+    let content = fs::read_to_string(app.path().app_config_dir().unwrap().join("specs.json"))
+        .expect("Reading file failed");
+    let config: Config = serde_json::from_str(&content).expect("Converting file to Config failed");
+    config
 }

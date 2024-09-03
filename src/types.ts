@@ -30,3 +30,8 @@ export type MedicationLog = {
   given_dose: number; // float
   comment?: string;
 };
+
+export type Config = {
+  camera_available: boolean;
+  audio_available: boolean;
+}

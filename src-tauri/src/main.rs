@@ -40,8 +40,13 @@ fn get_upcoming_medications(app: AppHandle) -> Vec<Medication> {
 }
 
 #[tauri::command(rename_all = "snake_case")]
-fn update_specs(app: AppHandle, camera_available: bool, microphone_available: bool){
-    specs::update_specs(app.clone(), camera_available, microphone_available);
+fn update_specs(app: AppHandle, camera_available: bool, audio_available: bool){
+    specs::update_specs(app.clone(), camera_available, audio_available);
+}
+
+#[tauri::command(rename_all = "snake_case")]
+fn get_specs(app: AppHandle){
+    specs::get_specs(app.clone());
 }
 
 fn main() {
