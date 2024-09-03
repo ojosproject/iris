@@ -253,21 +253,20 @@ impl Database {
         vec_to_return
     }
 
-    pub fn user_exists(&mut self, credential: String) -> Result<User, &'static str> {
+    pub fn user_exists(&mut self, full_name: String) -> Result<User, &'static str> {
         // todo: count the results, if result == 0, do Err(error message)
         // todo: if result == 1, return a User
         let mut statement = self
             .connection
-            .prepare("SELECT * FROM user WHERE credential = :credential")
+            .prepare("SELECT * FROM user WHERE full_name = :full_name")
             .expect("This did not work");
 
         let mut matched_user = statement
-            .query_map(&[(":credential", credential.to_string().as_str())], |row| {
+            .query_map(&[(":full_name", full_name.to_string().as_str())], |row| {
                 Ok(User {
                     id: row.get(0)?,
                     full_name: row.get(1)?,
                     type_of: row.get(2)?,
-                    credential: row.get(3)?,
                 })
             })
             .expect("This did not work");
@@ -280,16 +279,16 @@ impl Database {
         }
     }
 
-    pub fn create_user(&mut self, name: String, type_of: String, credential: String) -> User {
+    pub fn create_user(&mut self, name: String, type_of: String) -> User {
         let user_id = Uuid::new_v4().to_string();
         self.connection
             .execute(
-                "INSERT INTO user (id, name, type, credential) VALUES (?1, ?2, ?3, ?4)",
-                (&user_id, &name, &type_of, &credential),
+                "INSERT INTO user (id, name, type) VALUES (?1, ?2, ?3)",
+                (&user_id, &name, &type_of),
             )
             .expect("Failed to create a new user in the database.");
 
-        User::new(credential).expect("Newly created user was not found in the database.")
+        User::new(name).expect("Newly created user was not found in the database.")
     }
 
     pub fn set_medication_schedule(&mut self, name: &String, schedule: &String) {
@@ -343,13 +342,13 @@ mod tests {
         let conn = Connection::open("./iris.db").expect("failed to open connection");
 
         conn.execute(
-            "INSERT INTO user (id, name, type, credential)
-            VALUES(?1, ?2, ?3, ?4)",
-            ("1", "User", "Patient", "1234"),
+            "INSERT INTO user (id, name, type)
+            VALUES(?1, ?2, ?3)",
+            ("1", "User", "Patient"),
         )
         .expect("Failed");
 
-        let test_user = d.user_exists("1234".to_string());
+        let test_user = d.user_exists("Myrna".to_string());
 
         match test_user {
             Ok(test_user) => {
@@ -364,11 +363,7 @@ mod tests {
     #[test]
     fn user_successfully_created() {
         let mut d = Database::new();
-        let test_user = d.create_user(
-            "User".to_string(),
-            "Patient".to_string(),
-            "1234".to_string(),
-        );
+        let test_user = d.create_user("User".to_string(), "Patient".to_string());
 
         assert_eq!(test_user.full_name, "User");
         fs::remove_file("./iris.db").expect("Deleting the file failed.");
