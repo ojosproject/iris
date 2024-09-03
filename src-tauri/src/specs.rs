@@ -4,14 +4,14 @@
 // Handles storing system specifications
 
 #![allow(dead_code)]
-use crate::structs::Specifications;
+use crate::structs::Config;
 use serde;
 use std::fs::write;
 use tauri::{AppHandle, Manager};
 
-pub fn check_specs(app: AppHandle, camera_available: bool, audio_available: bool) {
+pub fn update_specs(app: AppHandle, camera_available: bool, audio_available: bool) {
     let path = app.path().app_config_dir().unwrap().join("specs.json");
-    let config = Specifications {
+    let config = Config {
         camera_available: camera_available,
         audio_available: audio_available,
     };

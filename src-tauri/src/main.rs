@@ -39,6 +39,11 @@ fn get_upcoming_medications(app: AppHandle) -> Vec<Medication> {
     get_patient(app.clone()).get_upcoming_medications(app)
 }
 
+#[tauri::command(rename_all = "snake_case")]
+fn update_specs(app: AppHandle, camera_available: bool, microphone_available: bool){
+    specs::update_specs(app.clone(), camera_available, microphone_available);
+}
+
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![

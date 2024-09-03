@@ -30,7 +30,7 @@ pub struct MedicationLog {
 }
 
 #[derive(Serialize, Deserialize)]
-pub struct Specifications {
+pub struct Config {
     pub camera_available: bool,
     pub audio_available: bool,
 }
