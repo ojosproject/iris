@@ -1,12 +1,12 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 mod medications;
+mod menu;
 mod structs;
 mod user;
-
-use std::{fs, path::PathBuf};
-
+use crate::menu::menu;
 use crate::structs::Medication;
 use rusqlite::Connection;
+use std::{fs, path::PathBuf};
 use tauri::{AppHandle, Manager};
 use user::get_patient;
 
@@ -45,6 +45,16 @@ fn main() {
             get_upcoming_medications
         ])
         .setup(|app| {
+            app.set_menu(menu(app.app_handle().clone())).unwrap();
+
+            app.on_menu_event(move |app, event| {
+                if event.id() == "help_app_data_dir" {
+                    showfile::show_path_in_file_manager(app.path().app_data_dir().unwrap());
+                } else if event.id() == "help_app_config_dir" {
+                    showfile::show_path_in_file_manager(app.path().app_config_dir().unwrap());
+                }
+            });
+
             let app_data_dir = app.path().app_data_dir().unwrap();
 
             println!("Iris DB location: {:?}", app_data_dir.join("iris.db"));
