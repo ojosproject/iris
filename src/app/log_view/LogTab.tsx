@@ -126,6 +126,8 @@ const LogTab: React.FC = () => {
         medicationName={selectedMedication}
       />
     </div>
+
+    /* comment for branch */
   );
 };
 
