@@ -28,3 +28,9 @@ pub struct MedicationLog {
     pub given_dose: f64,
     pub comment: Option<String>,
 }
+
+#[derive(Serialize, Deserialize)]
+pub struct Specifications {
+    pub camera_available: bool,
+    pub audio_available: bool,
+}
