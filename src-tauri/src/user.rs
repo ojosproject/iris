@@ -4,7 +4,7 @@
 // This handles a lot of user-related functions for Iris.
 #![allow(dead_code)]
 use crate::structs::{Medication, User};
-use rusqlite::Connection;
+use rusqlite::{named_params, Connection};
 use tauri::{AppHandle, Manager};
 use uuid::Uuid;
 
@@ -25,6 +25,31 @@ pub fn get_patient(app: AppHandle) -> User {
                 id: row.get(0).unwrap(),
                 full_name: row.get(1).unwrap(),
                 type_of: row.get(2).unwrap(),
+                phone_number: row.get(3).unwrap(),
+                email: row.get(4).unwrap(),
+            })
+        })
+        .unwrap();
+
+    matched_user.next().unwrap().unwrap()
+}
+
+pub fn get_user(app: AppHandle, id: String) -> User {
+    let app_data_dir = app.path().app_data_dir().unwrap();
+    let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
+
+    let mut stmt = conn
+        .prepare("SELECT * FROM user WHERE type = 'NURSE' AND id = :nurse_id")
+        .unwrap();
+
+    let mut matched_user = stmt
+        .query_map(named_params! {":nurse_id": id}, |row| {
+            Ok(User {
+                id: row.get(0).unwrap(),
+                full_name: row.get(1).unwrap(),
+                type_of: row.get(2).unwrap(),
+                phone_number: row.get(3).unwrap(),
+                email: row.get(4).unwrap(),
             })
         })
         .unwrap();
@@ -40,7 +65,13 @@ fn is_none(o: Option<f64>) -> bool {
 }
 
 impl User {
-    pub fn create(app: AppHandle, name: String, type_of: String) -> Self {
+    pub fn create(
+        app: AppHandle,
+        name: String,
+        type_of: String,
+        phone_number: Option<i64>,
+        email: Option<String>,
+    ) -> Self {
         let app_data_dir = app.path().app_data_dir().unwrap();
         let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
         let new_user_id = Uuid::new_v4().to_string();
@@ -49,6 +80,8 @@ impl User {
             id: new_user_id,
             full_name: name,
             type_of,
+            phone_number,
+            email,
         };
 
         conn.execute(
@@ -81,6 +114,7 @@ impl User {
                     upcoming_dose: row.get(7)?,
                     schedule: row.get(8)?,
                     measurement: row.get(9)?,
+                    nurse_id: row.get(10)?,
                 })
             })
             .expect("That did not work.");
