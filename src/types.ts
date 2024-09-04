@@ -15,13 +15,15 @@ export type Medication = {
   upcoming_dose?: number; // Epoch seconds
   schedule?: string; // comma separated values, hours in 24-hr format (e.g., 0,6,12,18 to represent 12am, 6am, 12pm, 6pm)
   measurement: string;
+  nurse_id: string;
 };
 
 export type User = {
   id: string;
   full_name: string;
   type_of: string;
-  credential: string;
+  phone_number?: number;
+  email?: string;
 };
 
 export type MedicationLog = {

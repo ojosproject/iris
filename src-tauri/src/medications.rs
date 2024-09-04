@@ -21,6 +21,7 @@ impl Medication {
         frequency: f64,
         supply: f64,
         measurement: &str,
+        nurse_id: &str,
     ) -> Self {
         let app_data_dir = app.path().app_data_dir().unwrap().join("iris.db");
         let conn = Connection::open(app_data_dir).unwrap();
@@ -41,11 +42,12 @@ impl Medication {
             upcoming_dose: None,
             schedule: None,
             measurement: measurement.to_string(),
+            nurse_id: nurse_id.to_string(),
         };
 
         conn.execute(
-            "INSERT INTO medication (name, brand, dose, frequency, supply, first_added, last_taken, upcoming_dose, schedule, measurement)
-        VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10)",
+            "INSERT INTO medication (name, brand, dose, frequency, supply, first_added, last_taken, upcoming_dose, schedule, measurement, nurse_id)
+        VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11)",
             (
                 &m.name,
                 &m.brand,
@@ -57,6 +59,7 @@ impl Medication {
                 &m.upcoming_dose,
                 &m.schedule,
                 &m.measurement,
+                &m.nurse_id
             ),
         ).unwrap();
 

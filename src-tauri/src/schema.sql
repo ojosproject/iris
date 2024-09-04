@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS medication (
     upcoming_dose REAL,
     schedule TEXT,
     measurement TEXT NOT NULL
+    nurse_id TEXT NOT NULL
 ) STRICT;
 
 /*
@@ -122,4 +123,6 @@ CREATE TABLE IF NOT EXISTS user (
     id TEXT PRIMARY KEY NOT NULL,
     full_name TEXT NOT NULL,
     type TEXT NOT NULL
+    phone_number REAL,
+    email TEXT
 );
