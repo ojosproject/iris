@@ -24,7 +24,10 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
         <p>Are you sure you want to log this medication?</p>
         <div className="medicationDetails">
           <div className="logName">Name: {medicationName.medication_name}</div>
-          <div className="logDosage">Dosage: {medicationName.given_dose}</div>
+          <div className="logDosage">
+            Dosage:{" "}
+            {medicationName.given_dose.toString() + medicationName.measurement}
+          </div>
           {/*<div className="logFrequency">
             Frequency: {medicationName.medFrequency}
           </div>*/}

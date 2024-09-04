@@ -14,21 +14,25 @@ const LogTab: React.FC = () => {
     {
       medication_name: "Med #1",
       given_dose: 10,
+      measurement: "mg",
       timestamp: 0, // Epoch timestamp
     },
     {
       medication_name: "Med #2",
       given_dose: 20,
+      measurement: "mg",
       timestamp: 0,
     },
     {
       medication_name: "Med #3",
       given_dose: 40,
+      measurement: "mg",
       timestamp: 0,
     },
     {
       medication_name: "Med #4",
       given_dose: 70,
+      measurement: "mg",
       timestamp: 0,
     },
   ]);
@@ -89,7 +93,9 @@ const LogTab: React.FC = () => {
                 <strong>{log.medication_name}</strong>
               </div>
               <div className="circle"></div> {/* Circle */}
-              <div className="logDosage">{log.given_dose}</div>
+              <div className="logDosage">
+                {log.given_dose.toString() + log.measurement}
+              </div>
               {/*<div className="logFrequency">{log.medFrequency}</div>*/}
               <div className="logLastTake">
                 <strong>Last Taken </strong>
