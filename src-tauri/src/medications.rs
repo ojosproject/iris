@@ -105,8 +105,8 @@ impl Medication {
         self.last_taken = Some(current_timestamp);
 
         conn.execute(
-            "INSERT INTO medication_log (timestamp, medication_name, given_dose, comment) VALUES (:timestamp, :medication_name, :given_dose, :comment)", 
-            named_params! {":timestamp": current_timestamp, ":medication_name": &self.name, ":given_dose": &self.dosage, ":comment": comments}
+            "INSERT INTO medication_log (timestamp, medication_name, given_dose, measurement, comment) VALUES (:timestamp, :medication_name, :given_dose, :measurement, :comment)", 
+            named_params! {":timestamp": current_timestamp, ":medication_name": &self.name, ":given_dose": &self.dosage, ":measurement": &self.measurement, ":comment": comments}
         ).expect("Inserting into log_medication failed.");
 
         conn.execute(

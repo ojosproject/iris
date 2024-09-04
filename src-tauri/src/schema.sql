@@ -6,12 +6,14 @@ Rows:
     * timestamp     - The Unix timestamp of when the medication was added
     medication_name - The name of the medication given
     given_dose      - The dosage given to the patient
+    measurement     - The measurement of the given dose
     comment         - (Optional) Any comments that might be important to note
 */
 CREATE TABLE IF NOT EXISTS medication_log (
     timestamp REAL NOT NULL PRIMARY KEY,
     medication_name TEXT NOT NULL,
     given_dose REAL NOT NULL,
+    measurement TEXT NOT NULL,
     comment TEXT
 ) STRICT;
 

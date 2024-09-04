@@ -28,5 +28,6 @@ export type MedicationLog = {
   timestamp: number; // float
   medication_name: string;
   given_dose: number; // float
+  measurement: string;
   comment?: string;
 };

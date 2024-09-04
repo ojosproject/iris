@@ -26,5 +26,6 @@ pub struct MedicationLog {
     pub timestamp: f64,
     pub medication_name: String,
     pub given_dose: f64,
+    pub measurement: String,
     pub comment: Option<String>,
 }
