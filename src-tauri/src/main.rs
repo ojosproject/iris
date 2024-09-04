@@ -22,7 +22,7 @@ fn create_database(file_path: PathBuf) {
 
     connection
         .execute(
-            "INSERT INTO user(id, full_name, type) VALUES ('0', 'patient', 'PATIENT')",
+            "INSERT INTO user(id, full_name, type, phone_number, email) VALUES ('0', 'patient', 'PATIENT', NULL, NULL)",
             [],
         )
         .unwrap();
