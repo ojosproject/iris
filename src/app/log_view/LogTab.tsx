@@ -1,14 +1,10 @@
 import React, { useState } from "react";
 import "./LogTab.css";
 import ConfirmationModal from "./LogConfirmation";
-
-//TODO: change to reflect medication information
-interface MedicationLog {
-  medName: string;
-  medDosage: string;
-  medFrequency: string;
-  lastTaken: string;
-}
+// * Added MedicationLog type to reflect how data will return from the backend
+// Realized that measurement (e.g., "mg") is needed. Backend will work on this soon.
+// Idk if we need frequency, though. I'll check in soon.
+import { MedicationLog } from "@/types";
 
 const LogTab: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -16,28 +12,24 @@ const LogTab: React.FC = () => {
     //TODO: Place holder and need to link with the backend, allow manual input of medication
 
     {
-      medName: "Med #1",
-      medDosage: "10mg",
-      medFrequency: "1/day",
-      lastTaken: "mm/dd/yyyy @ hh:mm",
+      medication_name: "Med #1",
+      given_dose: 10,
+      timestamp: 0, // Epoch timestamp
     },
     {
-      medName: "Med #2",
-      medDosage: "20mg",
-      medFrequency: "1/evening",
-      lastTaken: "mm/dd/yyyy @ hh:mm",
+      medication_name: "Med #2",
+      given_dose: 20,
+      timestamp: 0,
     },
     {
-      medName: "Med #3",
-      medDosage: "40mg",
-      medFrequency: "1/mornign",
-      lastTaken: "mm/dd/yyyy @ hh:mm",
+      medication_name: "Med #3",
+      given_dose: 40,
+      timestamp: 0,
     },
     {
-      medName: "Med #4",
-      medDosage: "70mg",
-      medFrequency: "1/night",
-      lastTaken: "mm/dd/yyyy @ hh:mm",
+      medication_name: "Med #4",
+      given_dose: 70,
+      timestamp: 0,
     },
   ]);
 
@@ -65,14 +57,16 @@ const LogTab: React.FC = () => {
 
   const confirmSelection = () => {
     if (selectedMedication) {
-      alert(`${selectedMedication.medName} is selected, logging now...`);
+      alert(
+        `${selectedMedication.medication_name} is selected, logging now...`,
+      );
       setSelectedMedication(null);
       setIsModalOpen(false);
     }
   };
 
   const filteredLogs = medicationLogs.filter((log) =>
-    log.medName.toLowerCase().includes(searchQuery.toLowerCase()),
+    log.medication_name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
   //TODO: fix search display
   return (
@@ -92,15 +86,15 @@ const LogTab: React.FC = () => {
           {filteredLogs.map((log, index) => (
             <div key={index} className="logMeds">
               <div className="logName">
-                <strong>{log.medName}</strong>
+                <strong>{log.medication_name}</strong>
               </div>
               <div className="circle"></div> {/* Circle */}
-              <div className="logDosage">{log.medDosage}</div>
-              <div className="logFrequency">{log.medFrequency}</div>
+              <div className="logDosage">{log.given_dose}</div>
+              {/*<div className="logFrequency">{log.medFrequency}</div>*/}
               <div className="logLastTake">
                 <strong>Last Taken </strong>
                 <br />
-                {log.lastTaken}
+                {log.timestamp}
               </div>
               <button
                 onClick={(e) => {

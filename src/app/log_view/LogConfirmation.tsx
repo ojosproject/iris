@@ -1,15 +1,12 @@
 import React from "react";
 import "./LogConfirmation.css";
+import { MedicationLog } from "@/types";
 
 interface ConfirmationModalProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
-  medicationName: {
-    medName: string;
-    medDosage: string;
-    medFrequency: string;
-  } | null;
+  medicationName: MedicationLog | null;
 }
 
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
@@ -26,11 +23,11 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
         <h2>Log Confirmation</h2>
         <p>Are you sure you want to log this medication?</p>
         <div className="medicationDetails">
-          <div className="logName">Name: {medicationName.medName}</div>
-          <div className="logDosage">Dosage: {medicationName.medDosage}</div>
-          <div className="logFrequency">
+          <div className="logName">Name: {medicationName.medication_name}</div>
+          <div className="logDosage">Dosage: {medicationName.given_dose}</div>
+          {/*<div className="logFrequency">
             Frequency: {medicationName.medFrequency}
-          </div>
+          </div>*/}
         </div>
         <div className="notificationSection">
           <p>Push Notification to:</p>
