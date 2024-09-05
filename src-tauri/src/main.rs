@@ -9,7 +9,7 @@ use crate::structs::Medication;
 use std::{env, fs, process};
 use structs::User;
 use tauri::{AppHandle, Manager};
-use user::get_patient;
+use user::{get_patient, get_user};
 
 #[tauri::command(rename_all = "snake_case")]
 fn get_medications(app: AppHandle) -> Vec<Medication> {
@@ -19,6 +19,11 @@ fn get_medications(app: AppHandle) -> Vec<Medication> {
 #[tauri::command]
 fn get_patient_info(app: AppHandle) -> User {
     get_patient(app)
+}
+
+#[tauri::command]
+fn get_nurse_info(app: AppHandle, nurse_id: String) -> User {
+    get_user(app, nurse_id)
 }
 
 #[tauri::command(rename_all = "snake_case")]
@@ -31,7 +36,8 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
             get_medications,
             get_upcoming_medications,
-            get_patient_info
+            get_patient_info,
+            get_nurse_info
         ])
         .setup(|app| {
             app.set_menu(menu(app.app_handle().clone())).unwrap();
