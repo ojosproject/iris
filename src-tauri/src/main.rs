@@ -72,6 +72,7 @@ fn main() {
             let app_data_dir = app.path().app_data_dir().unwrap();
 
             println!("Iris DB location: {:?}", app_data_dir.join("iris.db"));
+            println!("Use the \"Help\" menu to open it on your computer.");
 
             if !app_data_dir.join("iris.db").exists() {
                 fs::create_dir_all(&app_data_dir).unwrap();
