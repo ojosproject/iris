@@ -1,39 +1,15 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+mod dev;
 mod medications;
 mod menu;
 mod structs;
 mod user;
 use crate::menu::menu;
 use crate::structs::Medication;
-use rusqlite::Connection;
-use std::{env, fs, path::PathBuf, process};
+use std::{env, fs, process};
 use structs::User;
 use tauri::{AppHandle, Manager};
 use user::get_patient;
-
-fn create_database(file_path: PathBuf) {
-    let connection = Connection::open(file_path).expect("Failed to open the database.");
-    connection
-        .execute_batch(
-            fs::read_to_string("./src/schema.sql")
-                .expect("Reading the schema file failed.")
-                .as_str(),
-        )
-        .expect("Creating the file from SQL Schema failed.");
-
-    connection
-        .execute(
-            "INSERT INTO user(id, full_name, type) VALUES ('0', 'patient', 'PATIENT')",
-            [],
-        )
-        .unwrap();
-}
-
-fn import_dummy_data(file_path: PathBuf) {
-    let conn = Connection::open(file_path).unwrap();
-    conn.execute_batch(fs::read_to_string("./tests/testing.sql").unwrap().as_str())
-        .unwrap();
-}
 
 #[tauri::command(rename_all = "snake_case")]
 fn get_medications(app: AppHandle) -> Vec<Medication> {
@@ -81,7 +57,7 @@ fn main() {
                         .unwrap();
                 } else if event.id() == "import_test_data" {
                     println!("Importing testing.sql...");
-                    import_dummy_data(app.path().app_data_dir().unwrap().join("iris.db"));
+                    dev::import_dummy_data(app.path().app_data_dir().unwrap().join("iris.db"));
                     println!("Done.");
                 }
             });
@@ -94,7 +70,7 @@ fn main() {
             if !app_data_dir.join("iris.db").exists() {
                 fs::create_dir_all(&app_data_dir).unwrap();
 
-                create_database(app_data_dir.join("iris.db"));
+                dev::create_database(app_data_dir.join("iris.db"));
             }
 
             Ok(())
