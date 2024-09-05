@@ -36,6 +36,13 @@ fn submenu_help(app: AppHandle) -> Submenu<Wry> {
                 .build(app.app_handle())
                 .unwrap(),
         )
+        .separator()
+        .item(
+            &MenuItemBuilder::new("Delete iris.db")
+                .id("delete_db")
+                .build(app.app_handle())
+                .unwrap(),
+        )
         .build()
         .unwrap()
 }

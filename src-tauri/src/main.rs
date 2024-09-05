@@ -59,6 +59,15 @@ fn main() {
                     println!("Importing testing.sql...");
                     dev::import_dummy_data(app.path().app_data_dir().unwrap().join("iris.db"));
                     println!("Done.");
+                } else if event.id() == "delete_db" {
+                    let iris_path = app.path().app_data_dir().unwrap().join("iris.db");
+                    println!("Deleting iris.db...");
+                    dev::delete_database(iris_path.clone());
+                    println!("Done!");
+
+                    println!("Recreating iris.db...");
+                    dev::create_database(iris_path.clone());
+                    println!("Done!");
                 }
             });
 
