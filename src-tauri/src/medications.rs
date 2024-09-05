@@ -5,7 +5,7 @@
 #![allow(dead_code)]
 use std::time::{SystemTime, UNIX_EPOCH};
 
-use crate::structs::Medication;
+use crate::structs::{Medication, MedicationLog};
 use chrono::{Local, NaiveTime};
 use itertools::Itertools;
 use rusqlite::{named_params, Connection};
@@ -124,6 +124,35 @@ impl Medication {
 
         self.last_taken
             .expect("Last taken was not found even though it was set...")
+    }
+
+    pub fn get_logs(&mut self, app: AppHandle) -> Vec<MedicationLog> {
+        let app_data_dir = app.path().app_data_dir().unwrap();
+        let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
+
+        let mut stmt = conn
+            .prepare("SELECT * FROM medication_log WHERE medication_name = :medication_name")
+            .unwrap();
+
+        let matched_logs = stmt
+            .query_map(named_params! {":medication_name": &self.name}, |row| {
+                Ok(MedicationLog {
+                    timestamp: row.get(0)?,
+                    medication_name: row.get(1)?,
+                    given_dose: row.get(2)?,
+                    measurement: row.get(3)?,
+                    comment: row.get(4)?,
+                })
+            })
+            .unwrap();
+
+        let mut vec_to_return: Vec<MedicationLog> = vec![];
+
+        for log in matched_logs {
+            vec_to_return.push(log.unwrap());
+        }
+
+        vec_to_return
     }
 
     fn set_upcoming_dose(&mut self, app: AppHandle) {
