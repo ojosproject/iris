@@ -1,10 +1,18 @@
 // menu.rs
 // The menu at the top of the app for desktop. Primarily being used for
 // development purposes for now.
+use std::env;
 use tauri::{
     menu::{Menu, MenuBuilder, MenuItemBuilder, Submenu, SubmenuBuilder},
     AppHandle, Manager, Wry,
 };
+
+fn submenu_app(app: AppHandle) -> Submenu<Wry> {
+    SubmenuBuilder::new(app.app_handle(), "App")
+        .quit()
+        .build()
+        .unwrap()
+}
 
 fn submenu_help(app: AppHandle) -> Submenu<Wry> {
     SubmenuBuilder::new(app.app_handle(), "Help")
@@ -26,8 +34,16 @@ fn submenu_help(app: AppHandle) -> Submenu<Wry> {
 
 pub fn menu(app: AppHandle) -> Menu<Wry> {
     let handle = app.app_handle();
-    MenuBuilder::new(handle)
-        .item(&submenu_help(handle.clone()))
-        .build()
-        .unwrap()
+
+    match env::consts::OS {
+        "macos" => MenuBuilder::new(handle)
+            .item(&submenu_app(handle.clone()))
+            .item(&submenu_help(handle.clone()))
+            .build()
+            .unwrap(),
+        _ => MenuBuilder::new(handle)
+            .item(&submenu_help(handle.clone()))
+            .build()
+            .unwrap(),
+    }
 }
