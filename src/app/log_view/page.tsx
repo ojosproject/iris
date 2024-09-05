@@ -14,6 +14,7 @@ const medication: Medication = {
   dosage: 15,
   measurement: "mg",
   supply: 32,
+  total_prescribed: 50,
   last_taken: 1724166000, // Unix timestamp
   frequency: 0.0,
 };
@@ -177,9 +178,8 @@ const DetailBox = ({
 };
 
 const MedicineView = () => {
-  //const pillsPercentage =
-  //  (medication.pillsRemaining / medication.pillsTotal) * 100;
-  // ? Backend will get total pills prescribed soon.
+  const pillsPercentage =
+    (medication.supply / medication.total_prescribed) * 100;
 
   const [visibleLogs, setVisibleLogs] = useState<MedicationLog[]>([]);
   const [logsToShow, setLogsToShow] = useState(5);
@@ -237,8 +237,7 @@ const MedicineView = () => {
               label="Pills remaining"
               value={medication.supply!} // can be empty if they're injections, made this DetailBox optional maybe..?
               isPillsRemaining
-              // pillsPercentage={pillsPercentage}
-              // ? Backend will provide total pills prescribed soon.
+              pillsPercentage={pillsPercentage}
             />
             <DetailBox
               label="Dosage"
