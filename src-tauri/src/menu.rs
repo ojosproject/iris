@@ -28,6 +28,14 @@ fn submenu_help(app: AppHandle) -> Submenu<Wry> {
                 .build(app.app_handle())
                 .unwrap(),
         )
+        .separator()
+        .item(
+            &MenuItemBuilder::new("Import Testing Data")
+                .id("import_test_data")
+                .accelerator("Ctrl+I")
+                .build(app.app_handle())
+                .unwrap(),
+        )
         .build()
         .unwrap()
 }

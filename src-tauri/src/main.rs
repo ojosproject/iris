@@ -28,6 +28,12 @@ fn create_database(file_path: PathBuf) {
         .unwrap();
 }
 
+fn import_dummy_data(file_path: PathBuf) {
+    let conn = Connection::open(file_path).unwrap();
+    conn.execute_batch(fs::read_to_string("./tests/testing.sql").unwrap().as_str())
+        .unwrap();
+}
+
 #[tauri::command(rename_all = "snake_case")]
 fn get_medications(app: AppHandle) -> Vec<Medication> {
     get_patient(app.clone()).get_medications(app)
@@ -66,6 +72,10 @@ fn main() {
                         .args([copy.path().app_config_dir().unwrap()])
                         .output()
                         .unwrap();
+                } else if event.id() == "import_test_data" {
+                    println!("Importing testing.sql...");
+                    import_dummy_data(app.path().app_data_dir().unwrap().join("iris.db"));
+                    println!("Done.");
                 }
             });
 
