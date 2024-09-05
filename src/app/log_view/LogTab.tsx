@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import "./LogTab.css";
 import ConfirmationModal from "./LogConfirmation";
 // * Added MedicationLog type to reflect how data will return from the backend
-// Realized that measurement (e.g., "mg") is needed. Backend will work on this soon.
-// Idk if we need frequency, though. I'll check in soon.
+// Idk if we need frequency. I'll check in soon.
 import { MedicationLog } from "@/types";
 
 const LogTab: React.FC = () => {
