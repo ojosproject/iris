@@ -50,7 +50,7 @@ fn main() {
             app.on_menu_event(move |app, event| {
                 let copy = app.clone();
                 let command = match env::consts::OS {
-                    "windows" => "cmd",
+                    "windows" => "start",
                     "macos" => "open",
                     "linux" => "xdg-open",
                     _ => panic!("This system cannot be used for Iris development."),
