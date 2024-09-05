@@ -6,7 +6,7 @@ mod user;
 use crate::menu::menu;
 use crate::structs::Medication;
 use rusqlite::Connection;
-use std::{fs, path::PathBuf};
+use std::{env, fs, path::PathBuf, process};
 use tauri::{AppHandle, Manager};
 use user::get_patient;
 
@@ -48,10 +48,24 @@ fn main() {
             app.set_menu(menu(app.app_handle().clone())).unwrap();
 
             app.on_menu_event(move |app, event| {
+                let copy = app.clone();
+                let command = match env::consts::OS {
+                    "windows" => "cmd",
+                    "macos" => "open",
+                    "linux" => "xdg-open",
+                    _ => panic!("This system cannot be used for Iris development."),
+                };
+
                 if event.id() == "help_app_data_dir" {
-                    showfile::show_path_in_file_manager(app.path().app_data_dir().unwrap());
+                    process::Command::new(command)
+                        .args([copy.path().app_data_dir().unwrap()])
+                        .output()
+                        .unwrap();
                 } else if event.id() == "help_app_config_dir" {
-                    showfile::show_path_in_file_manager(app.path().app_config_dir().unwrap());
+                    process::Command::new(command)
+                        .args([copy.path().app_config_dir().unwrap()])
+                        .output()
+                        .unwrap();
                 }
             });
 
