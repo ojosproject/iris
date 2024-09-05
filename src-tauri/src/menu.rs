@@ -41,9 +41,10 @@ pub fn menu(app: AppHandle) -> Menu<Wry> {
             .item(&submenu_help(handle.clone()))
             .build()
             .unwrap(),
-        _ => MenuBuilder::new(handle)
+        "windows" | "linux" => MenuBuilder::new(handle)
             .item(&submenu_help(handle.clone()))
             .build()
             .unwrap(),
+        _ => panic!("This operating system is not supported at this time."),
     }
 }
