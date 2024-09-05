@@ -146,4 +146,40 @@ impl User {
 
         returning_medications
     }
+
+    pub fn search_medications(&mut self, app: AppHandle, query: &str) -> Vec<Medication> {
+        let app_data_dir = app.path().app_data_dir().unwrap();
+        let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
+
+        // https://github.com/rusqlite/rusqlite/issues/600#issuecomment-562258168
+        let mut stmt = conn
+            .prepare("SELECT * FROM medication WHERE name LIKE '%' || ? || '%'")
+            .unwrap();
+
+        let matched_medications = stmt
+            .query_map([query], |row| {
+                Ok(Medication {
+                    name: row.get(0)?,
+                    brand: row.get(1)?,
+                    dosage: row.get(2)?,
+                    frequency: row.get(3)?,
+                    supply: row.get(4)?,
+                    first_added: row.get(5)?,
+                    last_taken: row.get(6)?,
+                    upcoming_dose: row.get(7)?,
+                    schedule: row.get(8)?,
+                    measurement: row.get(9)?,
+                    nurse_id: row.get(10)?,
+                })
+            })
+            .unwrap();
+
+        let mut vec_to_return: Vec<Medication> = vec![];
+
+        for med in matched_medications {
+            vec_to_return.push(med.unwrap());
+        }
+
+        vec_to_return
+    }
 }
