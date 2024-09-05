@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./MedView.css";
 
 //TODO: Place holder for testing, will need to find a better alternative
@@ -14,7 +14,27 @@ const medication = {
   pillsRemaining: 32,
   pillsTotal: 60,
   lastTaken: "3 hours ago",
+  log: [
+    {
+      takenOn: "August 20, 2024, 08:00 AM",
+      dose: "15mg",
+      comments: "No side effects",
+    },
+    {
+      takenOn: "August 19, 2024, 10:00 PM",
+      dose: "15mg",
+      comments: "Mild drowsiness",
+    },
+    { takenOn: "August 19, 2024, 02:00 PM", dose: "15mg", comments: "Nausea" },
+  ],
 };
+
+// Define the type for the log entries
+interface LogEntry {
+  takenOn: string;
+  dose: string;
+  comments: string;
+}
 
 const Header = ({ name, brand }: { name: string; brand: string }) => {
   return (
@@ -48,6 +68,7 @@ const LeftPanel = ({
   );
 };
 
+//TODO: Add the pill remaining visual circle to the right panel
 const DetailBox = ({
   label,
   value,
@@ -62,25 +83,62 @@ const DetailBox = ({
   return (
     <div className={`detail-box ${isPillsRemaining ? "pills-remaining" : ""}`}>
       {isPillsRemaining && (
-        <div
-          className="circle-background"
-          style={
-            {
-              "--pills-percentage": `${pillsPercentage}%`,
-            } as React.CSSProperties
-          }
-        ></div>
+        <div className="circle-container">
+          {" "}
+          <strong>Pills Remaining </strong>
+          <svg className="progress-circle" viewBox="0 0 36 36">
+            <path
+              className="circle-bg"
+              d="M18 2.0845
+                                a 15.9155 15.9155 0 0 1 0 31.831
+                                a 15.9155 15.9155 0 0 1 0 -31.831"
+            />
+            <path
+              className="circle"
+              strokeDasharray={`${pillsPercentage}, 100`}
+              d="M18 2.0845
+                                a 15.9155 15.9155 0 0 1 0 31.831
+                                a 15.9155 15.9155 0 0 1 0 -31.831"
+            />
+            <text x="18" y="20.35" className="percentage-text">
+              {value}
+            </text>
+          </svg>
+        </div>
       )}
-      <span>{label}</span>
-      <p>{value}</p>
+      {!isPillsRemaining && (
+        <>
+          <span>{label}</span>
+          <p>{value}</p>
+        </>
+      )}
     </div>
   );
 };
 
-const pillsPercentage =
-  (medication.pillsRemaining / medication.pillsTotal) * 100;
-
 const MedicineView = () => {
+  const pillsPercentage =
+    (medication.pillsRemaining / medication.pillsTotal) * 100;
+
+  const [visibleLogs, setVisibleLogs] = useState<LogEntry[]>([]);
+  const [logsToShow, setLogsToShow] = useState(5);
+  const logContainerRef = useRef(null);
+
+  useEffect(() => {
+    // Load initial logs
+    setVisibleLogs(medication.log.slice(0, logsToShow));
+  }, [logsToShow]);
+
+  const handleScroll = () => {
+    if (logContainerRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = logContainerRef.current;
+      if (scrollTop + clientHeight >= scrollHeight) {
+        // User has scrolled to the bottom, load more logs
+        setLogsToShow((prev) => Math.min(prev + 5, medication.log.length)); // Show 5 more logs
+      }
+    }
+  };
+
   return (
     <div className="medicine-container">
       <Header name={medication.name} brand={medication.brand} />
@@ -107,16 +165,30 @@ const MedicineView = () => {
       </div>
       <div className="log-section">
         <h3>Log</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Taken on</th>
-              <th>Dose</th>
-              <th>Comments</th>
-            </tr>
-          </thead>
-          <tbody>{/* TODO: add Log entries here */}</tbody>
-        </table>
+        <div
+          className="log-table"
+          ref={logContainerRef}
+          onScroll={handleScroll}
+        >
+          <table>
+            <thead className="log-header">
+              <tr>
+                <th>Taken on</th>
+                <th>Dose</th>
+                <th>Comments</th>
+              </tr>
+            </thead>
+            <tbody>
+              {medication.log.map((entry, index) => (
+                <tr key={index}>
+                  <td>{entry.takenOn}</td>
+                  <td>{entry.dose}</td>
+                  <td>{entry.comments}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
