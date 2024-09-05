@@ -7,6 +7,7 @@ use crate::menu::menu;
 use crate::structs::Medication;
 use rusqlite::Connection;
 use std::{env, fs, path::PathBuf, process};
+use structs::User;
 use tauri::{AppHandle, Manager};
 use user::get_patient;
 
@@ -39,6 +40,11 @@ fn get_medications(app: AppHandle) -> Vec<Medication> {
     get_patient(app.clone()).get_medications(app)
 }
 
+#[tauri::command]
+fn get_patient_info(app: AppHandle) -> User {
+    get_patient(app)
+}
+
 #[tauri::command(rename_all = "snake_case")]
 fn get_upcoming_medications(app: AppHandle) -> Vec<Medication> {
     get_patient(app.clone()).get_upcoming_medications(app)
@@ -48,7 +54,8 @@ fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             get_medications,
-            get_upcoming_medications
+            get_upcoming_medications,
+            get_patient_info
         ])
         .setup(|app| {
             app.set_menu(menu(app.app_handle().clone())).unwrap();
