@@ -7,7 +7,7 @@ mod user;
 use crate::menu::menu;
 use crate::structs::Medication;
 use std::{env, fs, process};
-use structs::User;
+use structs::{MedicationLog, User};
 use tauri::{AppHandle, Manager};
 use user::{get_patient, get_user};
 
@@ -31,13 +31,27 @@ fn get_upcoming_medications(app: AppHandle) -> Vec<Medication> {
     get_patient(app.clone()).get_upcoming_medications(app)
 }
 
+#[tauri::command(rename_all = "snake_case")]
+fn get_medication_log(app: AppHandle, medication: String) -> Vec<MedicationLog> {
+    // todo: please refactor. this is like, o(n^3)...
+    // get_patient() == o(n) + search_medications() == o(n) + get_logs() == o(n)
+    let mut m = get_patient(app.clone()).search_medications(app.clone(), &medication);
+
+    if m.len() == 1 {
+        return m[0].get_logs(app.clone());
+    }
+
+    vec![]
+}
+
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             get_medications,
             get_upcoming_medications,
             get_patient_info,
-            get_nurse_info
+            get_nurse_info,
+            get_medication_log
         ])
         .setup(|app| {
             app.set_menu(menu(app.app_handle().clone())).unwrap();
