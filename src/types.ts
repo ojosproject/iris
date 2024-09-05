@@ -21,7 +21,7 @@ export type Medication = {
 export type User = {
   id: string;
   full_name: string;
-  type_of: string;
+  type_of: "PATIENT" | "NURSE";
   phone_number?: number;
   email?: string;
 };
