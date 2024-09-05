@@ -8,6 +8,7 @@ pub struct Medication {
     pub dosage: f64,
     pub frequency: f64,
     pub supply: f64,
+    pub total_prescribed: f64,
     pub first_added: f64,
     pub last_taken: Option<f64>,
     pub upcoming_dose: Option<f64>,

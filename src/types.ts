@@ -10,6 +10,7 @@ export type Medication = {
   dosage: number; // float
   frequency: number; // float, 0.0 if it's "as needed"
   supply: number; // float
+  total_prescribed: number; // float
   first_added: number; // Epoch seconds
   last_taken?: number; // Epoch seconds
   upcoming_dose?: number; // Epoch seconds

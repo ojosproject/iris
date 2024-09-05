@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS medication (
     dose REAL NOT NULL,
     frequency REAL NOT NULL,
     supply REAL NOT NULL,
+    total_prescribed REAL NOT NULL,
     first_added REAL NOT NULL,
     last_taken REAL,
     upcoming_dose REAL,

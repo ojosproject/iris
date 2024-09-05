@@ -37,6 +37,7 @@ impl Medication {
             dosage,
             frequency,
             supply,
+            total_prescribed: supply,
             first_added,
             last_taken: None,
             upcoming_dose: None,
@@ -46,7 +47,7 @@ impl Medication {
         };
 
         conn.execute(
-            "INSERT INTO medication (name, brand, dose, frequency, supply, first_added, last_taken, upcoming_dose, schedule, measurement, nurse_id)
+            "INSERT INTO medication (name, brand, dose, frequency, supply, total_prescribed, first_added, last_taken, upcoming_dose, schedule, measurement, nurse_id)
         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11)",
             (
                 &m.name,
@@ -54,6 +55,7 @@ impl Medication {
                 &m.dosage,
                 &m.frequency,
                 &m.supply,
+                &m.total_prescribed,
                 &m.first_added,
                 &m.last_taken,
                 &m.upcoming_dose,
@@ -228,5 +230,16 @@ impl Medication {
         self.set_upcoming_dose(app); //updates the medication's upcoming_dose
 
         String::from(self.schedule.as_ref().unwrap())
+    }
+
+    pub fn refill(&mut self, app: AppHandle, supply: f64) {
+        let app_data_dir = app.path().app_data_dir().unwrap();
+        let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
+
+        conn.execute(
+            "UPDATE medication SET supply = ?1, total_prescribed = ?2 WHERE name = ?3",
+            (self.supply + supply, supply, &self.name),
+        )
+        .unwrap();
     }
 }
