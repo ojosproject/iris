@@ -25,7 +25,7 @@
     },
     "longDescription": "",
     "macOS": {
-      "entitlements": null,
+      "entitlements": "Release.entitlements",
       "exceptionDomain": "",
       "frameworks": [],
       "providerShortName": null,
@@ -39,7 +39,7 @@
       }
     }
   },
-  "productName": "iris",
+  "productName": "Iris",
   "version": "0.1.0",
   "identifier": "org.ojosproject.Iris",
   "plugins": {},
