@@ -25,6 +25,7 @@ pub struct User {
     pub email: Option<String>,
 }
 
+#[derive(Serialize, Deserialize)]
 pub struct MedicationLog {
     pub timestamp: f64,
     pub medication_name: String,
