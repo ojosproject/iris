@@ -1,36 +1,24 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+mod dev;
 mod medications;
 mod menu;
 mod structs;
 mod user;
 use crate::menu::menu;
 use crate::structs::Medication;
-use rusqlite::Connection;
-use std::{fs, path::PathBuf};
+use std::{env, fs, process};
+use structs::User;
 use tauri::{AppHandle, Manager};
 use user::get_patient;
-
-fn create_database(file_path: PathBuf) {
-    let connection = Connection::open(file_path).expect("Failed to open the database.");
-    connection
-        .execute_batch(
-            fs::read_to_string("./src/schema.sql")
-                .expect("Reading the schema file failed.")
-                .as_str(),
-        )
-        .expect("Creating the file from SQL Schema failed.");
-
-    connection
-        .execute(
-            "INSERT INTO user(id, full_name, type, phone_number, email) VALUES ('0', 'patient', 'PATIENT', NULL, NULL)",
-            [],
-        )
-        .unwrap();
-}
 
 #[tauri::command(rename_all = "snake_case")]
 fn get_medications(app: AppHandle) -> Vec<Medication> {
     get_patient(app.clone()).get_medications(app)
+}
+
+#[tauri::command]
+fn get_patient_info(app: AppHandle) -> User {
+    get_patient(app)
 }
 
 #[tauri::command(rename_all = "snake_case")]
@@ -42,27 +30,56 @@ fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             get_medications,
-            get_upcoming_medications
+            get_upcoming_medications,
+            get_patient_info
         ])
         .setup(|app| {
             app.set_menu(menu(app.app_handle().clone())).unwrap();
 
             app.on_menu_event(move |app, event| {
+                let copy = app.clone();
+                let command = match env::consts::OS {
+                    "windows" => "explorer",
+                    "macos" => "open",
+                    "linux" => "xdg-open",
+                    _ => panic!("This system cannot be used for Iris development."),
+                };
+
                 if event.id() == "help_app_data_dir" {
-                    showfile::show_path_in_file_manager(app.path().app_data_dir().unwrap());
+                    process::Command::new(command)
+                        .args([copy.path().app_data_dir().unwrap()])
+                        .output()
+                        .unwrap();
                 } else if event.id() == "help_app_config_dir" {
-                    showfile::show_path_in_file_manager(app.path().app_config_dir().unwrap());
+                    process::Command::new(command)
+                        .args([copy.path().app_config_dir().unwrap()])
+                        .output()
+                        .unwrap();
+                } else if event.id() == "import_test_data" {
+                    println!("Importing testing.sql...");
+                    dev::import_dummy_data(app.path().app_data_dir().unwrap().join("iris.db"));
+                    println!("Done.");
+                } else if event.id() == "delete_db" {
+                    let iris_path = app.path().app_data_dir().unwrap().join("iris.db");
+                    println!("Deleting iris.db...");
+                    dev::delete_database(iris_path.clone());
+                    println!("Done!");
+
+                    println!("Recreating iris.db...");
+                    dev::create_database(iris_path.clone());
+                    println!("Done!");
                 }
             });
 
             let app_data_dir = app.path().app_data_dir().unwrap();
 
             println!("Iris DB location: {:?}", app_data_dir.join("iris.db"));
+            println!("Use the \"Help\" menu to open it on your computer.");
 
             if !app_data_dir.join("iris.db").exists() {
                 fs::create_dir_all(&app_data_dir).unwrap();
 
-                create_database(app_data_dir.join("iris.db"));
+                dev::create_database(app_data_dir.join("iris.db"));
             }
 
             Ok(())

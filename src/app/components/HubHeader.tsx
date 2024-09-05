@@ -1,14 +1,35 @@
 "use client";
+import { invoke } from "@tauri-apps/api/core";
 import classes from "./HubHeader.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Clock from "react-live-clock";
+import { User } from "@/types";
+
+function get_time_of_day(): "morning" | "afternoon" | "evening" {
+  // Remember that Date.getHours() returns in 24-hour format
+  let hour = new Date().getHours();
+
+  if (hour > 17) {
+    return "evening";
+  } else if (hour > 11 && hour < 17) {
+    // 17:00 === 5:00 pm
+    return "afternoon";
+  }
+  return "morning";
+}
 
 export default function HubHeader() {
-  // todo: Possibly change these from useState to fetching from the backend for the user name and current time of day
   const [userName, setUserName] = useState("Name");
   const [timeOfDay, setTimeOfDay] = useState("morning");
-  // todo: get current time
   // todo: change formatting in Clock element to have multiple lines
+
+  useEffect(() => {
+    invoke("get_patient_info").then((user) => {
+      setUserName((user as User).full_name.split(" ")[0]);
+    });
+
+    setTimeOfDay(get_time_of_day());
+  }, [userName]);
 
   return (
     <header className={classes.head}>
