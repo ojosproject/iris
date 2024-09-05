@@ -36,8 +36,8 @@ impl Medication {
             brand: brand.to_string(),
             dosage,
             frequency,
-            supply: Some(supply),
-            first_added: Some(first_added),
+            supply,
+            first_added,
             last_taken: None,
             upcoming_dose: None,
             schedule: None,
@@ -89,11 +89,11 @@ impl Medication {
     pub fn set_supply(&mut self, app: AppHandle, supply: f64) {
         let app_data_dir = app.path().app_data_dir().unwrap();
         let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
-        self.supply = Some(supply);
+        self.supply = supply;
 
         conn.execute(
             "UPDATE medication SET supply = ?1 WHERE name = ?2",
-            (&self.supply.unwrap(), &self.name),
+            (&self.supply, &self.name),
         )
         .unwrap();
     }

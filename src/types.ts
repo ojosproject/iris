@@ -9,8 +9,8 @@ export type Medication = {
   brand: string;
   dosage: number; // float
   frequency: number; // float, 0.0 if it's "as needed"
-  supply?: number; // float
-  first_added?: number; // Epoch seconds
+  supply: number; // float
+  first_added: number; // Epoch seconds
   last_taken?: number; // Epoch seconds
   upcoming_dose?: number; // Epoch seconds
   schedule?: string; // comma separated values, hours in 24-hr format (e.g., 0,6,12,18 to represent 12am, 6am, 12pm, 6pm)
