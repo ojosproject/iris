@@ -19,8 +19,21 @@ pub fn set_resources_last_call(app: AppHandle, value: i64) {
 }
 
 pub fn get_config(app: &AppHandle) -> Config {
-    let content = fs::read_to_string(app.path().app_config_dir().unwrap().join("config.json"))
-        .expect("Reading file failed");
+    let app_data_dir = app.path().app_config_dir().unwrap();
+
+    let content = match fs::read_to_string(app_data_dir.join("config.json")) {
+        Ok(content) => content,
+        Err(_) => {
+            let template_config = Config {
+                resources_last_call: 0,
+            };
+            let template_config_string = serde_json::to_string(&template_config).unwrap();
+
+            fs::write(app_data_dir.join("config.json"), &template_config_string).unwrap();
+            template_config_string
+        }
+    };
+
     let config: Config = serde_json::from_str(&content).expect("Converting file to Config failed");
     config
 }
