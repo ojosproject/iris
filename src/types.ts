@@ -32,6 +32,5 @@ export type MedicationLog = {
 };
 
 export type Config = {
-  camera_available: boolean;
-  audio_available: boolean;
+  resources_last_call: number // integer
 }
