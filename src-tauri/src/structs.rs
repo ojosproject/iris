@@ -28,3 +28,12 @@ pub struct MedicationLog {
     pub given_dose: f64,
     pub comment: Option<String>,
 }
+
+#[derive(Serialize, Deserialize)]
+pub struct Resource {
+    pub label: String,
+    pub description: String,
+    pub url: String,
+    pub organization: String,
+    pub type_of: String,
+}

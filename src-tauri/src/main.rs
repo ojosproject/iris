@@ -4,8 +4,9 @@ mod medications;
 mod menu;
 mod structs;
 mod user;
+mod resources;
 use crate::menu::menu;
-use crate::structs::Medication;
+use crate::structs::{Medication, Resource};
 use std::{env, fs, process};
 use structs::User;
 use tauri::{AppHandle, Manager};
@@ -24,6 +25,11 @@ fn get_patient_info(app: AppHandle) -> User {
 #[tauri::command(rename_all = "snake_case")]
 fn get_upcoming_medications(app: AppHandle) -> Vec<Medication> {
     get_patient(app.clone()).get_upcoming_medications(app)
+}
+
+#[tauri::command(rename_all = "snake_case")]
+fn get_resources(app: AppHandle) -> Vec<Resource> {
+    resources::get_resources(app.clone())
 }
 
 fn main() {

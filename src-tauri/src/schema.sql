@@ -56,8 +56,8 @@ CREATE TABLE IF NOT EXISTS resource (
     label TEXT NOT NULL,
     description TEXT NOT NULL,
     url TEXT NOT NULL PRIMARY KEY,
-    added_by TEXT NOT NULL,
-    type TEXT NOT NULL
+    organization TEXT NOT NULL,
+    type_of TEXT NOT NULL
 ) STRICT;
 
 /*
