@@ -54,7 +54,8 @@ Rows:
 */
 CREATE TABLE IF NOT EXISTS resource (
     label TEXT NOT NULL,
-    value TEXT NOT NULL PRIMARY KEY,
+    description TEXT NOT NULL,
+    url TEXT NOT NULL PRIMARY KEY,
     added_by TEXT NOT NULL,
     type TEXT NOT NULL
 ) STRICT;
