@@ -15,9 +15,10 @@ const LogTab: React.FC = () => {
   const [selectedMedication, setSelectedMedication] =
     useState<MedicationLog | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const medicationSelect = (log: MedicationLog) => {
     setSelectedMedication(log);
-    setIsModalOpen(true);
+    setIsConfirmationModalOpen(true);
   };
 
   const [medicationLogs, setMedicationLogs] = useState<MedicationLog[]>([
@@ -53,18 +54,13 @@ const LogTab: React.FC = () => {
     //TODO: add a way to use the med view log
   };
 
-  const closeModal = () => {
-    setSelectedMedication(null);
-    setIsModalOpen(false);
-  };
-
   const confirmSelection = () => {
     if (selectedMedication) {
       alert(
         `${selectedMedication.medication_name} is selected, logging now...`,
       );
       setSelectedMedication(null);
-      setIsModalOpen(false);
+      setIsConfirmationModalOpen(false);
     }
   };
 
@@ -77,7 +73,7 @@ const LogTab: React.FC = () => {
   };
 
   // Function to handle the submission of new medication
-  //  TODO: Only adding medication to the list for now, need to implement backend 
+  // TODO: Only adding medication to the list for now, need to implement backend 
   const handleModalSubmit = (newMedication: MedicationLog) => {
     const exists = medicationLogs.some(log =>
       log.medication_name.toLowerCase() === newMedication.medication_name.toLowerCase()
@@ -99,8 +95,6 @@ const LogTab: React.FC = () => {
     setIsModalOpen(false);
   };
 
-
-  //TODO: fix search display
   return (
     <div className="container">
       <h1 className="header">Your Medications</h1>
@@ -120,7 +114,6 @@ const LogTab: React.FC = () => {
           onClose={handleModalClose}
           onSubmit={handleModalSubmit}
         />
-        {/* TODO: Add more UI element */}
       </div>
       <div className="medsWrap">
         {/* TODO: Fix the display of medication in odd amount */}
@@ -140,31 +133,24 @@ const LogTab: React.FC = () => {
                 <br />
                 {log.timestamp}
               </div>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  medicationSelect(log);
-                }}
-                className="logItem">Log</button>
-              {/*
-              TODO: add view individual buttons
+              <div key={log.medication_name} className="logButtons">
                 <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    medicationSelect(log);
-                  }}
-                  className="logItem"
-                >
+                  onClick={() => medicationSelect(log)}
+                  className="logItem">
+                  Log
+                </button>
+                <button
+                  className="logItem">
                   View
                 </button>
-                 */}
+              </div>
             </div>
           ))}
         </div>
       </div>
       <ConfirmationModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
+        isOpen={isConfirmationModalOpen}
+        onClose={() => setIsConfirmationModalOpen(false)}
         onConfirm={confirmSelection}
         medicationName={selectedMedication}
       />

@@ -37,9 +37,15 @@ body {
   box-sizing: border-box;
 }
 
+.logButtons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px;
+}
+
 .logItem {
   flex: 1;
-  margin-top: 15px;
   padding: 10px 20px;
   border-radius: 5px;
   background-color: #0000ff;
