@@ -4,12 +4,19 @@
 // Handles displaying resources to the user
 #![allow(dead_code)]
 use crate::structs::Resource;
+use crate::config;
 use reqwest::blocking;
 use tauri::{AppHandle,Manager};
 use rusqlite::{named_params, Connection};
+use chrono::Utc;
 
 pub fn get_resources(app: AppHandle) -> Vec<Resource> {
-    let resources = blocking::get("https://raw.githubusercontent.com/ojosproject/resources/main/resources.json").expect("Connection failed").json::<Vec<Resource>>().expect("Failed to convert response");
+    let last_call = config::get_config(&app).resources_last_call;
+    let mut resources = vec![]; 
+    if last_call + 1800 < Utc::now().timestamp(){
+        resources = blocking::get("https://raw.githubusercontent.com/ojosproject/resources/main/resources.json").expect("Connection failed").json::<Vec<Resource>>().expect("Failed to convert response");
+        config::set_resources_last_call(app, Utc::now().timestamp());
+    }
     resources
 }
 

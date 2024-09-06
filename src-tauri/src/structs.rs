@@ -41,4 +41,5 @@ pub struct Resource {
     pub url: String,
     pub organization: String,
     pub type_of: String,
+    pub last_updated: String,
 }
