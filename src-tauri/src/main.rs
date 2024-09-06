@@ -1,8 +1,8 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+mod config;
 mod dev;
 mod medications;
 mod menu;
-mod specs;
 mod structs;
 mod user;
 use crate::menu::menu;
@@ -28,13 +28,8 @@ fn get_upcoming_medications(app: AppHandle) -> Vec<Medication> {
 }
 
 #[tauri::command(rename_all = "snake_case")]
-fn update_specs(app: AppHandle, camera_available: bool, audio_available: bool) {
-    specs::update_specs(app.clone(), camera_available, audio_available);
-}
-
-#[tauri::command(rename_all = "snake_case")]
-fn get_specs(app: AppHandle) -> structs::Config {
-    specs::get_specs(app.clone())
+fn get_config(app: AppHandle) -> structs::Config {
+    config::get_config(app.app_handle())
 }
 
 fn main() {
@@ -43,8 +38,7 @@ fn main() {
             get_medications,
             get_upcoming_medications,
             get_patient_info,
-            update_specs,
-            get_specs,
+            get_config,
         ])
         .setup(|app| {
             app.set_menu(menu(app.app_handle().clone())).unwrap();
