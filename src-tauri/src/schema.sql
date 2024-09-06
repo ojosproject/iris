@@ -6,12 +6,14 @@ Rows:
     * timestamp     - The Unix timestamp of when the medication was added
     medication_name - The name of the medication given
     given_dose      - The dosage given to the patient
+    measurement     - The measurement of the given dose
     comment         - (Optional) Any comments that might be important to note
 */
 CREATE TABLE IF NOT EXISTS medication_log (
     timestamp REAL NOT NULL PRIMARY KEY,
     medication_name TEXT NOT NULL,
     given_dose REAL NOT NULL,
+    measurement TEXT NOT NULL,
     comment TEXT
 ) STRICT;
 
@@ -35,11 +37,13 @@ CREATE TABLE IF NOT EXISTS medication (
     dose REAL NOT NULL,
     frequency REAL NOT NULL,
     supply REAL NOT NULL,
+    total_prescribed REAL NOT NULL,
     first_added REAL NOT NULL,
     last_taken REAL,
     upcoming_dose REAL,
     schedule TEXT,
-    measurement TEXT NOT NULL
+    measurement TEXT NOT NULL,
+    nurse_id TEXT NOT NULL
 ) STRICT;
 
 /*
@@ -119,5 +123,7 @@ CREATE TABLE IF NOT EXISTS care_instruction (
 CREATE TABLE IF NOT EXISTS user (
     id TEXT PRIMARY KEY NOT NULL,
     full_name TEXT NOT NULL,
-    type TEXT NOT NULL
+    type TEXT NOT NULL,
+    phone_number REAL,
+    email TEXT
 );
