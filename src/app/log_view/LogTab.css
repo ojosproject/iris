@@ -122,9 +122,6 @@ input {
   background-color: #f9f9f9;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
-  display: flex;
-  justify-content: flex-start; /* Aligns items to the left */
-  flex-wrap: wrap; /* Allows wrapping if necessary */
 }
 
 .buttonGroup {

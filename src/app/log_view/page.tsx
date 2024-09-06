@@ -2,12 +2,24 @@
 import React, { useState } from "react";
 import "./LogTab.css";
 import ConfirmationModal from "./components/LogConfirmation";
+import MedicationModal from "./components/NewMed";
 // * Added MedicationLog type to reflect how data will return from the backend
 // Idk if we need frequency. I'll check in soon.
 import { MedicationLog } from "@/types";
 
 const LogTab: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+  };
+  const [selectedMedication, setSelectedMedication] =
+    useState<MedicationLog | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const medicationSelect = (log: MedicationLog) => {
+    setSelectedMedication(log);
+    setIsModalOpen(true);
+  };
+
   const [medicationLogs, setMedicationLogs] = useState<MedicationLog[]>([
     //TODO: keep frequency but change to "x amount / hour", allow manual input of medication
     {
@@ -37,19 +49,6 @@ const LogTab: React.FC = () => {
     },
   ]);
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(event.target.value);
-  };
-
-  const [selectedMedication, setSelectedMedication] =
-    useState<MedicationLog | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const medicationSelect = (log: MedicationLog) => {
-    setSelectedMedication(log);
-    setIsModalOpen(true);
-  };
-
   const medicationView = (log: MedicationLog) => {
     //TODO: add a way to use the med view log
   };
@@ -74,26 +73,32 @@ const LogTab: React.FC = () => {
   );
 
   const handleAddMedication = () => {
-    const newMedicationName = searchQuery.trim();
+    setIsModalOpen(true);
+  };
 
-    const exists = medicationLogs.some(
-      (log: MedicationLog) => log.medication_name.toLowerCase() === newMedicationName.toLowerCase()
+  // Function to handle the submission of new medication
+  //  TODO: Only adding medication to the list for now, need to implement backend 
+  const handleModalSubmit = (newMedication: MedicationLog) => {
+    const exists = medicationLogs.some(log =>
+      log.medication_name.toLowerCase() === newMedication.medication_name.toLowerCase()
     );
 
-    if (!exists && newMedicationName !== "") {
-      const newMedicationLog: MedicationLog = {
-        medication_name: newMedicationName,
-        given_dose: 0, // Set default values or prompt the user for input
-        measurement: "mg",
-        timestamp: 0, // Current timestamp, 0 for now
-      };
-
-      setMedicationLogs([...medicationLogs, newMedicationLog]);
-      setSearchQuery("");
-    } else {
-      alert("This medication already exists or the input is empty!");
+    if (exists) {
+      alert('Medication already exists!');
+      return;
+    } else if (newMedication.given_dose <= 0) {
+      alert('Please provide valid medication details.');
+      return;
     }
+
+    setMedicationLogs([...medicationLogs, newMedication]);
+    setIsModalOpen(false);
   };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
 
   //TODO: fix search display
   return (
@@ -110,8 +115,15 @@ const LogTab: React.FC = () => {
         <button onClick={handleAddMedication} className="addMedicationButton">
           Add Medication
         </button>
+        <MedicationModal
+          isOpen={isModalOpen}
+          onClose={handleModalClose}
+          onSubmit={handleModalSubmit}
+        />
+        {/* TODO: Add more UI element */}
       </div>
       <div className="medsWrap">
+        {/* TODO: Fix the display of medication in odd amount */}
         <div className="logsContainer">
           {filteredLogs.map((log, index) => (
             <div key={index} className="logMeds">
