@@ -30,6 +30,11 @@ pub struct MedicationLog {
 }
 
 #[derive(Serialize, Deserialize)]
+pub struct Config {
+    pub resources_last_call: i64,
+}
+
+#[derive(Serialize, Deserialize)]
 pub struct Resource {
     pub label: String,
     pub description: String,

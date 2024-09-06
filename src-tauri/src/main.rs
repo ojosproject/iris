@@ -1,10 +1,11 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+mod config;
 mod dev;
 mod medications;
 mod menu;
+mod resources;
 mod structs;
 mod user;
-mod resources;
 use crate::menu::menu;
 use crate::structs::{Medication, Resource};
 use std::{env, fs, process};
@@ -28,6 +29,11 @@ fn get_upcoming_medications(app: AppHandle) -> Vec<Medication> {
 }
 
 #[tauri::command(rename_all = "snake_case")]
+fn get_config(app: AppHandle) -> structs::Config {
+    config::get_config(app.app_handle())
+}
+
+#[tauri::command(rename_all = "snake_case")]
 fn get_resources(app: AppHandle) -> Vec<Resource> {
     resources::get_resources(app.clone())
 }
@@ -37,7 +43,8 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
             get_medications,
             get_upcoming_medications,
-            get_patient_info
+            get_patient_info,
+            get_config,
         ])
         .setup(|app| {
             app.set_menu(menu(app.app_handle().clone())).unwrap();

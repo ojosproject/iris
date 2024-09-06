@@ -30,3 +30,7 @@ export type MedicationLog = {
   given_dose: number; // float
   comment?: string;
 };
+
+export type Config = {
+  resources_last_call: number // integer
+}
