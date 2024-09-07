@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS resource (
     description TEXT NOT NULL,
     url TEXT NOT NULL PRIMARY KEY,
     organization TEXT NOT NULL,
-    type_of TEXT NOT NULL,
+    category TEXT NOT NULL,
     last_updated REAL NOT NULL
 ) STRICT;
 

@@ -40,6 +40,6 @@ export type Resource = {
   description: string,
   url: string,
   organization: string,
-  type_of: "FINANCIAL" | "LEGAL",
+  category: "FINANCIAL" | "LEGAL",
   last_updated: number // Unix timestamp
 }

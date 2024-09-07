@@ -40,6 +40,6 @@ pub struct Resource {
     pub description: String,
     pub url: String,
     pub organization: String,
-    pub type_of: String,
+    pub category: String,
     pub last_updated: String,
 }
