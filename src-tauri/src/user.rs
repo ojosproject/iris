@@ -72,6 +72,10 @@ impl User {
         phone_number: Option<i64>,
         email: Option<String>,
     ) -> Self {
+        if !["PATIENT".to_string(), "NURSE".to_string()].contains(&type_of) {
+            panic!("Type {type_of:?} is not supported yet.")
+        }
+
         let app_data_dir = app.path().app_data_dir().unwrap();
         let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
         let new_user_id = Uuid::new_v4().to_string();
