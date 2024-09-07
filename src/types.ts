@@ -34,3 +34,12 @@ export type MedicationLog = {
 export type Config = {
   resources_last_call: number // integer
 }
+
+export type Resource = {
+  label: string,
+  description: string,
+  url: string,
+  organization: string,
+  type_of: "FINANCIAL" | "LEGAL",
+  last_updated: number // Unix timestamp
+}
