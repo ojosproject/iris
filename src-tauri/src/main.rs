@@ -3,6 +3,7 @@ mod config;
 mod dev;
 mod medications;
 mod menu;
+mod pro;
 mod structs;
 mod user;
 use crate::menu::menu;
