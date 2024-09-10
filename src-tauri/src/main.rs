@@ -33,6 +33,21 @@ fn get_config(app: AppHandle) -> structs::Config {
     config::get_config(app.app_handle())
 }
 
+#[tauri::command]
+fn get_care_instructions(app: AppHandle) -> Vec<structs::CareInstruction> {
+    care_instructions::get_all_care_instructions(&app)
+}
+
+#[tauri::command]
+fn create_care_instruction(
+    app: AppHandle,
+    text: String,
+    readable_frequency: String,
+    added_by: String,
+) -> structs::CareInstruction {
+    care_instructions::add_care_instruction(&app, text, readable_frequency, added_by)
+}
+
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
@@ -40,6 +55,8 @@ fn main() {
             get_upcoming_medications,
             get_patient_info,
             get_config,
+            get_care_instructions,
+            create_care_instruction
         ])
         .setup(|app| {
             app.set_menu(menu(app.app_handle().clone())).unwrap();
