@@ -35,7 +35,7 @@ pub struct Config {
 }
 
 #[derive(Serialize, Deserialize)]
-struct PatientRecordedOutcome {
+struct PatientReportedOutcome {
     pub recorded_date: String,
     pub question: String,
     pub response: String,
