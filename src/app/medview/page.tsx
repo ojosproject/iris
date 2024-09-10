@@ -19,6 +19,10 @@ const medication: Medication = {
   frequency: 0.0,
 };
 
+interface MedViewProps {
+  data: MedicationLog;
+}
+
 //TODO: Place holder for testing, remove in for backend
 const log: MedicationLog[] = [
   {
@@ -130,7 +134,7 @@ const LeftPanel = ({
   );
 };
 
-//TODO: Add the pill remaining visual circle to the right panel
+//TODO: make pill visual work
 const DetailBox = ({
   label,
   value,
@@ -178,7 +182,11 @@ const DetailBox = ({
   );
 };
 
-const MedicineView = () => {
+const MedicineView: React.FC<MedViewProps> = ({ data }) => {
+  if (!data) {
+    return <div>No medication details available</div>;
+  }
+
   const pillsPercentage =
     (medication.supply / medication.total_prescribed) * 100;
 
@@ -216,7 +224,7 @@ const MedicineView = () => {
       const { scrollTop, scrollHeight, clientHeight } = logContainerRef.current;
       if (scrollTop + clientHeight >= scrollHeight) {
         // User has scrolled to the bottom, load more logs
-        setLogsToShow((prev) => Math.min(prev + 5, visibleLogs.length)); // Show 5 more logs
+        setLogsToShow((prev) => Math.min(prev + 5, visibleLogs.length));
       }
     }
   };

@@ -1,13 +1,25 @@
 "use client";
 import React, { useState } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
 import "./LogTab.css";
 import ConfirmationModal from "./components/LogConfirmation";
 import MedicationModal from "./components/NewMed";
+import MedicineView from "../medview/page";
+import NavigationProvider from "./components/navigation";
 // * Added MedicationLog type to reflect how data will return from the backend
 // Idk if we need frequency. I'll check in soon.
 import { MedicationLog } from "@/types";
 
-const LogTab: React.FC = () => {
+interface LogTabProps {
+  navigate: (page: string, data?: any) => void;
+}
+
+const LogTab: React.FC<LogTabProps> = ({ navigate }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
@@ -22,7 +34,7 @@ const LogTab: React.FC = () => {
   };
 
   const [medicationLogs, setMedicationLogs] = useState<MedicationLog[]>([
-    //TODO: keep frequency but change to "x amount / hour", allow manual input of medication
+    //TODO: keep frequency but change to "x amount / hour"
     {
       medication_name: "Med #1",
       given_dose: 10,
@@ -50,10 +62,7 @@ const LogTab: React.FC = () => {
     },
   ]);
 
-  const medicationView = (log: MedicationLog) => {
-    //TODO: add a way to use the med view log
-  };
-
+  // Modal used for the log button
   const confirmSelection = () => {
     if (selectedMedication) {
       alert(
@@ -73,17 +82,19 @@ const LogTab: React.FC = () => {
   };
 
   // Function to handle the submission of new medication
-  // TODO: Only adding medication to the list for now, need to implement backend 
+  // TODO: Only adding medication to the list for now, need to implement backend
   const handleModalSubmit = (newMedication: MedicationLog) => {
-    const exists = medicationLogs.some(log =>
-      log.medication_name.toLowerCase() === newMedication.medication_name.toLowerCase()
+    const exists = medicationLogs.some(
+      (log) =>
+        log.medication_name.toLowerCase() ===
+        newMedication.medication_name.toLowerCase(),
     );
 
     if (exists) {
-      alert('Medication already exists!');
+      alert("Medication already exists!");
       return;
     } else if (newMedication.given_dose <= 0) {
-      alert('Please provide valid medication details.');
+      alert("Please provide valid medication details.");
       return;
     }
 
@@ -93,6 +104,12 @@ const LogTab: React.FC = () => {
 
   const handleModalClose = () => {
     setIsModalOpen(false);
+  };
+
+  // navigation to med view
+  const handleViewClick = (log: MedicationLog) => {
+    console.log("Navigating to medView with:", log);
+    navigate("medView", log);
   };
 
   return (
@@ -136,11 +153,14 @@ const LogTab: React.FC = () => {
               <div key={log.medication_name} className="logButtons">
                 <button
                   onClick={() => medicationSelect(log)}
-                  className="logItem">
+                  className="logItem"
+                >
                   Log
                 </button>
                 <button
-                  className="logItem">
+                  onClick={() => handleViewClick(log)}
+                  className="logItem"
+                >
                   View
                 </button>
               </div>
