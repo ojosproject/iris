@@ -33,3 +33,11 @@ pub struct MedicationLog {
 pub struct Config {
     pub resources_last_call: i64,
 }
+
+#[derive(Serialize, Deserialize)]
+pub struct CareInstruction {
+    pub text: String,
+    pub frequency: String,
+    pub added_by: String,
+    pub first_added: i64,
+}
