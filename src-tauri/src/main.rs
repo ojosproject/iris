@@ -1,4 +1,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+mod care_instructions;
 mod config;
 mod dev;
 mod medications;
