@@ -1,25 +1,15 @@
 "use client";
 import React, { useState } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  useNavigate,
-} from "react-router-dom";
 import "./LogTab.css";
 import ConfirmationModal from "./components/LogConfirmation";
 import MedicationModal from "./components/NewMed";
-import MedicineView from "../medview/page";
-import NavigationProvider from "./components/navigation";
+import Link from "next/link";
+import MedicineView from "./medview/page";
 // * Added MedicationLog type to reflect how data will return from the backend
 // Idk if we need frequency. I'll check in soon.
 import { MedicationLog } from "@/types";
 
-interface LogTabProps {
-  navigate: (page: string, data?: any) => void;
-}
-
-const LogTab: React.FC<LogTabProps> = ({ navigate }) => {
+const LogTab = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
@@ -107,10 +97,6 @@ const LogTab: React.FC<LogTabProps> = ({ navigate }) => {
   };
 
   // navigation to med view
-  const handleViewClick = (log: MedicationLog) => {
-    console.log("Navigating to medView with:", log);
-    navigate("medView", log);
-  };
 
   return (
     <div className="container">
@@ -157,12 +143,19 @@ const LogTab: React.FC<LogTabProps> = ({ navigate }) => {
                 >
                   Log
                 </button>
-                <button
-                  onClick={() => handleViewClick(log)}
-                  className="logItem"
-                >
-                  View
-                </button>
+                <Link
+                  href={{
+                    pathname: "/log_view/medview",
+                    query: {
+                      medication_name: log.medication_name,
+                      given_dose: log.given_dose,
+                      last_taken: log.timestamp,
+                    },
+                  }}>
+                  <button className="logItem">
+                    View
+                  </button>
+                </Link>
               </div>
             </div>
           ))}

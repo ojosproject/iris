@@ -4,8 +4,9 @@ import "./MedView.css";
 import { Medication, MedicationLog, User } from "@/types";
 import { invoke } from "@tauri-apps/api/core";
 import moment from "moment";
+import { useRouter } from "next/router";
 
-//TODO: Place holder for testing, will need to find a better alternative
+//Place holder for testing
 const medication: Medication = {
   name: "Morphine",
   brand: "Brand X",
@@ -23,7 +24,7 @@ interface MedViewProps {
   data: MedicationLog;
 }
 
-//TODO: Place holder for testing, remove in for backend
+//Place holder for testing
 const log: MedicationLog[] = [
   {
     timestamp: 1724166000, // August 20, 2024 8:00:00 AM GMT-07:00 DST
@@ -102,6 +103,9 @@ function convert_to_taken_on_string(timestamp: number): string {
   return `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}, ${hour_12}:${minute_zeroed} ${am_pm}`;
 }
 
+//TODO: dynamically change base on which is selected
+//const router = useRouter();
+//const { medication_name, given_dose, last_taken } = router.query;
 const Header = ({ name, brand }: { name: string; brand: string }) => {
   return (
     <div className="header">
@@ -134,7 +138,7 @@ const LeftPanel = ({
   );
 };
 
-//TODO: make pill visual work
+//TODO: dynamically displays remaining pills
 const DetailBox = ({
   label,
   value,
@@ -182,10 +186,7 @@ const DetailBox = ({
   );
 };
 
-const MedicineView: React.FC<MedViewProps> = ({ data }) => {
-  if (!data) {
-    return <div>No medication details available</div>;
-  }
+const MedicineView = () => {
 
   const pillsPercentage =
     (medication.supply / medication.total_prescribed) * 100;
