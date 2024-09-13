@@ -1,23 +1,87 @@
+:root {
+  --main-bg-color: #f9f9f9;
+  --primary-color: #0000ff;
+  --secondary-color: #ffffff;
+  --hover-color: #414141;
+  --text-color: #000000;
+  --font-size-large: 45px;
+  --font-size-medium: 16px;
+  --border-radius: 5px;
+  --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  --box-shadow-small: 0 2px 4px rgba(0, 0, 0, 0.2);
+  --container-width: 800px;
+  --padding: 15px;
+  --gap: 20px;
+}
+
+/* Global Styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  color: var(--text-color);
+}
+
+/* Utility Classes */
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.gap {
+  gap: var(--gap);
+}
+
+.box-shadow {
+  box-shadow: var(--box-shadow);
+}
+
+.box-shadow-small {
+  box-shadow: var(--box-shadow-small);
+}
+
+.border-radius {
+  border-radius: var(--border-radius);
+}
+
+.button {
+  padding: var(--padding);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  color: white;
+  background-color: var(--primary-color);
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: var(--hover-color);
+}
+
+/* Container Styles */
 .container {
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  height: fit-content;
-  box-sizing: border-box;
   height: 100vh;
   overflow: hidden;
 }
 
 .header {
-  font-size: 45px;
+  font-size: var(--font-size-large);
   font-weight: bold;
-  color: #000000;
   text-align: center;
-}
-
-body {
-  font-family: Arial, sans-serif;
 }
 
 .inputContainer {
@@ -26,7 +90,6 @@ body {
 
 .logsContainer {
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-around;
   gap: 15px;
@@ -34,7 +97,6 @@ body {
   overflow-y: auto;
   width: 100%;
   padding: 10px;
-  box-sizing: border-box;
 }
 
 .logButtons {
@@ -47,13 +109,17 @@ body {
 .logItem {
   flex: 1;
   padding: 10px 20px;
-  border-radius: 5px;
-  background-color: #0000ff;
+  border-radius: var(--border-radius);
+  background-color: var(--primary-color);
   color: white;
-  font-size: 16px;
+  font-size: var(--font-size-medium);
   cursor: pointer;
   transition: background-color 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--box-shadow-small);
+}
+
+.logItem:hover {
+  background-color: var(--hover-color);
 }
 
 .logMeds {
@@ -63,11 +129,10 @@ body {
   width: calc(33.333% - 20px);
   min-width: 250px;
   margin: 5px;
-  border: 2px solid #0000ff;
-  border-radius: 8px;
-  box-sizing: border-box;
-  background-color: #ffffff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border: 2px solid var(--primary-color);
+  border-radius: var(--border-radius);
+  background-color: var(--secondary-color);
+  box-shadow: var(--box-shadow);
   align-items: center;
   min-height: 200px;
   padding: 2px;
@@ -81,15 +146,10 @@ body {
   margin: 10px auto;
 }
 
-.logItem:hover {
-  background-color: #414141;
-}
-
 .logMeds .logName,
 .logMeds .logDosage,
 .logMeds .logFrequency,
 .logMeds .logLastTake {
-  color: #000000;
   margin: 5px 0;
   text-align: center;
 }
@@ -108,10 +168,10 @@ input {
 .medication-card {
   width: 48%;
   margin: 1%;
-  padding: 10px;
+  padding: var(--padding);
   border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f9f9f9;
+  border-radius: var(--border-radius);
+  background-color: var(--main-bg-color);
 }
 
 .medication-card div {
@@ -120,14 +180,13 @@ input {
 
 .medsWrap {
   width: 100%;
-  max-width: 800px;
+  max-width: var(--container-width);
   margin: 20px auto;
-  padding: 20px;
-  border: 2px solid #000000;
+  padding: var(--padding);
+  border: 2px solid var(--text-color);
   border-radius: 10px;
-  background-color: #f9f9f9;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  box-sizing: border-box;
+  background-color: var(--main-bg-color);
+  box-shadow: var(--box-shadow);
 }
 
 .buttonGroup {
@@ -137,35 +196,56 @@ input {
 
 .searchBarContainer {
   display: flex;
-  width: 700px;
+  width: 100%;
+  max-width: 700px;
   align-items: center;
-  margin-bottom: 20px;
-  gap: 20px;
+  margin-bottom: var(--gap);
+  gap: var(--gap);
 }
 
 .searchInput {
   flex: 2;
-  background-color: #f9f9f9;
-  color: #000000;
-  border-radius: 5px;
-  padding: 15px;
-  box-sizing: border-box;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: var(--main-bg-color);
+  color: var(--text-color);
+  padding: var(--padding);
   width: 100%;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
 }
 
 .addMedicationButton {
   flex: 1;
-  padding: 15px;
-  border-radius: 5px;
-  background-color: #0000ff;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: var(--primary-color);
+  color: #ffffff;
   align-self: stretch;
+  cursor: pointer;
+}
+.addMedicationButton:hover {
+  background-color: var(--hover-color);
 }
 
-.addMedicationButton:hover {
-  background-color: #414141;
+/* Responsive Design */
+@media (max-width: 768px) {
+  .logMeds {
+    width: 100%;
+    min-width: auto;
+  }
+
+  .logsContainer {
+    flex-direction: column;
+  }
+
+  .medication-card {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .searchBarContainer {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .addMedicationButton {
+    width: 100%;
+  }
 }
