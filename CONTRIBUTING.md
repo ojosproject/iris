@@ -20,6 +20,7 @@
     - [Writing Code](#writing-code)
   - [Code Contributions](#code-contributions)
     - [`git` policies](#git-policies)
+    - [Recommended Reading Material](#recommended-reading-material)
     - [Setting up your coding environment](#setting-up-your-coding-environment)
       - [Tauri](#tauri)
       - [Next.js](#nextjs)
@@ -161,6 +162,15 @@ information.
 
 Please make sure to follow our
 [git policies](https://ojosproject.org/docs/policies/git/).
+
+### Recommended Reading Material
+
+It may be useful to read the following resources before development:
+
+- [Quick Start - React](https://react.dev/learn)
+- [Thinking in React](https://react.dev/learn/thinking-in-react)
+- [NextJS App Routing Fundamentals](https://nextjs.org/docs/app/building-your-application/routing)
+- [Clear explanation of Rust’s module system](https://www.sheshbabu.com/posts/rust-module-system/)
 
 ### Setting up your coding environment
 
