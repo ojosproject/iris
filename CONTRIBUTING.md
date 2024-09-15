@@ -213,7 +213,7 @@ cargo tauri dev
 > You can do so by running:
 >
 > ```shell
-> cargo install tauri-cli
+> cargo install tauri-cli@^2.0.0-rc
 > ```
 
 ### Structure (Frontend v. Backend)
