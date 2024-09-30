@@ -9,7 +9,6 @@
   - [Introduction](#introduction)
     - [Background](#background)
     - [Our Involvement](#our-involvement)
-    - [Our Work](#our-work)
     - [Get in contact](#get-in-contact)
     - [License](#license)
   - [How to Contribute](#how-to-contribute)
@@ -56,39 +55,10 @@ work, and that does not change with this repository.
 We file issues in this space, we collaborate in this space, send commits in this
 space, and more.
 
-### Our Work
-
-> [!IMPORTANT]
-> If you'd like to contribute code, please review these diagrams before
-> continuing.
-
-Before coding, we created various diagrams to help us outline the architecture
-of Iris. I suggest giving a look at that before contributing code:
-
-- [Iris C4 Model](https://ojosproject.org/docs/url/developers/c4-model/): The
-  [C4 Model](https://c4model.com/) is a set of diagrams that help us outline the
-  architecture of Iris. It includes
-  - A system context diagram
-  - Container diagram
-  - Component diagram
-  - Code diagram
-- [Iris Database Schema](https://ojosproject.org/docs/url/developers/database-schema/):
-  The Iris Database Schema helps us visualize the type of data our database file
-  will include. This helps us know how to structure our classes
-- [Iris Flowcharts](https://ojosproject.org/docs/url/developers/flowcharts/):
-  The Iris Flowcharts indicate how our system will work in various different
-  situations.
-
-There may be more diagrams available at
-[Iris Software Design](https://ojosproject.org/docs/url/developers/design/).
-
 ### Get in contact
 
-There's a few ways to get in contact with the Ojos Project team, but one of the
-most effective ways may be with our
-[Slack workspace](https://ojosproject.slack.com/). However, you may also contact
-[Carlos Valdez](https://github.com/calejvaldez) by email at
-[cvaldezh@uci.edu](mailto:cvaldezh@uci.edu).
+As of now, the best way to get in contact with us is through Carlos via
+<cvaldezh@uci.edu>.
 
 ### License
 
@@ -149,10 +119,6 @@ information.
 
 ## Code Contributions
 
-> [!WARNING]
-> Before coding, please be sure to review the diagrams in [Our Work](#our-work),
-> as it explains the software architecture of Iris.
-
 ### `git` policies
 
 > [!IMPORTANT]
@@ -175,7 +141,7 @@ It may be useful to read the following resources before development:
 ### Setting up your coding environment
 
 ```shell
-# Clone the repository
+# Clone the repository with SSH (or HTTPS)
 git clone git@github.com:ojosproject/iris.git
 cd iris
 ```
