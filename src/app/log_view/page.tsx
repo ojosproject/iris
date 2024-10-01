@@ -4,7 +4,7 @@ import "./LogTab.css";
 import ConfirmationModal from "./components/LogConfirmation";
 import MedicationModal from "./components/NewMed";
 import Link from "next/link";
-import MedicineView from "./medview/page";
+import { useRouter } from "next/router";
 // * Added MedicationLog type to reflect how data will return from the backend
 // Idk if we need frequency. I'll check in soon.
 import { MedicationLog } from "@/types";
@@ -96,8 +96,7 @@ const LogTab = () => {
     setIsModalOpen(false);
   };
 
-  // navigation to med view
-
+  //TODO: Add back to menu button
   return (
     <div className="container">
       <h1 className="header">Your Medications</h1>
@@ -119,7 +118,6 @@ const LogTab = () => {
         />
       </div>
       <div className="medsWrap">
-        {/* TODO: Fix the display of medication in odd amount */}
         <div className="logsContainer">
           {filteredLogs.map((log, index) => (
             <div key={index} className="logMeds">
@@ -151,10 +149,9 @@ const LogTab = () => {
                       given_dose: log.given_dose,
                       last_taken: log.timestamp,
                     },
-                  }}>
-                  <button className="logItem">
-                    View
-                  </button>
+                  }}
+                >
+                  <button className="logItem">View</button>
                 </Link>
               </div>
             </div>
@@ -168,8 +165,6 @@ const LogTab = () => {
         medicationName={selectedMedication}
       />
     </div>
-
-    /* comment for branch */
   );
 };
 
