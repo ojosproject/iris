@@ -15,6 +15,11 @@ const HubApps: HubAppProps[] = [
     icon: "pl",
     name: "Video Call",
   },
+  {
+    link: "./resources",
+    icon: "pl",
+    name: "Resources",
+  },
 ];
 
 export default function Home() {
