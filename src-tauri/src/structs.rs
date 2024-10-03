@@ -28,3 +28,8 @@ pub struct MedicationLog {
     pub given_dose: f64,
     pub comment: Option<String>,
 }
+
+#[derive(Serialize, Deserialize)]
+pub struct Config {
+    pub resources_last_call: i64,
+}
