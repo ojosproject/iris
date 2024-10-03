@@ -15,19 +15,25 @@ pub fn get_resources(app: AppHandle) -> Vec<Resource> {
     let mut resources = vec![];
     // conditional asks if 30 minutes have passed since the last API call
     if last_call + 1800 < Utc::now().timestamp() {
-        let resources_from_web = blocking::get(
+        let result = match blocking::get(
             "https://raw.githubusercontent.com/ojosproject/resources/main/resources.json",
-        )
-        .unwrap_or_else(|error| 
-            if error.is_connect() {
-                _get_resources_from_database(app, resources);
-                reqwest::blocking::Response::new("Failed to connect to API")
-        })
-        .json::<Vec<Resource>>()
-        .expect("Failed to convert response");
+        ) {
+            Ok(r) => r
+                .json::<Vec<Resource>>()
+                .expect("Failed to convert response"),
+            Err(err) => {
+                if err.is_connect() {
+                    vec![] 
+                    // if a connection error is encountered, it is ignored
+                    // and an empty vector is returned
+                } else {
+                    panic!("Critical error calling API: {}", err)
+                }
+            }
+        };
 
-        store_resources(app, resources_from_web);
-        config::set_resources_last_call(app, Utc::now().timestamp());
+        store_resources(app.clone(), result);
+        config::set_resources_last_call(app.clone(), Utc::now().timestamp());
     }
 
     resources = _get_resources_from_database(app, resources);
@@ -61,17 +67,6 @@ fn _get_resources_from_database(app: AppHandle, mut resources: Vec<Resource>) ->
     }
     resources
 }
-
-/*
-fn _test_internet_connection() -> bool {
-    // sending a ping to 8.8.8.8, google's DNS server, is just a simple test
-    // to ensure we have internet connection
-    match Pinger::new().unwrap().send_ping("8.8.8.8", None, None) {
-        Ok("8.8.8.8") => return true,
-        Err(e) => return false,
-    }
-}
-    */
 
 pub fn store_resources(app: AppHandle, resources: Vec<Resource>) {
     let app_data_dir = app.path().app_data_dir().unwrap().join("iris.db");
