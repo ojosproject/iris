@@ -45,6 +45,7 @@ fn main() {
             get_upcoming_medications,
             get_patient_info,
             get_config,
+            get_resources
         ])
         .setup(|app| {
             app.set_menu(menu(app.app_handle().clone())).unwrap();
