@@ -23,7 +23,7 @@ pub fn get_resources(app: AppHandle) -> Vec<Resource> {
                 .expect("Failed to convert response"),
             Err(err) => {
                 if err.is_connect() {
-                    vec![] 
+                    vec![]
                     // if a connection error is encountered, it is ignored
                     // and an empty vector is returned
                 } else {
@@ -77,7 +77,7 @@ pub fn store_resources(app: AppHandle, resources: Vec<Resource>) {
     // it won't crash
     for resource in resources {
         conn.execute(
-            "INSERT OR IGNORE INTO resource (label, description, url, organization, type_of) VALUES (:label, :description, :url, :organization, :type_of)", 
+            "INSERT OR IGNORE INTO resource (label, description, url, organization, category) VALUES (:label, :description, :url, :organization, :category)", 
             named_params! {":label": resource.label, ":description": resource.description, ":url": resource.url, ":organization": resource.organization, ":category": resource.category}
         ).expect("Inserting into resources failed.");
     }
