@@ -78,12 +78,6 @@ body {
   overflow: hidden;
 }
 
-.header {
-  font-size: var(--font-size-large);
-  font-weight: bold;
-  text-align: center;
-}
-
 .inputContainer {
   padding-bottom: 200px;
 }
@@ -222,14 +216,6 @@ input {
 }
 .addMedicationButton:hover {
   background-color: var(--hover-color);
-}
-
-.header {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  margin-bottom: var(--gap);
-  gap: var(--gap);
 }
 
 /* Responsive Design */

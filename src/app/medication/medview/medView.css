@@ -31,10 +31,8 @@ body {
 
 .header {
   text-align: center;
-}
-
-.header h1 {
-  margin: 0;
+  margin-bottom: 20px;
+  font-size: medium;
 }
 
 .content {

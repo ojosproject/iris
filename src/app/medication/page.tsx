@@ -4,6 +4,7 @@ import "./LogTab.css";
 import ConfirmationModal from "./components/logConfirmation";
 import MedicationModal from "./components/newMed";
 import Link from "next/link";
+import MainMenuButton from "./components/mainMenuButton";
 // * Added MedicationLog type to reflect how data will return from the backend
 import { MedicationLog } from "@/types";
 
@@ -95,70 +96,70 @@ const LogTab = () => {
 
   //TODO: Add back to menu button
   return (
-    <div className="container">
-      <div className="header">
-        <h1 className="header">Your Medications</h1>
-      </div>
-      <div className="searchBarContainer">
-        <input
-          type="text"
-          placeholder="Search Medication..."
-          value={searchQuery}
-          onChange={handleSearchChange}
-          className="searchInput"
-        />
-        <button onClick={handleAddMedication} className="addMedicationButton">
-          Add Medication
-        </button>
-      </div>
-      <MedicationModal
-        isOpen={isModalOpen}
-        onClose={handleModalClose}
-        onSubmit={handleModalSubmit}
-      />
-      <div className="medsWrap">
-        <div className="logsContainer">
-          {filteredLogs.map((log, index) => (
-            <div key={index} className="logMeds">
-              <div className="logName">
-                <strong>{log.medication_name}</strong>
-              </div>
-              <div className="circle"></div> {/* Circle */}
-              <div className="logDosage">
-                {log.given_dose.toString() + log.measurement}
-              </div>
-              <div className="logLastTake">
-                <strong>Last Taken </strong>
-                <br />
-                {log.timestamp}
-              </div>
-              <div key={log.medication_name} className="logButtons">
-                <button
-                  onClick={() => medicationSelect(log)}
-                  className="logItem"
-                >
-                  Log
-                </button>
-                <Link
-                  href={{
-                    pathname: "/medication/medview",
-                    query: {
-                      medication_name: log.medication_name,
-                      given_dose: log.given_dose,
-                      last_taken: log.timestamp,
-                    },
-                  }}
-                >
-                  <button className="logItem">View</button>
-                </Link>
-              </div>
-            </div>
-          ))}
+    <>
+      <MainMenuButton />
+      <div className="container">
+        <h1>Your Medications</h1>
+        <div className="searchBarContainer">
+          <input
+            type="text"
+            placeholder="Search Medication..."
+            value={searchQuery}
+            onChange={handleSearchChange}
+            className="searchInput"
+          />
+          <button onClick={handleAddMedication} className="addMedicationButton">
+            Add Medication
+          </button>
         </div>
-      </div>
+        <MedicationModal
+          isOpen={isModalOpen}
+          onClose={handleModalClose}
+          onSubmit={handleModalSubmit}
+        />
+        <div className="medsWrap">
+          <div className="logsContainer">
+            {filteredLogs.map((log, index) => (
+              <div key={index} className="logMeds">
+                <div className="logName">
+                  <strong>{log.medication_name}</strong>
+                </div>
+                <div className="circle"></div> {/* Circle */}
+                <div className="logDosage">
+                  {log.given_dose.toString() + log.measurement}
+                </div>
+                <div className="logLastTake">
+                  <strong>Last Taken </strong>
+                  <br />
+                  {log.timestamp}
+                </div>
+                <div key={log.medication_name} className="logButtons">
+                  <button
+                    onClick={() => medicationSelect(log)}
+                    className="logItem"
+                  >
+                    Log
+                  </button>
+                  <Link
+                    href={{
+                      pathname: "/medication/medview",
+                      query: {
+                        medication_name: log.medication_name,
+                        given_dose: log.given_dose,
+                        last_taken: log.timestamp,
+                      },
+                    }}
+                  >
+                    <button className="logItem">View</button>
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
 
-      {/* Confirmation Taken out furture pull request */}
-      {/* 
+        {/* Confirmation Taken out furture pull request */}
+        {/* 
       <ConfirmationModal
         isOpen={isConfirmationModalOpen}
         onClose={() => setIsConfirmationModalOpen(false)}
@@ -166,7 +167,8 @@ const LogTab = () => {
         medicationName={selectedMedication}
       />
       */}
-    </div>
+      </div>
+    </>
   );
 };
 

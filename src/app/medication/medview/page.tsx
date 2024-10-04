@@ -5,7 +5,7 @@ import "./MedView.css";
 import { Medication, MedicationLog, User } from "@/types";
 import { invoke } from "@tauri-apps/api/core";
 import moment from "moment";
-import obtainName from "../components/medicationName";
+import MedicationLogButton from "./components/returnButton";
 
 //Place holder for testing
 const medication: Medication = {
@@ -199,7 +199,8 @@ const MedicineView = () => {
     type_of: "NURSE",
   });
   const logContainerRef = useRef(null);
-
+  {
+    /**
   useEffect(() => {
     invoke("get_medication_logs", { medication: "" }).then((medication_log) => {
       setVisibleLogs(medication_log as MedicationLog[]);
@@ -211,6 +212,8 @@ const MedicineView = () => {
     setVisibleLogs(log);
     setPrescriptionNurse(nurse);
   }, [logsToShow, prescriptionNurse]);
+   */
+  }
 
   const handleScroll = () => {
     if (logContainerRef.current) {
@@ -223,67 +226,70 @@ const MedicineView = () => {
   };
 
   return (
-    <div className="medicine-container">
-      <Header name={medication.name} brand={medication.brand} />
-      <div className="content">
-        <LeftPanel
-          prescribedBy={prescriptionNurse.full_name}
-          phone={parse_phone_number(prescriptionNurse.phone_number!)} // phone number could be empty, make optional field?
-          email={prescriptionNurse.email!} // email could be empty, make optional field?
-          addedOn={convert_to_added_on_string(medication.first_added)}
-        />
-        <div className="right-panel">
-          <h3>Details</h3>
-          <div className="details-container">
-            <DetailBox
-              label="Pills remaining"
-              value={medication.supply!} // can be empty if they're injections, made this DetailBox optional maybe..?
-              isPillsRemaining
-              pillsPercentage={pillsPercentage}
-            />
-            <DetailBox
-              label="Dosage"
-              value={`${medication.dosage}${medication.measurement}`}
-            />
-            <DetailBox
-              label="Last taken"
-              value={moment(medication.last_taken!, "X").fromNow()}
-            />{" "}
-            {/*medication.last_taken can be empty, please check! */}
-            {/*At some point, we should replace moment() */}
-            {/* https://momentjs.com/docs/#/-project-status/recommendations/ */}
-            {/*https://momentjs.com/docs/#/parsing/string-format/ */}
+    <>
+      <MedicationLogButton />
+      <div className="medicine-container">
+        <Header name={medication.name} brand={medication.brand} />
+        <div className="content">
+          <LeftPanel
+            prescribedBy={prescriptionNurse.full_name}
+            phone={parse_phone_number(prescriptionNurse.phone_number!)} // phone number could be empty, make optional field?
+            email={prescriptionNurse.email!} // email could be empty, make optional field?
+            addedOn={convert_to_added_on_string(medication.first_added)}
+          />
+          <div className="right-panel">
+            <h3>Details</h3>
+            <div className="details-container">
+              <DetailBox
+                label="Pills remaining"
+                value={medication.supply!} // can be empty if they're injections, made this DetailBox optional maybe..?
+                isPillsRemaining
+                pillsPercentage={pillsPercentage}
+              />
+              <DetailBox
+                label="Dosage"
+                value={`${medication.dosage}${medication.measurement}`}
+              />
+              <DetailBox
+                label="Last taken"
+                value={moment(medication.last_taken!, "X").fromNow()}
+              />{" "}
+              {/*medication.last_taken can be empty, please check! */}
+              {/*At some point, we should replace moment() */}
+              {/* https://momentjs.com/docs/#/-project-status/recommendations/ */}
+              {/*https://momentjs.com/docs/#/parsing/string-format/ */}
+            </div>
+          </div>
+        </div>
+        <div className="log-section">
+          <h3>Log</h3>
+          <div
+            className="log-table"
+            ref={logContainerRef}
+            onScroll={handleScroll}
+          >
+            <table>
+              <thead className="log-header">
+                <tr>
+                  <th>Taken on</th>
+                  <th>Dose</th>
+                  <th>Comments</th>
+                </tr>
+              </thead>
+              <tbody>
+                {visibleLogs.map((entry, index) => (
+                  <tr key={index}>
+                    <td>{convert_to_taken_on_string(entry.timestamp)}</td>
+                    <td>{`${entry.given_dose}${entry.measurement}`}</td>
+                    <td>{entry.comment}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
-      <div className="log-section">
-        <h3>Log</h3>
-        <div
-          className="log-table"
-          ref={logContainerRef}
-          onScroll={handleScroll}
-        >
-          <table>
-            <thead className="log-header">
-              <tr>
-                <th>Taken on</th>
-                <th>Dose</th>
-                <th>Comments</th>
-              </tr>
-            </thead>
-            <tbody>
-              {visibleLogs.map((entry, index) => (
-                <tr key={index}>
-                  <td>{convert_to_taken_on_string(entry.timestamp)}</td>
-                  <td>{`${entry.given_dose}${entry.measurement}`}</td>
-                  <td>{entry.comment}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+    </>
   );
 };
 
