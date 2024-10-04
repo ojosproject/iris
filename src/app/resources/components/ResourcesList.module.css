@@ -3,7 +3,7 @@
   flex-direction: row;
 
   background-color: #cbd5e0;
-  width: 100%;
+  width: 90%;
 
   border-radius: 10px;
   padding: 5px 20px;
@@ -16,7 +16,7 @@
 }
 
 .resource_text_content {
-  flex: 2;
+  flex: 4;
 }
 
 .qr_code {
