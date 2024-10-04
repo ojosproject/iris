@@ -46,7 +46,7 @@ fn _get_resources_from_database(app: AppHandle, mut resources: Vec<Resource>) ->
     let app_data_dir = app.path().app_data_dir().unwrap().join("iris.db");
     let conn = Connection::open(app_data_dir).unwrap();
     let mut statement = conn
-        .prepare("SELECT * FROM resource")
+        .prepare("SELECT * FROM resource ORDER BY last_updated DESC")
         .expect("Could not fetch resources from database.");
 
     let matched_resources = statement
@@ -63,7 +63,7 @@ fn _get_resources_from_database(app: AppHandle, mut resources: Vec<Resource>) ->
         .expect("That did not work.");
 
     for resource in matched_resources {
-        resources.push(resource.expect("ok"));
+        resources.push(resource.unwrap());
     }
     resources
 }
@@ -77,8 +77,8 @@ pub fn store_resources(app: AppHandle, resources: Vec<Resource>) {
     // it won't crash
     for resource in resources {
         conn.execute(
-            "INSERT OR IGNORE INTO resource (label, description, url, organization, category) VALUES (:label, :description, :url, :organization, :category)", 
-            named_params! {":label": resource.label, ":description": resource.description, ":url": resource.url, ":organization": resource.organization, ":category": resource.category}
+            "INSERT OR IGNORE INTO resource (label, description, url, organization, category) VALUES (:label, :description, :url, :organization, :category, :last_updated)", 
+            named_params! {":label": resource.label, ":description": resource.description, ":url": resource.url, ":organization": resource.organization, ":category": resource.category, ":last_updated": resource.last_updated}
         ).expect("Inserting into resources failed.");
     }
 }
