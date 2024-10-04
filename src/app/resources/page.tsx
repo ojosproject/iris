@@ -1,29 +1,23 @@
 "use client";
 
-import classes from "./page.module.css";
-import BackButton from "../call/recordings/components/backButton";
-import CategoryMenu from "./components/CategoryMenu";
-import ResourcesList from "./components/ResourcesList";
 import { Resource } from "@/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { invoke } from "@tauri-apps/api/core";
+import ResourcesView from "./ResourcesView";
+import ResourcesNotAvailableView from "./ResourcesNotAvailableView";
 
 export default function Resources() {
   const [resources, setResources] = useState([] as Resource[]);
-  return (
-    <>
-      <BackButton />
-      <header className={classes.header}>
-        <h1>Resources</h1>
-      </header>
 
-      <div className={classes.menu_and_resources_container}>
-        <CategoryMenu
-          labels={["All", "Financial", "Informational"]}
-          resources={resources}
-          setResources={setResources}
-        />
-        <ResourcesList resources={resources} setResources={setResources} />
-      </div>
-    </>
+  useEffect(() => {
+    invoke("get_resources").then((r) => {
+      setResources(r as Resource[]);
+    });
+  }, []);
+
+  return resources.length ? (
+    <ResourcesView resources={resources} setResources={setResources} />
+  ) : (
+    <ResourcesNotAvailableView />
   );
 }

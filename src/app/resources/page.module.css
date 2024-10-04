@@ -15,3 +15,23 @@
   justify-content: center;
   align-items: flex-start;
 }
+
+.not_found {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  height: 50dvh;
+}
+
+.not_found_text {
+  font-size: 20px;
+
+  margin: 0;
+  padding: 0;
+}
+
+.not_found_icon {
+  margin: 20px;
+}

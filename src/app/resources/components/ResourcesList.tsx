@@ -11,12 +11,6 @@ export default function ResourcesList(props: {
   resources: Resource[];
   setResources: Function;
 }) {
-  useEffect(() => {
-    invoke("get_resources").then((r) => {
-      props.setResources(r as Resource[]);
-    });
-  }, []);
-
   function Resource(props: { resource: Resource }) {
     return (
       <div className={classes.resource_container}>
