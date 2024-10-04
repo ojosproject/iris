@@ -3,5 +3,5 @@ export const MONTHS = ["January", "February", "March", "April", "May", "June", "
 export function timestampToString(timestamp: number) {
     let d = new Date(timestamp*1000);
 
-    return `${MONTHS[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`
+    return `${MONTHS[d.getMonth()].slice(0, 3)} ${d.getDate()}, ${d.getFullYear()}`
 }
