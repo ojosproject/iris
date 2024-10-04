@@ -21,11 +21,20 @@ export default function ResourcesList(props: {
     return (
       <div className={classes.resource_container}>
         <div className={classes.resource_text_content}>
-          <h2>{props.resource.label}</h2>
-          <h4>{props.resource.organization}</h4>
-          <p className={classes.category_label}>
+          <h2 className={classes.shorten_line_height}>
+            {props.resource.label}
+          </h2>
+          <h4 className={classes.shorten_line_height}>
+            {props.resource.organization}
+          </h4>
+          <p
+            className={
+              classes.category_label + " " + classes.shorten_line_height
+            }
+          >
             {props.resource.category.toLowerCase()}
           </p>
+
           <p>{props.resource.description}</p>
         </div>
         <div className={classes.qr_code_container}>
