@@ -224,6 +224,14 @@ input {
   background-color: var(--hover-color);
 }
 
+.header {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  margin-bottom: var(--gap);
+  gap: var(--gap);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .logMeds {

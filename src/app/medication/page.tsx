@@ -1,12 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import "./LogTab.css";
-import ConfirmationModal from "./components/LogConfirmation";
-import MedicationModal from "./components/NewMed";
+import ConfirmationModal from "./components/logConfirmation";
+import MedicationModal from "./components/newMed";
 import Link from "next/link";
-import { useRouter } from "next/router";
 // * Added MedicationLog type to reflect how data will return from the backend
-// Idk if we need frequency. I'll check in soon.
 import { MedicationLog } from "@/types";
 
 const LogTab = () => {
@@ -29,7 +27,6 @@ const LogTab = () => {
       medication_name: "Med #1",
       given_dose: 10,
       measurement: "mg",
-      //interval: "_x per day",
       timestamp: 0, // Epoch timestamp
     },
     {
@@ -99,7 +96,9 @@ const LogTab = () => {
   //TODO: Add back to menu button
   return (
     <div className="container">
-      <h1 className="header">Your Medications</h1>
+      <div className="header">
+        <h1 className="header">Your Medications</h1>
+      </div>
       <div className="searchBarContainer">
         <input
           type="text"
@@ -111,12 +110,12 @@ const LogTab = () => {
         <button onClick={handleAddMedication} className="addMedicationButton">
           Add Medication
         </button>
-        <MedicationModal
-          isOpen={isModalOpen}
-          onClose={handleModalClose}
-          onSubmit={handleModalSubmit}
-        />
       </div>
+      <MedicationModal
+        isOpen={isModalOpen}
+        onClose={handleModalClose}
+        onSubmit={handleModalSubmit}
+      />
       <div className="medsWrap">
         <div className="logsContainer">
           {filteredLogs.map((log, index) => (
@@ -128,7 +127,6 @@ const LogTab = () => {
               <div className="logDosage">
                 {log.given_dose.toString() + log.measurement}
               </div>
-              {/*<div className="logFrequency">{log.medFrequency}</div>*/}
               <div className="logLastTake">
                 <strong>Last Taken </strong>
                 <br />
@@ -143,7 +141,7 @@ const LogTab = () => {
                 </button>
                 <Link
                   href={{
-                    pathname: "/log_view/medview",
+                    pathname: "/medication/medview",
                     query: {
                       medication_name: log.medication_name,
                       given_dose: log.given_dose,
@@ -158,12 +156,16 @@ const LogTab = () => {
           ))}
         </div>
       </div>
+
+      {/* Confirmation Taken out furture pull request */}
+      {/* 
       <ConfirmationModal
         isOpen={isConfirmationModalOpen}
         onClose={() => setIsConfirmationModalOpen(false)}
         onConfirm={confirmSelection}
         medicationName={selectedMedication}
       />
+      */}
     </div>
   );
 };

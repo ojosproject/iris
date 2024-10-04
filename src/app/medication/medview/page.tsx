@@ -1,10 +1,11 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/router";
 import "./MedView.css";
 import { Medication, MedicationLog, User } from "@/types";
 import { invoke } from "@tauri-apps/api/core";
 import moment from "moment";
-import { useRouter } from "next/router";
+import obtainName from "../components/medicationName";
 
 //Place holder for testing
 const medication: Medication = {
@@ -104,8 +105,6 @@ function convert_to_taken_on_string(timestamp: number): string {
 }
 
 //TODO: dynamically change base on which is selected
-//const router = useRouter();
-//const { medication_name, given_dose, last_taken } = router.query;
 const Header = ({ name, brand }: { name: string; brand: string }) => {
   return (
     <div className="header">
@@ -187,7 +186,6 @@ const DetailBox = ({
 };
 
 const MedicineView = () => {
-
   const pillsPercentage =
     (medication.supply / medication.total_prescribed) * 100;
 
@@ -203,11 +201,6 @@ const MedicineView = () => {
   const logContainerRef = useRef(null);
 
   useEffect(() => {
-    /*
-    ? Uncomment the stuff below once you finish testing with the dummy code above.
-    ? The bottom still will get data from the backend.
-    ? The only issue you'll have to figure out is how to get the medication name. Maybe pass as a prop?
-
     invoke("get_medication_logs", { medication: "" }).then((medication_log) => {
       setVisibleLogs(medication_log as MedicationLog[]);
     });
@@ -215,7 +208,6 @@ const MedicineView = () => {
     invoke("get_nurse_info", { nurse_id: "" }).then((nurse) => {
       setPrescriptionNurse(nurse as User);
     });
-    */
     setVisibleLogs(log);
     setPrescriptionNurse(nurse);
   }, [logsToShow, prescriptionNurse]);
