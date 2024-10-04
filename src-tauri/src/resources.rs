@@ -77,7 +77,7 @@ pub fn store_resources(app: AppHandle, resources: Vec<Resource>) {
     // it won't crash
     for resource in resources {
         conn.execute(
-            "INSERT OR IGNORE INTO resource (label, description, url, organization, category) VALUES (:label, :description, :url, :organization, :category, :last_updated)", 
+            "INSERT OR IGNORE INTO resource (label, description, url, organization, category, last_updated) VALUES (:label, :description, :url, :organization, :category, :last_updated)", 
             named_params! {":label": resource.label, ":description": resource.description, ":url": resource.url, ":organization": resource.organization, ":category": resource.category, ":last_updated": resource.last_updated}
         ).expect("Inserting into resources failed.");
     }
