@@ -1,5 +1,5 @@
 import Link from "next/link";
-import "./returnButton.css"; // Import medView.css directly
+import styles from "./returnButton.module.css";
 
 export default function MedicationLogButton() {
   return (
@@ -8,7 +8,7 @@ export default function MedicationLogButton() {
         pathname: "/medication/",
       }}
     >
-      <button className="back">Back</button>
+      <button className={styles.back}>Back</button>
     </Link>
   );
 }

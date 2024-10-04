@@ -1,71 +1,44 @@
-:root {
-  --main-bg-color: #f9f9f9;
-  --primary-color: #0000ff;
-  --secondary-color: #ffffff;
-  --hover-color: #414141;
-  --text-color: #000000;
-  --font-size-large: 45px;
-  --font-size-medium: 16px;
-  --border-radius: 5px;
-  --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  --box-shadow-small: 0 2px 4px rgba(0, 0, 0, 0.2);
-  --container-width: 800px;
-  --padding: 15px;
-  --gap: 20px;
-}
-
-/* Global Styles */
-* {
-  box-sizing: border-box;
-}
-
-body {
-  font-family: Arial, sans-serif;
-  color: var(--text-color);
-}
-
-/* Utility Classes */
-.flex-center {
+.flexCenter {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.flex-column {
+.flexColumn {
   flex-direction: column;
 }
 
-.flex-wrap {
+.flexWrap {
   flex-wrap: wrap;
 }
 
 .gap {
-  gap: var(--gap);
+  gap: 20px;
 }
 
-.box-shadow {
-  box-shadow: var(--box-shadow);
+.boxShadow {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.box-shadow-small {
-  box-shadow: var(--box-shadow-small);
+.boxShadowSmall {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.border-radius {
-  border-radius: var(--border-radius);
+.borderRadius {
+  border-radius: 5px;
 }
 
 .button {
-  padding: var(--padding);
-  border-radius: var(--border-radius);
+  padding: 15px;
+  border-radius: 5px;
   cursor: pointer;
   color: white;
-  background-color: var(--primary-color);
+  background-color: #0000ff;
   transition: background-color 0.3s ease;
 }
 
 .button:hover {
-  background-color: var(--hover-color);
+  background-color: #414141;
 }
 
 /* Container Styles */
@@ -103,17 +76,17 @@ body {
 .logItem {
   flex: 1;
   padding: 10px 20px;
-  border-radius: var(--border-radius);
-  background-color: var(--primary-color);
+  border-radius: 5px;
+  background-color: #0000ff;
   color: white;
-  font-size: var(--font-size-medium);
+  font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  box-shadow: var(--box-shadow-small);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .logItem:hover {
-  background-color: var(--hover-color);
+  background-color: #414141;
 }
 
 .logMeds {
@@ -123,10 +96,10 @@ body {
   width: calc(33.333% - 20px);
   min-width: 250px;
   margin: 5px;
-  border: 2px solid var(--primary-color);
-  border-radius: var(--border-radius);
-  background-color: var(--secondary-color);
-  box-shadow: var(--box-shadow);
+  border: 2px solid #0000ff;
+  border-radius: 5px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   align-items: center;
   min-height: 200px;
   padding: 2px;
@@ -148,39 +121,33 @@ body {
   text-align: center;
 }
 
-input {
-  margin-bottom: 10px;
-  padding: 5px;
-  width: 100%;
-}
-
-.medication-log {
+.medicationLog {
   display: flex;
   flex-wrap: wrap;
 }
 
-.medication-card {
+.medicationCard {
   width: 48%;
   margin: 1%;
-  padding: var(--padding);
+  padding: 15px;
   border: 1px solid #ccc;
-  border-radius: var(--border-radius);
-  background-color: var(--main-bg-color);
+  border-radius: 5px;
+  background-color: #f9f9f9;
 }
 
-.medication-card div {
+.medicationCard div {
   margin-bottom: 5px;
 }
 
 .medsWrap {
   width: 100%;
-  max-width: var(--container-width);
+  max-width: 800px;
   margin: 20px auto;
-  padding: var(--padding);
-  border: 2px solid var(--text-color);
+  padding: 15px;
+  border: 2px solid #000000;
   border-radius: 10px;
-  background-color: var(--main-bg-color);
-  box-shadow: var(--box-shadow);
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .buttonGroup {
@@ -193,29 +160,30 @@ input {
   width: 100%;
   max-width: 700px;
   align-items: center;
-  margin-bottom: var(--gap);
-  gap: var(--gap);
+  margin-bottom: 20px;
+  gap: 20px;
 }
 
 .searchInput {
   flex: 2;
-  background-color: var(--main-bg-color);
-  color: var(--text-color);
-  padding: var(--padding);
+  background-color: #f9f9f9;
+  color: #000000;
+  padding: 15px;
   width: 100%;
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .addMedicationButton {
   flex: 1;
-  background-color: var(--primary-color);
+  background-color: #0000ff;
   color: #ffffff;
   align-self: stretch;
   cursor: pointer;
 }
+
 .addMedicationButton:hover {
-  background-color: var(--hover-color);
+  background-color: #414141;
 }
 
 /* Responsive Design */
@@ -229,7 +197,7 @@ input {
     flex-direction: column;
   }
 
-  .medication-card {
+  .medicationCard {
     width: 100%;
     margin: 10px 0;
   }

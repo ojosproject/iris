@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import "./LogTab.css";
+import styles from "./LogTab.module.css";
 import ConfirmationModal from "./components/logConfirmation";
 import MedicationModal from "./components/newMed";
 import Link from "next/link";
@@ -98,17 +98,20 @@ const LogTab = () => {
   return (
     <>
       <MainMenuButton />
-      <div className="container">
+      <div className={styles.container}>
         <h1>Your Medications</h1>
-        <div className="searchBarContainer">
+        <div className={styles.searchBarContainer}>
           <input
             type="text"
             placeholder="Search Medication..."
             value={searchQuery}
             onChange={handleSearchChange}
-            className="searchInput"
+            className={styles.searchInput}
           />
-          <button onClick={handleAddMedication} className="addMedicationButton">
+          <button
+            onClick={handleAddMedication}
+            className={styles.addMedicationButton}
+          >
             Add Medication
           </button>
         </div>
@@ -117,26 +120,26 @@ const LogTab = () => {
           onClose={handleModalClose}
           onSubmit={handleModalSubmit}
         />
-        <div className="medsWrap">
-          <div className="logsContainer">
+        <div className={styles.medsWrap}>
+          <div className={styles.logsContainer}>
             {filteredLogs.map((log, index) => (
-              <div key={index} className="logMeds">
-                <div className="logName">
+              <div key={index} className={styles.logMeds}>
+                <div className={styles.logName}>
                   <strong>{log.medication_name}</strong>
                 </div>
-                <div className="circle"></div> {/* Circle */}
-                <div className="logDosage">
+                <div className={styles.circle}></div> {/* Circle */}
+                <div className={styles.logDosage}>
                   {log.given_dose.toString() + log.measurement}
                 </div>
-                <div className="logLastTake">
+                <div className={styles.logLastTake}>
                   <strong>Last Taken </strong>
                   <br />
                   {log.timestamp}
                 </div>
-                <div key={log.medication_name} className="logButtons">
+                <div key={log.medication_name} className={styles.logButtons}>
                   <button
                     onClick={() => medicationSelect(log)}
-                    className="logItem"
+                    className={styles.logItem}
                   >
                     Log
                   </button>
@@ -150,7 +153,7 @@ const LogTab = () => {
                       },
                     }}
                   >
-                    <button className="logItem">View</button>
+                    <button className={styles.logItem}>View</button>
                   </Link>
                 </div>
               </div>

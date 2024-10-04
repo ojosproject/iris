@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
-import "./MedView.css";
+import styles from "./MedView.module.css";
 import { Medication, MedicationLog, User } from "@/types";
 import { invoke } from "@tauri-apps/api/core";
 import moment from "moment";
@@ -107,7 +107,7 @@ function convert_to_taken_on_string(timestamp: number): string {
 //TODO: dynamically change base on which is selected
 const Header = ({ name, brand }: { name: string; brand: string }) => {
   return (
-    <div className="header">
+    <div className={styles.header}>
       <h1>{name}</h1>
       <p>(Brand: {brand})</p>
     </div>
@@ -126,7 +126,7 @@ const LeftPanel = ({
   addedOn: string;
 }) => {
   return (
-    <div className="left-panel">
+    <div className={styles.leftPanel}>
       <h3>Prescribed by</h3>
       <p>{prescribedBy}</p>
       <p>Phone: {phone}</p>
@@ -150,26 +150,28 @@ const DetailBox = ({
   pillsPercentage?: number;
 }) => {
   return (
-    <div className={`detail-box ${isPillsRemaining ? "pills-remaining" : ""}`}>
+    <div
+      className={`${styles.detailBox} ${isPillsRemaining ? styles.pillsRemaining : ""}`}
+    >
       {isPillsRemaining && (
-        <div className="circle-container">
+        <div className={styles.circleContainer}>
           {" "}
           <strong>Pills Remaining </strong>
-          <svg className="progress-circle" viewBox="0 0 36 36">
+          <svg className={styles.progressCircle} viewBox="0 0 36 36">
             <path
-              className="circle-bg"
+              className={styles.circleBg}
               d="M18 2.0845
                                 a 15.9155 15.9155 0 0 1 0 31.831
                                 a 15.9155 15.9155 0 0 1 0 -31.831"
             />
             <path
-              className="circle"
+              className={styles.circle}
               strokeDasharray={`${pillsPercentage}, 100`}
               d="M18 2.0845
                                 a 15.9155 15.9155 0 0 1 0 31.831
                                 a 15.9155 15.9155 0 0 1 0 -31.831"
             />
-            <text x="18" y="20.35" className="percentage-text">
+            <text x="18" y="20.35" className={styles.percentageText}>
               {value}
             </text>
           </svg>
@@ -228,18 +230,18 @@ const MedicineView = () => {
   return (
     <>
       <MedicationLogButton />
-      <div className="medicine-container">
+      <div className={styles.medicineContainer}>
         <Header name={medication.name} brand={medication.brand} />
-        <div className="content">
+        <div className={styles.content}>
           <LeftPanel
             prescribedBy={prescriptionNurse.full_name}
             phone={parse_phone_number(prescriptionNurse.phone_number!)} // phone number could be empty, make optional field?
             email={prescriptionNurse.email!} // email could be empty, make optional field?
             addedOn={convert_to_added_on_string(medication.first_added)}
           />
-          <div className="right-panel">
+          <div className={styles.rightPanel}>
             <h3>Details</h3>
-            <div className="details-container">
+            <div className={styles.detailsContainer}>
               <DetailBox
                 label="Pills remaining"
                 value={medication.supply!} // can be empty if they're injections, made this DetailBox optional maybe..?
@@ -261,15 +263,15 @@ const MedicineView = () => {
             </div>
           </div>
         </div>
-        <div className="log-section">
+        <div className={styles.logSection}>
           <h3>Log</h3>
           <div
-            className="log-table"
+            className={styles.logTable}
             ref={logContainerRef}
             onScroll={handleScroll}
           >
             <table>
-              <thead className="log-header">
+              <thead className={styles.logHeader}>
                 <tr>
                   <th>Taken on</th>
                   <th>Dose</th>

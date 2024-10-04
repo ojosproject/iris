@@ -11,7 +11,7 @@
   z-index: 1000;
 }
 
-.modal-content {
+.modalContent {
   background: white;
   padding: 20px;
   border-radius: 8px;
@@ -19,16 +19,16 @@
   width: 400px;
 }
 
-.modal-content h2 {
+.modalContent h2 {
   margin-top: 0;
 }
 
-.modal-content label {
+.modalContent label {
   display: block;
   margin-bottom: 10px;
 }
 
-.modal-content input {
+.modalContent input {
   width: calc(100% - 20px);
   padding: 10px;
   border-radius: 4px;
@@ -36,7 +36,7 @@
   margin-bottom: 10px;
 }
 
-.modal-content button {
+.modalContent button {
   padding: 10px 20px;
   border-radius: 5px;
   border: none;
@@ -49,18 +49,18 @@
   margin-right: 10px;
 }
 
-.modal-content .submit-button {
+.modalContent .submitButton {
   background-color: #4caf50;
 }
 
-.modal-content .submit-button:hover {
+.modalContent .submitButton:hover {
   background-color: #39833d;
 }
 
-.modal-content .cancel-button {
+.modalContent .cancelButton {
   background-color: #f44336;
 }
 
-.modal-content .cancel-button:hover {
+.modalContent .cancelButton:hover {
   background-color: #ce2f2c;
 }
