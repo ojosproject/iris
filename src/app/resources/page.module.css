@@ -1,0 +1,17 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  /*align-items: center;*/
+}
+
+.back_button {
+  justify-self: flex-start;
+  align-self: flex-start;
+}
+
+.menu_and_resources_container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}

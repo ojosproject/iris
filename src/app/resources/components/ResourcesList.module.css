@@ -1,0 +1,36 @@
+.resource_container {
+  display: flex;
+  flex-direction: row;
+
+  background-color: #cbd5e0;
+  width: 100%;
+
+  border-radius: 10px;
+  padding: 5px 20px;
+
+  margin: 20px;
+}
+
+.category_label {
+  color: grey;
+}
+
+.resource_text_content {
+  flex: 2;
+}
+
+.qr_code {
+  width: 150px;
+  height: 150px;
+  background-color: white;
+  padding: 8px;
+}
+
+.qr_code_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: 5px;
+}
