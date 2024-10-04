@@ -4,16 +4,16 @@ import { Resource } from "@/types";
 import classes from "./ResourcesList.module.css";
 import QRCode from "react-qr-code";
 import { timestampToString } from "@/helper";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { invoke } from "@tauri-apps/api/core";
 
-export default function ResourcesList() {
-  const [resources, setResources] = useState([] as Resource[]);
-
+export default function ResourcesList(props: {
+  resources: Resource[];
+  setResources: Function;
+}) {
   useEffect(() => {
     invoke("get_resources").then((r) => {
-      console.log(r);
-      setResources(r as Resource[]);
+      props.setResources(r as Resource[]);
     });
   }, []);
 
@@ -41,7 +41,7 @@ export default function ResourcesList() {
 
   return (
     <div className={classes.resource_list_container}>
-      {resources.map((resource) => {
+      {props.resources.map((resource) => {
         return <Resource key={resource.last_updated} resource={resource} />;
       })}
     </div>
