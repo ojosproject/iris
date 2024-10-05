@@ -33,11 +33,37 @@ fn get_config(app: AppHandle) -> structs::Config {
     config::get_config(app.app_handle())
 }
 
+/// # `get_care_instructions` Command
+///
+/// Returns a `CareInstruction[]`.
+///
+/// ## TypeScript Usage
+///
+/// ```typescript
+/// invoke('get_care_instructions').then(ci => {
+///     setCareInstructions(ci as CareInstruction[]);
+/// });
+/// ```
 #[tauri::command]
 fn get_care_instructions(app: AppHandle) -> Vec<structs::CareInstruction> {
     care_instructions::get_all_care_instructions(&app)
 }
 
+/// # `create_care_instruction` Command
+///
+/// Creates a new `CareInstruction` and returns it
+///
+/// ## TypeScript Usage
+///
+/// ```typescript
+/// invoke('create_care_instruction', {
+///         text: 'Please help her move once in a while.',
+///         readable_frequency: 'Once daily',
+///         added_by: 'nurse_id'
+///     }).then(ci => {
+///     setCareInstructions(ci as CareInstruction);
+/// })
+/// ```
 #[tauri::command]
 fn create_care_instruction(
     app: AppHandle,
