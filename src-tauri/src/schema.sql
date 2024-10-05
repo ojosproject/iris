@@ -54,9 +54,11 @@ Rows:
 */
 CREATE TABLE IF NOT EXISTS resource (
     label TEXT NOT NULL,
-    value TEXT NOT NULL PRIMARY KEY,
-    added_by TEXT NOT NULL,
-    type TEXT NOT NULL
+    description TEXT NOT NULL,
+    url TEXT NOT NULL PRIMARY KEY,
+    organization TEXT NOT NULL,
+    category TEXT NOT NULL,
+    last_updated REAL NOT NULL
 ) STRICT;
 
 /*

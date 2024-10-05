@@ -3,10 +3,11 @@ mod config;
 mod dev;
 mod medications;
 mod menu;
+mod resources;
 mod structs;
 mod user;
 use crate::menu::menu;
-use crate::structs::Medication;
+use crate::structs::{Medication, Resource};
 use std::{env, fs, process};
 use structs::User;
 use tauri::{AppHandle, Manager};
@@ -27,9 +28,39 @@ fn get_upcoming_medications(app: AppHandle) -> Vec<Medication> {
     get_patient(app.clone()).get_upcoming_medications(app)
 }
 
+/// # `get_config` Command
+///
+/// Returns the `config.json` file as an object. For more information on the
+/// structure of `config.json`, check out the Config struct in `structs.rs`.
+///
+/// ## TypeScript Usage
+///
+/// ```typescript
+/// invoke('get_config').then(c => {
+///     console.log((c as Config).resources_last_call);
+/// });
+/// ```
 #[tauri::command(rename_all = "snake_case")]
 fn get_config(app: AppHandle) -> structs::Config {
     config::get_config(app.app_handle())
+}
+
+/// # `get_resources` Command
+///
+/// Returns all of the resources that are available to Iris. This also checks
+/// the GitHub [resources repository](https://github.com/ojosproject/resources)
+/// for any updates. Returns a `Resource[]`.
+///
+/// ## TypeScript Usage
+///
+/// ```typescript
+/// invoke('get_resources').then(r => {
+///     setResources(r as Resource[])
+/// })
+/// ```
+#[tauri::command(rename_all = "snake_case")]
+fn get_resources(app: AppHandle) -> Vec<Resource> {
+    resources::get_resources(app.clone())
 }
 
 fn main() {
@@ -39,6 +70,7 @@ fn main() {
             get_upcoming_medications,
             get_patient_info,
             get_config,
+            get_resources
         ])
         .setup(|app| {
             app.set_menu(menu(app.app_handle().clone())).unwrap();
