@@ -1,13 +1,15 @@
-"use client";
-import classes from "./camera.module.css";
 import Webcam from "react-webcam";
+import classes from "./camera.module.css";
 
-// Capturing video: https://codepen.io/mozmorris/pen/yLYKzyp?editors=0010
+// Define the prop types for Camera
+interface CameraProps {
+  camOn: boolean;
+}
 
-export default function Camera() {
+export default function Camera({ camOn }: CameraProps) {
   return (
     <div className={classes.camContainer}>
-      <Webcam mirrored className={classes.cam} />;
+      {camOn && <Webcam mirrored className={classes.cam} />} 
     </div>
   );
 }
