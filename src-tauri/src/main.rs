@@ -33,6 +33,16 @@ fn get_config(app: AppHandle) -> structs::Config {
     config::get_config(app.app_handle())
 }
 
+#[tauri::command(rename_all = "snake_case")]
+fn add_pro(app: AppHandle, recorded_date: String, question: String, response: String) {
+    pro::add_pro(app, recorded_date, question, response);
+}
+
+#[tauri::command(rename_all = "snake_case")]
+fn get_all_pros(app: AppHandle) {
+    pro::get_all_pros(app);
+}
+
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
@@ -40,6 +50,8 @@ fn main() {
             get_upcoming_medications,
             get_patient_info,
             get_config,
+            add_pro,
+            get_all_pros,
         ])
         .setup(|app| {
             app.set_menu(menu(app.app_handle().clone())).unwrap();

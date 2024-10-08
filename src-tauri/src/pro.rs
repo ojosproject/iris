@@ -2,12 +2,12 @@
 // Ojos Project
 //
 // Functions for getting and modifying Patient Reported Outcomes.
-// PROs are 
+// PROs are
 use crate::structs::PatientReportedOutcome;
-use rusqlite::Connection;
+use rusqlite::{named_params, Connection};
 use tauri::{AppHandle, Manager};
 
-pub fn get_all_pros() -> Vec<PatientReportedOutcome> {
+pub fn get_all_pros(app: AppHandle) -> Vec<PatientReportedOutcome> {
     let app_data_dir = app.path().app_data_dir().unwrap();
     let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
 
@@ -25,10 +25,22 @@ pub fn get_all_pros() -> Vec<PatientReportedOutcome> {
                 response: row.get(2)?,
             })
         })
-        .expect("That did not work.");
+        .unwrap();
 
     for pro in matched_pros {
-        pros_list.push(pro.expect("ok"));
+        pros_list.push(pro.unwrap());
     }
     pros_list
+}
+
+pub fn add_pro(app: AppHandle, recorded_date: String, question: String, response: String) {
+    //todo: save pro by writing to device file system too
+    let app_data_dir= app.path().app_data_dir().unwrap();
+    let conn = Connection::open(app_data_dir).unwrap();
+    // INSERT OR IGNORE will skip an insertion if a primary or unique constraint
+    // is failed.
+    conn.execute(
+            "INSERT OR IGNORE INTO patient_recorded_outcome (recorded_date, question, response) VALUES (:recorded_date, :question, :response)", 
+            named_params! {":recorded_date": recorded_date, ":question": question, ":response": response}
+        ).expect("Inserting into patient_recorded_outcome failed.");
 }
