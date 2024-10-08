@@ -8,6 +8,7 @@ import { useState } from "react";
 
 export default function Call() {
   const [camOn, setCamOn] = useState(true);
+  const [micOn, setMicOn] = useState(true);
   return (
     <>
       <header className={classes.header}>
@@ -18,8 +19,13 @@ export default function Call() {
       </header>
       <main>
         {/* <h1>Video Call</h1> */}
-        <Camera camOn={camOn} />
-        <Controls camOn={camOn} setCamOn={setCamOn} />
+        <Camera camOn={camOn} micOn={micOn} />
+        <Controls
+          camOn={camOn}
+          setCamOn={setCamOn}
+          micOn={micOn}
+          setMicOn={setMicOn}
+        />
       </main>
     </>
   );
