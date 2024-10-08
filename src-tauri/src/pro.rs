@@ -34,7 +34,6 @@ pub fn get_all_pros(app: AppHandle) -> Vec<PatientReportedOutcome> {
 }
 
 pub fn add_pro(app: AppHandle, recorded_date: String, question: String, response: String) {
-    //todo: save pro by writing to device file system too
     let app_data_dir= app.path().app_data_dir().unwrap();
     let conn = Connection::open(app_data_dir).unwrap();
     // INSERT OR IGNORE will skip an insertion if a primary or unique constraint
