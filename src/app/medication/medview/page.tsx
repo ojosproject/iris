@@ -245,19 +245,27 @@ const MedicineView = () => {
         <div className={styles.content}>
           <LeftPanel
             prescribedBy={prescriptionNurse.full_name}
-            phone={parse_phone_number(prescriptionNurse.phone_number!)} // phone number could be empty, make optional field?
-            email={prescriptionNurse.email!} // email could be empty, make optional field?
+            phone={
+              prescriptionNurse.phone_number
+                ? parse_phone_number(prescriptionNurse.phone_number)
+                : "N/A"
+            } // phone number could be empty, make optional field
+            email={prescriptionNurse.email ? prescriptionNurse.email : "N/A"} // email could be empty, make optional field
             addedOn={convert_to_added_on_string(medication.first_added)}
           />
           <div className={styles.rightPanel}>
             <h3>Details</h3>
             <div className={styles.detailsContainer}>
-              <DetailBox
-                label="Pills remaining"
-                value={medication.supply!} // can be empty if they're injections, made this DetailBox optional maybe..?
-                isPillsRemaining
-                pillsPercentage={pillsPercentage}
-              />
+              {medication.supply ? ( // Check if supply is available
+                <DetailBox
+                  label="Pills remaining"
+                  value={medication.supply}
+                  isPillsRemaining
+                  pillsPercentage={pillsPercentage}
+                />
+              ) : (
+                <div>No pills data available.</div> // Handle case when supply is not available (e.g., injections)
+              )}
               <DetailBox
                 label="Dosage"
                 value={`${medicationDose}${medicationMeasurement}`}
