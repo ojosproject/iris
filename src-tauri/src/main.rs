@@ -11,6 +11,16 @@ use structs::{MedicationLog, User};
 use tauri::{AppHandle, Manager};
 use user::{get_patient, get_user};
 
+/// # `get_medications` Command
+/// Get all of a patient's medications as a `Medication[]`.
+///
+/// ## TypeScript Usage
+/// ```typescript
+/// invoke('get_medications').then(m => {
+///     setMedications(m as Medication[])
+/// });
+/// ```
+///
 #[tauri::command(rename_all = "snake_case")]
 fn get_medications(app: AppHandle) -> Vec<Medication> {
     get_patient(app.clone()).get_medications(app)
@@ -21,16 +31,51 @@ fn get_patient_info(app: AppHandle) -> User {
     get_patient(app)
 }
 
+/// # `get_nurse_info` Command
+/// Gets a nurse's information and returns it as a `User`.
+///
+/// Parameters:
+/// - `nurse_id`: the User ID
+///
+/// ## TypeScript Usage
+/// ```typescript
+/// invoke('get_nurse_info', {nurse_id: ''}).then(n => {
+///     setNurseId(n as User);
+/// });
+/// ```
+///
 #[tauri::command]
 fn get_nurse_info(app: AppHandle, nurse_id: String) -> User {
     get_user(app, nurse_id)
 }
 
+/// # `get_upcoming_medications` Command
+/// Gets the upcoming medications for a patient, returns a `Medication[]`.
+///
+/// ## TypeScript Usage
+/// ```typescript
+/// invoke('get_upcoming_medications').then(m => {
+///     setUpcomingMedications(m as Medication[]);
+/// });
+/// ```
 #[tauri::command(rename_all = "snake_case")]
 fn get_upcoming_medications(app: AppHandle) -> Vec<Medication> {
     get_patient(app.clone()).get_upcoming_medications(app)
 }
 
+/// # `get_medication_log` Command
+/// Gets a user's medication logs for a single medication.
+///
+/// Parameters:
+/// - `medication`: The medication to get the log for.
+///
+/// ## TypeScript Usage
+///
+/// ```typescript
+/// invoke('get_medication_log', {medication: ''}).then(m => {
+///     setMedicationLog(m as MedicationLog)
+/// })
+/// ```
 #[tauri::command(rename_all = "snake_case")]
 fn get_medication_log(app: AppHandle, medication: String) -> Vec<MedicationLog> {
     // todo: please refactor. this is like, o(n^3)...
