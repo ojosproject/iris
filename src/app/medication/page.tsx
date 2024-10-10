@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import styles from "./LogTab.module.css";
-import ConfirmationModal from "./components/logConfirmation";
 import MedicationModal from "./components/newMed";
 import Link from "next/link";
 import MainMenuButton from "./components/mainMenuButton";
@@ -149,6 +148,7 @@ const LogTab = () => {
                       query: {
                         medication_name: log.medication_name,
                         given_dose: log.given_dose,
+                        given_measurement: log.measurement,
                         last_taken: log.timestamp,
                       },
                     }}

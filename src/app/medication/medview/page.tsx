@@ -1,11 +1,11 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/router";
+import { useState, useEffect, useRef } from "react";
 import styles from "./MedView.module.css";
 import { Medication, MedicationLog, User } from "@/types";
 import { invoke } from "@tauri-apps/api/core";
 import moment from "moment";
 import MedicationLogButton from "./components/returnButton";
+import { useSearchParams } from "next/navigation";
 
 //Place holder for testing
 const medication: Medication = {
@@ -20,10 +20,6 @@ const medication: Medication = {
   last_taken: 1724166000, // Unix timestamp
   frequency: 0.0,
 };
-
-interface MedViewProps {
-  data: MedicationLog;
-}
 
 //Place holder for testing
 const log: MedicationLog[] = [
@@ -104,7 +100,6 @@ function convert_to_taken_on_string(timestamp: number): string {
   return `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}, ${hour_12}:${minute_zeroed} ${am_pm}`;
 }
 
-//TODO: dynamically change base on which is selected
 const Header = ({ name, brand }: { name: string; brand: string }) => {
   return (
     <div className={styles.header}>
@@ -188,11 +183,10 @@ const DetailBox = ({
 };
 
 const MedicineView = () => {
-  const pillsPercentage =
-    (medication.supply / medication.total_prescribed) * 100;
-
   const [visibleLogs, setVisibleLogs] = useState<MedicationLog[]>([]);
   const [logsToShow, setLogsToShow] = useState(5);
+  const pillsPercentage =
+    (medication.supply / medication.total_prescribed) * 100;
   const [prescriptionNurse, setPrescriptionNurse] = useState<User>({
     full_name: "Waiting...",
     phone_number: 9999999999,
@@ -202,19 +196,19 @@ const MedicineView = () => {
   });
   const logContainerRef = useRef(null);
   {
-    /**
-  useEffect(() => {
-    invoke("get_medication_logs", { medication: "" }).then((medication_log) => {
-      setVisibleLogs(medication_log as MedicationLog[]);
-    });
+    useEffect(() => {
+      invoke("get_medication_logs", { medication: "" }).then(
+        (medication_log) => {
+          setVisibleLogs(medication_log as MedicationLog[]);
+        },
+      );
 
-    invoke("get_nurse_info", { nurse_id: "" }).then((nurse) => {
-      setPrescriptionNurse(nurse as User);
-    });
-    setVisibleLogs(log);
-    setPrescriptionNurse(nurse);
-  }, [logsToShow, prescriptionNurse]);
-   */
+      invoke("get_nurse_info", { nurse_id: "" }).then((nurse) => {
+        setPrescriptionNurse(nurse as User);
+      });
+      setVisibleLogs(log);
+      setPrescriptionNurse(nurse);
+    }, [logsToShow, prescriptionNurse]);
   }
 
   const handleScroll = () => {
@@ -227,11 +221,27 @@ const MedicineView = () => {
     }
   };
 
+  const searchParams = useSearchParams();
+  const medicationName =
+    searchParams.get("medication_name") || "Unknown Medication";
+  const medicationDose = searchParams.get("given_dose") || "Unknown Dosage";
+  const medicationMeasurement =
+    searchParams.get("given_measurement") || "Unknown Measurement";
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       <MedicationLogButton />
       <div className={styles.medicineContainer}>
-        <Header name={medication.name} brand={medication.brand} />
+        <Header name={medicationName} brand={medication.brand} />
         <div className={styles.content}>
           <LeftPanel
             prescribedBy={prescriptionNurse.full_name}
@@ -250,7 +260,7 @@ const MedicineView = () => {
               />
               <DetailBox
                 label="Dosage"
-                value={`${medication.dosage}${medication.measurement}`}
+                value={`${medicationDose}${medicationMeasurement}`}
               />
               <DetailBox
                 label="Last taken"

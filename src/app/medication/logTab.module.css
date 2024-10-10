@@ -194,12 +194,15 @@
   }
 
   .logsContainer {
+    display: flex;
     flex-direction: column;
+    overflow-x: hidden;
   }
 
   .medicationCard {
     width: 100%;
-    margin: 10px 0;
+    margin: 5px 0;
+    flex-shrink: 1;
   }
 
   .searchBarContainer {
@@ -210,4 +213,12 @@
   .addMedicationButton {
     width: 100%;
   }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  overflow-x: hidden;
 }
