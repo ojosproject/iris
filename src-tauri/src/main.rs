@@ -4,6 +4,7 @@ mod dev;
 mod medications;
 mod menu;
 mod resources;
+mod pro;
 mod structs;
 mod user;
 use crate::menu::menu;
@@ -63,6 +64,58 @@ fn get_resources(app: AppHandle) -> Vec<Resource> {
     resources::get_resources(app.clone())
 }
 
+/// # `add_pro` Command
+///
+/// Adds inputted PRO information to the database Check out the 
+/// PatientRecordedOutcome struct in `structs.rs` for more information.
+///
+/// ## TypeScript Usage
+///
+/// ```typescript
+/// invoke('add_pro').then(a => {
+///     todo: write typescript code here
+/// });
+/// ```
+#[tauri::command(rename_all = "snake_case")]
+fn add_pro(app: AppHandle, recorded_date: String, question: String, response: String) {
+    pro::add_pro(app, recorded_date, question, response);
+}
+
+/// # `get_all_pros` Command
+///
+/// Returns all PROs in the form of a vector of PRO objects. Check out the 
+/// PatientRecordedOutcome struct in `structs.rs` for more information.
+///
+/// ## TypeScript Usage
+///
+/// ```typescript
+/// invoke('get_all_pros').then(g => {
+///     todo: write typescript code here
+/// });
+/// ```
+#[tauri::command(rename_all = "snake_case")]
+fn get_all_pros(app: AppHandle) {
+    pro::get_all_pros(app);
+}
+
+/// # `add_pro_question` Command
+///
+/// Adds a single String question to the pro_questions vector stored in the
+/// device's config.json. Check out the Config struct in `structs.rs` for more 
+/// information.
+///
+/// ## TypeScript Usage
+///
+/// ```typescript
+/// invoke('add_pro_questions').then(a => {
+///     todo: write typescript code here
+/// });
+/// ```
+#[tauri::command(rename_all = "snake_case")]
+fn add_pro_question(app: AppHandle, question: String) {
+    config::add_pro_question(app, question);
+}
+
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
@@ -70,7 +123,10 @@ fn main() {
             get_upcoming_medications,
             get_patient_info,
             get_config,
-            get_resources
+            get_resources,
+            add_pro,
+            get_all_pros,
+            add_pro_question,
         ])
         .setup(|app| {
             app.set_menu(menu(app.app_handle().clone())).unwrap();
