@@ -32,6 +32,7 @@ pub struct MedicationLog {
 #[derive(Serialize, Deserialize)]
 pub struct Config {
     pub resources_last_call: i64,
+    pub pro_questions: Vec<String>,
 }
 
 #[derive(Serialize, Deserialize)]

@@ -74,6 +74,11 @@ fn get_all_pros(app: AppHandle) {
     pro::get_all_pros(app);
 }
 
+#[tauri::command(rename_all = "snake_case")]
+fn add_pro_question(app: AppHandle, question: String) {
+    config::add_pro_question(app, question);
+}
+
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
@@ -84,6 +89,7 @@ fn main() {
             get_resources,
             add_pro,
             get_all_pros,
+            add_pro_question,
         ])
         .setup(|app| {
             app.set_menu(menu(app.app_handle().clone())).unwrap();
