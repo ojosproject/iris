@@ -3,8 +3,8 @@ mod config;
 mod dev;
 mod medications;
 mod menu;
-mod resources;
 mod pro;
+mod resources;
 mod structs;
 mod user;
 use crate::menu::menu;
@@ -66,15 +66,12 @@ fn get_resources(app: AppHandle) -> Vec<Resource> {
 
 /// # `add_pro` Command
 ///
-/// Adds inputted PRO information to the database Check out the 
-/// PatientRecordedOutcome struct in `structs.rs` for more information.
+/// Adds inputted PRO information to the database.
 ///
 /// ## TypeScript Usage
 ///
 /// ```typescript
-/// invoke('add_pro').then(a => {
-///     todo: write typescript code here
-/// });
+/// invoke('add_pro', {recorded_date: "", question: "", response: ""});
 /// ```
 #[tauri::command(rename_all = "snake_case")]
 fn add_pro(app: AppHandle, recorded_date: String, question: String, response: String) {
@@ -83,14 +80,14 @@ fn add_pro(app: AppHandle, recorded_date: String, question: String, response: St
 
 /// # `get_all_pros` Command
 ///
-/// Returns all PROs in the form of a vector of PRO objects. Check out the 
+/// Returns all PROs in the form of a vector of PRO objects. Check out the
 /// PatientRecordedOutcome struct in `structs.rs` for more information.
 ///
 /// ## TypeScript Usage
 ///
 /// ```typescript
-/// invoke('get_all_pros').then(g => {
-///     todo: write typescript code here
+/// invoke('get_all_pros').then(all_pros => {
+///     setPros(all_pros as PatientReportedOutcome[])
 /// });
 /// ```
 #[tauri::command(rename_all = "snake_case")]
@@ -101,15 +98,13 @@ fn get_all_pros(app: AppHandle) {
 /// # `add_pro_question` Command
 ///
 /// Adds a single String question to the pro_questions vector stored in the
-/// device's config.json. Check out the Config struct in `structs.rs` for more 
+/// device's config.json. Check out the Config struct in `structs.rs` for more
 /// information.
 ///
 /// ## TypeScript Usage
 ///
 /// ```typescript
-/// invoke('add_pro_questions').then(a => {
-///     todo: write typescript code here
-/// });
+/// invoke('add_pro_question', {question: ""});
 /// ```
 #[tauri::command(rename_all = "snake_case")]
 fn add_pro_question(app: AppHandle, question: String) {
