@@ -10,7 +10,7 @@ mod user;
 use crate::menu::menu;
 use crate::structs::{Medication, Resource};
 use std::{env, fs, process};
-use structs::User;
+use structs::{PatientReportedOutcome, User};
 use tauri::{AppHandle, Manager};
 use user::get_patient;
 
@@ -91,8 +91,8 @@ fn add_pro(app: AppHandle, recorded_date: String, question: String, response: St
 /// });
 /// ```
 #[tauri::command(rename_all = "snake_case")]
-fn get_all_pros(app: AppHandle) {
-    pro::get_all_pros(app);
+fn get_all_pros(app: AppHandle) -> Vec<PatientReportedOutcome> {
+    pro::get_all_pros(app)
 }
 
 /// # `add_pro_question` Command
@@ -104,6 +104,7 @@ fn get_all_pros(app: AppHandle) {
 /// ## TypeScript Usage
 ///
 /// ```typescript
+/// /*`.then()` not needed. Consider using `.catch()` for error handling. */
 /// invoke('add_pro_question', {question: ""});
 /// ```
 #[tauri::command(rename_all = "snake_case")]
