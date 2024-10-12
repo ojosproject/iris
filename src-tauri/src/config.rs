@@ -1,12 +1,12 @@
-// specs.rs
+// config.rs
 // Ojos Project
 //
-// Handles storing data directly on the system
+// Works with storing data that isn't needed in the database. Think settings.
 
 #![allow(dead_code)]
 use crate::structs::Config;
 use std::{fs, io::ErrorKind};
-use tauri::{App, AppHandle, Manager};
+use tauri::{AppHandle, Manager};
 
 pub fn set_resources_last_call(app: AppHandle, value: i64) {
     let app_config_dir = app.path().app_config_dir().unwrap();
