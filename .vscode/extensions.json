@@ -15,6 +15,6 @@
 
     "alexcvzz.vscode-sqlite", // SqLite
     "tauri-apps.tauri-vscode", // Tauri support
-    "esbenp.prettier-vscode" // code formatting for JS/TS
+    "denoland.vscode-deno", // Deno support
   ]
 }

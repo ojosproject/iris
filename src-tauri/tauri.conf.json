@@ -1,7 +1,7 @@
 {
   "build": {
-    "beforeBuildCommand": "npm run build",
-    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "deno run build",
+    "beforeDevCommand": "deno run dev",
     "frontendDist": "../dist",
     "devUrl": "http://localhost:3000"
   },

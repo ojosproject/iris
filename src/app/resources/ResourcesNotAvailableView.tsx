@@ -1,3 +1,4 @@
+import React from "react";
 import BackButton from "../call/recordings/components/backButton";
 import classes from "./page.module.css";
 import Image from "next/image";

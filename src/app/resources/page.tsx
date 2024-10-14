@@ -3,8 +3,9 @@
 import { Resource } from "@/types";
 import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
-import ResourcesView from "./ResourcesView";
-import ResourcesNotAvailableView from "./ResourcesNotAvailableView";
+import ResourcesView from "./ResourcesView.tsx";
+import ResourcesNotAvailableView from "./ResourcesNotAvailableView.tsx";
+import React from "react";
 
 export default function Resources() {
   const [resources, setResources] = useState([] as Resource[]);
@@ -15,9 +16,7 @@ export default function Resources() {
     });
   }, []);
 
-  return resources.length ? (
-    <ResourcesView resources={resources} setResources={setResources} />
-  ) : (
-    <ResourcesNotAvailableView />
-  );
+  return resources.length
+    ? <ResourcesView resources={resources} setResources={setResources} />
+    : <ResourcesNotAvailableView />;
 }

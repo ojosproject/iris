@@ -13,7 +13,7 @@
     "editor.formatOnSave": true
   },
   "[typescriptreact][css][scss]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "denoland.vscode-deno",
     "editor.formatOnSave": true
   },
   "cSpell.words": [
@@ -42,5 +42,6 @@
     }
   ],
   "sqltools.useNodeRuntime": true,
-  "coverage-gutters.coverageFileNames": ["src-tauri/lcov.info"]
+  "coverage-gutters.coverageFileNames": ["src-tauri/lcov.info"],
+  "deno.enable": true,
 }
