@@ -33,6 +33,7 @@
     "react-webcam": "^7.2.0"
   },
   "devDependencies": {
+    "@types/bun": "^1.1.11",
     "@types/next": "^9.0.0",
     "@types/node": "^20",
     "@types/react": "^18",
