@@ -5,7 +5,8 @@
 // PROs are
 use crate::structs::PatientReportedOutcome;
 use rusqlite::{named_params, Connection};
-use tauri::{AppHandle, Manager};
+use std::time::SystemTime;
+use tauri::{App, AppHandle, Manager};
 
 pub fn get_all_pros(app: AppHandle) -> Vec<PatientReportedOutcome> {
     let app_data_dir = app.path().app_data_dir().unwrap();
@@ -33,13 +34,20 @@ pub fn get_all_pros(app: AppHandle) -> Vec<PatientReportedOutcome> {
     pros_list
 }
 
-pub fn add_pro(app: AppHandle, recorded_date: String, question: String, response: String) {
-    let app_data_dir= app.path().app_data_dir().unwrap();
-    let conn = Connection::open(app_data_dir).unwrap();
-    // INSERT OR IGNORE will skip an insertion if a primary or unique constraint
-    // is failed.
-    conn.execute(
+pub fn add_pros(app: AppHandle, pros: Vec<(String, String)>) {
+    for pro_tuple in pros {
+        let app_data_dir = app.path().app_data_dir().unwrap();
+        let conn = Connection::open(app_data_dir).unwrap();
+
+        let recorded_date: i64 = SystemTime::now()
+            .duration_since(SystemTime::UNIX_EPOCH)
+            .unwrap()
+            .as_secs() as i64;
+        // INSERT OR IGNORE will skip an insertion if a primary or unique constraint
+        // is failed.
+        conn.execute(
             "INSERT OR IGNORE INTO patient_recorded_outcome (recorded_date, question, response) VALUES (:recorded_date, :question, :response)", 
-            named_params! {":recorded_date": recorded_date, ":question": question, ":response": response}
+            named_params! {":recorded_date": recorded_date, ":question": pro_tuple.0, ":response": pro_tuple.1}
         ).expect("Inserting into patient_recorded_outcome failed.");
+    }
 }

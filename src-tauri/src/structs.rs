@@ -47,7 +47,7 @@ pub struct Resource {
 
 #[derive(Serialize, Deserialize)]
 pub struct PatientReportedOutcome {
-    pub recorded_date: String,
+    pub recorded_date: i64,
     pub question: String,
     pub response: String,
 }
