@@ -4,7 +4,6 @@ import classes from "./controls.module.css";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import { useRecordWebcam } from 'react-record-webcam';
-import { v4 as uuid4 } from 'uuid';
 
 interface ControlsProps {
   camOn: boolean;
@@ -27,37 +26,48 @@ export default function Controls({
   const { createRecording, openCamera, startRecording, stopRecording, download } = useRecordWebcam();
 
   const handleRecordVideo = async () => {
+    setRecOn(!recOn)
     if (!recOn) {
-      // Starting recording with unique id generated
-      const newRecordingId = uuid4();
-      setRecordingId(newRecordingId);
-
       try {
+        // Create recording
         const recording = await createRecording();
         console.log('Recording created:', recording);
-
+        
+        // Check if recording ID exists
         if (!recording) {
           console.error('Recording creation failed: No recording object returned');
           return;
         }
-
-        await openCamera(recording.id); 
+  
+        // Set the recording ID to state
+        setRecordingId(recording.id);
+        console.log("recordingID here: ", recording.id);
+        console.log("status: ", recording.status);
+  
+        // Open the camera and start recording
+        await openCamera(recording.id);
         await startRecording(recording.id);
-        console.log('Recording started with ID:', recording.id);
-        setRecOn(true);
+        await startRecording(recording.id);
+        console.log('Recording started with ID:', recording.status);
+
       } catch (error) {
         console.error('Error during recording process:', error);
       }
     } else {
+      console.log("stopping here")
       try {
+        console.log("record id: ", recordingId)
         if (!recordingId) {
           console.error('Error: No recording ID available to stop recording.');
           return;
         }
-        
-        const recordedBlob = await stopRecording(recordingId!); // recording id is not being recognized here, giving a error
+  
+        // Stop recording
+        console.log("reached here")
+        const recordedBlob = await stopRecording(recordingId);
         console.log('Recording stopped.');
-
+  
+        // Check if the recorded blob is valid
         if (recordedBlob instanceof Blob) {
           const recordingUrl = URL.createObjectURL(recordedBlob);
           setVideoUrl(recordingUrl);
@@ -65,16 +75,20 @@ export default function Controls({
         } else {
           console.error('Error: Recorded blob is not an instance of Blob:', recordedBlob);
         }
-        await download(recordingId!);
+  
+        // Download the recording
+        await download(recordingId);
         console.log('Recording downloaded.');
       } catch (error) {
         console.error('Error stopping recording:', error);
       } finally {
-        setRecOn(false); 
+        // Reset the recording state
+        setRecOn(false);
         setRecordingId(null);
       }
     }
   };
+  
 
   return (
     <div className={classes.controls}>
