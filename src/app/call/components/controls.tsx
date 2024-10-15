@@ -4,7 +4,6 @@ import classes from "./controls.module.css";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import React from "react";
-import Webcam from "react-webcam";
 
 interface ControlsProps {
   camOn: boolean;
