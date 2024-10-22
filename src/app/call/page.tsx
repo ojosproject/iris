@@ -19,13 +19,7 @@ export default function Call() {
       </header>
       <main>
         {/* <h1>Video Call</h1> */}
-        <Camera camOn={camOn} micOn={micOn} />
-        <Controls
-          camOn={camOn}
-          setCamOn={setCamOn}
-          micOn={micOn}
-          setMicOn={setMicOn}
-        />
+        <Camera/>
       </main>
     </>
   );

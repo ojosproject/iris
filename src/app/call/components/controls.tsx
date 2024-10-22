@@ -1,127 +1,147 @@
-"use client";
-import { useState } from "react";
-import classes from "./controls.module.css";
-import clsx from "clsx";
-import { useRouter } from "next/navigation";
-import { useRecordWebcam } from 'react-record-webcam';
+import React, { useEffect, useRef, useState } from 'react'; // Import necessary hooks and components from React
+import clsx from "clsx"; // Import clsx for conditional class names
+import classes from "./controls.module.css"; // Import CSS module for styling
+import router from 'next/router'; // Import Next.js router for navigation
 
-interface ControlsProps {
-  camOn: boolean;
-  setCamOn: (state: boolean) => void;
-  micOn: boolean;
-  setMicOn: (state: boolean) => void;
-}
+const WebcamRecorder: React.FC = () => {
+  // Reference to the video element
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  // Reference to the MediaRecorder instance
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  // State to track if recording is in progress
+  const [recording, setRecording] = useState(false);
+  // State to store recorded video chunks
+  const [recordedChunks, setRecordedChunks] = useState<Blob[]>([]);
+  // const [isMuted, setIsMuted] = useState(false);
+  // const [isCameraOn, setIsCameraOn] = useState(true);
 
-export default function Controls({
-  camOn,
-  setCamOn,
-  micOn,
-  setMicOn,
-}: ControlsProps) {
-  const [recOn, setRecOn] = useState(false);
-  const [recordingId, setRecordingId] = useState<string | null>(null);
-  const [videoUrl, setVideoUrl] = useState<string | null>(null);
-  const router = useRouter();
-
-  const { createRecording, openCamera, startRecording, stopRecording, download } = useRecordWebcam();
-
-  const handleRecordVideo = async () => {
-    setRecOn(!recOn)
-    if (!recOn) {
+  useEffect(() => {
+    // Function to start video streaming
+    const startVideo = async () => {
       try {
-        // Create recording
-        const recording = await createRecording();
-        console.log('Recording created:', recording);
-        
-        // Check if recording ID exists
-        if (!recording) {
-          console.error('Recording creation failed: No recording object returned');
-          return;
-        }
-  
-        // Set the recording ID to state
-        setRecordingId(recording.id);
-        console.log("recordingID here: ", recording.id);
-        console.log("status: ", recording.status);
-  
-        // Open the camera and start recording
-        await openCamera(recording.id);
-        await startRecording(recording.id);
-        await startRecording(recording.id);
-        console.log('Recording started with ID:', recording.status);
+        // Request access to the user's webcam and microphone
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+          audio: true,
+        });
 
-      } catch (error) {
-        console.error('Error during recording process:', error);
-      }
-    } else {
-      console.log("stopping here")
-      try {
-        console.log("record id: ", recordingId)
-        if (!recordingId) {
-          console.error('Error: No recording ID available to stop recording.');
-          return;
+        // Set the video stream to the video element
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
         }
-  
-        // Stop recording
-        console.log("reached here")
-        const recordedBlob = await stopRecording(recordingId);
-        console.log('Recording stopped.');
-  
-        // Check if the recorded blob is valid
-        if (recordedBlob instanceof Blob) {
-          const recordingUrl = URL.createObjectURL(recordedBlob);
-          setVideoUrl(recordingUrl);
-          console.log('Recording URL set:', recordingUrl);
-        } else {
-          console.error('Error: Recorded blob is not an instance of Blob:', recordedBlob);
-        }
-  
-        // Download the recording
-        await download(recordingId);
-        console.log('Recording downloaded.');
+
+        // Initialize MediaRecorder with the stream
+        mediaRecorderRef.current = new MediaRecorder(stream);
+        // Set up the data available handler to process recorded chunks
+        mediaRecorderRef.current.ondataavailable = handleDataAvailable;
       } catch (error) {
-        console.error('Error stopping recording:', error);
-      } finally {
-        // Reset the recording state
-        setRecOn(false);
-        setRecordingId(null);
+        console.error("Error accessing the webcam:", error);
       }
+    };
+
+    startVideo(); // Call the startVideo function to initiate streaming
+    return () => {
+      // Cleanup function to stop all media tracks when component unmounts
+      if (mediaRecorderRef.current) {
+        mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop());
+      }
+    };
+  }, []); // Empty dependency array means this runs once on component mount
+
+  // Handler for when data is available from the MediaRecorder
+  const handleDataAvailable = (event: BlobEvent) => {
+    if (event.data.size > 0) {
+      // Append recordings if it has data
+      setRecordedChunks(prev => [...prev, event.data]);
     }
   };
-  
+
+  // Function to start recording
+  const startRecording = () => {
+    setRecordedChunks([]); // Clear any recorded chunks
+    if (mediaRecorderRef.current) {
+      mediaRecorderRef.current.start(); // Start the MediaRecorder
+      setRecording(true); // Update recording state
+    }
+  };
+
+  // Function to stop recording
+  const stopRecording = () => {
+    if (mediaRecorderRef.current) {
+      mediaRecorderRef.current.stop(); // Stop the MediaRecorder
+      setRecording(false); // Update recording state
+    }
+  };
+
+  // Function to download the recorded video
+  const downloadVideo = () => {
+    const blob = new Blob(recordedChunks, { type: 'video/webm' }); // Create a Blob from the recorded chunks
+    const url = URL.createObjectURL(blob); // Create a URL for the Blob
+    const a = document.createElement('a'); // Create an anchor element
+    a.href = url; // Set the href to the Blob URL
+    a.download = 'recording.webm'; // Set the download filename
+    a.click(); // Programmatically click the anchor to trigger the download
+    URL.revokeObjectURL(url); // Cleanup the URL object
+  };
+
+  // const toggleMute = () => {
+  //   if (mediaRecorderRef.current?.stream) {
+  //     const audioTracks = mediaRecorderRef.current.stream.getAudioTracks();
+  //     audioTracks.forEach(track => {
+  //       track.enabled = !isMuted; // Toggle audio track enabled state
+  //     });
+  //     setIsMuted(!isMuted); // Update muted state
+  //   }
+  // };
+
+  // const toggleCamera = () => {
+  //   if (mediaRecorderRef.current?.stream) {
+  //     const videoTracks = mediaRecorderRef.current.stream.getVideoTracks();
+  //     videoTracks.forEach(track => {
+  //       track.enabled = !isCameraOn; // Toggle video track enabled state
+  //     });
+  //     setIsCameraOn(!isCameraOn); // Update camera state
+  //   }
+  // };
+
+  // Function to handle ending the recording and cleanup
+  const handleEnd = () => {
+    if (recording) {
+      stopRecording(); // Stop recording if currently recording
+    }
+    
+    if (mediaRecorderRef.current) {
+      mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop()); // Stop all media tracks
+    }
+    
+    router.push("/"); // Navigate back to the home page
+  };
 
   return (
-    <div className={classes.controls}>
-      <button
-        className={clsx(classes.normalButton)}
-        onClick={() => router.push("/")}
-      >
-        End
-      </button>
-      <button
-        className={clsx(classes.normalButton, !micOn && classes.invert)}
-        onClick={() => setMicOn(!micOn)}
-      >
-        {micOn ? "Mute" : "Unmute"}
-      </button>
-      <button
-        className={clsx(classes.normalButton, !camOn && classes.invert)}
-        onClick={() => setCamOn(!camOn)}
-      >
-        {camOn ? "Turn Camera Off" : "Turn Camera On"}
-      </button>
-      <button
-        className={clsx(classes.normalButton, !recOn && classes.invert)}
-        onClick={handleRecordVideo}
-      >
-        {recOn ? "Stop Recording" : "Record"}
-      </button>
-
-      {videoUrl && (
-        <div>
-          <video controls src={videoUrl} />
-        </div>
-      )}
+    <div>
+      {/* Video element to display the webcam feed */}
+      <video ref={videoRef} autoPlay playsInline width="900" height="700"></video>
+      <div className={classes.controls}>
+        {/* Button to go back to the previous page */}
+        <button
+          className={clsx(classes.normalButton)}
+          onClick={handleEnd}
+        >
+          Go Back
+        </button>
+        {/* Conditional button to start or stop recording */}
+        {!recording ? (
+          <button className ={clsx(classes.normalButton)} onClick={startRecording}>Start Recording</button>
+        ) : (
+          <button className ={clsx(classes.normalButton)} onClick={stopRecording}>Stop Recording</button>
+        )}
+        {/* Button to download the video if there are recorded chunks */}
+        {recordedChunks.length > 0 && (
+          <button className ={clsx(classes.normalButton)} onClick={downloadVideo}>Download Video</button>
+        )}
+      </div>
     </div>
   );
-}
+};
+
+export default WebcamRecorder; // Export the WebcamRecorder component
