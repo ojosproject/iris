@@ -15,7 +15,7 @@ const medication: Medication = {
   first_added: 1674684000, // Unix timestamp: January 25, 2023 2:00:00 PM GMT-08:00
   dosage: 15,
   measurement: "mg",
-  supply: 32,
+  supply: 10,
   total_prescribed: 50,
   last_taken: 1724166000, // Unix timestamp
   frequency: 0.0,
@@ -132,7 +132,6 @@ const LeftPanel = ({
   );
 };
 
-//TODO: dynamically displays remaining pills
 const DetailBox = ({
   label,
   value,
@@ -148,7 +147,7 @@ const DetailBox = ({
     <div
       className={`${styles.detailBox} ${isPillsRemaining ? styles.pillsRemaining : ""}`}
     >
-      {isPillsRemaining && (
+      {isPillsRemaining && pillsPercentage !== undefined && (
         <div className={styles.circleContainer}>
           {" "}
           <strong>Pills Remaining </strong>
@@ -272,9 +271,13 @@ const MedicineView = () => {
               />
               <DetailBox
                 label="Last taken"
-                value={moment(medication.last_taken!, "X").fromNow()}
+                value={
+                  medication.last_taken
+                    ? moment(medication.last_taken, "X").fromNow()
+                    : "N/A"
+                }
               />{" "}
-              {/*medication.last_taken can be empty, please check! */}
+              {/*medication.last_taken can be empty*/}
               {/*At some point, we should replace moment() */}
               {/* https://momentjs.com/docs/#/-project-status/recommendations/ */}
               {/*https://momentjs.com/docs/#/parsing/string-format/ */}
