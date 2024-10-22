@@ -9,12 +9,12 @@ import { useSearchParams } from "next/navigation";
 
 //Place holder for testing
 const medication: Medication = {
-  name: "Morphine",
+  name: "",
   brand: "Brand X",
   nurse_id: "1",
   first_added: 1674684000, // Unix timestamp: January 25, 2023 2:00:00 PM GMT-08:00
-  dosage: 15,
-  measurement: "mg",
+  dosage: 0,
+  measurement: "",
   supply: 10,
   total_prescribed: 50,
   last_taken: 1724166000, // Unix timestamp
@@ -29,20 +29,6 @@ const log: MedicationLog[] = [
     given_dose: 15,
     measurement: "mg",
     comment: "No side effects",
-  },
-  {
-    timestamp: 1724094000, //  August 19, 2024 12:00:00 PM GMT-07:00 DST
-    medication_name: "Morphine",
-    given_dose: 15,
-    measurement: "mg",
-    comment: "Mild drowsiness",
-  },
-  {
-    timestamp: 1724101200, // August 19, 2024 2:00:00 PM GMT-07:00 DST
-    medication_name: "Morphine",
-    given_dose: 15,
-    measurement: "mg",
-    comment: "Nausea",
   },
 ];
 
