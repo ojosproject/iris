@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'; // Import necessary hooks and components from React
 import clsx from "clsx"; // Import clsx for conditional class names
 import classes from "./controls.module.css"; // Import CSS module for styling
-import router from 'next/router'; // Import Next.js router for navigation
 import { useRouter } from 'next/navigation';
+import Dialog from './confirmMessage';
 
 const WebcamRecorder: React.FC = () => {
   // Reference to the video element
@@ -16,6 +16,20 @@ const WebcamRecorder: React.FC = () => {
   const [isMuted, setIsMuted] = useState(false);
   const [isCameraOn, setIsCameraOn] = useState(true);
   const router = useRouter();
+  const [showDialog, setShowDialog] = useState(false);
+
+  const confirmDialog = () => {
+    stopRecording(); // Stop recording
+    if (mediaRecorderRef.current) {
+      mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop());
+    }
+    setShowDialog(false); // Close the dialog
+    router.push("/"); // Navigate to home page
+  };
+
+  const closeDialog = () => {
+    setShowDialog(false);
+  };
 
   useEffect(() => {
     // Function to start video streaming
@@ -110,14 +124,10 @@ const WebcamRecorder: React.FC = () => {
   // Function to handle ending the recording and cleanup
   const handleEnd = () => {
     if (recording) {
-      stopRecording(); // Stop recording if currently recording
+      setShowDialog(!showDialog);
+    } else {
+      router.push("/")
     }
-    
-    if (mediaRecorderRef.current) {
-      mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop()); // Stop all media tracks
-    }
-    
-    router.push("/"); // Navigate back to the home page
   };
 
   return (
@@ -132,6 +142,14 @@ const WebcamRecorder: React.FC = () => {
         >
           Go Back
         </button>
+        {showDialog && (
+        <Dialog 
+          title="You are still recording!"
+          content="Current recording will be lost and cannot be recovered."
+          onClose={closeDialog}
+          onConfirm={confirmDialog}
+        />
+        )}
         {/* Conditional button to start or stop recording */}
         {!recording ? (
           <button className ={clsx(classes.normalButton)} onClick={startRecording}>Start Recording</button>
