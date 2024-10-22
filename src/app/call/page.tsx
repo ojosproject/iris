@@ -19,7 +19,7 @@ export default function Call() {
       </header>
       <main>
         {/* <h1>Video Call</h1> */}
-        <Camera/>
+        <Camera />
       </main>
     </>
   );

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'; // Import necessary 
 import clsx from "clsx"; // Import clsx for conditional class names
 import classes from "./controls.module.css"; // Import CSS module for styling
 import router from 'next/router'; // Import Next.js router for navigation
+import { useRouter } from 'next/navigation';
 
 const WebcamRecorder: React.FC = () => {
   // Reference to the video element
@@ -12,8 +13,9 @@ const WebcamRecorder: React.FC = () => {
   const [recording, setRecording] = useState(false);
   // State to store recorded video chunks
   const [recordedChunks, setRecordedChunks] = useState<Blob[]>([]);
-  // const [isMuted, setIsMuted] = useState(false);
-  // const [isCameraOn, setIsCameraOn] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
+  const [isCameraOn, setIsCameraOn] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     // Function to start video streaming
@@ -58,7 +60,7 @@ const WebcamRecorder: React.FC = () => {
 
   // Function to start recording
   const startRecording = () => {
-    setRecordedChunks([]); // Clear any recorded chunks
+    setRecordedChunks([]); // Clear any previously recorded chunks
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.start(); // Start the MediaRecorder
       setRecording(true); // Update recording state
@@ -84,25 +86,26 @@ const WebcamRecorder: React.FC = () => {
     URL.revokeObjectURL(url); // Cleanup the URL object
   };
 
-  // const toggleMute = () => {
-  //   if (mediaRecorderRef.current?.stream) {
-  //     const audioTracks = mediaRecorderRef.current.stream.getAudioTracks();
-  //     audioTracks.forEach(track => {
-  //       track.enabled = !isMuted; // Toggle audio track enabled state
-  //     });
-  //     setIsMuted(!isMuted); // Update muted state
-  //   }
-  // };
+  const toggleMute = () => {
+    if (mediaRecorderRef.current?.stream) {
+      const audioTracks = mediaRecorderRef.current.stream.getAudioTracks();
+      audioTracks.forEach(track => {
+        track.enabled = !isMuted; // Toggle audio track enabled state
+      });
+      console.log("muted state: ", isMuted);
+      setIsMuted(!isMuted); // Update muted state
+    }
+  };
 
-  // const toggleCamera = () => {
-  //   if (mediaRecorderRef.current?.stream) {
-  //     const videoTracks = mediaRecorderRef.current.stream.getVideoTracks();
-  //     videoTracks.forEach(track => {
-  //       track.enabled = !isCameraOn; // Toggle video track enabled state
-  //     });
-  //     setIsCameraOn(!isCameraOn); // Update camera state
-  //   }
-  // };
+  const toggleCamera = () => {
+    if (mediaRecorderRef.current?.stream) {
+      const videoTracks = mediaRecorderRef.current.stream.getVideoTracks();
+      videoTracks.forEach(track => {
+        track.enabled = !isCameraOn; // Toggle video track enabled state
+      });
+      setIsCameraOn(!isCameraOn); // Update camera state
+    }
+  };
 
   // Function to handle ending the recording and cleanup
   const handleEnd = () => {
@@ -135,6 +138,18 @@ const WebcamRecorder: React.FC = () => {
         ) : (
           <button className ={clsx(classes.normalButton)} onClick={stopRecording}>Stop Recording</button>
         )}
+        <button
+          className={clsx(classes.normalButton)}
+          onClick={toggleCamera}
+        >
+        {isCameraOn ? "Turn Camera Off" : "Turn Camera On"}
+        </button>
+        <button
+          className={clsx(classes.normalButton)}
+          onClick={toggleMute}
+        >
+        {isMuted ? "Mute" : "Unmute"}
+        </button>
         {/* Button to download the video if there are recorded chunks */}
         {recordedChunks.length > 0 && (
           <button className ={clsx(classes.normalButton)} onClick={downloadVideo}>Download Video</button>
