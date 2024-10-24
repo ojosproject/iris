@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { MedicationLog } from "@/types";
+import { Medication, MedicationLog } from "@/types";
 import styles from "./newMed.module.css";
 
 interface MedicationModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (newMedication: MedicationLog) => void;
+  onSubmit: (newMedication: Medication) => void;
 }
 
 const MedicationModal: React.FC<MedicationModalProps> = ({
@@ -14,8 +14,12 @@ const MedicationModal: React.FC<MedicationModalProps> = ({
   onSubmit,
 }) => {
   const [medicationName, setMedicationName] = useState("");
-  const [givenDose, setGivenDose] = useState(0);
-  const [measurement, setMeasurement] = useState("mg");
+  const [medicationBrand, setMedicationBrand] = useState("");
+  const [medicationDosage, setMedicationDosage] = useState(0);
+  const [medicationFrequency, setMedicationFrequency] = useState(0);
+  const [medicationSupply, setMedicationSupply] = useState(0);
+  const [medicationMeasurement, setMedicationMeasurement] = useState("mg");
+  const [medicationNurseId, setMedicationNurseId] = useState("");
   // Set timestamp to 0 by default
   //const [timestamp, setTimestamp] = useState(Date.now());
 
@@ -25,16 +29,23 @@ const MedicationModal: React.FC<MedicationModalProps> = ({
       return;
     }
     onSubmit({
-      medication_name: medicationName,
-      given_dose: givenDose,
-      measurement,
-      timestamp: 0,
-    });
+      name: medicationName,
+      brand: medicationBrand,
+      dosage: medicationDosage,
+      frequency: medicationFrequency,
+      supply: medicationSupply,
+      measurement: medicationMeasurement,
+      nurse_id: medicationNurseId,
+    } as Medication);
+    onClose();
 
     setMedicationName("");
-    setGivenDose(0);
-    setMeasurement("mg");
-    onClose();
+    setMedicationBrand("");
+    setMedicationDosage(0);
+    setMedicationFrequency(0);
+    setMedicationSupply(0);
+    setMedicationMeasurement("mg");
+    setMedicationNurseId("");
   };
 
   if (!isOpen) return null;
@@ -52,16 +63,26 @@ const MedicationModal: React.FC<MedicationModalProps> = ({
           />
         </label>
         <label>
-          Given Dose:
+          Brand:
+          <input
+            type="text"
+            value={medicationBrand}
+            onChange={(e) => {
+              setMedicationBrand(e.target.value);
+            }}
+          ></input>
+        </label>
+        <label>
+          Dosage:
           <input
             type="number"
-            value={givenDose}
-            onChange={(e) => setGivenDose(Number(e.target.value))}
+            value={medicationDosage}
+            onChange={(e) => setMedicationDosage(Number(e.target.value))}
           />
         </label>
         <label>
           Measurement:
-          <select onChange={(e) => setMeasurement(e.target.value)}>
+          <select onChange={(e) => setMedicationMeasurement(e.target.value)}>
             <option value="mg">mg</option>
             <option value="ml">ml</option>
           </select>

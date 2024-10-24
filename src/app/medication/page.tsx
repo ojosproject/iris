@@ -5,7 +5,7 @@ import MedicationModal from "./components/newMed";
 import Link from "next/link";
 import MainMenuButton from "./components/mainMenuButton";
 // * Added MedicationLog type to reflect how data will return from the backend
-import { MedicationLog } from "@/types";
+import { Medication, MedicationLog } from "@/types";
 import { invoke } from "@tauri-apps/api/core";
 
 // todo:
@@ -20,18 +20,18 @@ const LogTab = () => {
     setSearchQuery(event.target.value);
   };
   const [selectedMedication, setSelectedMedication] =
-    useState<MedicationLog | null>(null);
+    useState<Medication | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const medicationSelect = (log: MedicationLog) => {
+  const medicationSelect = (log: Medication) => {
     setSelectedMedication(log);
   };
-  const [medications, setMedications] = useState<MedicationLog[]>([]);
+  const [medications, setMedications] = useState<Medication[]>([]);
   const [loading, setLoading] = useState(true);
   const handleAddMedication = () => {
     setIsModalOpen(true);
   };
 
-  const [medicationLogs, setMedicationLogs] = useState<MedicationLog[]>([]);
+  // const [medicationLogs, setMedicationLogs] = useState<MedicationLog[]>([]);
 
   const handleModalClose = () => {
     setIsModalOpen(false);
@@ -39,7 +39,7 @@ const LogTab = () => {
   useEffect(() => {
     invoke("get_medications")
       .then((m) => {
-        setMedications(m as MedicationLog[]);
+        setMedications(m as Medication[]);
         setLoading(false);
       })
       .catch((err) => {
@@ -52,30 +52,35 @@ const LogTab = () => {
     return <div>Loading...</div>;
   }
 
-  const filteredLogs = (
-    medications.length > 0 ? medications : medicationLogs
-  ).filter((log) =>
-    log.medication_name.toLowerCase().includes(searchQuery.toLowerCase()),
+  const filteredLogs = medications.filter((log) =>
+    log.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   // Function to handle the submission of new medication
-  // TODO: Only adding medication to the list for now, need connection to back
-  const handleModalSubmit = async (newMedication: MedicationLog) => {
+  const handleModalSubmit = async (newMedication: Medication) => {
     const exists = medications.some(
-      (log) =>
-        log.medication_name.toLowerCase() ===
-        newMedication.medication_name.toLowerCase(),
+      (log) => log.name.toLowerCase() === newMedication.name.toLowerCase(),
     );
 
     if (exists) {
       alert("Medication already exists!");
       return;
-    } else if (newMedication.given_dose <= 0) {
+    } else if (newMedication.dosage <= 0) {
       alert("Please provide valid medication details.");
       return;
     }
 
-    setMedicationLogs([...medicationLogs, newMedication]);
+    invoke("create_medication", {
+      name: newMedication.name,
+      brand: newMedication.brand,
+      dosage: newMedication.dosage,
+      frequency: newMedication.frequency,
+      supply: newMedication.supply,
+      measurement: newMedication.measurement,
+      nurse_id: newMedication.nurse_id,
+    });
+
+    setMedications([...medications, newMedication]);
     setIsModalOpen(false);
   };
 
@@ -137,25 +142,27 @@ const LogTab = () => {
         />
         <div className={styles.medsWrap}>
           <div className={styles.logsContainer}>
-            {medicationLogs.length === 0 ? (
+            {medications.length === 0 ? (
               <div className={styles.emptyMessage}>No medications found.</div>
             ) : (
               filteredLogs.map((log, index) => (
                 <div key={index} className={styles.logMeds}>
                   <div className={styles.logName}>
-                    <strong>{log.medication_name}</strong>
+                    <strong>{log.name}</strong>
                   </div>
                   <div className={styles.circle}></div> {/* Circle */}
                   <div className={styles.logDosage}>
-                    {log.given_dose.toString() + " " + log.measurement}
+                    {log.dosage.toString() + " " + log.measurement}
                   </div>
                   <div className={styles.logLastTake}>
                     <strong>Last Taken </strong>
                     <br />
-                    {new Date(log.timestamp * 1000).toLocaleString()}{" "}
+                    {new Date(
+                      log.last_taken ? log.last_taken * 1000 : "N/A",
+                    ).toLocaleString()}{" "}
                     {/* Format timestamp */}
                   </div>
-                  <div key={log.medication_name} className={styles.logButtons}>
+                  <div key={log.name} className={styles.logButtons}>
                     <button
                       onClick={() => medicationSelect(log)}
                       className={styles.logItem}
@@ -166,10 +173,10 @@ const LogTab = () => {
                       href={{
                         pathname: "/medication/medview",
                         query: {
-                          medication_name: log.medication_name,
-                          given_dose: log.given_dose,
+                          medication_name: log.name,
+                          given_dose: log.dosage,
                           given_measurement: log.measurement,
-                          last_taken: log.timestamp,
+                          last_taken: log.last_taken,
                         },
                       }}
                     >
