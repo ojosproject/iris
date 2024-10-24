@@ -126,6 +126,29 @@ fn get_medication_log(app: AppHandle, medication: String) -> Vec<MedicationLog> 
     vec![]
 }
 
+#[tauri::command(rename_all = "snake_case")]
+fn create_medication(
+    app: AppHandle,
+    name: String,
+    brand: String,
+    dosage: f64,
+    frequency: f64,
+    supply: f64,
+    measurement: String,
+    nurse_id: String,
+) -> Medication {
+    Medication::create(
+        app,
+        name.as_str(),
+        brand.as_str(),
+        dosage,
+        frequency,
+        supply,
+        measurement.as_str(),
+        nurse_id.as_str(),
+    )
+}
+
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
@@ -135,7 +158,8 @@ fn main() {
             get_config,
             get_resources,
             get_nurse_info,
-            get_medication_log
+            get_medication_log,
+            create_medication
         ])
         .setup(|app| {
             app.set_menu(menu(app.app_handle().clone())).unwrap();
