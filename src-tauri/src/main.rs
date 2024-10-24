@@ -3,13 +3,14 @@ mod config;
 mod dev;
 mod medications;
 mod menu;
+mod pro;
 mod resources;
 mod structs;
 mod user;
 use crate::menu::menu;
 use crate::structs::{Medication, Resource};
 use std::{env, fs, process};
-use structs::User;
+use structs::{PatientReportedOutcome, User};
 use tauri::{AppHandle, Manager};
 use user::get_patient;
 
@@ -63,6 +64,54 @@ fn get_resources(app: AppHandle) -> Vec<Resource> {
     resources::get_resources(app.clone())
 }
 
+/// # `add_pro` Command
+///
+/// Adds inputted PRO information to the database.
+///
+/// ## TypeScript Usage
+///
+/// ```typescript
+/// invoke('add_pro', {recorded_date: "", question: "", response: ""});
+/// ```
+#[tauri::command(rename_all = "snake_case")]
+fn add_pros(app: AppHandle, pros: Vec<(String, i32)>) {
+    pro::add_pros(app, pros);
+} // MAKE SURE pro tuples are formatted with question first and response second!
+
+/// # `get_all_pros` Command
+///
+/// Returns all PROs in the form of a vector of PRO objects. Check out the
+/// PatientRecordedOutcome struct in `structs.rs` for more information.
+///
+/// ## TypeScript Usage
+///
+/// ```typescript
+/// invoke('get_all_pros').then(all_pros => {
+///     setPros(all_pros as PatientReportedOutcome[])
+/// });
+/// ```
+#[tauri::command(rename_all = "snake_case")]
+fn get_all_pros(app: AppHandle) -> Vec<PatientReportedOutcome> {
+    pro::get_all_pros(app)
+}
+
+/// # `add_pro_question` Command
+///
+/// Adds a single String question to the pro_questions vector stored in the
+/// device's config.json. Check out the Config struct in `structs.rs` for more
+/// information.
+///
+/// ## TypeScript Usage
+///
+/// ```typescript
+/// /*`.then()` not needed. Consider using `.catch()` for error handling. */
+/// invoke('add_pro_question', {question: ""});
+/// ```
+#[tauri::command(rename_all = "snake_case")]
+fn add_pro_question(app: AppHandle, question: String) {
+    config::add_pro_question(app, question);
+}
+
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
@@ -70,7 +119,10 @@ fn main() {
             get_upcoming_medications,
             get_patient_info,
             get_config,
-            get_resources
+            get_resources,
+            add_pros,
+            get_all_pros,
+            add_pro_question,
         ])
         .setup(|app| {
             app.set_menu(menu(app.app_handle().clone())).unwrap();
