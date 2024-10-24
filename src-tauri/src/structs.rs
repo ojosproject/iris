@@ -49,5 +49,5 @@ pub struct Resource {
 pub struct PatientReportedOutcome {
     pub recorded_date: i64,
     pub question: String,
-    pub response: String,
+    pub response: i32,
 }

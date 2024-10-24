@@ -74,7 +74,7 @@ fn get_resources(app: AppHandle) -> Vec<Resource> {
 /// invoke('add_pro', {recorded_date: "", question: "", response: ""});
 /// ```
 #[tauri::command(rename_all = "snake_case")]
-fn add_pros(app: AppHandle, pros: Vec<(String, String)>) {
+fn add_pros(app: AppHandle, pros: Vec<(String, i32)>) {
     pro::add_pros(app, pros);
 } // MAKE SURE pro tuples are formatted with question first and response second!
 

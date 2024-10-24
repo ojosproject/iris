@@ -34,7 +34,8 @@ pub fn get_all_pros(app: AppHandle) -> Vec<PatientReportedOutcome> {
     pros_list
 }
 
-pub fn add_pros(app: AppHandle, pros: Vec<(String, String)>) {
+pub fn add_pros(app: AppHandle, pros: Vec<(String, i32)>) {
+    /// 
     let app_data_dir = app.path().app_data_dir().unwrap();
     let conn = Connection::open(app_data_dir).unwrap();
 
