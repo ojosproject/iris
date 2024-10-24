@@ -20,6 +20,8 @@ dist-ssr
 src-tauri/gen/schemas
 src-tauri/capabilities/schemas
 
+.env
+
 # Editor directories and files
 .idea
 .DS_Store
