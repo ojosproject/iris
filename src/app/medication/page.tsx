@@ -25,7 +25,7 @@ const LogTab = () => {
     setIsModalOpen(true);
   };
 
-  const [medicationLogs, setMedicationLogs] = useState<MedicationLog[]>([])
+  const [medicationLogs, setMedicationLogs] = useState<MedicationLog[]>([]);
 
   const handleModalClose = () => {
     setIsModalOpen(false);
@@ -59,8 +59,10 @@ const LogTab = () => {
     return <div>Loading...</div>;
   }
 
-  const filteredLogs = (medications.length > 0 ? medications : medicationLogs).filter((log) =>
-    log.medication_name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredLogs = (
+    medications.length > 0 ? medications : medicationLogs
+  ).filter((log) =>
+    log.medication_name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   // Function to handle the submission of new medication
@@ -84,9 +86,9 @@ const LogTab = () => {
     setIsModalOpen(false);
   };
 
-
   // TODO: Currently on PR, there is no way to amend medication to backend
-  {/* 
+  {
+    /* 
   const handleModalSubmit = (newMedication: MedicationLog) => {
     const exists = medications.some(
       (log) =>
@@ -112,7 +114,8 @@ const LogTab = () => {
       .catch((err) => {
         console.error("Error adding medication", err);
       });
-      */}
+      */
+  }
 
   return (
     <>
@@ -156,7 +159,8 @@ const LogTab = () => {
                   <div className={styles.logLastTake}>
                     <strong>Last Taken </strong>
                     <br />
-                    {new Date(log.timestamp * 1000).toLocaleString()} {/* Format timestamp */}
+                    {new Date(log.timestamp * 1000).toLocaleString()}{" "}
+                    {/* Format timestamp */}
                   </div>
                   <div key={log.medication_name} className={styles.logButtons}>
                     <button
