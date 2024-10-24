@@ -6,7 +6,7 @@ import UpcomingList from "./components/UpcomingList";
 
 const HubApps: HubAppProps[] = [
   {
-    link: "./log_view",
+    link: "./medication",
     icon: "pl",
     name: "Medication Log",
   },
