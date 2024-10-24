@@ -48,19 +48,6 @@ const LogTab = () => {
       });
   }, []);
 
-  useEffect(() => {
-    if (!loading && medications.length === 0) {
-      setMedicationLogs([
-        {
-          medication_name: "Med #1",
-          given_dose: 10,
-          measurement: "mg",
-          timestamp: 1724166000,
-        },
-      ]);
-    }
-  }, [loading, medications]);
-
   if (loading) {
     return <div>Loading...</div>;
   }
