@@ -34,3 +34,16 @@ export type MedicationLog = {
   measurement: string;
   comment?: string;
 };
+
+export type Config = {
+  resources_last_call: number // integer
+}
+
+export type Resource = {
+  label: string,
+  description: string,
+  url: string,
+  organization: string,
+  category: "FINANCIAL" | "LEGAL",
+  last_updated: number // Unix timestamp
+}

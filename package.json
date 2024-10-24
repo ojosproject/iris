@@ -20,15 +20,18 @@
     "tauri:dev": "tauri dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "tauri": "tauri"
   },
   "dependencies": {
     "@tauri-apps/api": "^2.0.3",
+    "@tauri-apps/cli": "^2.0.0-rc.17",
     "clsx": "^2.1.1",
     "next": "^14.2.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-live-clock": "^6.1.23-beta",
+    "react-qr-code": "^2.0.15",
     "react-webcam": "^7.2.0"
   },
   "devDependencies": {

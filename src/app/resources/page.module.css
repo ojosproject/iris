@@ -1,0 +1,39 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.back_button {
+  justify-self: flex-start;
+  align-self: flex-start;
+}
+
+.menu_and_resources_container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+
+  margin: 0 20px;
+}
+
+.not_found {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  height: 50dvh;
+}
+
+.not_found_text {
+  font-size: 20px;
+
+  margin: 0;
+  padding: 0;
+}
+
+.not_found_icon {
+  margin: 20px;
+}
