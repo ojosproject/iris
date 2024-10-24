@@ -55,11 +55,10 @@
 
 .logsContainer {
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-around;
   gap: 15px;
   max-height: 60vh;
-  overflow-y: auto;
+  overflow-x: auto;
   width: 100%;
   padding: 10px;
 }
