@@ -20,6 +20,11 @@ const HubApps: HubAppProps[] = [
     icon: "pl",
     name: "Resources",
   },
+  {
+    link: "./pro",
+    icon: "pl",
+    name: "Survey",
+  }
 ];
 
 export default function Home() {
