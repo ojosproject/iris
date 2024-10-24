@@ -19,6 +19,11 @@ export default function Main_page() {
                 Take Today's Survey
             </button>
         </div>
+        <div className="container">
+            <div className="box">
+                temporary chart
+            </div>
+        </div>
     </>
     );
 }
