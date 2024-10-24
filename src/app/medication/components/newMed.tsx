@@ -61,12 +61,12 @@ const MedicationModal: React.FC<MedicationModalProps> = ({
         </label>
         <label>
           Measurement:
-          <input
-            type="text"
-            value={measurement}
-            onChange={(e) => setMeasurement(e.target.value)}
-          />
+          <select onChange={(e) => setMeasurement(e.target.value)}>
+            <option value="mg">mg</option>
+            <option value="ml">ml</option>
+          </select>
         </label>
+
         {/* Timestamp input can be omitted or set to default */}
         {/* <label>
                     Timestamp:
