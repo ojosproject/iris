@@ -8,6 +8,12 @@ import MainMenuButton from "./components/mainMenuButton";
 import { MedicationLog } from "@/types";
 import { invoke } from "@tauri-apps/api/core";
 
+// todo:
+// - Implement invoke() to get all medications from the backend
+// - Implement invoke() for the Add Medication button
+// - Implement invoke() for the View button
+// - Figure out how to work the Log button
+
 const LogTab = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
