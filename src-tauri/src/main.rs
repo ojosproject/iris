@@ -6,6 +6,7 @@ mod menu;
 mod resources;
 mod structs;
 mod user;
+mod relay;
 use crate::menu::menu;
 use crate::structs::{Medication, Resource};
 use std::{env, fs, process};
