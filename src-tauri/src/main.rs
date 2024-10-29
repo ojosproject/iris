@@ -10,9 +10,26 @@ mod relay;
 use crate::menu::menu;
 use crate::structs::{Medication, Resource};
 use std::{env, fs, process};
-use structs::User;
+use structs::{ResponseStatus, User};
 use tauri::{AppHandle, Manager};
 use user::get_patient;
+
+#[tauri::command(rename_all = "snake_case")]
+fn add_phone_number(app: AppHandle, number: String) {
+    config::add_phone_number(app, number);
+}
+
+#[tauri::command(rename_all = "snake_case")]
+fn send_SMS_messages(app: AppHandle, message: String) {
+    for recipient in config::get_phone_numbers(app) {
+        let success = relay::send_SMS_message(&message, recipient);
+        // success is a tuple that contains a boolean and then a ResponseStatus,
+        // which contains a String message
+        if !success.0 {
+            panic!("{:?}", relay::read_response_status(success.1));
+        }
+    }
+}
 
 #[tauri::command(rename_all = "snake_case")]
 fn get_medications(app: AppHandle) -> Vec<Medication> {
@@ -71,7 +88,9 @@ fn main() {
             get_upcoming_medications,
             get_patient_info,
             get_config,
-            get_resources
+            get_resources,
+            send_SMS_messages,
+            add_phone_number
         ])
         .setup(|app| {
             app.set_menu(menu(app.app_handle().clone())).unwrap();

@@ -6,7 +6,7 @@
 #![allow(dead_code)]
 use crate::structs::Config;
 use std::{fs, io::ErrorKind};
-use tauri::{AppHandle, Manager};
+use tauri::{App, AppHandle, Manager};
 
 pub fn set_resources_last_call(app: AppHandle, value: i64) {
     let app_config_dir = app.path().app_config_dir().unwrap();
@@ -18,6 +18,21 @@ pub fn set_resources_last_call(app: AppHandle, value: i64) {
     fs::write(app_config_dir.join("config.json"), config_string).unwrap();
 }
 
+pub fn add_phone_number(app: AppHandle, number : String) {
+    let app_config_dir = app.path().app_config_dir().unwrap();
+
+    let mut config = get_config(app.app_handle());
+    config.phone_numbers.push(number);
+    let config_string = serde_json::to_string(&config).unwrap();
+
+    fs::write(app_config_dir.join("config.json"), config_string).unwrap();
+}
+
+pub fn get_phone_numbers(app: AppHandle) -> Vec<String> {
+    let config = get_config(app.app_handle());
+    config.phone_numbers
+}
+
 pub fn get_config(app: &AppHandle) -> Config {
     let app_data_dir = app.path().app_config_dir().unwrap();
 
@@ -26,6 +41,7 @@ pub fn get_config(app: &AppHandle) -> Config {
             ErrorKind::NotFound => {
                 let template_config = Config {
                     resources_last_call: 0,
+                    phone_numbers: vec![],
                 };
                 let template_config_string = serde_json::to_string(&template_config).unwrap();
                 fs::write(app_data_dir.join("config.json"), &template_config_string).unwrap();

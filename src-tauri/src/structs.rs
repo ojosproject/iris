@@ -32,6 +32,7 @@ pub struct MedicationLog {
 #[derive(Serialize, Deserialize)]
 pub struct Config {
     pub resources_last_call: i64,
+    pub phone_numbers: Vec<String>,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -44,55 +45,9 @@ pub struct Resource {
     pub last_updated: f32,
 }
 
-
-// may not end up using these structs
-#[derive(Serialize, Deserialize)]
-pub struct SMSResponse {
-    account_sid: Option<String>,
-    api_version: String,
-    body: String,
-    date_created: String,
-    date_sent: String,
-    date_updated: String,
-    direction: String,
-    error_code: String,
-    error_message: String,
-    from: String,
-    messaging_service_sid: String,
-    num_media: String,
-    num_segments: String,
-    price: String,
-    price_unit: String,
-    sid: String,
-    status: String,
-    subresource_uris: SubresourceUris,
-    to: String,
-    uri: String,
-}
-
-#[derive(Serialize, Deserialize)]
-pub struct SubresourceUris {
-    all_time: String,
-    today: String,
-    yesterday: String,
-    this_month: String,
-    last_month: String,
-    daily: String,
-    monthly: String,
-    yearly: String,
-}
-
-#[derive(Serialize, Deserialize)]
-pub struct ErrorResponse {
-    code: u16,
-    message: String,
-    more_info: String,
-    status: u16
-}
-
-pub enum Status {
+pub enum ResponseStatus {
     ClientError(String),
     TooManyRequests(String),
-    Ok,
+    Ok(String),
     OtherError(String)
 }
