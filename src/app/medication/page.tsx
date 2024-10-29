@@ -173,10 +173,7 @@ const LogTab = () => {
                       href={{
                         pathname: "/medication/medview",
                         query: {
-                          medication_name: log.name,
-                          given_dose: log.dosage,
-                          given_measurement: log.measurement,
-                          last_taken: log.last_taken,
+                          name: log.name,
                         },
                       }}
                     >

@@ -6,54 +6,7 @@ import { invoke } from "@tauri-apps/api/core";
 import moment from "moment";
 import MedicationLogButton from "./components/returnButton";
 import { useSearchParams } from "next/navigation";
-
-//Place holder for testing
-const medication: Medication = {
-  name: "",
-  brand: "Brand X",
-  nurse_id: "1",
-  first_added: 1674684000, // Unix timestamp: January 25, 2023 2:00:00 PM GMT-08:00
-  dosage: 0,
-  measurement: "",
-  supply: 10,
-  total_prescribed: 50,
-  last_taken: 1724166000, // Unix timestamp
-  frequency: 0.0,
-};
-
-//Place holder for testing
-const log: MedicationLog[] = [
-  {
-    timestamp: 1724166000, // August 20, 2024 8:00:00 AM GMT-07:00 DST
-    medication_name: "Morphine",
-    given_dose: 15,
-    measurement: "mg",
-    comment: "No side effects",
-  },
-];
-
-const nurse: User = {
-  id: "1",
-  full_name: "Jane Doe",
-  type_of: "NURSE",
-  phone_number: 5555555555,
-  email: "jane@doehealthcare.org",
-};
-
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
+import { MONTHS } from "@/helper";
 
 function parse_phone_number(digits: number): string {
   let parsed = digits.toString();
@@ -72,7 +25,7 @@ function parse_phone_number(digits: number): string {
 
 function convert_to_added_on_string(timestamp: number): string {
   let d = new Date(timestamp * 1000);
-  return `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
+  return `${MONTHS[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
 }
 
 function convert_to_taken_on_string(timestamp: number): string {
@@ -83,7 +36,7 @@ function convert_to_taken_on_string(timestamp: number): string {
   let minute_zeroed = minute < 10 ? `0${minute}` : minute;
   let am_pm = hour > 11 ? "PM" : "AM";
 
-  return `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}, ${hour_12}:${minute_zeroed} ${am_pm}`;
+  return `${MONTHS[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}, ${hour_12}:${minute_zeroed} ${am_pm}`;
 }
 
 const Header = ({ name, brand }: { name: string; brand: string }) => {
@@ -108,10 +61,14 @@ const LeftPanel = ({
 }) => {
   return (
     <div className={styles.leftPanel}>
-      <h3>Prescribed by</h3>
-      <p>{prescribedBy}</p>
-      <p>Phone: {phone}</p>
-      <p>Email: {email}</p>
+      {prescribedBy === "Loading..." ? null : (
+        <>
+          <h3>Prescribed by</h3>
+          <p>{prescribedBy}</p>
+          <p>Phone: {phone}</p>
+          <p>Email: {email}</p>{" "}
+        </>
+      )}
       <h3>Added on</h3>
       <p>{addedOn}</p>
     </div>
@@ -170,29 +127,44 @@ const DetailBox = ({
 const MedicineView = () => {
   const [visibleLogs, setVisibleLogs] = useState<MedicationLog[]>([]);
   const [logsToShow, setLogsToShow] = useState(5);
-  const pillsPercentage =
-    (medication.supply / medication.total_prescribed) * 100;
+  const [medication, setMedication] = useState<Medication>({
+    name: "Loading...",
+    brand: "Loading...",
+    dosage: 0,
+    first_added: 0,
+    frequency: 0,
+    measurement: "Loading...",
+    nurse_id: "0",
+    supply: 0,
+    total_prescribed: 0,
+  });
+  const pillsPercentage = 0; // we'll fix later
   const [prescriptionNurse, setPrescriptionNurse] = useState<User>({
-    full_name: "Waiting...",
+    full_name: "Loading...",
     phone_number: 9999999999,
-    email: "Waiting...",
-    id: "Waiting...",
+    email: "Loading...",
+    id: "Loading...",
     type_of: "NURSE",
   });
   const logContainerRef = useRef(null);
+  const medication_name = useSearchParams().get("name");
   {
     useEffect(() => {
-      invoke("get_medication_logs", { medication: "" }).then(
-        (medication_log) => {
-          setVisibleLogs(medication_log as MedicationLog[]);
+      invoke("get_medication_logs", {
+        medication: medication_name,
+      }).then((medication_log) => {
+        setVisibleLogs(medication_log as MedicationLog[]);
+      });
+
+      invoke("get_medication", { medication: medication_name }).then((m) => {
+        setMedication((m as Medication[])[0]);
+      });
+
+      invoke("get_nurse_info", { nurse_id: medication.nurse_id }).then(
+        (nurse) => {
+          setPrescriptionNurse(nurse as User);
         },
       );
-
-      invoke("get_nurse_info", { nurse_id: "" }).then((nurse) => {
-        setPrescriptionNurse(nurse as User);
-      });
-      setVisibleLogs(log);
-      setPrescriptionNurse(nurse);
     }, [logsToShow, prescriptionNurse]);
   }
 
@@ -206,12 +178,6 @@ const MedicineView = () => {
     }
   };
 
-  const searchParams = useSearchParams();
-  const medicationName =
-    searchParams.get("medication_name") || "Unknown Medication";
-  const medicationDose = searchParams.get("given_dose") || "Unknown Dosage";
-  const medicationMeasurement =
-    searchParams.get("given_measurement") || "Unknown Measurement";
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -226,7 +192,7 @@ const MedicineView = () => {
     <>
       <MedicationLogButton />
       <div className={styles.medicineContainer}>
-        <Header name={medicationName} brand={medication.brand} />
+        <Header name={medication.name} brand={medication.brand} />
         <div className={styles.content}>
           <LeftPanel
             prescribedBy={prescriptionNurse.full_name}
@@ -238,6 +204,7 @@ const MedicineView = () => {
             email={prescriptionNurse.email ? prescriptionNurse.email : "N/A"} // email could be empty, make optional field
             addedOn={convert_to_added_on_string(medication.first_added)}
           />
+
           <div className={styles.rightPanel}>
             <h3>Details</h3>
             <div className={styles.detailsContainer}>
@@ -253,7 +220,7 @@ const MedicineView = () => {
               )}
               <DetailBox
                 label="Dosage"
-                value={`${medicationDose}${medicationMeasurement}`}
+                value={`${medication.dosage}${medication.measurement}`}
               />
               <DetailBox
                 label="Last taken"
@@ -272,30 +239,34 @@ const MedicineView = () => {
         </div>
         <div className={styles.logSection}>
           <h3>Log</h3>
-          <div
-            className={styles.logTable}
-            ref={logContainerRef}
-            onScroll={handleScroll}
-          >
-            <table>
-              <thead className={styles.logHeader}>
-                <tr>
-                  <th>Taken on</th>
-                  <th>Dose</th>
-                  <th>Comments</th>
-                </tr>
-              </thead>
-              <tbody>
-                {visibleLogs.map((entry, index) => (
-                  <tr key={index}>
-                    <td>{convert_to_taken_on_string(entry.timestamp)}</td>
-                    <td>{`${entry.given_dose}${entry.measurement}`}</td>
-                    <td>{entry.comment}</td>
+          {visibleLogs.length ? (
+            <div
+              className={styles.logTable}
+              ref={logContainerRef}
+              onScroll={handleScroll}
+            >
+              <table>
+                <thead className={styles.logHeader}>
+                  <tr>
+                    <th>Taken on</th>
+                    <th>Dose</th>
+                    <th>Comments</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {visibleLogs.map((entry, index) => (
+                    <tr key={index}>
+                      <td>{convert_to_taken_on_string(entry.timestamp)}</td>
+                      <td>{`${entry.given_dose}${entry.measurement}`}</td>
+                      <td>{entry.comment}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <p>No logs to display.</p>
+          )}
         </div>
       </div>
     </>

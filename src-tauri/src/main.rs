@@ -127,6 +127,11 @@ fn get_medication_log(app: AppHandle, medication: String) -> Vec<MedicationLog> 
 }
 
 #[tauri::command(rename_all = "snake_case")]
+fn get_medication(app: AppHandle, medication: String) -> Vec<Medication> {
+    get_patient(app.clone()).search_medications(app.clone(), &medication)
+}
+
+#[tauri::command(rename_all = "snake_case")]
 fn create_medication(
     app: AppHandle,
     name: String,
@@ -159,6 +164,7 @@ fn main() {
             get_resources,
             get_nurse_info,
             get_medication_log,
+            get_medication,
             create_medication
         ])
         .setup(|app| {
