@@ -1,10 +1,9 @@
 "use client"
-import "./pro.css";
 import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
-export default function Main_page() {
+export default function Survey() {
     const router = useRouter();
     return (
     <>
@@ -12,18 +11,8 @@ export default function Main_page() {
             <FontAwesomeIcon icon={faArrowLeft} />
         </button>
         <h1>
-            PROs
+            Today's Survey
         </h1>
-        <div className="container">
-            <button onClick={() => router.push("/survey")}>
-                Take Today's Survey
-            </button>
-        </div>
-        <div className="container">
-            <div className="box">
-                temporary chart
-            </div>
-        </div>
     </>
     );
 }
