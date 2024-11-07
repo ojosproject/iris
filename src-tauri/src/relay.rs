@@ -1,17 +1,27 @@
 // relay.rs
 
 use crate::structs::ResponseStatus;
+use crate::config::get_contacts;
 use dotenv::dotenv;
 use reqwest::{blocking::Client, Error, StatusCode};
 use serde::{Deserialize, Serialize};
 use std::env;
 use tauri::AppHandle;
 
-pub fn relay(message: &String) {
-    // this will call a function in config.rs to get a dict of
+pub fn relay(body: &String, app: AppHandle) {
+    let contacts = get_contacts(app);
+
+    for contact in contacts {
+        if contact.get("type").unwrap() == "sms" {
+            send_sms_message(body, contact.get("value").unwrap());
+        }
+        else if contact.get("type").unwrap() == "email" {
+            send_email(body, contact.get("value").unwrap());
+        }
+    }
 }
 
-pub fn send_SMS_message(message: &String, recipient: String) -> (bool, ResponseStatus) {
+pub fn send_sms_message(message: &String, recipient: &String){
     dotenv().ok();
 
     let twilio_account_sid =
@@ -31,7 +41,7 @@ pub fn send_SMS_message(message: &String, recipient: String) -> (bool, ResponseS
     let client = Client::new();
     let request_params = [
         ("To", &recipient),
-        ("From", &twilio_phone_number),
+        ("From", &&twilio_phone_number),
         ("Body", &message),
     ];
 
@@ -41,21 +51,29 @@ pub fn send_SMS_message(message: &String, recipient: String) -> (bool, ResponseS
         .form(&request_params)
         .send()
         .expect("FAILED TO SEND MESSAGE");
+    
+    // response & the below code is for dealing with the response from the POST 
+    // request. Uncomment & modify when we do end up dealing with that
 
     let response_status = response.status();
     let response_body = response.text();
+    //
+    // match response_status {
+    //     StatusCode::BAD_REQUEST => return (false, ResponseStatus::ClientError(response_body.unwrap())),
+    //     StatusCode::TOO_MANY_REQUESTS => {
+    //         return (
+    //             false,
+    //             ResponseStatus::TooManyRequests("You've been rate limited - message failed to send".to_string()),
+    //         )
+    //     }
+    //     StatusCode::OK => return (true, ResponseStatus::Ok("Message successfully sent".to_string())),
+    //     _ => return (false, ResponseStatus::OtherError(response_body.unwrap())),
+    // }
+}
 
-    match response_status {
-        StatusCode::BAD_REQUEST => return (false, ResponseStatus::ClientError(response_body.unwrap())),
-        StatusCode::TOO_MANY_REQUESTS => {
-            return (
-                false,
-                ResponseStatus::TooManyRequests("You've been rate limited - message failed to send".to_string()),
-            )
-        }
-        StatusCode::OK => return (true, ResponseStatus::Ok("Message successfully sent".to_string())),
-        _ => return (false, ResponseStatus::OtherError(response_body.unwrap())),
-    }
+pub fn send_email(message: &String, recipient: &String) {
+    // todo: send emails. given an email address.
+    ;
 }
 
 pub fn read_response_status(response : ResponseStatus) -> String {
