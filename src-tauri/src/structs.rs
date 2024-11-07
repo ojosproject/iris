@@ -1,5 +1,6 @@
 #![allow(dead_code)]
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 
 #[derive(Serialize, Deserialize)]
 pub struct Medication {
@@ -32,7 +33,7 @@ pub struct MedicationLog {
 #[derive(Serialize, Deserialize)]
 pub struct Config {
     pub resources_last_call: i64,
-    pub phone_numbers: Vec<String>,
+    pub contacts: Vec<HashMap<String, String>>,
 }
 
 #[derive(Serialize, Deserialize)]

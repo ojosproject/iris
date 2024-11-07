@@ -1,12 +1,15 @@
 // relay.rs
 
-use crate::config;
 use crate::structs::ResponseStatus;
 use dotenv::dotenv;
 use reqwest::{blocking::Client, Error, StatusCode};
 use serde::{Deserialize, Serialize};
 use std::env;
 use tauri::AppHandle;
+
+pub fn relay(message: &String) {
+    // this will call a function in config.rs to get a dict of
+}
 
 pub fn send_SMS_message(message: &String, recipient: String) -> (bool, ResponseStatus) {
     dotenv().ok();
