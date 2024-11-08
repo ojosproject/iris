@@ -1,4 +1,5 @@
-import BackButton from "../call/recordings/components/backButton";
+import BackButton from "../components/BackButton";
+import Button from "../components/Button";
 import classes from "./page.module.css";
 import Image from "next/image";
 

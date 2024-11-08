@@ -1,6 +1,6 @@
 import Link from "next/link";
 import classes from "./page.module.css";
-import BackButton from "./components/backButton";
+import Button from "@/app/components/Button";
 import Recording from "./components/recording";
 import { RecordingProps } from "./components/recording";
 
@@ -31,7 +31,7 @@ export default function Recordings() {
   return (
     <>
       <header>
-        <BackButton />
+        <Button type="PRIMARY" label="Back" link="/" />
       </header>
       <main>
         <h1 className={classes.title}>Video Recordings</h1>
