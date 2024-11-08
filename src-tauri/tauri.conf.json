@@ -50,7 +50,7 @@
         "height": 600,
         "resizable": true,
         "title": "Iris",
-        "width": 800
+        "width": 1024
       }
     ],
     "security": {

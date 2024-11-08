@@ -4,7 +4,7 @@ import classes from "./HubApp.module.css";
 export type HubAppProps = {
   name: string;
   link: string;
-  icon: string;
+  icon?: string;
 };
 
 export default function HubApp({ name, link, icon }: HubAppProps) {
@@ -12,7 +12,17 @@ export default function HubApp({ name, link, icon }: HubAppProps) {
   return (
     <Link href={link} className={classes.link}>
       <div className={classes.app}>
-        <div className={classes.iconPL}></div>
+        {icon ? (
+          <img
+            src={icon}
+            height={200}
+            width={200}
+            style={{ borderRadius: "12px" }}
+          />
+        ) : (
+          <div className={classes.iconPL} />
+        )}
+
         <h3> {name} </h3>
       </div>
     </Link>

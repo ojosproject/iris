@@ -2,7 +2,6 @@
   list-style: none;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   gap: 40px;
   padding: 0;
 }
@@ -23,6 +22,7 @@
 .side2 {
   background-color: white;
   width: 30%;
+  min-width: 300px;
   border: 4px solid var(--dark-blue);
   border-radius: 8px;
   margin-right: 1.5rem;

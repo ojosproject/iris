@@ -25,7 +25,7 @@
 
 > [!IMPORTANT]
 > Iris is not yet ready to be used as we're still working on the code. If you'd
-> like to help, please visit the [`CONTRIBUTING`](https://github.com/ojosproject/iris/blob/main/CONTRIBUTING.md) document.
+> like to help, please visit the [`CONTRIBUTING`](./CONTRIBUTING.md) document.
 > Thanks!
 >
 > To be updated on the status of this project, please
@@ -38,7 +38,7 @@ your loved one's care.
 ## Contributing
 
 Any and all contributions are welcomed! Please read our
-[`CONTRIBUTING` guide](https://github.com/ojosproject/iris/blob/dev/CONTRIBUTING.md) for more in-depth instructions to get
+[`CONTRIBUTING` guide](./CONTRIBUTING.md) for more in-depth instructions to get
 started.
 
 Don't forget to follow the

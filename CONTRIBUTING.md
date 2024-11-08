@@ -9,7 +9,6 @@
   - [Introduction](#introduction)
     - [Background](#background)
     - [Our Involvement](#our-involvement)
-    - [Our Work](#our-work)
     - [Get in contact](#get-in-contact)
     - [License](#license)
   - [How to Contribute](#how-to-contribute)
@@ -20,13 +19,13 @@
     - [Writing Code](#writing-code)
   - [Code Contributions](#code-contributions)
     - [`git` policies](#git-policies)
+    - [Recommended Reading Material](#recommended-reading-material)
     - [Setting up your coding environment](#setting-up-your-coding-environment)
       - [Tauri](#tauri)
       - [Next.js](#nextjs)
       - [Rust](#rust)
       - [VS Code Extensions](#vs-code-extensions)
     - [Run the program](#run-the-program)
-    - [Testing Rust](#testing-rust)
     - [Structure (Frontend v. Backend)](#structure-frontend-v-backend)
 
 ## Introduction
@@ -56,39 +55,10 @@ work, and that does not change with this repository.
 We file issues in this space, we collaborate in this space, send commits in this
 space, and more.
 
-### Our Work
-
-> [!IMPORTANT]
-> If you'd like to contribute code, please review these diagrams before
-> continuing.
-
-Before coding, we created various diagrams to help us outline the architecture
-of Iris. I suggest giving a look at that before contributing code:
-
-- [Iris C4 Model](https://ojosproject.org/docs/url/developers/c4-model/): The
-  [C4 Model](https://c4model.com/) is a set of diagrams that help us outline the
-  architecture of Iris. It includes
-  - A system context diagram
-  - Container diagram
-  - Component diagram
-  - Code diagram
-- [Iris Database Schema](https://ojosproject.org/docs/url/developers/database-schema/):
-  The Iris Database Schema helps us visualize the type of data our database file
-  will include. This helps us know how to structure our classes
-- [Iris Flowcharts](https://ojosproject.org/docs/url/developers/flowcharts/):
-  The Iris Flowcharts indicate how our system will work in various different
-  situations.
-
-There may be more diagrams available at
-[Iris Software Design](https://ojosproject.org/docs/url/developers/design/).
-
 ### Get in contact
 
-There's a few ways to get in contact with the Ojos Project team, but one of the
-most effective ways may be with our
-[Slack workspace](https://ojosproject.slack.com/). However, you may also contact
-[Carlos Valdez](https://github.com/calejvaldez) by email at
-[cvaldezh@uci.edu](mailto:cvaldezh@uci.edu).
+As of now, the best way to get in contact with us is through Carlos via
+<cvaldezh@uci.edu>.
 
 ### License
 
@@ -149,10 +119,6 @@ information.
 
 ## Code Contributions
 
-> [!WARNING]
-> Before coding, please be sure to review the diagrams in [Our Work](#our-work),
-> as it explains the software architecture of Iris.
-
 ### `git` policies
 
 > [!IMPORTANT]
@@ -163,10 +129,19 @@ information.
 Please make sure to follow our
 [git policies](https://ojosproject.org/docs/policies/git/).
 
+### Recommended Reading Material
+
+It may be useful to read the following resources before development:
+
+- [Quick Start - React](https://react.dev/learn)
+- [Thinking in React](https://react.dev/learn/thinking-in-react)
+- [NextJS App Routing Fundamentals](https://nextjs.org/docs/app/building-your-application/routing)
+- [Clear explanation of Rust’s module system](https://www.sheshbabu.com/posts/rust-module-system/)
+
 ### Setting up your coding environment
 
 ```shell
-# Clone the repository
+# Clone the repository with SSH (or HTTPS)
 git clone git@github.com:ojosproject/iris.git
 cd iris
 ```
@@ -214,47 +189,8 @@ cargo tauri dev
 > You can do so by running:
 >
 > ```shell
-> cargo install tauri-cli
+> cargo install tauri-cli@^2.0.0-rc
 > ```
-
-### Testing Rust
-
-> [!NOTE]
-> Code coverage should be used sparingly as every time you run the
-> `cargo tarpaulin` command, it compiles the entire project. Every. Single.
-> Time.
->
-> Therefore, if you only need to test one thing quickly, it's recommended you
-> run this command:
->
-> ```shell
-> cargo test -- --test-threads=1
-> ```
->
-> Instead of compiling every single time, it will just compile one time and use
-> that compiled code for the next tests.
-
-To test our Rust code in Visual Studio Code, we use a few different tools:
-
-- [Coverage Gutters](https://marketplace.visualstudio.com/items?itemName=ryanluker.vscode-coverage-gutters)
-- [`cargo-tarpaulin`](https://crates.io/crates/cargo-tarpaulin)
-
-Please install `cargo-tarpaulin` using the following command:
-
-```shell
-cargo install cargo-tarpaulin
-```
-
-Then, ensure you're watching for code coverage changes using the Coverage
-Gutters extension. Once you do that, run the following command to generate the
-coverage report:
-
-```shell
-cargo tarpaulin --ignore-tests --out Lcov
-```
-
-This will compile and generate a `lcov.info` file that Coverage Gutters can read
-and display code coverage in Visual Studio Code.
 
 ### Structure (Frontend v. Backend)
 

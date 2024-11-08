@@ -35,6 +35,16 @@ pub struct Config {
 }
 
 #[derive(Serialize, Deserialize)]
+pub struct Resource {
+    pub label: String,
+    pub description: String,
+    pub url: String,
+    pub organization: String,
+    pub category: String,
+    pub last_updated: f32,
+}
+
+#[derive(Serialize, Deserialize)]
 pub struct CareInstruction {
     pub text: String,
     pub frequency: String,
