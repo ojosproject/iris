@@ -7,18 +7,18 @@ import UpcomingList from "./components/UpcomingList";
 const HubApps: HubAppProps[] = [
   {
     link: "./log_view",
-    icon: "pl",
     name: "Medication Log",
+    icon: "/images/icon_pill.png",
   },
   {
     link: "./call",
-    icon: "pl",
     name: "Video Call",
+    icon: "/images/icon_video.png",
   },
   {
     link: "./resources",
-    icon: "pl",
     name: "Resources",
+    icon: "/images/icon_resources.png",
   },
 ];
 
