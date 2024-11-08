@@ -112,7 +112,7 @@ fn main() {
             get_upcoming_medications,
             get_patient_info,
             get_config,
-            get_resources
+            get_resources,
             get_care_instructions,
             create_care_instruction
         ])
