@@ -2,11 +2,13 @@
 // Ojos Project
 //
 // Displays all of the care instructions.
+"use client";
 import { CareInstruction } from "@/types";
 import { invoke } from "@tauri-apps/api/core";
 import { useEffect, useState } from "react";
+import AllCareInstructions from "./AllCareInstructions";
 
-export default function AllCareInstructions() {
+export default function CareInstructions() {
   const [instructions, setInstructions] = useState([] as CareInstruction[]);
 
   useEffect(() => {
@@ -15,5 +17,5 @@ export default function AllCareInstructions() {
     });
   });
 
-  return <div></div>;
+  return <AllCareInstructions instructions={instructions} />;
 }
