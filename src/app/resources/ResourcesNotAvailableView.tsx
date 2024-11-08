@@ -1,3 +1,4 @@
+import BackButton from "../components/BackButton";
 import Button from "../components/Button";
 import classes from "./page.module.css";
 import Image from "next/image";
@@ -5,7 +6,7 @@ import Image from "next/image";
 export default function ResourcesNotAvailableView() {
   return (
     <>
-      <Button type="PRIMARY" label="Back" link="/" />
+      <BackButton />
       <header className={classes.header}>
         <h1>Resources</h1>
       </header>

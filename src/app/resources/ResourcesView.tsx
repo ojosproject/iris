@@ -1,8 +1,8 @@
 import { Resource } from "@/types";
-import Button from "../components/Button";
 import CategoryMenu from "./components/CategoryMenu";
 import classes from "./page.module.css";
 import ResourcesList from "./components/ResourcesList";
+import BackButton from "../components/BackButton";
 
 export default function ResourcesView(props: {
   resources: Resource[];
@@ -10,7 +10,7 @@ export default function ResourcesView(props: {
 }) {
   return (
     <>
-      <Button type="PRIMARY" label="Back" link="/" />
+      <BackButton />
       <header className={classes.header}>
         <h1>Resources</h1>
       </header>
