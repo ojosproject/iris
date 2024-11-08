@@ -1,11 +1,11 @@
-import BackButton from "../call/recordings/components/backButton";
+import Button from "../components/Button";
 import classes from "./page.module.css";
 import Image from "next/image";
 
 export default function ResourcesNotAvailableView() {
   return (
     <>
-      <BackButton />
+      <Button type="PRIMARY" label="Back" link="/" />
       <header className={classes.header}>
         <h1>Resources</h1>
       </header>
