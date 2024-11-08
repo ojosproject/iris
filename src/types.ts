@@ -43,3 +43,10 @@ export type Resource = {
   category: "FINANCIAL" | "LEGAL",
   last_updated: number // Unix timestamp
 }
+
+export type CareInstruction = {
+  text: string,
+  frequency: string,
+  added_by: string,
+  first_added: number
+}

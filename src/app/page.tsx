@@ -21,7 +21,7 @@ const HubApps: HubAppProps[] = [
     icon: "/images/icon_resources.png",
   },
   {
-    link: "./care-instructions",
+    link: "./care_instructions",
     name: "Care Instructions",
     icon: "/images/icon_care_instructions.png",
   },
