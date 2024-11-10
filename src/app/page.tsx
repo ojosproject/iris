@@ -20,7 +20,10 @@ const HubApps: HubAppProps[] = [
     name: "Resources",
     icon: "/images/icon_resources.png",
   },
-];
+].sort((a, b) => {
+  // Sorts the icons based on their name
+  return a.name.localeCompare(b.name);
+});
 
 export default function Home() {
   return (
