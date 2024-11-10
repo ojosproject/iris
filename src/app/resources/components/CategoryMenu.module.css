@@ -3,34 +3,3 @@
   flex-direction: column;
   justify-content: center;
 }
-/*
-.button {
-  color: #0063d7;
-  background-color: white;
-  border: 1px solid #0063d7;
-  border-radius: 8px;
-
-  margin: 5px;
-  width: 200px;
-  height: 35px;
-}
-
-.button_selected {
-  color: white;
-  background-color: #0063d7;
-  border: 1px solid #0063d7;
-  border-radius: 8px;
-
-  margin: 5px;
-  width: 200px;
-  height: 35px;
-}
-
-.button:hover {
-  cursor: pointer;
-}
-
-.button_selected:hover {
-  cursor: pointer;
-}
-*/
