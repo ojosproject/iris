@@ -11,6 +11,8 @@ add a feature to Iris.
 - Frontend
   - `src/app/`: Folders containing page contents
   - `src/app/page.tsx`: Includes a `HubApps` constant
+  - `src/types.ts`: Indicates the JSON structures of the program
+  - `src/helper.ts`: TS functions/consts that could be helpful everywhere
   - `public/images/`: Where icon images are kept
 - Backend
   - `src-tauri/src/`: Files for backend functionality
@@ -71,6 +73,13 @@ file in the same folder your `page.tsx` folder is in.
 Once you're done with that, feel free to start developing as you usually would
 with React. Keep all of your feature's files inside of the folder you created.
 
+> [!TIP]
+> If your feature requires a backend, please use the types found in the
+> [`types.ts` file](../src/types.ts). These types help you understand the
+> structure of the returned data from the backend.
+>
+> It's backend's responsibility to ensure both types and structs are synced.
+
 ## Developing the backend
 
 If you need a backend, you'll need to interact with our Rust backend.
@@ -81,6 +90,13 @@ Iris has two ways to store data in the backend, both with their own beneficial
 ways. If you need to store quick information like settings, you should work with
 the `config.rs` file. Otherwise, if you want to
 store a *lot* of data, you should use the Iris database.
+
+> [!IMPORTANT]
+> If you modify **any** structure in the `structs.rs` file, please also modify
+> the [`types.ts` file](../src/types.ts) too. These types help the frontend know
+> how the data will be returned.
+>
+> It's backend's responsibility to ensure both types and structs are synced.
 
 #### Storing data in the config file
 
