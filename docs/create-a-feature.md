@@ -128,16 +128,17 @@ Next, if you're keeping data in the database, you may want to create a new Rust
 file for your feature. Name it so that other developers know what that file is
 for. For example, `medications.rs` is about our medication logging feature.
 
+> [!IMPORTANT]
+> If you create a new Rust file, make sure to add `mod file_name.rs` at the
+> top of the `main.rs` file to be able to use functions you wrote in your new
+> Rust file. If you don't do this, Rust won't include that file into the
+> program.
+
 From here on out, you can now write the Rust code you need to make the backend
 functional. You may want to read the
 [`rusqlite` docs](https://docs.rs/rusqlite/latest/rusqlite/).
 
 ### Sending backend data to the frontend
-
-> [!IMPORTANT]
-> If you created a new Rust file, make sure to add `mod file_name.rs` at the
-> top of the `main.rs` file to be able to use functions you wrote in your new
-> Rust file.
 
 Iris is built using [Tauri](https://tauri.app/). The `main.rs` file has
 functions that act as Tauri commands. If you've worked with web technologies and
