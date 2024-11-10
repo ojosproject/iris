@@ -28,6 +28,8 @@
     "ojosproject",
     "Pipenv",
     "rusqlite",
+    "struct",
+    "structs",
     "Tauri"
   ],
   "indentRainbow.indentSetter": {
