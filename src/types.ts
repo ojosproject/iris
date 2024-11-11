@@ -33,6 +33,7 @@ export type MedicationLog = {
 
 export type Config = {
   resources_last_call: number; // integer
+  onboarding_completed: boolean;
 };
 
 export type Resource = {
