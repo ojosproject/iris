@@ -10,7 +10,7 @@ add a feature to Iris.
 
 - Frontend
   - `src/app/`: Folders containing page contents
-  - `src/app/page.tsx`: Includes a `HubApps` constant
+  - `src/app/HubApps.ts`: Includes a `HubApps` constant
   - `src/types.ts`: Indicates the JSON structures of the program
   - `src/helper.ts`: TS functions/consts that could be helpful everywhere
   - `public/images/`: Where icon images are kept
@@ -24,7 +24,7 @@ add a feature to Iris.
 ## Creating an icon in the hub
 
 The first step to adding your new feature is to add an object to the `HubApps`
-content in the [`page.tsx` file](../src/app/page.tsx). There's three keys you
+content in the [`HubApps.ts` file](../src/app/HubApps.ts). There's three keys you
 need to add an icon to the hub:
 
 | Key    | Description                                |

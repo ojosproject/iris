@@ -1,29 +1,9 @@
 import Image from "next/image";
 import classes from "./page.module.css";
 import HubHeader from "./components/HubHeader";
-import HubApp, { HubAppProps } from "./components/HubApp";
+import HubApp from "./components/HubApp";
 import UpcomingList from "./components/UpcomingList";
-
-const HubApps: HubAppProps[] = [
-  {
-    link: "./log_view",
-    name: "Medication Log",
-    icon: "/images/icon_pill.png",
-  },
-  {
-    link: "./call",
-    name: "Video Call",
-    icon: "/images/icon_video.png",
-  },
-  {
-    link: "./resources",
-    name: "Resources",
-    icon: "/images/icon_resources.png",
-  },
-].sort((a, b) => {
-  // Sorts the icons based on their name
-  return a.name.localeCompare(b.name);
-});
+import { HubApps } from "./HubApps";
 
 export default function Home() {
   return (
