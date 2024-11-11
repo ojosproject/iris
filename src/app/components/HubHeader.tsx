@@ -9,10 +9,9 @@ function get_time_of_day(): "morning" | "afternoon" | "evening" {
   // Remember that Date.getHours() returns in 24-hour format
   let hour = new Date().getHours();
 
-  if (hour > 17) {
+  if (hour >= 17) {
     return "evening";
-  } else if (hour > 11 && hour < 17) {
-    // 17:00 === 5:00 pm
+  } else if (hour >= 12 && hour < 17) {
     return "afternoon";
   }
   return "morning";

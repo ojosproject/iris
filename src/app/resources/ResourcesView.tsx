@@ -1,8 +1,8 @@
 import { Resource } from "@/types";
-import BackButton from "../call/recordings/components/backButton";
 import CategoryMenu from "./components/CategoryMenu";
 import classes from "./page.module.css";
 import ResourcesList from "./components/ResourcesList";
+import BackButton from "../components/BackButton";
 
 export default function ResourcesView(props: {
   resources: Resource[];

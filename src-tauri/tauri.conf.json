@@ -2,7 +2,7 @@
   "build": {
     "beforeBuildCommand": "npm run build",
     "beforeDevCommand": "npm run dev",
-    "frontendDist": "../dist",
+    "frontendDist": "../out",
     "devUrl": "http://localhost:3000"
   },
   "bundle": {
@@ -50,7 +50,7 @@
         "height": 600,
         "resizable": true,
         "title": "Iris",
-        "width": 800
+        "width": 1024
       }
     ],
     "security": {
