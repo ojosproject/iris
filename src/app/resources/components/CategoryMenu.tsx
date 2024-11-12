@@ -4,6 +4,7 @@ import { useState } from "react";
 import classes from "./CategoryMenu.module.css";
 import { Resource } from "@/types";
 import { invoke } from "@tauri-apps/api/core";
+import Button from "@/app/components/Button";
 
 export default function CategoryMenu(props: {
   labels: string[];
@@ -29,18 +30,11 @@ export default function CategoryMenu(props: {
 
   function CategoryMenuItem(props: { label: string }) {
     return (
-      <button
-        className={
-          props.label === selectedLabel
-            ? classes.button_selected
-            : classes.button
-        }
-        onClick={() => {
-          handleMenuClick(props.label);
-        }}
-      >
-        {props.label}
-      </button>
+      <Button
+        type={props.label === selectedLabel ? "PRIMARY" : "SECONDARY"}
+        label={props.label}
+        onClick={() => handleMenuClick(props.label)}
+      />
     );
   }
 

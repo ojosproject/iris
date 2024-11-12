@@ -3,13 +3,16 @@ mod config;
 mod dev;
 mod medications;
 mod menu;
+mod onboarding;
 mod pro;
 mod resources;
 mod structs;
 mod user;
 use crate::menu::menu;
 use crate::structs::{Medication, Resource};
-use std::{env, fs, process};
+use config::set_onboarding_completed;
+use onboarding::setup_onboarding;
+use std::{env, process};
 use structs::{PatientReportedOutcome, User};
 use tauri::{AppHandle, Manager};
 use user::get_patient;
@@ -62,6 +65,35 @@ fn get_config(app: AppHandle) -> structs::Config {
 #[tauri::command(rename_all = "snake_case")]
 fn get_resources(app: AppHandle) -> Vec<Resource> {
     resources::get_resources(app.clone())
+}
+
+/// # `complete_onboarding` Command
+///
+/// Sets the `onboarding_completed` value in the `config.json` to `true`.
+///
+/// ## TypeScript Usage
+///
+/// ```typescript
+/// invoke("complete_onboarding");
+/// ```
+#[tauri::command(rename_all = "snake_case")]
+fn complete_onboarding(app: AppHandle) {
+    set_onboarding_completed(app, true);
+}
+
+/// # `create_user` Command
+///
+/// Creates a user for the program.
+///
+/// ## TypeScript Usage
+///
+/// ```typescript
+/// invoke("create_user", {name: "", user_type: ""});
+/// ```
+///
+#[tauri::command(rename_all = "snake_case")]
+fn create_user(app: AppHandle, name: String, user_type: String) {
+    User::create(app, name, user_type);
 }
 
 /// # `add_pro` Command
@@ -120,6 +152,8 @@ fn main() {
             get_patient_info,
             get_config,
             get_resources,
+            complete_onboarding,
+            create_user,
             add_pros,
             get_all_pros,
             add_pro_question,
@@ -157,7 +191,7 @@ fn main() {
                     println!("Done!");
 
                     println!("Recreating iris.db...");
-                    dev::create_database(iris_path.clone());
+                    setup_onboarding(app.app_handle());
                     println!("Done!");
                 }
             });
@@ -167,11 +201,7 @@ fn main() {
             println!("Iris DB location: {:?}", app_data_dir.join("iris.db"));
             println!("Use the \"Help\" menu to open it on your computer.");
 
-            if !app_data_dir.join("iris.db").exists() {
-                fs::create_dir_all(&app_data_dir).unwrap();
-
-                dev::create_database(app_data_dir.join("iris.db"));
-            }
+            setup_onboarding(app.app_handle());
 
             Ok(())
         })
