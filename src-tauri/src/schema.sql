@@ -100,16 +100,18 @@ care_instruction
 Extra care instructions provided by the caregivers for the nurses
 
 Rows:
-    * text      - The instruction in plaintext
+    * title     - The title of the care instructions
+    content        - The instruction in Markdown
     frequency   - The frequency this should be done, defaults to `AS NEEDED`
     added_by    - The name of the individual that requested these instructions
     first_added - The Unix timestamp of when this was added
 */
 CREATE TABLE IF NOT EXISTS care_instruction (
-    text TEXT NOT NULL PRIMARY KEY,
+    title TEXT NOT NULL PRIMARY KEY,
+    content TEXT NOT NULL,
     frequency TEXT,
     added_by TEXT NOT NULL,
-    first_added INTEGER NOT NULL
+    last_updated INTEGER NOT NULL
 ) STRICT;
 
 /*

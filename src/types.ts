@@ -46,8 +46,9 @@ export type Resource = {
 };
 
 export type CareInstruction = {
-  text: string;
+  title: string;
+  content: string;
   frequency: string;
   added_by: string;
-  first_added: number;
+  last_updated: number;
 };

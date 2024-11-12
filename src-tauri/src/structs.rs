@@ -47,8 +47,9 @@ pub struct Resource {
 
 #[derive(Serialize, Deserialize)]
 pub struct CareInstruction {
-    pub text: String,
-    pub frequency: String,
+    pub title: String,
+    pub content: String,
+    pub frequency: Option<String>,
     pub added_by: String,
-    pub first_added: i64,
+    pub last_updated: i64,
 }

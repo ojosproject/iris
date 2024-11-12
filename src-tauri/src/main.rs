@@ -130,11 +130,12 @@ fn get_care_instructions(app: AppHandle) -> Vec<structs::CareInstruction> {
 #[tauri::command]
 fn create_care_instruction(
     app: AppHandle,
-    text: String,
-    readable_frequency: String,
+    title: String,
+    content: String,
+    frequency: Option<String>,
     added_by: String,
 ) -> structs::CareInstruction {
-    care_instructions::add_care_instruction(&app, text, readable_frequency, added_by)
+    care_instructions::add_care_instruction(&app, title, content, frequency, added_by)
 }
 
 fn main() {

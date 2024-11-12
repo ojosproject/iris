@@ -9,8 +9,9 @@ use tauri::{AppHandle, Manager};
 
 pub fn add_care_instruction(
     app: &AppHandle,
-    text: String,
-    readable_frequency: String,
+    title: String,
+    content: String,
+    frequency: Option<String>,
     added_by: String,
 ) -> CareInstruction {
     let app_data_dir = app.path().app_data_dir().unwrap();
@@ -18,13 +19,14 @@ pub fn add_care_instruction(
     let ts = Local::now().timestamp();
 
     let ci = CareInstruction {
-        text,
-        frequency: readable_frequency,
+        title,
+        content,
+        frequency,
         added_by,
-        first_added: ts,
+        last_updated: ts,
     };
 
-    conn.execute("INSERT INTO care_instruction(text, frequency, added_by, first_added) VALUES ?1, ?2, ?3, ?4", (&ci.text, &ci.frequency, &ci.added_by, &ci.first_added)).unwrap();
+    conn.execute("INSERT INTO care_instruction(title, content, frequency, added_by, last_update) VALUES ?1, ?2, ?3, ?4, ?5", (&ci.title, &ci.content, &ci.frequency, &ci.added_by, &ci.last_updated)).unwrap();
     ci
 }
 
@@ -36,10 +38,11 @@ pub fn get_all_care_instructions(app: &AppHandle) -> Vec<CareInstruction> {
     let matched_ci = stmt
         .query_map([], |row| {
             Ok(CareInstruction {
-                text: row.get(0)?,
-                frequency: row.get(1)?,
-                added_by: row.get(2)?,
-                first_added: row.get(3)?,
+                title: row.get(0)?,
+                content: row.get(1)?,
+                frequency: row.get(2)?,
+                added_by: row.get(3)?,
+                last_updated: row.get(4)?,
             })
         })
         .unwrap();
