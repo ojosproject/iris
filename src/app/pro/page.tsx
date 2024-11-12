@@ -15,7 +15,7 @@ export default function Main_page() {
             PROs
         </h1>
         <div className="container">
-            <button className="pro_button_2" onClick={() => router.push("/survey")}>
+            <button className="pro_button_2" onClick={() => router.push("./pro/survey")}>
                 Take Today's Survey
             </button>
         </div>
