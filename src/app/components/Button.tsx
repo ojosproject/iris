@@ -6,12 +6,14 @@
 import Link from "next/link";
 import classes from "./Button.module.css";
 import { MouseEventHandler } from "react";
+import { UrlObject } from "url";
 
 export default function Button(props: {
   type: "PRIMARY" | "SECONDARY";
   label: string;
   onClick?: MouseEventHandler;
-  link?: string;
+  link?: UrlObject | string;
+  disabled?: boolean;
 }) {
   return props.onClick ? (
     <button
@@ -20,6 +22,7 @@ export default function Button(props: {
           ? classes.button_iris_primary
           : classes.button_iris_secondary
       }
+      disabled={props.disabled}
       onClick={props.onClick}
     >
       {props.label}

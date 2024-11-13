@@ -10,6 +10,15 @@
   border: solid transparent 2px;
 }
 
+.button_iris_primary:disabled {
+  background-color: grey;
+}
+
+.button_iris_primary:hover:disabled {
+  cursor: default;
+  background-color: grey;
+}
+
 .button_iris_secondary {
   font-weight: bold;
   padding: 10px 25px;
