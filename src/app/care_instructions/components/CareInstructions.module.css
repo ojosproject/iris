@@ -1,0 +1,12 @@
+.single_care_instruction {
+  width: 65dvw;
+}
+
+.single_care_instruction:hover {
+  cursor: pointer;
+}
+
+.tap_message {
+  font-size: 14px;
+  color: grey;
+}

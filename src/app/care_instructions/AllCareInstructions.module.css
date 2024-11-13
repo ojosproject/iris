@@ -2,8 +2,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  min-height: 60dvh;
 }
 
 .button_menu_container {

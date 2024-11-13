@@ -1,0 +1,46 @@
+.edit_care_instructions {
+  display: flex;
+  flex-direction: column;
+}
+
+.input_container {
+  margin: 20px 0 0 50px;
+}
+
+.back_button {
+  position: fixed;
+  top: 2%;
+  left: 2%;
+}
+
+.button_save_instructions {
+  position: fixed;
+  bottom: 10%;
+  right: 2%;
+}
+
+.care_title {
+  align-self: center;
+}
+
+.input_care_title {
+  width: 500px;
+  height: 35px;
+
+  margin-bottom: 35px;
+
+  border: solid black 2px;
+  border-radius: 5px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.input_care_content {
+  resize: none;
+  width: 650px;
+  min-height: 50dvh;
+
+  border: solid black 2px;
+  border-radius: 5px;
+  font-size: 15px;
+}
