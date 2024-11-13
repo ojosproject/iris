@@ -26,7 +26,7 @@ pub fn add_care_instruction(
         last_updated: ts,
     };
 
-    conn.execute("INSERT INTO care_instruction(title, content, frequency, added_by, last_update) VALUES ?1, ?2, ?3, ?4, ?5", (&ci.title, &ci.content, &ci.frequency, &ci.added_by, &ci.last_updated)).unwrap();
+    conn.execute("INSERT INTO care_instruction(title, content, frequency, added_by, last_updated) VALUES (?1, ?2, ?3, ?4, ?5)", (&ci.title, &ci.content, &ci.frequency, &ci.added_by, &ci.last_updated)).unwrap();
     ci
 }
 

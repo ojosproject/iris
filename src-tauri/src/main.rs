@@ -127,8 +127,8 @@ fn get_care_instructions(app: AppHandle) -> Vec<structs::CareInstruction> {
 ///     setCareInstructions(ci as CareInstruction);
 /// })
 /// ```
-#[tauri::command]
-fn create_care_instruction(
+#[tauri::command(rename_all = "snake_case")]
+fn create_care_instructions(
     app: AppHandle,
     title: String,
     content: String,
@@ -149,7 +149,7 @@ fn main() {
             complete_onboarding,
             create_user,
             get_care_instructions,
-            create_care_instruction
+            create_care_instructions
         ])
         .setup(|app| {
             app.set_menu(menu(app.app_handle().clone())).unwrap();
