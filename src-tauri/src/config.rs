@@ -38,6 +38,7 @@ pub fn get_config(app: &AppHandle) -> Config {
                     resources_last_call: 0,
                     onboarding_completed: false,
                 };
+                fs::create_dir(&app_data_dir).unwrap();
                 let template_config_string = serde_json::to_string(&template_config).unwrap();
                 fs::write(app_data_dir.join("config.json"), &template_config_string).unwrap();
                 template_config_string
