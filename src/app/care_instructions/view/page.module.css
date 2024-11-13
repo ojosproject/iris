@@ -3,6 +3,13 @@
   flex-direction: column;
 }
 
+.button_column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
+
 .input_container {
   margin: 20px 0 0 50px;
 }

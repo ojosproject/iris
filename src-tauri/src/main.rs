@@ -112,6 +112,17 @@ fn get_care_instructions(app: AppHandle) -> Vec<structs::CareInstruction> {
     care_instructions::get_all_care_instructions(&app)
 }
 
+#[tauri::command(rename_all = "snake_case")]
+fn get_single_care_instruction(app: AppHandle, id: String) -> Option<structs::CareInstruction> {
+    for instruction in care_instructions::get_all_care_instructions(&app) {
+        if instruction.title == id {
+            return Some(instruction);
+        }
+    }
+    return None;
+    /* `CareInstruction` value */
+}
+
 /// # `create_care_instruction` Command
 ///
 /// Creates a new `CareInstruction` and returns it
@@ -138,6 +149,17 @@ fn create_care_instructions(
     care_instructions::add_care_instruction(&app, title, content, frequency, added_by)
 }
 
+#[tauri::command(rename_all = "snake_case")]
+fn command_update_care_instructions(
+    app: AppHandle,
+    title: String,
+    content: String,
+    frequency: Option<String>,
+    added_by: String,
+) {
+    care_instructions::update_care_instructions(&app, title, content, frequency, added_by)
+}
+
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
@@ -149,7 +171,9 @@ fn main() {
             complete_onboarding,
             create_user,
             get_care_instructions,
-            create_care_instructions
+            create_care_instructions,
+            get_single_care_instruction,
+            command_update_care_instructions
         ])
         .setup(|app| {
             app.set_menu(menu(app.app_handle().clone())).unwrap();

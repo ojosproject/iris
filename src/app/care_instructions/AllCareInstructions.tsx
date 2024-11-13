@@ -18,7 +18,12 @@ export default function FullCareInstructions(props: {
           <p>There are no care instructions recorded.</p>
         ) : (
           props.instructions.map((instruction) => {
-            return <CareInstructions instruction={instruction} />;
+            return (
+              <CareInstructions
+                key={instruction.last_updated}
+                instruction={instruction}
+              />
+            );
           })
         )}
       </div>
@@ -28,8 +33,7 @@ export default function FullCareInstructions(props: {
             type="PRIMARY"
             label="Add Instructions"
             link={{
-              pathname: "./care_instructions/edit/",
-              query: { title: "" },
+              pathname: "./care_instructions/view/",
             }}
           />
 

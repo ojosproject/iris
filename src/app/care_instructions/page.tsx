@@ -15,7 +15,7 @@ export default function CareInstructions() {
     invoke("get_care_instructions").then((i) => {
       setInstructions(i as CareInstruction[]);
     });
-  });
+  }, []);
 
   return <AllCareInstructions instructions={instructions} />;
 }

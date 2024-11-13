@@ -4,7 +4,7 @@
 // Stores care instructions
 use crate::structs::CareInstruction;
 use chrono::Local;
-use rusqlite::Connection;
+use rusqlite::{named_params, Connection};
 use tauri::{AppHandle, Manager};
 
 pub fn add_care_instruction(
@@ -30,11 +30,45 @@ pub fn add_care_instruction(
     ci
 }
 
+pub fn update_care_instructions(
+    app: &AppHandle,
+    title: String,
+    content: String,
+    frequency: Option<String>,
+    added_by: String,
+) {
+    let app_data_dir = app.path().app_data_dir().unwrap();
+    let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
+    let ts = Local::now().timestamp();
+
+    let ci = CareInstruction {
+        title,
+        content,
+        frequency,
+        added_by,
+        last_updated: ts,
+    };
+
+    conn.execute(
+        "UPDATE care_instruction SET title=:title, content=:content, frequency=:frequency, added_by=:added_by, last_updated=:last_updated WHERE title=:title",
+        named_params! {
+            ":title": &ci.title,
+            ":content": &ci.content,
+            ":frequency": &ci.frequency,
+            ":added_by": &ci.added_by,
+            ":last_updated": &ci.last_updated
+        },
+    )
+    .unwrap();
+}
+
 pub fn get_all_care_instructions(app: &AppHandle) -> Vec<CareInstruction> {
     let app_data_dir = app.path().app_data_dir().unwrap();
     let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
 
-    let mut stmt = conn.prepare("SELECT * FROM care_instruction").unwrap();
+    let mut stmt = conn
+        .prepare("SELECT * FROM care_instruction ORDER BY last_updated DESC")
+        .unwrap();
     let matched_ci = stmt
         .query_map([], |row| {
             Ok(CareInstruction {

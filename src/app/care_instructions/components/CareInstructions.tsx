@@ -8,7 +8,10 @@ export default function CareInstructions(props: {
   return (
     <Link
       style={{ color: "black", textDecoration: "none" }}
-      href={`./care_instructions/${props.instruction.last_updated}`}
+      href={{
+        pathname: "./care_instructions/view/",
+        query: { title: props.instruction.title },
+      }}
     >
       <div className={classes.single_care_instruction}>
         <h3>{props.instruction.title}</h3>
