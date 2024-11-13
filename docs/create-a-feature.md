@@ -6,6 +6,10 @@ when clicked, takes you to a new page. Some of the current icons are
 However, it *is* possible to build your own page and features if you'd like to
 add a feature to Iris.
 
+> [!IMPORTANT]
+> This document assumes you've read the
+> [`CONTRIBUTING.md` doc](../CONTRIBUTING.md).
+
 ## Important Files/Folders
 
 - Frontend
