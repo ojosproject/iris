@@ -6,7 +6,10 @@ export default function CareInstructions(props: {
   instruction: CareInstruction;
 }) {
   return (
-    <Link href={`./care_instructions/${props.instruction.last_updated}`}>
+    <Link
+      style={{ color: "black", textDecoration: "none" }}
+      href={`./care_instructions/${props.instruction.last_updated}`}
+    >
       <div className={classes.single_care_instruction}>
         <h3>{props.instruction.title}</h3>
         <p>{props.instruction.content}</p>
