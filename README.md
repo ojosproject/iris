@@ -16,6 +16,7 @@
   - [Support](#support)
     - [GitHub Issues](#github-issues)
     - [Contact Carlos](#contact-carlos)
+    - [Discord](#discord)
   - [License](#license)
 
 <!-- todo: Add sections for "Installation", "Usage" once we're in beta. -->
@@ -52,7 +53,7 @@ Notably...
 - [Professor Mark S. Baldwin](https://markbaldw.in/)
 - The [University of California, Irvine](https://uci.edu)'s [Undergraduate
   Research Opportunities Program](https://urop.uci.edu/)
-- The [entirety of the Ojos Project members](https://ojosproject.org/docs/url/members/),
+- The [entirety of the Ojos Project members](https://ojosproject.org/docs/members/),
   both current and former
 
 ## Support
@@ -71,6 +72,12 @@ If nobody's had the same issue,
 If you have any questions regarding Iris or the Ojos Project, please feel free
 to contact [Carlos Valdez](https://github.com/calejvaldez) at
 [cvaldezh@uci.edu](mailto:cvaldezh@uci.edu).
+
+### Discord
+
+You may also join the
+[Ojos Project Discord server](https://discord.gg/qZyQadbuMG) to directly talk
+with the team.
 
 ## License
 
