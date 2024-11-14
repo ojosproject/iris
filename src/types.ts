@@ -41,7 +41,7 @@ export type Resource = {
   description: string;
   url: string;
   organization: string;
-  category: "FINANCIAL" | "LEGAL";
+  category: string;
   last_updated: number; // Unix timestamp
 };
 
