@@ -9,6 +9,7 @@ import Button from "@/app/components/Button";
 import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { CareInstruction } from "@/types";
+import { timestampToString } from "@/helper";
 
 export default function EditInstructions() {
   // Params get passed from AllCareInstructions.tsx
@@ -49,8 +50,12 @@ export default function EditInstructions() {
         frequency: null,
         added_by: "Nobody", // todo: should be fixed, somehow
       },
-    ).then(() => {
+    ).then((i) => {
       setOnEditMode(false);
+      setTitle((i as CareInstruction).title);
+      setContent((i as CareInstruction).content);
+      setAddedBy((i as CareInstruction).added_by);
+      setLastUpdated((i as CareInstruction).last_updated);
     });
   }
 
@@ -83,12 +88,24 @@ export default function EditInstructions() {
           </>
         ) : (
           <>
+            <div className={classes.topics_button}>
+              <Button
+                type="SECONDARY"
+                label="Previous Topic"
+                onClick={() => {}}
+              />
+              <Button type="SECONDARY" label="Next Topic" onClick={() => {}} />
+            </div>
             <h2>{title}</h2>
             {content.split("\n").map((line) => {
               return <p key={line}>{line}</p>;
             })}
           </>
         )}
+        <div className={classes.last_updated}>
+          <p>Last updated on {timestampToString(lastUpdated, "MMDDYYYY")}</p>
+          <p>at {timestampToString(lastUpdated, "TIME")}</p>
+        </div>
       </div>
 
       <div className={classes.button_save_instructions}>

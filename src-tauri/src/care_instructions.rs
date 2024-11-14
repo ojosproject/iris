@@ -36,7 +36,7 @@ pub fn update_care_instructions(
     content: String,
     frequency: Option<String>,
     added_by: String,
-) {
+) -> CareInstruction {
     let app_data_dir = app.path().app_data_dir().unwrap();
     let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
     let ts = Local::now().timestamp();
@@ -60,6 +60,8 @@ pub fn update_care_instructions(
         },
     )
     .unwrap();
+
+    ci
 }
 
 pub fn get_all_care_instructions(app: &AppHandle) -> Vec<CareInstruction> {

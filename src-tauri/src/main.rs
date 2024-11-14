@@ -156,7 +156,7 @@ fn command_update_care_instructions(
     content: String,
     frequency: Option<String>,
     added_by: String,
-) {
+) -> structs::CareInstruction {
     care_instructions::update_care_instructions(&app, title, content, frequency, added_by)
 }
 

@@ -10,6 +10,21 @@
   align-items: flex-end;
 }
 
+.topics_button {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+}
+
+.last_updated {
+  position: fixed;
+  top: 180px;
+  right: 20px;
+
+  color: grey;
+  font-size: 15px;
+}
+
 .input_container {
   margin: 20px 0 0 50px;
 }
