@@ -45,6 +45,7 @@ export type Resource = {
   last_updated: number; // Unix timestamp
 };
 
+// Extra care instructions provided by the caregivers for the nurses.
 export type CareInstruction = {
   id: string;
   title: string;

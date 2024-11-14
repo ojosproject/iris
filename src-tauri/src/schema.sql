@@ -97,14 +97,15 @@ CREATE TABLE IF NOT EXISTS patient_recorded_outcome (
 
 /*
 care_instruction
-Extra care instructions provided by the caregivers for the nurses
+Extra care instructions provided by the caregivers for the nurses.
 
 Rows:
-    * title     - The title of the care instructions
-    content        - The instruction in Markdown
-    frequency   - The frequency this should be done, defaults to `AS NEEDED`
-    added_by    - The name of the individual that requested these instructions
-    first_added - The Unix timestamp of when this was added
+    * id            - A UUID
+    title           - Short title for the instruction
+    content         - A more detailed description of the instruction.
+    frequency       - A readable format, such as "Once daily"
+    added_by        - A User.id
+    last_updated    - A Unix timestamp indicating the last edit
 */
 CREATE TABLE IF NOT EXISTS care_instruction (
     id TEXT NOT NULL PRIMARY KEY,

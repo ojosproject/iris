@@ -1,7 +1,6 @@
-// Page for editing Care Instructions.
-// Takes parameters. Make sure to get them using useSearchParams.
+// care_instructions/view/page.tsx
+// Ojos Project
 "use client";
-
 import BackButton from "@/app/components/BackButton";
 import { useRouter, useSearchParams } from "next/navigation";
 import classes from "./page.module.css";
@@ -13,8 +12,8 @@ import { timestampToString } from "@/helper";
 
 export default function EditInstructions() {
   // Params get passed from AllCareInstructions.tsx
-  // If `title` is empty, you're creating a new care instruction
-  // If `title` has something, we're editing a care instruction
+  // If `id` is empty, you're creating a new care instruction
+  // If `id` has something, we're editing a care instruction
   const params = useSearchParams();
   const [id, setId] = useState("");
   const [title, setTitle] = useState("");

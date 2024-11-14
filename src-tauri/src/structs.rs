@@ -45,6 +45,9 @@ pub struct Resource {
     pub last_updated: f32,
 }
 
+/// # `CareInstruction` struct
+///
+///  Extra care instructions provided by the caregivers for the nurses.
 #[derive(Serialize, Deserialize)]
 pub struct CareInstruction {
     pub id: String,

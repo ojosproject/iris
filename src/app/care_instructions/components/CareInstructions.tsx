@@ -1,3 +1,5 @@
+// CareInstructions.tsx
+// Ojos Project
 import { CareInstruction } from "@/types";
 import classes from "./CareInstructions.module.css";
 import Link from "next/link";

@@ -6,6 +6,8 @@ export const HubApps: HubAppProps[] = [
     name: "Resources",
     icon: "/images/icon_resources.png",
   },
+
+  // Extra care instructions provided by the caregivers for the nurses.
   {
     link: "./care_instructions",
     name: "Care Instructions",

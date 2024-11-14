@@ -1,7 +1,7 @@
-// specs.rs
+// care_instructions.rs
 // Ojos Project
 //
-// Stores care instructions
+// Extra care instructions provided by the caregivers for the nurses.
 use crate::structs::CareInstruction;
 use chrono::Local;
 use rusqlite::{named_params, Connection};
