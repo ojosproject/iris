@@ -35,22 +35,3 @@ export type Config = {
   resources_last_call: number; // integer
   onboarding_completed: boolean;
 };
-
-export type Resource = {
-  label: string;
-  description: string;
-  url: string;
-  organization: string;
-  category: string;
-  last_updated: number; // Unix timestamp
-};
-
-// Extra care instructions provided by the caregivers for the nurses.
-export type CareInstruction = {
-  id: string;
-  title: string;
-  content: string;
-  frequency: string;
-  added_by: string;
-  last_updated: number;
-};

@@ -1,6 +1,6 @@
 "use client";
 
-import { Resource } from "@/app/core/types";
+import { Resource } from "../types";
 import classes from "./ResourcesList.module.css";
 import QRCode from "react-qr-code";
 import { timestampToString } from "@/app/core/helper";

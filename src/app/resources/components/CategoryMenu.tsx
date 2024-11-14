@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import classes from "./CategoryMenu.module.css";
-import { Resource } from "@/app/core/types";
+import { Resource } from "../types";
 import { invoke } from "@tauri-apps/api/core";
 import Button from "@/app/core/components/Button";
 

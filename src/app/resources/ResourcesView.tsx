@@ -1,4 +1,4 @@
-import { Resource } from "@/app/core/types";
+import { Resource } from "./types";
 import CategoryMenu from "./components/CategoryMenu";
 import classes from "./page.module.css";
 import ResourcesList from "./components/ResourcesList";

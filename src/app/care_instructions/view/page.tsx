@@ -7,7 +7,7 @@ import classes from "./page.module.css";
 import Button from "@/app/core/components/Button";
 import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
-import { CareInstruction } from "@/app/core/types";
+import { CareInstruction } from "../types";
 import { timestampToString } from "@/app/core/helper";
 
 export default function EditInstructions() {

@@ -3,7 +3,7 @@
 //
 // Displays all of the care instructions.
 "use client";
-import { CareInstruction } from "@/app/core/types";
+import { CareInstruction } from "./types";
 import { invoke } from "@tauri-apps/api/core";
 import { useEffect, useState } from "react";
 import BackButton from "../core/components/BackButton";
