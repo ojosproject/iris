@@ -1,4 +1,4 @@
-// page.tsx
+// /care_instructions/page.tsx
 // Ojos Project
 //
 // Displays all of the care instructions.
