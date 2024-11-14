@@ -144,11 +144,10 @@ export default function EditInstructions() {
         {lastUpdated === 0 ? null : (
           <div className={classes.last_updated}>
             <div className={classes.last_updated_inner}>
-              <p>Added by {addedBy}</p>
               <p>
                 Last updated on {timestampToString(lastUpdated, "MMDDYYYY")}
               </p>
-              <p>at {timestampToString(lastUpdated, "TIME")}</p>
+              <p>at {timestampToString(lastUpdated, "HH:MM XX")}</p>
             </div>
           </div>
         )}

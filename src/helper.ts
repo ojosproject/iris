@@ -15,7 +15,7 @@ export const MONTHS = [
 
 export function timestampToString(
   timestamp: number,
-  format?: "READ" | "MMDDYYYY" | "TIME",
+  format?: "READ" | "MMDDYYYY" | "HH:MM XX",
 ): string {
   let d = new Date(timestamp * 1000);
 
@@ -23,7 +23,7 @@ export function timestampToString(
     return `${MONTHS[d.getMonth()].slice(0, 3)} ${d.getDate()}, ${d.getFullYear()}`;
   } else if (format === "MMDDYYYY") {
     return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
-  } else if (format === "TIME") {
+  } else if (format === "HH:MM XX") {
     let hours = d.getHours();
     hours = hours < 12 ? hours : hours - 12;
     let minutes: string | number = d.getMinutes();
