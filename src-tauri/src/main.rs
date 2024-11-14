@@ -180,8 +180,6 @@ fn command_care_instructions_previous_next(app: AppHandle, id: String) -> Vec<St
         }
     }
 
-    println!("{}, {}", previous, next);
-
     return vec![
         (&instructions[previous]).title.clone(),
         (&instructions[next]).title.clone(),
