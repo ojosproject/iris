@@ -25,15 +25,29 @@ export default function EditInstructions() {
   const [previousTopic, setPreviousTopic] = useState("");
   const router = useRouter();
 
-  useEffect(() => {
-    let paramsTitle = params.get("title");
-    if (paramsTitle) {
-      invoke("get_single_care_instruction", { id: paramsTitle }).then((i) => {
+  function fetchInformation(title: string) {
+    invoke("get_single_care_instruction", { id: title })
+      .then((i) => {
+        console.log(i);
         setTitle((i as CareInstruction).title);
         setContent((i as CareInstruction).content);
         setAddedBy((i as CareInstruction).added_by);
         setLastUpdated((i as CareInstruction).last_updated);
-      });
+
+        invoke("command_care_instructions_previous_next", {
+          id: (i as CareInstruction).title,
+        }).then((previousNext) => {
+          setPreviousTopic((previousNext as string[])[0]);
+          setNextTopic((previousNext as string[])[1]);
+        });
+      })
+      .catch((e) => console.log(e));
+  }
+
+  useEffect(() => {
+    let paramsTitle = params.get("title");
+    if (paramsTitle) {
+      fetchInformation(paramsTitle);
     } else {
       setOnEditMode(true);
     }
@@ -94,9 +108,17 @@ export default function EditInstructions() {
               <Button
                 type="SECONDARY"
                 label="Previous Topic"
-                onClick={() => {}}
+                onClick={() => {
+                  fetchInformation(previousTopic);
+                }}
               />
-              <Button type="SECONDARY" label="Next Topic" onClick={() => {}} />
+              <Button
+                type="SECONDARY"
+                label="Next Topic"
+                onClick={() => {
+                  fetchInformation(nextTopic);
+                }}
+              />
             </div>
             <h2>{title}</h2>
             {content.split("\n").map((line) => {

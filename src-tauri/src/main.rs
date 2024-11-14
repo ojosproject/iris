@@ -160,6 +160,34 @@ fn command_update_care_instructions(
     care_instructions::update_care_instructions(&app, title, content, frequency, added_by)
 }
 
+#[tauri::command(rename=all = "snake_case")]
+fn command_care_instructions_previous_next(app: AppHandle, id: String) -> Vec<String> {
+    let instructions = care_instructions::get_all_care_instructions(&app);
+    let mut previous = 0;
+    let mut next = 0;
+    for (index, instruction) in instructions.iter().enumerate() {
+        if instruction.title == id {
+            if index == 0 {
+                previous = instructions.len() - 1;
+                next = index + 1;
+            } else if index == instructions.len() - 1 {
+                previous = index - 1;
+                next = 0;
+            } else {
+                previous = index - 1;
+                next = index + 1;
+            }
+        }
+    }
+
+    println!("{}, {}", previous, next);
+
+    return vec![
+        (&instructions[previous]).title.clone(),
+        (&instructions[next]).title.clone(),
+    ];
+}
+
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
@@ -173,7 +201,8 @@ fn main() {
             get_care_instructions,
             create_care_instructions,
             get_single_care_instruction,
-            command_update_care_instructions
+            command_update_care_instructions,
+            command_care_instructions_previous_next
         ])
         .setup(|app| {
             app.set_menu(menu(app.app_handle().clone())).unwrap();
