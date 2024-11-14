@@ -8,6 +8,12 @@ Ojos Project
   align-items: center;
 }
 
+.back_button {
+  position: fixed;
+  top: 2%;
+  left: 2%;
+}
+
 .button_menu_container {
   position: fixed;
   bottom: 5%;

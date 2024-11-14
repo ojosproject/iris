@@ -21,24 +21,25 @@ export default function CareInstructions() {
   }, []);
 
   return (
-    <>
-      <BackButton />
-
-      <div className={classes.all_instructions_layout}>
-        <h1>Care Instructions</h1>
-        {instructions.length === 0 ? (
-          <p>There are no care instructions recorded.</p>
-        ) : (
-          instructions.map((instruction) => {
-            return (
-              <CareInstructionsButton
-                key={instruction.id}
-                instruction={instruction}
-              />
-            );
-          })
-        )}
+    <div className={classes.all_instructions_layout}>
+      <div className={classes.back_button}>
+        <BackButton />
       </div>
+
+      <h1>Care Instructions</h1>
+      {instructions.length === 0 ? (
+        <p>There are no care instructions recorded.</p>
+      ) : (
+        instructions.map((instruction) => {
+          return (
+            <CareInstructionsButton
+              key={instruction.id}
+              instruction={instruction}
+            />
+          );
+        })
+      )}
+
       <div className={classes.button_menu_container}>
         <div className={classes.button_menu}>
           <Button
@@ -52,6 +53,6 @@ export default function CareInstructions() {
           <Button type="SECONDARY" label="Resources" link="/resources" />
         </div>
       </div>
-    </>
+    </div>
   );
 }

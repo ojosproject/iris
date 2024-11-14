@@ -87,7 +87,7 @@ export default function EditInstructions() {
   }
 
   return (
-    <div className={classes.edit_care_instructions}>
+    <div className={classes.care_instructions_container}>
       <div className={classes.back_button}>
         <BackButton />
       </div>
