@@ -21,6 +21,8 @@ export default function EditInstructions() {
   const [addedBy, setAddedBy] = useState("");
   const [lastUpdated, setLastUpdated] = useState(0);
   const [onEditMode, setOnEditMode] = useState(false);
+  const [nextTopic, setNextTopic] = useState("");
+  const [previousTopic, setPreviousTopic] = useState("");
   const router = useRouter();
 
   useEffect(() => {
@@ -103,8 +105,11 @@ export default function EditInstructions() {
           </>
         )}
         <div className={classes.last_updated}>
-          <p>Last updated on {timestampToString(lastUpdated, "MMDDYYYY")}</p>
-          <p>at {timestampToString(lastUpdated, "TIME")}</p>
+          <div className={classes.last_updated_inner}>
+            <p>Added by {addedBy}</p>
+            <p>Last updated on {timestampToString(lastUpdated, "MMDDYYYY")}</p>
+            <p>at {timestampToString(lastUpdated, "TIME")}</p>
+          </div>
         </div>
       </div>
 

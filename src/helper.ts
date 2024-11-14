@@ -26,8 +26,9 @@ export function timestampToString(
   } else if (format === "TIME") {
     let hours = d.getHours();
     hours = hours < 12 ? hours : hours - 12;
-    let minutes = d.getMinutes();
-    let am_pm = d.getHours() > 12 ? "pm" : "am";
+    let minutes: string | number = d.getMinutes();
+    minutes = minutes > 9 ? `${minutes}` : `0${minutes}`;
+    let am_pm = d.getHours() > 12 ? "PM" : "AM";
 
     return `${hours}:${minutes} ${am_pm}`;
   }
