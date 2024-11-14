@@ -76,6 +76,8 @@ export default function EditInstructions() {
       setAddedBy((i as CareInstruction).added_by);
       setLastUpdated((i as CareInstruction).last_updated);
 
+      router.replace(`/care_instructions/view/?id=${id}`);
+
       invoke("command_care_instructions_previous_next", {
         id: id,
       }).then((previousNext) => {
@@ -101,11 +103,13 @@ export default function EditInstructions() {
               onChange={(e) => {
                 setTitle(e.target.value);
               }}
+              placeholder="Short Title"
               className={classes.input_care_title}
               type="text"
             />
             <textarea
               value={content}
+              placeholder="Enter a detailed description of how to care for your loved one."
               onChange={(e) => {
                 setContent(e.target.value);
               }}

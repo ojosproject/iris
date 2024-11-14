@@ -35,6 +35,8 @@
 
 .input_container {
   margin: 20px 0 0 50px;
+  width: 60dvw;
+  overflow-wrap: anywhere;
 }
 
 .back_button {
@@ -58,8 +60,9 @@
   height: 35px;
 
   margin-bottom: 35px;
+  padding: 0 5px;
 
-  border: solid black 2px;
+  border: solid #094595 2px;
   border-radius: 5px;
   font-size: 20px;
   font-weight: bold;
@@ -69,8 +72,9 @@
   resize: none;
   width: 650px;
   min-height: 50dvh;
+  padding: 5px;
 
-  border: solid black 2px;
-  border-radius: 5px;
+  border: solid #094595 2px;
+  border-radius: 10px;
   font-size: 15px;
 }

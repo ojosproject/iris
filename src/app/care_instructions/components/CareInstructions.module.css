@@ -1,6 +1,7 @@
 .single_care_instruction {
   width: 65dvw;
   margin: 20px 0;
+  overflow-wrap: anywhere;
 }
 
 .single_care_instruction:hover {
@@ -11,5 +12,3 @@
   font-size: 14px;
   color: grey;
 }
-/*url(http://localhost:3000/care_instructions/view/?title%3Dhello%2Bworld)*/
-/*url(http://localhost:3000/care_instructions/view/?title%3DSomething%2Bdifferent)*/
