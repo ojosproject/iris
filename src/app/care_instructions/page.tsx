@@ -6,7 +6,10 @@
 import { CareInstruction } from "@/types";
 import { invoke } from "@tauri-apps/api/core";
 import { useEffect, useState } from "react";
-import AllCareInstructions from "./AllCareInstructions";
+import BackButton from "../components/BackButton";
+import classes from "./page.module.css";
+import Button from "../components/Button";
+import CareInstructionsButton from "./components/CareInstructionButton";
 
 export default function CareInstructions() {
   const [instructions, setInstructions] = useState([] as CareInstruction[]);
@@ -17,5 +20,38 @@ export default function CareInstructions() {
     });
   }, []);
 
-  return <AllCareInstructions instructions={instructions} />;
+  return (
+    <>
+      <BackButton />
+
+      <div className={classes.all_instructions_layout}>
+        <h1>Care Instructions</h1>
+        {instructions.length === 0 ? (
+          <p>There are no care instructions recorded.</p>
+        ) : (
+          instructions.map((instruction) => {
+            return (
+              <CareInstructionsButton
+                key={instruction.id}
+                instruction={instruction}
+              />
+            );
+          })
+        )}
+      </div>
+      <div className={classes.button_menu_container}>
+        <div className={classes.button_menu}>
+          <Button
+            type="PRIMARY"
+            label="Add Instructions"
+            link={{
+              pathname: "./care_instructions/view/",
+            }}
+          />
+
+          <Button type="SECONDARY" label="Resources" link="/resources" />
+        </div>
+      </div>
+    </>
+  );
 }

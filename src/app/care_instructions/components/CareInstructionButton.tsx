@@ -1,10 +1,10 @@
-// CareInstructions.tsx
+// CareInstructionButton.tsx
 // Ojos Project
 import { CareInstruction } from "@/types";
-import classes from "./CareInstructions.module.css";
+import classes from "./CareInstructionButton.module.css";
 import Link from "next/link";
 
-export default function CareInstructions(props: {
+export default function CareInstructionButton(props: {
   instruction: CareInstruction;
 }) {
   return (
