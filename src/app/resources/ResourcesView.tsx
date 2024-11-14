@@ -3,11 +3,25 @@ import CategoryMenu from "./components/CategoryMenu";
 import classes from "./page.module.css";
 import ResourcesList from "./components/ResourcesList";
 import BackButton from "../components/BackButton";
+import { useEffect, useState } from "react";
 
 export default function ResourcesView(props: {
   resources: Resource[];
   setResources: Function;
 }) {
+  const [categories, setCategories] = useState(["all"]);
+
+  useEffect(() => {
+    setCategories(
+      categories.concat(
+        props.resources
+          .map((resource) => resource.category.toLowerCase())
+          .filter((category, index, array) => array.indexOf(category) === index)
+          .sort((a, b) => a.localeCompare(b)),
+      ),
+    );
+  }, []);
+
   return (
     <>
       <BackButton />
@@ -17,7 +31,7 @@ export default function ResourcesView(props: {
 
       <div className={classes.menu_and_resources_container}>
         <CategoryMenu
-          labels={["All", "Financial", "Informational"]}
+          labels={categories}
           resources={props.resources}
           setResources={props.setResources}
         />
