@@ -112,6 +112,20 @@ fn get_care_instructions(app: AppHandle) -> Vec<structs::CareInstruction> {
     care_instructions::get_all_care_instructions(&app)
 }
 
+/// # `get_single_care_instruction` command
+///
+/// Returns a single care instructions, with the provided `id`.
+///
+/// ## TypeScript
+///
+/// ```typescript
+/// invoke('get_single_care_instruction', {id: ''}).then(ci => {
+///     if (ci) { // this COULD return a null, check!
+///         setCareInstruction(ci as CareInstruction);
+///     }
+///     
+/// });
+/// ```
 #[tauri::command(rename_all = "snake_case")]
 fn get_single_care_instruction(app: AppHandle, id: String) -> Option<structs::CareInstruction> {
     for instruction in care_instructions::get_all_care_instructions(&app) {
@@ -120,7 +134,6 @@ fn get_single_care_instruction(app: AppHandle, id: String) -> Option<structs::Ca
         }
     }
     return None;
-    /* `CareInstruction` value */
 }
 
 /// # `create_care_instruction` Command
@@ -130,9 +143,10 @@ fn get_single_care_instruction(app: AppHandle, id: String) -> Option<structs::Ca
 /// ## TypeScript Usage
 ///
 /// ```typescript
-/// invoke('create_care_instruction', {
-///         text: 'Please help her move once in a while.',
-///         readable_frequency: 'Once daily',
+/// invoke('create_care_instructions', {
+///         title: 'Move Patient',
+///         content: 'Please help her move once in a while.',
+///         frequency: 'Once daily',
 ///         added_by: 'nurse_id'
 ///     }).then(ci => {
 ///     setCareInstructions(ci as CareInstruction);
@@ -149,6 +163,23 @@ fn create_care_instructions(
     care_instructions::add_care_instruction(&app, title, content, frequency, added_by)
 }
 
+/// # `command_update_care_instructions` Command
+///
+/// Updates a single `CareInstruction` and returns it.
+///
+/// ## TypeScript
+///
+/// ```typescript
+/// invoke('command_update_care_instructions', {
+///         id: 'uuid',
+///         title: 'Move Patient (Edited)',
+///         content: 'Please help her move once in a while.',
+///         frequency: 'Once daily',
+///         added_by: 'nurse_id'
+///     }).then(ci => {
+///     setCareInstructions(ci as CareInstruction);
+/// })
+/// ```
 #[tauri::command(rename_all = "snake_case")]
 fn command_update_care_instructions(
     app: AppHandle,
@@ -161,6 +192,20 @@ fn command_update_care_instructions(
     care_instructions::update_care_instructions(&app, id, title, content, frequency, added_by)
 }
 
+/// # `command_care_instructions_previous_next` Command
+///
+/// Returns an array with the `CareInstruction.id` of the previous and next
+/// care instruction for the "Previous Topic" and "Next Topic" buttons. Index
+/// 0 is the previous ID, index 1 is the next ID.
+///
+/// ## TypeScript
+///
+/// ```typescript
+/// invoke('command_care_instructions_previous_next', {id: 'uuid'}).then(previousNext => {
+///     setPreviousTopic(previousNext[0]);
+///     setNextTopic(previousNext[1]);)
+/// })
+/// ```
 #[tauri::command(rename=all = "snake_case")]
 fn command_care_instructions_previous_next(app: AppHandle, id: String) -> Vec<String> {
     let instructions = care_instructions::get_all_care_instructions(&app);
