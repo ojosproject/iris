@@ -45,7 +45,7 @@ export default function ResourcesList(props: {
   return (
     <div className={classes.resource_list_container}>
       {props.resources.map((resource) => {
-        return <Resource key={resource.last_updated} resource={resource} />;
+        return <Resource key={resource.url} resource={resource} />;
       })}
     </div>
   );
