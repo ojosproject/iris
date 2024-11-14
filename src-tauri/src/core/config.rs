@@ -4,7 +4,7 @@
 // Handles storing system specifications
 
 #![allow(dead_code)]
-use crate::structs::Config;
+use crate::core::structs::Config;
 use std::{fs, io::ErrorKind};
 use tauri::{AppHandle, Manager};
 

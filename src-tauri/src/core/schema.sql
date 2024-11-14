@@ -43,25 +43,6 @@ CREATE TABLE IF NOT EXISTS medication (
 ) STRICT;
 
 /*
-resource
-Resources available for the patient and their family
-
-Rows:
-    label    - The display name of the resource
-    * value  - Usually a URL, given to make `label` a link
-    added_by - Full name of the individual who added this resource
-    type     - The type of the resource. `FINANCIAL`, `MENTAL HEALTH`, & more
-*/
-CREATE TABLE IF NOT EXISTS resource (
-    label TEXT NOT NULL,
-    description TEXT NOT NULL,
-    url TEXT NOT NULL PRIMARY KEY,
-    organization TEXT NOT NULL,
-    category TEXT NOT NULL,
-    last_updated REAL NOT NULL
-) STRICT;
-
-/*
 contact_method
 Contact information, typically nurses or caregivers
 
@@ -93,27 +74,6 @@ CREATE TABLE IF NOT EXISTS patient_recorded_outcome (
     question TEXT NOT NULL,
     response TEXT NOT NULL,
     PRIMARY KEY (recorded_date, question)
-) STRICT;
-
-/*
-care_instruction
-Extra care instructions provided by the caregivers for the nurses.
-
-Rows:
-    * id            - A UUID
-    title           - Short title for the instruction
-    content         - A more detailed description of the instruction.
-    frequency       - A readable format, such as "Once daily"
-    added_by        - A User.id
-    last_updated    - A Unix timestamp indicating the last edit
-*/
-CREATE TABLE IF NOT EXISTS care_instruction (
-    id TEXT NOT NULL PRIMARY KEY,
-    title TEXT NOT NULL,
-    content TEXT NOT NULL,
-    frequency TEXT,
-    added_by TEXT NOT NULL,
-    last_updated INTEGER NOT NULL
 ) STRICT;
 
 /*

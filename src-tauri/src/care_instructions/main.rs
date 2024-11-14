@@ -2,7 +2,7 @@
 // Ojos Project
 //
 // Extra care instructions provided by the caregivers for the nurses.
-use crate::structs::CareInstruction;
+use crate::care_instructions::structs::CareInstruction;
 use chrono::Local;
 use rusqlite::{named_params, Connection};
 use tauri::{AppHandle, Manager};

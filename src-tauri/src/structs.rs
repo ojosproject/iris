@@ -15,45 +15,9 @@ pub struct Medication {
     pub measurement: String,
 }
 
-#[derive(Serialize, Deserialize)]
-pub struct User {
-    pub id: String,
-    pub full_name: String,
-    pub type_of: String,
-}
-
 pub struct MedicationLog {
     pub timestamp: f64,
     pub medication_name: String,
     pub given_dose: f64,
     pub comment: Option<String>,
-}
-
-#[derive(Serialize, Deserialize)]
-pub struct Config {
-    pub resources_last_call: i64,
-    pub onboarding_completed: bool,
-}
-
-#[derive(Serialize, Deserialize)]
-pub struct Resource {
-    pub label: String,
-    pub description: String,
-    pub url: String,
-    pub organization: String,
-    pub category: String,
-    pub last_updated: f32,
-}
-
-/// # `CareInstruction` struct
-///
-///  Extra care instructions provided by the caregivers for the nurses.
-#[derive(Serialize, Deserialize)]
-pub struct CareInstruction {
-    pub id: String,
-    pub title: String,
-    pub content: String,
-    pub frequency: Option<String>,
-    pub added_by: String,
-    pub last_updated: i64,
 }
