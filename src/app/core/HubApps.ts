@@ -1,4 +1,4 @@
-import { HubAppProps } from "./components/HubApp";
+import { HubAppProps } from "./hub/HubApp";
 
 export const HubApps: HubAppProps[] = [
   {

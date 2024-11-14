@@ -1,11 +1,9 @@
 "use client";
 
-import { Resource } from "@/types";
+import { Resource } from "@/app/core/types";
 import classes from "./ResourcesList.module.css";
 import QRCode from "react-qr-code";
-import { timestampToString } from "@/helper";
-import { useEffect } from "react";
-import { invoke } from "@tauri-apps/api/core";
+import { timestampToString } from "@/app/core/helper";
 
 export default function ResourcesList(props: {
   resources: Resource[];

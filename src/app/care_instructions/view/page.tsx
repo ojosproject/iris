@@ -1,14 +1,14 @@
 // care_instructions/view/page.tsx
 // Ojos Project
 "use client";
-import BackButton from "@/app/components/BackButton";
+import BackButton from "@/app/core/components/BackButton";
 import { useRouter, useSearchParams } from "next/navigation";
 import classes from "./page.module.css";
-import Button from "@/app/components/Button";
+import Button from "@/app/core/components/Button";
 import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
-import { CareInstruction } from "@/types";
-import { timestampToString } from "@/helper";
+import { CareInstruction } from "@/app/core/types";
+import { timestampToString } from "@/app/core/helper";
 
 export default function EditInstructions() {
   // Params get passed from AllCareInstructions.tsx

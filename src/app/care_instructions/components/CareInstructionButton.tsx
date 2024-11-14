@@ -1,6 +1,6 @@
 // CareInstructionButton.tsx
 // Ojos Project
-import { CareInstruction } from "@/types";
+import { CareInstruction } from "@/app/core/types";
 import classes from "./CareInstructionButton.module.css";
 import Link from "next/link";
 

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Button from "./components/Button";
-import classes from "./Onboarding.module.css";
+import classes from "../core/Onboarding.module.css";
 import { invoke } from "@tauri-apps/api/core";
 import BackButton from "./components/BackButton";
 
