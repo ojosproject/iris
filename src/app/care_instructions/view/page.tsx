@@ -35,7 +35,7 @@ export default function EditInstructions() {
         setAddedBy((i as CareInstruction).added_by);
         setLastUpdated((i as CareInstruction).last_updated);
 
-        invoke("command_care_instructions_previous_next", {
+        invoke("care_instructions_previous_next_ids", {
           id: fetch_id,
         }).then((previousNext) => {
           setPreviousTopic((previousNext as string[])[0]);
@@ -60,7 +60,7 @@ export default function EditInstructions() {
     invoke(
       lastUpdated === 0
         ? "create_care_instructions"
-        : "command_update_care_instructions",
+        : "update_care_instructions",
       {
         id: id,
         title: title,
@@ -78,7 +78,7 @@ export default function EditInstructions() {
 
       router.replace(`/care_instructions/view/?id=${id}`);
 
-      invoke("command_care_instructions_previous_next", {
+      invoke("care_instructions_previous_next_ids", {
         id: id,
       }).then((previousNext) => {
         setPreviousTopic((previousNext as string[])[0]);

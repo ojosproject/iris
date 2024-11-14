@@ -12,7 +12,7 @@ export default function CareInstructions() {
   const [instructions, setInstructions] = useState([] as CareInstruction[]);
 
   useEffect(() => {
-    invoke("get_care_instructions").then((i) => {
+    invoke("get_all_care_instructions").then((i) => {
       setInstructions(i as CareInstruction[]);
     });
   }, []);

@@ -96,19 +96,19 @@ fn create_user(app: AppHandle, name: String, user_type: String) {
     User::create(app, name, user_type);
 }
 
-/// # `get_care_instructions` Command
+/// # `get_all_care_instructions` Command
 ///
 /// Returns a `CareInstruction[]`.
 ///
 /// ## TypeScript Usage
 ///
 /// ```typescript
-/// invoke('get_care_instructions').then(ci => {
+/// invoke('get_all_care_instructions').then(ci => {
 ///     setCareInstructions(ci as CareInstruction[]);
 /// });
 /// ```
 #[tauri::command]
-fn get_care_instructions(app: AppHandle) -> Vec<structs::CareInstruction> {
+fn get_all_care_instructions(app: AppHandle) -> Vec<structs::CareInstruction> {
     care_instructions::get_all_care_instructions(&app)
 }
 
@@ -136,7 +136,7 @@ fn get_single_care_instruction(app: AppHandle, id: String) -> Option<structs::Ca
     return None;
 }
 
-/// # `create_care_instruction` Command
+/// # `create_care_instructions` Command
 ///
 /// Creates a new `CareInstruction` and returns it
 ///
@@ -163,14 +163,14 @@ fn create_care_instructions(
     care_instructions::add_care_instruction(&app, title, content, frequency, added_by)
 }
 
-/// # `command_update_care_instructions` Command
+/// # `update_care_instructions` Command
 ///
 /// Updates a single `CareInstruction` and returns it.
 ///
 /// ## TypeScript
 ///
 /// ```typescript
-/// invoke('command_update_care_instructions', {
+/// invoke('update_care_instructions', {
 ///         id: 'uuid',
 ///         title: 'Move Patient (Edited)',
 ///         content: 'Please help her move once in a while.',
@@ -181,7 +181,7 @@ fn create_care_instructions(
 /// })
 /// ```
 #[tauri::command(rename_all = "snake_case")]
-fn command_update_care_instructions(
+fn update_care_instructions(
     app: AppHandle,
     id: String,
     title: String,
@@ -192,7 +192,7 @@ fn command_update_care_instructions(
     care_instructions::update_care_instructions(&app, id, title, content, frequency, added_by)
 }
 
-/// # `command_care_instructions_previous_next` Command
+/// # `care_instructions_previous_next_ids` Command
 ///
 /// Returns an array with the `CareInstruction.id` of the previous and next
 /// care instruction for the "Previous Topic" and "Next Topic" buttons. Index
@@ -201,13 +201,13 @@ fn command_update_care_instructions(
 /// ## TypeScript
 ///
 /// ```typescript
-/// invoke('command_care_instructions_previous_next', {id: 'uuid'}).then(previousNext => {
+/// invoke('care_instructions_previous_next_ids', {id: 'uuid'}).then(previousNext => {
 ///     setPreviousTopic(previousNext[0]);
 ///     setNextTopic(previousNext[1]);)
 /// })
 /// ```
 #[tauri::command(rename=all = "snake_case")]
-fn command_care_instructions_previous_next(app: AppHandle, id: String) -> Vec<String> {
+fn care_instructions_previous_next_ids(app: AppHandle, id: String) -> Vec<String> {
     let instructions = care_instructions::get_all_care_instructions(&app);
     let mut previous = 0;
     let mut next = 0;
@@ -244,11 +244,11 @@ fn main() {
             get_resources,
             complete_onboarding,
             create_user,
-            get_care_instructions,
+            get_all_care_instructions,
             create_care_instructions,
             get_single_care_instruction,
-            command_update_care_instructions,
-            command_care_instructions_previous_next
+            update_care_instructions,
+            care_instructions_previous_next_ids
         ])
         .setup(|app| {
             app.set_menu(menu(app.app_handle().clone())).unwrap();
