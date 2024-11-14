@@ -5,7 +5,7 @@
 
 import Link from "next/link";
 import classes from "./Button.module.css";
-import { MouseEventHandler } from "react";
+import { CSSProperties, MouseEventHandler } from "react";
 import { UrlObject } from "url";
 
 export default function Button(props: {
@@ -14,6 +14,7 @@ export default function Button(props: {
   onClick?: MouseEventHandler;
   link?: UrlObject | string;
   disabled?: boolean;
+  style?: CSSProperties;
 }) {
   return props.onClick ? (
     <button
@@ -24,6 +25,7 @@ export default function Button(props: {
       }
       disabled={props.disabled}
       onClick={props.onClick}
+      style={props.style}
     >
       {props.label}
     </button>
@@ -35,6 +37,7 @@ export default function Button(props: {
             ? classes.button_iris_primary
             : classes.button_iris_secondary
         }
+        style={props.style}
       >
         {props.label}
       </button>
