@@ -115,7 +115,7 @@ fn get_care_instructions(app: AppHandle) -> Vec<structs::CareInstruction> {
 #[tauri::command(rename_all = "snake_case")]
 fn get_single_care_instruction(app: AppHandle, id: String) -> Option<structs::CareInstruction> {
     for instruction in care_instructions::get_all_care_instructions(&app) {
-        if instruction.title == id {
+        if instruction.id == id {
             return Some(instruction);
         }
     }
@@ -152,12 +152,13 @@ fn create_care_instructions(
 #[tauri::command(rename_all = "snake_case")]
 fn command_update_care_instructions(
     app: AppHandle,
+    id: String,
     title: String,
     content: String,
     frequency: Option<String>,
     added_by: String,
 ) -> structs::CareInstruction {
-    care_instructions::update_care_instructions(&app, title, content, frequency, added_by)
+    care_instructions::update_care_instructions(&app, id, title, content, frequency, added_by)
 }
 
 #[tauri::command(rename=all = "snake_case")]
@@ -166,8 +167,10 @@ fn command_care_instructions_previous_next(app: AppHandle, id: String) -> Vec<St
     let mut previous = 0;
     let mut next = 0;
     for (index, instruction) in instructions.iter().enumerate() {
-        if instruction.title == id {
-            if index == 0 {
+        if instruction.id == id {
+            if instructions.len() == 1 {
+                [previous, next] = [0, 0]
+            } else if index == 0 {
                 previous = instructions.len() - 1;
                 next = index + 1;
             } else if index == instructions.len() - 1 {
@@ -181,8 +184,8 @@ fn command_care_instructions_previous_next(app: AppHandle, id: String) -> Vec<St
     }
 
     return vec![
-        (&instructions[previous]).title.clone(),
-        (&instructions[next]).title.clone(),
+        (&instructions[previous]).id.clone(),
+        (&instructions[next]).id.clone(),
     ];
 }
 

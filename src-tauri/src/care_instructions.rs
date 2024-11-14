@@ -6,6 +6,7 @@ use crate::structs::CareInstruction;
 use chrono::Local;
 use rusqlite::{named_params, Connection};
 use tauri::{AppHandle, Manager};
+use uuid::Uuid;
 
 pub fn add_care_instruction(
     app: &AppHandle,
@@ -17,8 +18,10 @@ pub fn add_care_instruction(
     let app_data_dir = app.path().app_data_dir().unwrap();
     let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
     let ts = Local::now().timestamp();
+    let id = Uuid::new_v4().to_string();
 
     let ci = CareInstruction {
+        id,
         title,
         content,
         frequency,
@@ -26,12 +29,13 @@ pub fn add_care_instruction(
         last_updated: ts,
     };
 
-    conn.execute("INSERT INTO care_instruction(title, content, frequency, added_by, last_updated) VALUES (?1, ?2, ?3, ?4, ?5)", (&ci.title, &ci.content, &ci.frequency, &ci.added_by, &ci.last_updated)).unwrap();
+    conn.execute("INSERT INTO care_instruction(id, title, content, frequency, added_by, last_updated) VALUES (?1, ?2, ?3, ?4, ?5, ?6)", (&ci.id, &ci.title, &ci.content, &ci.frequency, &ci.added_by, &ci.last_updated)).unwrap();
     ci
 }
 
 pub fn update_care_instructions(
     app: &AppHandle,
+    id: String,
     title: String,
     content: String,
     frequency: Option<String>,
@@ -42,6 +46,7 @@ pub fn update_care_instructions(
     let ts = Local::now().timestamp();
 
     let ci = CareInstruction {
+        id,
         title,
         content,
         frequency,
@@ -50,8 +55,9 @@ pub fn update_care_instructions(
     };
 
     conn.execute(
-        "UPDATE care_instruction SET title=:title, content=:content, frequency=:frequency, added_by=:added_by, last_updated=:last_updated WHERE title=:title",
+        "UPDATE care_instruction SET title=:title, content=:content, frequency=:frequency, added_by=:added_by, last_updated=:last_updated WHERE id=:id",
         named_params! {
+            ":id": &ci.id,
             ":title": &ci.title,
             ":content": &ci.content,
             ":frequency": &ci.frequency,
@@ -74,11 +80,12 @@ pub fn get_all_care_instructions(app: &AppHandle) -> Vec<CareInstruction> {
     let matched_ci = stmt
         .query_map([], |row| {
             Ok(CareInstruction {
-                title: row.get(0)?,
-                content: row.get(1)?,
-                frequency: row.get(2)?,
-                added_by: row.get(3)?,
-                last_updated: row.get(4)?,
+                id: row.get(0)?,
+                title: row.get(1)?,
+                content: row.get(2)?,
+                frequency: row.get(3)?,
+                added_by: row.get(4)?,
+                last_updated: row.get(5)?,
             })
         })
         .unwrap();

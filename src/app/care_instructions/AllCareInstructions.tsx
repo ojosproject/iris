@@ -20,7 +20,7 @@ export default function FullCareInstructions(props: {
           props.instructions.map((instruction) => {
             return (
               <CareInstructions
-                key={instruction.last_updated}
+                key={instruction.id}
                 instruction={instruction}
               />
             );

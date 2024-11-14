@@ -10,7 +10,7 @@ export default function CareInstructions(props: {
       style={{ color: "black", textDecoration: "none" }}
       href={{
         pathname: "./care_instructions/view/",
-        query: { title: props.instruction.title },
+        query: { id: props.instruction.id },
       }}
     >
       <div className={classes.single_care_instruction}>

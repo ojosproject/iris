@@ -107,7 +107,8 @@ Rows:
     first_added - The Unix timestamp of when this was added
 */
 CREATE TABLE IF NOT EXISTS care_instruction (
-    title TEXT NOT NULL PRIMARY KEY,
+    id TEXT NOT NULL PRIMARY KEY,
+    title TEXT NOT NULL,
     content TEXT NOT NULL,
     frequency TEXT,
     added_by TEXT NOT NULL,

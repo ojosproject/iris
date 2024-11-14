@@ -16,6 +16,7 @@ export default function EditInstructions() {
   // If `title` is empty, you're creating a new care instruction
   // If `title` has something, we're editing a care instruction
   const params = useSearchParams();
+  const [id, setId] = useState("");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [addedBy, setAddedBy] = useState("");
@@ -25,17 +26,17 @@ export default function EditInstructions() {
   const [previousTopic, setPreviousTopic] = useState("");
   const router = useRouter();
 
-  function fetchInformation(title: string) {
-    invoke("get_single_care_instruction", { id: title })
+  function fetchInformation(fetch_id: string) {
+    invoke("get_single_care_instruction", { id: fetch_id })
       .then((i) => {
-        console.log(i);
+        setId((i as CareInstruction).id);
         setTitle((i as CareInstruction).title);
         setContent((i as CareInstruction).content);
         setAddedBy((i as CareInstruction).added_by);
         setLastUpdated((i as CareInstruction).last_updated);
 
         invoke("command_care_instructions_previous_next", {
-          id: (i as CareInstruction).title,
+          id: fetch_id,
         }).then((previousNext) => {
           setPreviousTopic((previousNext as string[])[0]);
           setNextTopic((previousNext as string[])[1]);
@@ -45,9 +46,9 @@ export default function EditInstructions() {
   }
 
   useEffect(() => {
-    let paramsTitle = params.get("title");
-    if (paramsTitle) {
-      fetchInformation(paramsTitle);
+    let paramsId = params.get("id");
+    if (paramsId) {
+      fetchInformation(paramsId);
     } else {
       setOnEditMode(true);
     }
@@ -61,6 +62,7 @@ export default function EditInstructions() {
         ? "create_care_instructions"
         : "command_update_care_instructions",
       {
+        id: id,
         title: title,
         content: content,
         frequency: null,
@@ -68,10 +70,18 @@ export default function EditInstructions() {
       },
     ).then((i) => {
       setOnEditMode(false);
+      setId((i as CareInstruction).id);
       setTitle((i as CareInstruction).title);
       setContent((i as CareInstruction).content);
       setAddedBy((i as CareInstruction).added_by);
       setLastUpdated((i as CareInstruction).last_updated);
+
+      invoke("command_care_instructions_previous_next", {
+        id: id,
+      }).then((previousNext) => {
+        setPreviousTopic((previousNext as string[])[0]);
+        setNextTopic((previousNext as string[])[1]);
+      });
     });
   }
 
@@ -104,35 +114,41 @@ export default function EditInstructions() {
           </>
         ) : (
           <>
-            <div className={classes.topics_button}>
-              <Button
-                type="SECONDARY"
-                label="Previous Topic"
-                onClick={() => {
-                  fetchInformation(previousTopic);
-                }}
-              />
-              <Button
-                type="SECONDARY"
-                label="Next Topic"
-                onClick={() => {
-                  fetchInformation(nextTopic);
-                }}
-              />
-            </div>
+            {!(id === previousTopic && id === nextTopic) ? (
+              <div className={classes.topics_button}>
+                <Button
+                  type="SECONDARY"
+                  label="Previous Topic"
+                  onClick={() => {
+                    fetchInformation(previousTopic);
+                  }}
+                />
+                <Button
+                  type="SECONDARY"
+                  label="Next Topic"
+                  onClick={() => {
+                    fetchInformation(nextTopic);
+                  }}
+                />
+              </div>
+            ) : null}
             <h2>{title}</h2>
             {content.split("\n").map((line) => {
               return <p key={line}>{line}</p>;
             })}
           </>
         )}
-        <div className={classes.last_updated}>
-          <div className={classes.last_updated_inner}>
-            <p>Added by {addedBy}</p>
-            <p>Last updated on {timestampToString(lastUpdated, "MMDDYYYY")}</p>
-            <p>at {timestampToString(lastUpdated, "TIME")}</p>
+        {lastUpdated === 0 ? null : (
+          <div className={classes.last_updated}>
+            <div className={classes.last_updated_inner}>
+              <p>Added by {addedBy}</p>
+              <p>
+                Last updated on {timestampToString(lastUpdated, "MMDDYYYY")}
+              </p>
+              <p>at {timestampToString(lastUpdated, "TIME")}</p>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       <div className={classes.button_save_instructions}>

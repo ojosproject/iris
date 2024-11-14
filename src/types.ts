@@ -46,6 +46,7 @@ export type Resource = {
 };
 
 export type CareInstruction = {
+  id: string;
   title: string;
   content: string;
   frequency: string;
