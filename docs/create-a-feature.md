@@ -101,6 +101,9 @@ must create the following files inside the feature folder:
 - `schema.sql`
 - `structs.rs`
 
+You must add `mod folder_name` at the top of the `main.rs` file to make the
+folder visible to the program.
+
 ### Storing data
 
 Iris has two ways to store data in the backend, both with their own beneficial
@@ -143,12 +146,6 @@ types. Please add comments to document your code! Next, add a brand new
 structure inside of your folder's `structs.rs` file.
 Make sure your `schema.sql` and `structs.rs` structures are similar so that
 your backend code does not crash.
-
-> [!IMPORTANT]
-> If you create a new Rust file, make sure to add `mod file_name.rs` at the
-> top of the `main.rs` file to be able to use functions you wrote in your new
-> Rust file. If you don't do this, Rust won't include that file into the
-> program.
 
 From here on out, you can now write the Rust code you need to make the backend
 functional. You may want to read the
