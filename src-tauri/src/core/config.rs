@@ -75,7 +75,7 @@ now?"
                         "Please rate your ability to use a knife to cut food".to_string(),
                     ],
                 };
-                fs::create_dir(&app_data_dir).unwrap();
+                //fs::create_dir(&app_data_dir).unwrap();
                 let template_config_string = serde_json::to_string(&template_config).unwrap();
                 fs::write(app_data_dir.join("config.json"), &template_config_string).unwrap();
                 template_config_string

@@ -23,13 +23,6 @@ pub struct MedicationLog {
 }
 
 #[derive(Serialize, Deserialize)]
-pub struct Config {
-    pub resources_last_call: i64,
-    pub onboarding_completed: bool,
-    pub pro_questions: Vec<String>,
-}
-
-#[derive(Serialize, Deserialize)]
 pub struct Resource {
     pub label: String,
     pub description: String,
@@ -37,11 +30,4 @@ pub struct Resource {
     pub organization: String,
     pub category: String,
     pub last_updated: f32,
-}
-
-#[derive(Serialize, Deserialize)]
-pub struct PatientReportedOutcome {
-    pub recorded_date: i64,
-    pub question: String,
-    pub response: i32,
 }

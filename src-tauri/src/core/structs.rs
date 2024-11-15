@@ -11,4 +11,5 @@ pub struct User {
 pub struct Config {
     pub resources_last_call: i64,
     pub onboarding_completed: bool,
+    pub pro_questions: Vec<String>,
 }
