@@ -1,4 +1,4 @@
-use crate::resources::main;
+use crate::resources::helper;
 use crate::resources::structs::Resource;
 use tauri::AppHandle;
 
@@ -17,5 +17,5 @@ use tauri::AppHandle;
 /// ```
 #[tauri::command(rename_all = "snake_case")]
 pub fn get_resources(app: AppHandle) -> Vec<Resource> {
-    main::get_resources(app.clone())
+    helper::get_resources(app.clone())
 }

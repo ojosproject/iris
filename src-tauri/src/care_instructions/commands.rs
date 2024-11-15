@@ -1,4 +1,4 @@
-use crate::care_instructions::main;
+use crate::care_instructions::helper;
 use crate::care_instructions::structs::CareInstruction;
 use tauri::AppHandle;
 
@@ -15,7 +15,7 @@ use tauri::AppHandle;
 /// ```
 #[tauri::command]
 pub fn get_all_care_instructions(app: AppHandle) -> Vec<CareInstruction> {
-    main::get_all_care_instructions(&app)
+    helper::get_all_care_instructions(&app)
 }
 
 /// # `get_single_care_instruction` command
@@ -34,7 +34,7 @@ pub fn get_all_care_instructions(app: AppHandle) -> Vec<CareInstruction> {
 /// ```
 #[tauri::command(rename_all = "snake_case")]
 pub fn get_single_care_instruction(app: AppHandle, id: String) -> Option<CareInstruction> {
-    for instruction in main::get_all_care_instructions(&app) {
+    for instruction in helper::get_all_care_instructions(&app) {
         if instruction.id == id {
             return Some(instruction);
         }
@@ -66,7 +66,7 @@ pub fn create_care_instructions(
     frequency: Option<String>,
     added_by: String,
 ) -> CareInstruction {
-    main::add_care_instruction(&app, title, content, frequency, added_by)
+    helper::add_care_instruction(&app, title, content, frequency, added_by)
 }
 
 /// # `update_care_instructions` Command
@@ -95,7 +95,7 @@ pub fn update_care_instructions(
     frequency: Option<String>,
     added_by: String,
 ) -> CareInstruction {
-    main::update_care_instructions(&app, id, title, content, frequency, added_by)
+    helper::update_care_instructions(&app, id, title, content, frequency, added_by)
 }
 
 /// # `care_instructions_previous_next_ids` Command
@@ -114,7 +114,7 @@ pub fn update_care_instructions(
 /// ```
 #[tauri::command(rename=all = "snake_case")]
 pub fn care_instructions_previous_next_ids(app: AppHandle, id: String) -> Vec<String> {
-    let instructions = main::get_all_care_instructions(&app);
+    let instructions = helper::get_all_care_instructions(&app);
     let mut previous = 0;
     let mut next = 0;
     for (index, instruction) in instructions.iter().enumerate() {

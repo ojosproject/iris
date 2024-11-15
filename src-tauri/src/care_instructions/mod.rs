@@ -1,3 +1,3 @@
 pub mod commands;
-pub mod main;
+pub mod helper;
 pub mod structs;
