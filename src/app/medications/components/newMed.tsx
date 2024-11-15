@@ -1,3 +1,5 @@
+// This is the popup that appears when you select "Add Medication"
+
 import React, { useState } from "react";
 import { Medication, MedicationLog } from "../types";
 import styles from "./newMed.module.css";
@@ -105,7 +107,18 @@ const MedicationModal: React.FC<MedicationModalProps> = ({
                         onChange={(e) => setTimestamp(new Date(e.target.value).getTime())}
                     />
                 </label> */}
-        <button className={styles.submitButton} onClick={handleSubmit}>
+        <button
+          className={styles.submitButton}
+          onClick={handleSubmit}
+          style={
+            medicationName === "" ||
+            medicationBrand === "" ||
+            medicationDosage === 0 ||
+            medicationSupply === 0
+              ? { backgroundColor: "grey" }
+              : {}
+          }
+        >
           Submit
         </button>
         <button className={styles.cancelButton} onClick={onClose}>
