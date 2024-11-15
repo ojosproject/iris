@@ -1,4 +1,4 @@
-import { HubAppProps } from "./components/HubApp";
+import { HubAppProps } from "./hub/HubApp";
 
 export const HubApps: HubAppProps[] = [
   {
@@ -6,9 +6,12 @@ export const HubApps: HubAppProps[] = [
     name: "Resources",
     icon: "/images/icon_resources.png",
   },
+
+  // Extra care instructions provided by the caregivers for the nurses.
   {
-    link: "./pro",
-    name: "Survey",
+    link: "./care_instructions",
+    name: "Care Instructions",
+    icon: "/images/icon_care_instructions.png",
   },
 ].sort((a, b) => {
   // Sorts list by HubAppProps.name

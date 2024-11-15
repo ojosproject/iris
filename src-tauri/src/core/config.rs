@@ -4,7 +4,7 @@
 // Works with storing data that isn't needed in the database. Think settings.
 
 #![allow(dead_code)]
-use crate::structs::Config;
+use crate::core::structs::Config;
 use std::{fs, io::ErrorKind};
 use tauri::{AppHandle, Manager};
 
@@ -75,6 +75,7 @@ now?"
                         "Please rate your ability to use a knife to cut food".to_string(),
                     ],
                 };
+                fs::create_dir(&app_data_dir).unwrap();
                 let template_config_string = serde_json::to_string(&template_config).unwrap();
                 fs::write(app_data_dir.join("config.json"), &template_config_string).unwrap();
                 template_config_string

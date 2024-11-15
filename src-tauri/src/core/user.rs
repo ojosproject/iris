@@ -3,7 +3,8 @@
 //
 // This handles a lot of user-related functions for Iris.
 #![allow(dead_code)]
-use crate::structs::{Medication, User};
+use crate::core::structs::User;
+use crate::Medication;
 use rusqlite::Connection;
 use tauri::{AppHandle, Manager};
 use uuid::Uuid;

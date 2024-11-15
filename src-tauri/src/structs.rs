@@ -15,13 +15,6 @@ pub struct Medication {
     pub measurement: String,
 }
 
-#[derive(Serialize, Deserialize)]
-pub struct User {
-    pub id: String,
-    pub full_name: String,
-    pub type_of: String,
-}
-
 pub struct MedicationLog {
     pub timestamp: f64,
     pub medication_name: String,

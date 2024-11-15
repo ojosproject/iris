@@ -4,7 +4,7 @@
 // Handles displaying resources to the user
 #![allow(dead_code)]
 use crate::config;
-use crate::structs::Resource;
+use crate::resources::structs::Resource;
 use chrono::Utc;
 use reqwest::blocking;
 use rusqlite::{named_params, Connection};
