@@ -81,37 +81,6 @@ const LogTab = () => {
     setIsModalOpen(false);
   };
 
-  // TODO: Currently on PR, there is no way to amend medication to backend
-  {
-    /* 
-  const handleModalSubmit = (newMedication: MedicationLog) => {
-    const exists = medications.some(
-      (log) =>
-        log.medication_name.toLowerCase() ===
-        newMedication.medication_name.toLowerCase(),
-    );
-
-    if (exists) {
-      alert("Medication already exists!");
-      return;
-    } else if (newMedication.given_dose <= 0) {
-      alert("Please provide valid medication details.");
-      return;
-    }
-
-    // If medication is valid, proceed to call the backend to add it
-    invoke("add_medication", { newMedication })
-      .then(() => {
-        setMedications((prevMeds) => [...prevMeds, newMedication]);
-        setSearchQuery("");
-        setIsModalOpen(false);
-      })
-      .catch((err) => {
-        console.error("Error adding medication", err);
-      });
-      */
-  }
-
   return (
     <>
       <BackButton />
@@ -153,28 +122,29 @@ const LogTab = () => {
                   <div className={styles.logLastTake}>
                     <strong>Last Taken </strong>
                     <br />
-                    {new Date(
-                      log.last_taken ? log.last_taken * 1000 : "N/A",
-                    ).toLocaleString()}{" "}
+                    {log.last_taken ? (
+                      <>new Date(log.last_taken * 1000)</>
+                    ) : (
+                      <>Not yet taken.</>
+                    )}
                     {/* Format timestamp */}
                   </div>
                   <div key={log.name} className={styles.logButtons}>
-                    <button
+                    <Button
+                      type="PRIMARY"
+                      label="Log"
                       onClick={() => medicationSelect(log)}
-                      className={styles.logItem}
-                    >
-                      Log
-                    </button>
-                    <Link
-                      href={{
-                        pathname: "/medication/medview",
+                    />
+                    <Button
+                      type="SECONDARY"
+                      label="View"
+                      link={{
+                        pathname: "/medications/view/",
                         query: {
                           name: log.name,
                         },
                       }}
-                    >
-                      <button className={styles.logItem}>View</button>
-                    </Link>
+                    />
                   </div>
                 </div>
               ))

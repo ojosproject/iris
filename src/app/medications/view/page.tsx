@@ -1,44 +1,13 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import styles from "./MedView.module.css";
+import styles from "./page.module.css";
 import { Medication, MedicationLog } from "../types";
 import { User } from "@/app/core/types";
 import { invoke } from "@tauri-apps/api/core";
 import moment from "moment";
 import { useSearchParams } from "next/navigation";
-import { MONTHS } from "@/app/core/helper";
+import { parse_phone_number, timestampToString } from "@/app/core/helper";
 import BackButton from "@/app/core/components/BackButton";
-
-function parse_phone_number(digits: number): string {
-  let parsed = digits.toString();
-
-  if (parsed.length === 10) {
-    return `(${parsed.slice(0, 3)}) ${parsed.slice(3, 6)}-${parsed.slice(6)}`;
-  } else if (parsed.length === 11) {
-    // if it includes the 1 in the beginning
-    // though, please try to prevent that if possible
-    return `${parsed.slice(0, 1)} (${parsed.slice(1, 4)}) ${parsed.slice(4, 7)}-${parsed.slice(8)}`;
-  }
-
-  // if neither of the above conditions fit, return an empty string
-  return "";
-}
-
-function convert_to_added_on_string(timestamp: number): string {
-  let d = new Date(timestamp * 1000);
-  return `${MONTHS[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
-}
-
-function convert_to_taken_on_string(timestamp: number): string {
-  let d = new Date(timestamp * 1000);
-  let hour = d.getHours();
-  let minute = d.getMinutes();
-  let hour_12 = hour > 12 ? hour - 12 : hour;
-  let minute_zeroed = minute < 10 ? `0${minute}` : minute;
-  let am_pm = hour > 11 ? "PM" : "AM";
-
-  return `${MONTHS[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}, ${hour_12}:${minute_zeroed} ${am_pm}`;
-}
 
 const Header = ({ name, brand }: { name: string; brand: string }) => {
   return (
@@ -139,7 +108,8 @@ const MedicineView = () => {
     supply: 0,
     total_prescribed: 0,
   });
-  const pillsPercentage = 0; // we'll fix later
+  const pillsPercentage =
+    100 * (medication.supply / medication.total_prescribed); // we'll fix later
   const [prescriptionNurse, setPrescriptionNurse] = useState<User>({
     full_name: "Loading...",
     phone_number: 9999999999,
@@ -203,7 +173,7 @@ const MedicineView = () => {
                 : "N/A"
             } // phone number could be empty, make optional field
             email={prescriptionNurse.email ? prescriptionNurse.email : "N/A"} // email could be empty, make optional field
-            addedOn={convert_to_added_on_string(medication.first_added)}
+            addedOn={timestampToString(medication.first_added)}
           />
 
           <div className={styles.rightPanel}>
@@ -211,8 +181,8 @@ const MedicineView = () => {
             <div className={styles.detailsContainer}>
               {medication.supply ? ( // Check if supply is available
                 <DetailBox
-                  label="Pills remaining"
-                  value={medication.supply}
+                  label="Supply remaining"
+                  value={`${medication.supply}${medication.measurement}`}
                   isPillsRemaining
                   pillsPercentage={pillsPercentage}
                 />
@@ -257,7 +227,7 @@ const MedicineView = () => {
                 <tbody>
                   {visibleLogs.map((entry, index) => (
                     <tr key={index}>
-                      <td>{convert_to_taken_on_string(entry.timestamp)}</td>
+                      <td>{`${timestampToString(entry.timestamp)}, ${timestampToString(entry.timestamp, "HH:MM XX")}`}</td>
                       <td>{`${entry.given_dose}${entry.measurement}`}</td>
                       <td>{entry.comment}</td>
                     </tr>

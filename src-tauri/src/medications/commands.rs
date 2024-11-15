@@ -1,5 +1,5 @@
-use super::structs::Medication;
-use crate::core;
+use super::structs::{Medication, MedicationLog};
+use crate::core::{self, user::get_patient};
 use tauri::AppHandle;
 
 #[tauri::command(rename_all = "snake_case")]
@@ -33,4 +33,35 @@ pub fn create_medication(
         &measurement,
         &nurse_id,
     )
+}
+
+/// # `get_medication_log` Command
+/// Gets a user's medication logs for a single medication.
+///
+/// Parameters:
+/// - `medication`: The medication to get the log for.
+///
+/// ## TypeScript Usage
+///
+/// ```typescript
+/// invoke('get_medication_log', {medication: ''}).then(m => {
+///     setMedicationLog(m as MedicationLog)
+/// })
+/// ```
+#[tauri::command(rename_all = "snake_case")]
+pub fn get_medication_log(app: AppHandle, medication: String) -> Vec<MedicationLog> {
+    // todo: please refactor. this is like, o(n^3)...
+    // get_patient() == o(n) + search_medications() == o(n) + get_logs() == o(n)
+    let mut m = get_patient(app.clone()).search_medications(app.clone(), &medication);
+
+    if m.len() == 1 {
+        return m[0].get_logs(app.clone());
+    }
+
+    vec![]
+}
+
+#[tauri::command(rename_all = "snake_case")]
+pub fn get_medication(app: AppHandle, medication: String) -> Vec<Medication> {
+    get_patient(app.clone()).search_medications(app.clone(), &medication)
 }

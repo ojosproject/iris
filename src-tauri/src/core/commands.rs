@@ -54,3 +54,21 @@ pub fn create_user(app: AppHandle, name: String, user_type: String) {
 pub fn get_patient_info(app: AppHandle) -> User {
     user::get_patient(app)
 }
+
+/// # `get_nurse_info` Command
+/// Gets a nurse's information and returns it as a `User`.
+///
+/// Parameters:
+/// - `nurse_id`: the User ID
+///
+/// ## TypeScript Usage
+/// ```typescript
+/// invoke('get_nurse_info', {nurse_id: ''}).then(n => {
+///     setNurseId(n as User);
+/// });
+/// ```
+///
+#[tauri::command]
+pub fn get_nurse_info(app: AppHandle, nurse_id: String) -> User {
+    user::get_user(app, nurse_id)
+}
