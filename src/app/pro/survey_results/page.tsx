@@ -1,50 +1,43 @@
 "use client";
-import { useRouter, useSearchParams } from "next/navigation";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import "./results.css";
-import "survey-core/defaultV2.min.css";
-import { useEffect, useState } from "react";
+import React from "react";
+import { useRouter } from "next/navigation";
+import BackButton from "@/app/components/BackButton";
 
-type SurveyData = {
-  [key: string]: string | string[]; // This defines that each key in surveyData is a string or an array of strings
-};
-
-export default function Main_page() {
+export default function SurveyResults() {
     const router = useRouter();
-    const searchParams = useSearchParams();
-    const [surveyData, setSurveyData] = useState<SurveyData | null>(null);
+    const [surveyData, setSurveyData] = React.useState<any>(null);
 
-    useEffect(() => {
-        const data = searchParams.get("data");
+    React.useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const data = params.get("data");
+
         if (data) {
-            setSurveyData(JSON.parse(data));
+            setSurveyData(JSON.parse(decodeURIComponent(data)));
+        } else {
+            console.error("No survey results found");
         }
-    }, [searchParams]);
-
-    // Helper function to display survey data in a structured way
-    const renderSurveyData = (data: SurveyData) => {
-        return Object.entries(data).map(([key, value]) => (
-            <div key={key} className="result-item">
-                <h1>{key}: </h1>
-                <span>{Array.isArray(value) ? value.join(", ") : value}</span>
-            </div>
-        ));
-    };
+    }, []);
 
     return (
-        <>
-            <button className="pro_button_1" onClick={() => router.push("./pro")}>
-                <FontAwesomeIcon icon={faArrowLeft} />
-            </button>
+        <div className="SurveyResults">
+            <BackButton/>
             <h1>Survey Results</h1>
-            <div className="results-container">
+            <div className="container">
                 {surveyData ? (
-                    renderSurveyData(surveyData) // Call the function to render the results
+                    <div>
+                        <h2>Your Responses:</h2>
+                        <ul>
+                            {surveyData.map((item: [string, string], index: number) => (
+                                <li key={index}>
+                                    <strong>{item[0]}</strong>: {item[1]}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                 ) : (
-                    <p>No data available</p>
+                    <p>No survey results available.</p>
                 )}
             </div>
-        </>
+        </div>
     );
 }

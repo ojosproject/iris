@@ -18,6 +18,10 @@
     height: 100%;
 }
 
+.container-3 {
+    justify-content: left;
+}
+
 .container-sidebyside {
     display: inline-block;
 }

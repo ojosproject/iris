@@ -1,101 +1,87 @@
-"use client";
-
+// SurveyPage Component
+import React, { useState } from "react";
 import "./survey.css";
-import "survey-core/defaultV2.min.css";
-import React from "react";
+import Button from "@/app/components/Button";
 
 interface RatingProps {
     className?: string;
     count: number;
     size: number;
-    value: number;
-    onChange: (rating: number) => void;
-    initialValue?: number;
-    fullIcon?: React.ReactElement;
-    emptyIcon?: React.ReactElement;
-    questions: { question: string }[];
+    onSubmit: (responses: string[][]) => void;
+    questions: string[];
 }
 
-interface IconProps {
-    size?: number;
-    color?: string;
-    number?: number;
-}
+const FullCircle = ({ size = 24, number = 1 }: { size?: number; number?: number }) => (
+    <svg height={size} viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" stroke="#0063D7" strokeWidth="3" fill="#0063D7" />
+        <text x="12" y="16" textAnchor="middle" fontSize="10" fontWeight="bold" fill="white">
+            {number}
+        </text>
+    </svg>
+);
 
-const FullCircle = ({ size = 24, color = "#000000", number = 1 }: IconProps) => {
-    return (
-        <div style={{ color: color }}>
-            <svg height={size} viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="10" stroke="#0063D7" strokeWidth="3" fill="#0063D7" />
-                <text x="12" y="16" textAnchor="middle" fontSize="10" fontWeight="bold" fill="white">
-                    {number}
-                </text>
-            </svg>
-        </div>
-    );
-};
+const EmptyCircle = ({ size = 24, number = 1 }: { size?: number; number?: number }) => (
+    <svg height={size} viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" stroke="#0063D7" strokeWidth="3" fill="white" />
+        <text x="12" y="16" textAnchor="middle" fontSize="10" fill="#0063D7" fontWeight="bold">
+            {number}
+        </text>
+    </svg>
+);
 
-const EmptyCircle = ({ size = 24, color = "#000000", number = 1 }: IconProps) => {
-    return (
-        <div style={{ color: color }}>
-            <svg height={size} viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="10" stroke="#0063D7" strokeWidth="3" fill="white" />
-                <text x="12" y="16" textAnchor="middle" fontSize="10" fill="#0063D7" fontWeight="bold">
-                    {number}
-                </text>
-            </svg>
-        </div>
-    );
-};
+const SurveyPage: React.FC<RatingProps> = ({ className, count, size, questions, onSubmit }) => {
+    const [ratings, setRatings] = useState<number[]>(Array(questions.length).fill(0));
 
-const SurveyPage: React.FC<RatingProps> = ({
-    className,
-    value = 10,
-    size = 30,
-    count,
-    onChange,
-    initialValue = 0,
-    fullIcon = <FullCircle />,
-    emptyIcon = <EmptyCircle />,
-    questions
-}) => {
-
-    // State for each question's rating
-    const [ratings, setRatings] = React.useState<number[]>(Array(questions.length).fill(0));
-
-    // Handle change for each question's rating
-    const handleRatingChange = (index: number, newRating: number) => {
+    const handleRatingChange = (index: number, rating: number) => {
         const updatedRatings = [...ratings];
-         // Set rating to 1-based value
-        updatedRatings[index] = newRating + 1;
+        updatedRatings[index] = rating + 1;
         setRatings(updatedRatings);
-        onChange(newRating + 1);
     };
 
+    const handleSubmit = () => {
+        const hasEmptyResponses = ratings.some(rating => rating === 0);
+        
+        if (hasEmptyResponses) {
+            alert("Please answer all the questions before submitting.");
+            return; 
+        }
+    
+        const responses: string[][] = questions.map((q, i) => {
+            return [q, ratings[i].toString()];
+        });
+    
+        onSubmit(responses);
+    };
+    
+
     return (
-        <div className={`rating ${className}`}>
+        <div className={`survey-page ${className}`}>
             {questions.map((item, index) => (
                 <div key={index} style={{ marginBottom: "20px" }}>
-                    <h4>{item.question}</h4>
+                    <h4>{item}</h4> 
                     <div style={{ display: "flex", gap: "8px" }}>
                         {[...Array(count)].map((_, i) => {
-                            const circle = i === ratings[index] - 1
-                                ? React.cloneElement(fullIcon, { size: size, number: i + 1 })
-                                : React.cloneElement(emptyIcon, { size: size, number: i + 1 });
+                            const isSelected = i === ratings[index] - 1;
                             return (
                                 <div
                                     key={i}
                                     style={{ cursor: "pointer" }}
                                     onClick={() => handleRatingChange(index, i)}
                                 >
-                                    {circle}
+                                    {isSelected ? (
+                                        <FullCircle size={size} number={i + 1} />
+                                    ) : (
+                                        <EmptyCircle size={size} number={i + 1} />
+                                    )}
                                 </div>
                             );
                         })}
                     </div>
                 </div>
             ))}
+            <Button type="PRIMARY" label="Submit Survey" onClick={handleSubmit} />
         </div>
     );
 };
-export default SurveyPage
+
+export default SurveyPage;
