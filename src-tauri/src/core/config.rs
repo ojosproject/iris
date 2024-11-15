@@ -4,7 +4,7 @@
 // Handles storing system specifications
 
 #![allow(dead_code)]
-use crate::structs::Config;
+use crate::core::structs::Config;
 use std::{fs, io::ErrorKind};
 use tauri::{AppHandle, Manager};
 
@@ -18,6 +18,16 @@ pub fn set_resources_last_call(app: AppHandle, value: i64) {
     fs::write(app_config_dir.join("config.json"), config_string).unwrap();
 }
 
+pub fn set_onboarding_completed(app: AppHandle, value: bool) {
+    let app_config_dir = app.path().app_config_dir().unwrap();
+
+    let mut config = get_config(app.app_handle());
+    config.onboarding_completed = value;
+    let config_string = serde_json::to_string(&config).unwrap();
+
+    fs::write(app_config_dir.join("config.json"), config_string).unwrap();
+}
+
 pub fn get_config(app: &AppHandle) -> Config {
     let app_data_dir = app.path().app_config_dir().unwrap();
 
@@ -26,7 +36,9 @@ pub fn get_config(app: &AppHandle) -> Config {
             ErrorKind::NotFound => {
                 let template_config = Config {
                     resources_last_call: 0,
+                    onboarding_completed: false,
                 };
+                fs::create_dir(&app_data_dir).unwrap();
                 let template_config_string = serde_json::to_string(&template_config).unwrap();
                 fs::write(app_data_dir.join("config.json"), &template_config_string).unwrap();
                 template_config_string

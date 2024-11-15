@@ -1,5 +1,4 @@
-import BackButton from "../components/BackButton";
-import Button from "../components/Button";
+import BackButton from "../core/components/BackButton";
 import classes from "./page.module.css";
 import Image from "next/image";
 
