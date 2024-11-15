@@ -50,3 +50,8 @@ pub fn get_all_pros(app: AppHandle) -> Vec<PatientReportedOutcome> {
 pub fn add_pro_question(app: AppHandle, question: String) {
     config::add_pro_question(app, question);
 }
+
+#[tauri::command(rename_all = "snake_case")]
+pub fn get_pro_questions(app: AppHandle) -> Vec<String> {
+    config::get_config(&app).pro_questions
+}

@@ -37,6 +37,7 @@ fn main() {
             pro::commands::add_pros,
             pro::commands::get_all_pros,
             pro::commands::add_pro_question,
+            pro::commands::get_pro_questions,
             resources::commands::get_resources,
         ])
         .setup(|app| {

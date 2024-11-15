@@ -1,21 +1,21 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SurveyPage from "./rating";
 import { useRouter } from "next/navigation";
 import "./survey.css";
 import BackButton from "@/app/core/components/BackButton";
+import { invoke } from "@tauri-apps/api/core";
 
 export default function Survey() {
   const [rating, setRating] = React.useState(0);
+  const [questions, setQuestions] = useState<string[]>([]);
   const router = useRouter();
 
-  // Example questions
-  const example_questions = [
-    { question: "How do you feel today?" },
-    { question: "How was your experience with our service?" },
-    { question: "How likely are you to recommend us?" },
-    { question: "How likely would you have your caregiver again?" },
-  ];
+  useEffect(() => {
+    invoke("get_pro_questions").then((q) => {
+      setQuestions(q as string[]);
+    });
+  }, []);
 
   // const example_questions = [
   //     "", "", ""
@@ -38,7 +38,7 @@ export default function Survey() {
             value={rating}
             onChange={(value) => setRating(value)}
             size={30}
-            questions={example_questions}
+            questions={questions}
           />
         </div>
       </div>

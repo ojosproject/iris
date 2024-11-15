@@ -13,7 +13,7 @@ interface RatingProps {
   initialValue?: number;
   fullIcon?: React.ReactElement;
   emptyIcon?: React.ReactElement;
-  questions: { question: string }[];
+  questions: string[];
 }
 
 interface IconProps {
@@ -113,7 +113,7 @@ const SurveyPage: React.FC<RatingProps> = ({
     <div className={`rating ${className}`}>
       {questions.map((item, index) => (
         <div key={index} style={{ marginBottom: "20px" }}>
-          <h4>{item.question}</h4>
+          <h4>{item}</h4>
           <div style={{ display: "flex", gap: "8px" }}>
             {[...Array(count)].map((_, i) => {
               const circle =
