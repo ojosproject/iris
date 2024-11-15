@@ -61,8 +61,8 @@ space, and more.
 
 ### Get in contact
 
-As of now, the best way to get in contact with us is through Carlos via
-<cvaldezh@uci.edu>.
+You can contact the team via <developers@ojosproject.org> or through our
+[Discord server](https://discord.gg/qZyQadbuMG).
 
 ### License
 

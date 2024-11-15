@@ -15,8 +15,7 @@
   - [Acknowledgements](#acknowledgements)
   - [Support](#support)
     - [GitHub Issues](#github-issues)
-    - [Contact Carlos](#contact-carlos)
-    - [Discord](#discord)
+    - [Contact Us](#contact-us)
   - [License](#license)
 
 <!-- todo: Add sections for "Installation", "Usage" once we're in beta. -->
@@ -67,17 +66,11 @@ to see if anybody else has had the same issue.
 If nobody's had the same issue,
 [please open an issue here](https://github.com/ojosproject/iris/issues/new/choose)!
 
-### Contact Carlos
+### Contact Us
 
-If you have any questions regarding Iris or the Ojos Project, please feel free
-to contact [Carlos Valdez](https://github.com/calejvaldez) at
-[cvaldezh@uci.edu](mailto:cvaldezh@uci.edu).
-
-### Discord
-
-You may also join the
-[Ojos Project Discord server](https://discord.gg/qZyQadbuMG) to directly talk
-with the team.
+To contact the team, you can join our
+[Discord server](https://discord.gg/qZyQadbuMG) or email us at
+<developers@ojosproject.org>.
 
 ## License
 

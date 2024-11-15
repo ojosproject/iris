@@ -5,8 +5,7 @@ vulnerabilities can be caught faster with more eyes on the software. However,
 reporting a security vulnerability publicly might not be the best solution.
 
 If you want to report a security issue to the Ojos Project Developers team,
-[please email Carlos Valdez via cvaldezh@uci.edu](mailto:cvaldezh@uci.edu) and
-he will promptly bring it up to the Developers.
+please email us at <developers@ojosproject.org>.
 
 ## Making an effective report
 
