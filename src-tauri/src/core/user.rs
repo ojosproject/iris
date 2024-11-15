@@ -3,7 +3,8 @@
 //
 // This handles a lot of user-related functions for Iris.
 #![allow(dead_code)]
-use crate::structs::{Medication, User};
+use crate::core::structs::User;
+use crate::medications::structs::Medication;
 use rusqlite::Connection;
 use tauri::{AppHandle, Manager};
 use uuid::Uuid;
@@ -25,6 +26,8 @@ pub fn get_patient(app: AppHandle) -> User {
                 id: row.get(0).unwrap(),
                 full_name: row.get(1).unwrap(),
                 type_of: row.get(2).unwrap(),
+                email: None,
+                phone_number: None,
             })
         })
         .unwrap();
@@ -49,6 +52,8 @@ impl User {
             id: new_user_id,
             full_name: name,
             type_of,
+            email: None,
+            phone_number: None,
         };
 
         conn.execute(
@@ -76,11 +81,13 @@ impl User {
                     dosage: row.get(2)?,
                     frequency: row.get(3)?,
                     supply: row.get(4)?,
-                    first_added: row.get(5)?,
-                    last_taken: row.get(6)?,
-                    upcoming_dose: row.get(7)?,
-                    schedule: row.get(8)?,
-                    measurement: row.get(9)?,
+                    total_prescribed: row.get(5)?,
+                    first_added: row.get(6)?,
+                    last_taken: row.get(7)?,
+                    upcoming_dose: row.get(8)?,
+                    schedule: row.get(9)?,
+                    measurement: row.get(10)?,
+                    nurse_id: row.get(11)?,
                 })
             })
             .expect("That did not work.");
