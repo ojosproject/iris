@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Medication, MedicationLog } from "@/types";
+import { Medication, MedicationLog } from "../types";
 import styles from "./newMed.module.css";
 
 interface MedicationModalProps {

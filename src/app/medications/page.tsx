@@ -5,7 +5,7 @@ import MedicationModal from "./components/newMed";
 import Link from "next/link";
 import MainMenuButton from "./components/mainMenuButton";
 // * Added MedicationLog type to reflect how data will return from the backend
-import { Medication, MedicationLog } from "@/types";
+import { Medication, MedicationLog } from "./types";
 import { invoke } from "@tauri-apps/api/core";
 
 // todo:

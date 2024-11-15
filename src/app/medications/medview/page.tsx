@@ -1,12 +1,13 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import styles from "./MedView.module.css";
-import { Medication, MedicationLog, User } from "@/types";
+import { Medication, MedicationLog } from "../types";
+import { User } from "@/app/core/types";
 import { invoke } from "@tauri-apps/api/core";
 import moment from "moment";
 import MedicationLogButton from "./components/returnButton";
 import { useSearchParams } from "next/navigation";
-import { MONTHS } from "@/helper";
+import { MONTHS } from "@/app/core/helper";
 
 function parse_phone_number(digits: number): string {
   let parsed = digits.toString();

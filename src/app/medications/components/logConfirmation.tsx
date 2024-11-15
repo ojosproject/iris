@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./logConfirmation.module.css";
-import { MedicationLog } from "@/types";
+import { MedicationLog } from "../types";
 
 interface ConfirmationModalProps {
   isOpen: boolean;
