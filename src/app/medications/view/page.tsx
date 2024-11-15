@@ -229,7 +229,7 @@ const MedicineView = () => {
                     <tr key={index}>
                       <td>{`${timestampToString(entry.timestamp)}, ${timestampToString(entry.timestamp, "HH:MM XX")}`}</td>
                       <td>{`${entry.given_dose}${entry.measurement}`}</td>
-                      <td>{entry.comment}</td>
+                      <td>{entry.comment ? entry.comment : "None"}</td>
                     </tr>
                   ))}
                 </tbody>

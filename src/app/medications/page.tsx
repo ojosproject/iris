@@ -1,19 +1,13 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import styles from "./LogTab.module.css";
+import styles from "./page.module.css";
 import MedicationModal from "./components/newMed";
-import Link from "next/link";
-// * Added MedicationLog type to reflect how data will return from the backend
-import { Medication, MedicationLog } from "./types";
+import { Medication } from "./types";
 import { invoke } from "@tauri-apps/api/core";
 import BackButton from "../core/components/BackButton";
 import Button from "../core/components/Button";
-
-// todo:
-// - Implement invoke() to get all medications from the backend
-// - Implement invoke() for the Add Medication button
-// - Implement invoke() for the View button
-// - Figure out how to work the Log button
+import ConfirmationModal from "./components/logConfirmation";
+import { timestampToString } from "../core/helper";
 
 const LogTab = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -25,7 +19,9 @@ const LogTab = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const medicationSelect = (log: Medication) => {
     setSelectedMedication(log);
+    setIsConfirmationModelOpen(true);
   };
+  const [isConfirmationModelOpen, setIsConfirmationModelOpen] = useState(false);
   const [medications, setMedications] = useState<Medication[]>([]);
   const [loading, setLoading] = useState(true);
   const handleAddMedication = () => {
@@ -105,6 +101,29 @@ const LogTab = () => {
           onClose={handleModalClose}
           onSubmit={handleModalSubmit}
         />
+        <ConfirmationModal
+          isOpen={isConfirmationModelOpen}
+          onClose={() => setIsConfirmationModelOpen(false)}
+          medication={selectedMedication}
+          onConfirm={() => {
+            invoke("log_medication", {
+              medication: selectedMedication?.name,
+              comments: null,
+            }).then((ts) => {
+              invoke("get_medications")
+                .then((m) => {
+                  setMedications(m as Medication[]);
+                  setLoading(false);
+                })
+                .catch((err) => {
+                  console.error("Error fetching medications", err);
+                  setLoading(false);
+                });
+            });
+
+            setIsConfirmationModelOpen(false);
+          }}
+        />
         <div className={styles.medsWrap}>
           <div className={styles.logsContainer}>
             {medications.length === 0 ? (
@@ -123,7 +142,7 @@ const LogTab = () => {
                     <strong>Last Taken </strong>
                     <br />
                     {log.last_taken ? (
-                      <>new Date(log.last_taken * 1000)</>
+                      <>{`${timestampToString(log.last_taken, "MMDDYYYY")} @ ${timestampToString(log.last_taken, "HH:MM XX")}`}</>
                     ) : (
                       <>Not yet taken.</>
                     )}

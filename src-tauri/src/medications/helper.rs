@@ -133,7 +133,7 @@ impl Medication {
         let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
 
         let mut stmt = conn
-            .prepare("SELECT * FROM medication_log WHERE medication_name = :medication_name")
+            .prepare("SELECT * FROM medication_log WHERE medication_name = :medication_name ORDER BY timestamp DESC")
             .unwrap();
 
         let matched_logs = stmt

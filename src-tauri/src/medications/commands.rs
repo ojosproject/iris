@@ -49,7 +49,7 @@ pub fn create_medication(
 /// })
 /// ```
 #[tauri::command(rename_all = "snake_case")]
-pub fn get_medication_log(app: AppHandle, medication: String) -> Vec<MedicationLog> {
+pub fn get_medication_logs(app: AppHandle, medication: String) -> Vec<MedicationLog> {
     // todo: please refactor. this is like, o(n^3)...
     // get_patient() == o(n) + search_medications() == o(n) + get_logs() == o(n)
     let mut m = get_patient(app.clone()).search_medications(app.clone(), &medication);
@@ -64,4 +64,15 @@ pub fn get_medication_log(app: AppHandle, medication: String) -> Vec<MedicationL
 #[tauri::command(rename_all = "snake_case")]
 pub fn get_medication(app: AppHandle, medication: String) -> Vec<Medication> {
     get_patient(app.clone()).search_medications(app.clone(), &medication)
+}
+
+#[tauri::command(rename_all = "snake_case")]
+pub fn log_medication(app: AppHandle, medication: String, comments: Option<String>) -> f64 {
+    let mut found_meds = get_patient(app.clone()).search_medications(app.clone(), &medication);
+
+    if found_meds.len() > 0 {
+        found_meds[0].log(app.clone(), comments)
+    } else {
+        0.0
+    }
 }
