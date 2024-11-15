@@ -1,4 +1,5 @@
 // This is the popup that appears when you select "Add Medication"
+// Used by /medications/page.tsx
 
 import React, { useState } from "react";
 import { Medication, MedicationLog } from "../types";
@@ -26,10 +27,6 @@ const MedicationModal: React.FC<MedicationModalProps> = ({
   //const [timestamp, setTimestamp] = useState(Date.now());
 
   const handleSubmit = () => {
-    if (!medicationName) {
-      alert("Medication name cannot be empty!");
-      return;
-    }
     onSubmit({
       name: medicationName,
       brand: medicationBrand,

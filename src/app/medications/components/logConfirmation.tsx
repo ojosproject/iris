@@ -1,3 +1,5 @@
+// gets called by /medications/page.tsx
+
 import React from "react";
 import styles from "./logConfirmation.module.css";
 import { MedicationLog } from "../types";

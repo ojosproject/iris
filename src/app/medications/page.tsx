@@ -64,10 +64,6 @@ const LogTab = () => {
     );
 
     if (exists) {
-      alert("Medication already exists!");
-      return;
-    } else if (newMedication.dosage <= 0) {
-      alert("Please provide valid medication details.");
       return;
     }
 
