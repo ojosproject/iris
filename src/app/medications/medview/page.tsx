@@ -5,9 +5,9 @@ import { Medication, MedicationLog } from "../types";
 import { User } from "@/app/core/types";
 import { invoke } from "@tauri-apps/api/core";
 import moment from "moment";
-import MedicationLogButton from "./components/returnButton";
 import { useSearchParams } from "next/navigation";
 import { MONTHS } from "@/app/core/helper";
+import BackButton from "@/app/core/components/BackButton";
 
 function parse_phone_number(digits: number): string {
   let parsed = digits.toString();
@@ -191,7 +191,7 @@ const MedicineView = () => {
 
   return (
     <>
-      <MedicationLogButton />
+      <BackButton />
       <div className={styles.medicineContainer}>
         <Header name={medication.name} brand={medication.brand} />
         <div className={styles.content}>

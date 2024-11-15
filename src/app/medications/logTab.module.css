@@ -173,18 +173,6 @@
   box-shadow: none;
 }
 
-.addMedicationButton {
-  flex: 1;
-  background-color: #0000ff;
-  color: #ffffff;
-  align-self: stretch;
-  cursor: pointer;
-}
-
-.addMedicationButton:hover {
-  background-color: #414141;
-}
-
 /* Responsive Design */
 @media (max-width: 768px) {
   .logMeds {

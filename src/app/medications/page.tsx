@@ -3,10 +3,11 @@ import React, { useState, useEffect } from "react";
 import styles from "./LogTab.module.css";
 import MedicationModal from "./components/newMed";
 import Link from "next/link";
-import MainMenuButton from "./components/mainMenuButton";
 // * Added MedicationLog type to reflect how data will return from the backend
 import { Medication, MedicationLog } from "./types";
 import { invoke } from "@tauri-apps/api/core";
+import BackButton from "../core/components/BackButton";
+import Button from "../core/components/Button";
 
 // todo:
 // - Implement invoke() to get all medications from the backend
@@ -117,7 +118,7 @@ const LogTab = () => {
 
   return (
     <>
-      <MainMenuButton />
+      <BackButton />
       <div className={styles.container}>
         <h1>Your Medications</h1>
         <div className={styles.searchBarContainer}>
@@ -128,12 +129,11 @@ const LogTab = () => {
             onChange={handleSearchChange}
             className={styles.searchInput}
           />
-          <button
+          <Button
+            type="PRIMARY"
+            label="Add Medication"
             onClick={handleAddMedication}
-            className={styles.addMedicationButton}
-          >
-            Add Medication
-          </button>
+          />
         </div>
         <MedicationModal
           isOpen={isModalOpen}
