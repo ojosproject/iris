@@ -202,7 +202,7 @@ cargo tauri dev
 When developing, you may want to clear the data produced by Iris to get a fresh
 experience. To do so, you should run the following commands on the terminal:
 
-- **Windows**: ...
+- **Windows**: `rm -r -fo ~/AppData/Roaming/org.ojosproject.Iris`
 - **macOS**: `rm -fr ~/Library/'Application Support'/org.ojosproject.Iris`
 - **Linux**: `rm -fr ~/.local/share/org.ojosproject.Iris; rm -fr ~/.config/org.ojosproject.Iris`
 
