@@ -1,6 +1,6 @@
 export type Medication = {
   name: string;
-  brand: string;
+  brand?: string;
   dosage: number; // float
   frequency: number; // float, 0.0 if it's "as needed"
   supply: number; // float

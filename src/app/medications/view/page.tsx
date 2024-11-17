@@ -9,11 +9,11 @@ import { useSearchParams } from "next/navigation";
 import { parse_phone_number, timestampToString } from "@/app/core/helper";
 import BackButton from "@/app/core/components/BackButton";
 
-const Header = ({ name, brand }: { name: string; brand: string }) => {
+const Header = ({ name, brand }: { name: string; brand?: string }) => {
   return (
     <div className={styles.header}>
       <h1>{name}</h1>
-      <p>(Brand: {brand})</p>
+      {brand ? <p>Brand: {brand}</p> : null}
     </div>
   );
 };

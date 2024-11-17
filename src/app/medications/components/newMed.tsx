@@ -17,7 +17,6 @@ const MedicationModal: React.FC<MedicationModalProps> = ({
   onSubmit,
 }) => {
   const [medicationName, setMedicationName] = useState("");
-  const [medicationBrand, setMedicationBrand] = useState("");
   const [medicationDosage, setMedicationDosage] = useState(0);
   const [medicationFrequency, setMedicationFrequency] = useState(0);
   const [medicationSupply, setMedicationSupply] = useState(0);
@@ -29,7 +28,6 @@ const MedicationModal: React.FC<MedicationModalProps> = ({
   const handleSubmit = () => {
     onSubmit({
       name: medicationName,
-      brand: medicationBrand,
       dosage: medicationDosage,
       frequency: medicationFrequency,
       supply: medicationSupply,
@@ -39,7 +37,6 @@ const MedicationModal: React.FC<MedicationModalProps> = ({
     onClose();
 
     setMedicationName("");
-    setMedicationBrand("");
     setMedicationDosage(0);
     setMedicationFrequency(0);
     setMedicationSupply(0);
@@ -60,16 +57,6 @@ const MedicationModal: React.FC<MedicationModalProps> = ({
             value={medicationName}
             onChange={(e) => setMedicationName(e.target.value)}
           />
-        </label>
-        <label>
-          Brand:
-          <input
-            type="text"
-            value={medicationBrand}
-            onChange={(e) => {
-              setMedicationBrand(e.target.value);
-            }}
-          ></input>
         </label>
         <label>
           Dosage:
@@ -107,9 +94,13 @@ const MedicationModal: React.FC<MedicationModalProps> = ({
         <button
           className={styles.submitButton}
           onClick={handleSubmit}
+          disabled={
+            medicationName === "" ||
+            medicationDosage === 0 ||
+            medicationSupply === 0
+          }
           style={
             medicationName === "" ||
-            medicationBrand === "" ||
             medicationDosage === 0 ||
             medicationSupply === 0
               ? { backgroundColor: "grey" }

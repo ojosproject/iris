@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize)]
 pub struct Medication {
     pub name: String,
-    pub brand: String,
+    pub brand: Option<String>,
     pub dosage: f64,
     pub frequency: f64,
     pub supply: f64,

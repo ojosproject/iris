@@ -16,7 +16,6 @@ impl Medication {
     pub fn create(
         app: AppHandle,
         name: &str,
-        brand: &str,
         dosage: f64,
         frequency: f64,
         supply: f64,
@@ -33,7 +32,7 @@ impl Medication {
 
         let m = Medication {
             name: name.to_string(),
-            brand: brand.to_string(),
+            brand: None,
             dosage,
             frequency,
             supply,

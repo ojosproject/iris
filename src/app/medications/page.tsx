@@ -65,7 +65,6 @@ const LogTab = () => {
 
     invoke("create_medication", {
       name: newMedication.name,
-      brand: newMedication.brand,
       dosage: newMedication.dosage,
       frequency: newMedication.frequency,
       supply: newMedication.supply,

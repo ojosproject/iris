@@ -16,7 +16,6 @@ pub fn get_upcoming_medications(app: AppHandle) -> Vec<Medication> {
 pub fn create_medication(
     app: AppHandle,
     name: String,
-    brand: String,
     dosage: f64,
     frequency: f64,
     supply: f64,
@@ -26,7 +25,6 @@ pub fn create_medication(
     Medication::create(
         app,
         &name,
-        &brand,
         dosage,
         frequency,
         supply,
