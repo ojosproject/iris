@@ -5,7 +5,7 @@
 #![allow(dead_code)]
 use std::time::{SystemTime, UNIX_EPOCH};
 
-use crate::structs::Medication;
+use crate::medications::structs::{Medication, MedicationLog};
 use chrono::{Local, NaiveTime};
 use itertools::Itertools;
 use rusqlite::{named_params, Connection};
@@ -16,11 +16,11 @@ impl Medication {
     pub fn create(
         app: AppHandle,
         name: &str,
-        brand: &str,
         dosage: f64,
         frequency: f64,
         supply: f64,
         measurement: &str,
+        nurse_id: &str,
     ) -> Self {
         let app_data_dir = app.path().app_data_dir().unwrap().join("iris.db");
         let conn = Connection::open(app_data_dir).unwrap();
@@ -32,31 +32,35 @@ impl Medication {
 
         let m = Medication {
             name: name.to_string(),
-            brand: brand.to_string(),
+            brand: None,
             dosage,
             frequency,
-            supply: Some(supply),
-            first_added: Some(first_added),
+            supply,
+            total_prescribed: supply,
+            first_added,
             last_taken: None,
             upcoming_dose: None,
             schedule: None,
             measurement: measurement.to_string(),
+            nurse_id: nurse_id.to_string(),
         };
 
         conn.execute(
-            "INSERT INTO medication (name, brand, dose, frequency, supply, first_added, last_taken, upcoming_dose, schedule, measurement)
-        VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10)",
+            "INSERT INTO medication (name, brand, dose, frequency, supply, total_prescribed, first_added, last_taken, upcoming_dose, schedule, measurement, nurse_id)
+        VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12)",
             (
                 &m.name,
                 &m.brand,
                 &m.dosage,
                 &m.frequency,
                 &m.supply,
+                &m.total_prescribed,
                 &m.first_added,
                 &m.last_taken,
                 &m.upcoming_dose,
                 &m.schedule,
                 &m.measurement,
+                &m.nurse_id
             ),
         ).unwrap();
 
@@ -86,11 +90,11 @@ impl Medication {
     pub fn set_supply(&mut self, app: AppHandle, supply: f64) {
         let app_data_dir = app.path().app_data_dir().unwrap();
         let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
-        self.supply = Some(supply);
+        self.supply = supply;
 
         conn.execute(
             "UPDATE medication SET supply = ?1 WHERE name = ?2",
-            (&self.supply.unwrap(), &self.name),
+            (&self.supply, &self.name),
         )
         .unwrap();
     }
@@ -105,8 +109,8 @@ impl Medication {
         self.last_taken = Some(current_timestamp);
 
         conn.execute(
-            "INSERT INTO medication_log (timestamp, medication_name, given_dose, comment) VALUES (:timestamp, :medication_name, :given_dose, :comment)", 
-            named_params! {":timestamp": current_timestamp, ":medication_name": &self.name, ":given_dose": &self.dosage, ":comment": comments}
+            "INSERT INTO medication_log (timestamp, medication_name, given_dose, measurement, comment) VALUES (:timestamp, :medication_name, :given_dose, :measurement, :comment)", 
+            named_params! {":timestamp": current_timestamp, ":medication_name": &self.name, ":given_dose": &self.dosage, ":measurement": &self.measurement, ":comment": comments}
         ).expect("Inserting into log_medication failed.");
 
         conn.execute(
@@ -121,6 +125,35 @@ impl Medication {
 
         self.last_taken
             .expect("Last taken was not found even though it was set...")
+    }
+
+    pub fn get_logs(&mut self, app: AppHandle) -> Vec<MedicationLog> {
+        let app_data_dir = app.path().app_data_dir().unwrap();
+        let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
+
+        let mut stmt = conn
+            .prepare("SELECT * FROM medication_log WHERE medication_name = :medication_name ORDER BY timestamp DESC")
+            .unwrap();
+
+        let matched_logs = stmt
+            .query_map(named_params! {":medication_name": &self.name}, |row| {
+                Ok(MedicationLog {
+                    timestamp: row.get(0)?,
+                    medication_name: row.get(1)?,
+                    given_dose: row.get(2)?,
+                    measurement: row.get(3)?,
+                    comment: row.get(4)?,
+                })
+            })
+            .unwrap();
+
+        let mut vec_to_return: Vec<MedicationLog> = vec![];
+
+        for log in matched_logs {
+            vec_to_return.push(log.unwrap());
+        }
+
+        vec_to_return
     }
 
     fn set_upcoming_dose(&mut self, app: AppHandle) {
@@ -196,5 +229,16 @@ impl Medication {
         self.set_upcoming_dose(app); //updates the medication's upcoming_dose
 
         String::from(self.schedule.as_ref().unwrap())
+    }
+
+    pub fn refill(&mut self, app: AppHandle, supply: f64) {
+        let app_data_dir = app.path().app_data_dir().unwrap();
+        let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
+
+        conn.execute(
+            "UPDATE medication SET supply = ?1, total_prescribed = ?2 WHERE name = ?3",
+            (self.supply + supply, supply, &self.name),
+        )
+        .unwrap();
     }
 }

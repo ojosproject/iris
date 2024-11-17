@@ -5,6 +5,8 @@ pub struct User {
     pub id: String,
     pub full_name: String,
     pub type_of: String,
+    pub phone_number: Option<i64>,
+    pub email: Option<String>,
 }
 
 #[derive(Serialize, Deserialize)]

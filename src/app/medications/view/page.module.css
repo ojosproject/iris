@@ -1,21 +1,14 @@
-.medicine-container {
+.medicineContainer {
   width: 100%;
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-  color: #000;
 }
 
 .header {
   text-align: center;
-}
-
-.header h1 {
-  margin: 0;
-}
-
-body {
-  font-family: Arial, sans-serif;
+  margin-bottom: 20px;
+  font-size: medium;
 }
 
 .content {
@@ -27,65 +20,65 @@ body {
   background-color: #f9f9f9;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  box-sizing: border-box;
 }
 
-.left-panel {
+.leftPanel,
+.rightPanel {
+  padding: 20px;
+}
+
+.leftPanel {
   flex: 1;
   border-right: 1px solid #ddd;
-  padding: 20px;
 }
 
-.right-panel {
+.rightPanel {
   flex: 2;
-  padding: 20px;
 }
 
-.details-container {
+.detailsContainer {
   display: flex;
   justify-content: space-around;
   margin-top: 20px;
 }
 
-.detail-box {
+.detailBox {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 150px;
   height: 150px;
+  background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 10px;
-  background-color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  position: relative;
-  box-sizing: border-box;
 }
 
-.detail-box span {
+.detailBox label {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin: 10px 0;
   font-weight: bold;
-  position: relative;
 }
 
-.circle-container {
+.circleContainer {
   position: relative;
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.progress-circle {
+.progressCircle {
   width: 100%;
   height: 100%;
 }
 
-.circle-bg {
+.circleBg {
   fill: none;
   stroke: #eee;
   stroke-width: 3.8;
@@ -99,50 +92,68 @@ body {
   transition: stroke-dasharray 0.5s ease;
 }
 
-.percentage-text {
-  font-size: 8px;
+.percentageText {
+  font-size: 5px;
   text-anchor: middle;
   fill: #000;
   font-weight: bold;
 }
 
-.log-section {
+.logSection {
   margin-top: 20px;
-  background-color: #fff;
 }
 
-.log-table {
+.logTable {
   max-height: 300px;
   overflow-y: auto;
+  margin-top: 10px;
   border: 1px solid #ddd;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  box-sizing: border-box;
-  margin-top: 10px;
 }
 
-.log-table table {
+.logTable table {
   width: 100%;
   border-collapse: collapse;
-  background-color: #fff;
 }
 
-.log-header {
+.logHeader {
   background-color: #f0f0f0;
   color: #333;
   font-weight: bold;
-  position: relative;
-  top: 0;
-  z-index: 1;
 }
 
-.log-table tbody tr {
-  background-color: #ffffff;
-}
-
-.log-table th,
-.log-table td {
+.logTable th,
+.logTable td {
   padding: 10px;
   text-align: left;
   border: 1px solid #ddd;
+}
+
+/* Utility Classes */
+.borderBox {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.textCenter {
+  text-align: center;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media (max-width: 600px) {
+  .content {
+    flex-direction: column;
+  }
+  .leftPanel,
+  .rightPanel {
+    width: 100%;
+    border-right: none;
+  }
 }

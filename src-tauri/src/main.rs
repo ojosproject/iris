@@ -3,30 +3,23 @@ mod care_instructions;
 mod core;
 mod medications;
 mod resources;
-mod structs;
-use crate::structs::Medication;
 use core::config;
 use std::{env, process};
-use tauri::{AppHandle, Manager};
-
-#[tauri::command(rename_all = "snake_case")]
-fn get_medications(app: AppHandle) -> Vec<Medication> {
-    core::user::get_patient(app.clone()).get_medications(app)
-}
-
-#[tauri::command(rename_all = "snake_case")]
-fn get_upcoming_medications(app: AppHandle) -> Vec<Medication> {
-    core::user::get_patient(app.clone()).get_upcoming_medications(app)
-}
+use tauri::Manager;
 
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
-            get_medications,
-            get_upcoming_medications,
+            medications::commands::create_medication,
+            medications::commands::get_medications,
+            medications::commands::get_upcoming_medications,
+            medications::commands::get_medication,
+            medications::commands::get_medication_logs,
+            medications::commands::log_medication,
             core::commands::get_patient_info,
             core::commands::get_config,
             core::commands::complete_onboarding,
+            core::commands::get_nurse_info,
             core::commands::create_user,
             care_instructions::commands::get_all_care_instructions,
             care_instructions::commands::create_care_instructions,
