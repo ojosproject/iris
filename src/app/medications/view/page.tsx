@@ -60,36 +60,8 @@ const DetailBox = ({
     <div
       className={`${styles.detailBox} ${isPillsRemaining ? styles.pillsRemaining : ""}`}
     >
-      {isPillsRemaining && pillsPercentage !== undefined && (
-        <div className={styles.circleContainer}>
-          {" "}
-          <strong>Pills Remaining </strong>
-          <svg className={styles.progressCircle} viewBox="0 0 36 36">
-            <path
-              className={styles.circleBg}
-              d="M18 2.0845
-                                a 15.9155 15.9155 0 0 1 0 31.831
-                                a 15.9155 15.9155 0 0 1 0 -31.831"
-            />
-            <path
-              className={styles.circle}
-              strokeDasharray={`${pillsPercentage}, 100`}
-              d="M18 2.0845
-                                a 15.9155 15.9155 0 0 1 0 31.831
-                                a 15.9155 15.9155 0 0 1 0 -31.831"
-            />
-            <text x="18" y="20.35" className={styles.percentageText}>
-              {value}
-            </text>
-          </svg>
-        </div>
-      )}
-      {!isPillsRemaining && (
-        <>
-          <span>{label}</span>
-          <p>{value}</p>
-        </>
-      )}
+      <label>{label}</label>
+      <p>{value}</p>
     </div>
   );
 };
@@ -181,13 +153,13 @@ const MedicineView = () => {
             <div className={styles.detailsContainer}>
               {medication.supply ? ( // Check if supply is available
                 <DetailBox
-                  label="Supply remaining"
+                  label="Remaining"
                   value={`${medication.supply}${medication.measurement}`}
                   isPillsRemaining
                   pillsPercentage={pillsPercentage}
                 />
               ) : (
-                <div>No pills data available.</div> // Handle case when supply is not available (e.g., injections)
+                <div>No data available.</div> // Handle case when supply is not available (e.g., injections)
               )}
               <DetailBox
                 label="Dosage"

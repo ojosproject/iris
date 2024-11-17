@@ -125,7 +125,7 @@ const LogTab = () => {
         />
         <div className={styles.medsWrap}>
           <div className={styles.logsContainer}>
-            {medications.length === 0 ? (
+            {filteredLogs.length === 0 ? (
               <div className={styles.emptyMessage}>No medications found.</div>
             ) : (
               filteredLogs.map((log, index) => (

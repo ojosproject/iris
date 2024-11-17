@@ -94,9 +94,8 @@
   min-width: 250px;
   margin: 5px;
   border: 4px solid #094595;
-  border-radius: 5px;
+  border-radius: 6px;
   background-color: #ffffff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   align-items: center;
   min-height: 200px;
   padding: 10px;
@@ -144,7 +143,6 @@
   border: 2px solid #000000;
   border-radius: 10px;
   background-color: #f9f9f9;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .buttonGroup {
@@ -167,6 +165,8 @@
   color: #000000;
   padding: 15px;
   width: 100%;
+  height: 20px;
+  font-size: 15px;
   outline: none; /* Should be changed back at some point for accessibility. */
   border: black 1px solid;
   border-radius: 10px;
