@@ -139,7 +139,7 @@ const LogTab = () => {
                     {log.dosage.toString() + " " + log.measurement}
                   </div>
                   <div className={styles.logLastTake}>
-                    <strong>Last Taken </strong>
+                    <strong>Last taken</strong>
                     <br />
                     {log.last_taken ? (
                       <>{`${timestampToString(log.last_taken, "MMDDYYYY")} @ ${timestampToString(log.last_taken, "HH:MM XX")}`}</>
