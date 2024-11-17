@@ -1,17 +1,19 @@
-// gets called by /medications/page.tsx
-
+// ConfirmLogModal.tsx
+// Ojos Project
+//
+// Creates a popup to log a medication.
 import React from "react";
-import styles from "./logConfirmation.module.css";
+import styles from "./ConfirmLogModal.module.css";
 import { Medication, MedicationLog } from "../types";
 
-interface ConfirmationModalProps {
+interface ConfirmLogModalProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
   medication: Medication | null;
 }
 
-const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
+const ConfirmLogModal: React.FC<ConfirmLogModalProps> = ({
   isOpen,
   onClose,
   onConfirm,
@@ -40,4 +42,4 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   );
 };
 
-export default ConfirmationModal;
+export default ConfirmLogModal;

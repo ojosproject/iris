@@ -1,38 +1,39 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import styles from "./page.module.css";
-import MedicationModal from "./components/newMed";
+import NewMedicationModal from "./components/NewMedicationModal";
 import { Medication } from "./types";
 import { invoke } from "@tauri-apps/api/core";
 import BackButton from "../core/components/BackButton";
 import Button from "../core/components/Button";
-import ConfirmationModal from "./components/logConfirmation";
+import ConfirmLogModal from "./components/ConfirmLogModal";
 import { timestampToString } from "../core/helper";
 
-const LogTab = () => {
+const MedicationsView = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
   };
   const [selectedMedication, setSelectedMedication] =
     useState<Medication | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const medicationSelect = (log: Medication) => {
-    setSelectedMedication(log);
-    setIsConfirmationModelOpen(true);
+  const handleLogClick = (medication: Medication) => {
+    setSelectedMedication(medication);
+    setIsConfirmLogModalOpen(true);
   };
-  const [isConfirmationModelOpen, setIsConfirmationModelOpen] = useState(false);
+  const [isNewMedModalOpen, setIsNewMedModelOpen] = useState(false);
+  const [isConfirmLogModalOpen, setIsConfirmLogModalOpen] = useState(false);
   const [medications, setMedications] = useState<Medication[]>([]);
   const [loading, setLoading] = useState(true);
-  const handleAddMedication = () => {
-    setIsModalOpen(true);
+  const handleAddMedicationClick = () => {
+    setIsNewMedModelOpen(true);
   };
-
-  // const [medicationLogs, setMedicationLogs] = useState<MedicationLog[]>([]);
-
-  const handleModalClose = () => {
-    setIsModalOpen(false);
+  const handleNewMedModelClose = () => {
+    setIsNewMedModelOpen(false);
   };
+  const filteredMedications = medications.filter((medication) =>
+    medication.name.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+
   useEffect(() => {
     invoke("get_medications")
       .then((m) => {
@@ -49,12 +50,8 @@ const LogTab = () => {
     return <div>Loading...</div>;
   }
 
-  const filteredLogs = medications.filter((log) =>
-    log.name.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
-
   // Function to handle the submission of new medication
-  const handleModalSubmit = async (newMedication: Medication) => {
+  const handleNewMedModelSubmit = async (newMedication: Medication) => {
     const exists = medications.some(
       (log) => log.name.toLowerCase() === newMedication.name.toLowerCase(),
     );
@@ -73,7 +70,7 @@ const LogTab = () => {
     });
 
     setMedications([...medications, newMedication]);
-    setIsModalOpen(false);
+    setIsNewMedModelOpen(false);
   };
 
   return (
@@ -92,17 +89,17 @@ const LogTab = () => {
           <Button
             type="PRIMARY"
             label="Add Medication"
-            onClick={handleAddMedication}
+            onClick={handleAddMedicationClick}
           />
         </div>
-        <MedicationModal
-          isOpen={isModalOpen}
-          onClose={handleModalClose}
-          onSubmit={handleModalSubmit}
+        <NewMedicationModal
+          isOpen={isNewMedModalOpen}
+          onClose={handleNewMedModelClose}
+          onSubmit={handleNewMedModelSubmit}
         />
-        <ConfirmationModal
-          isOpen={isConfirmationModelOpen}
-          onClose={() => setIsConfirmationModelOpen(false)}
+        <ConfirmLogModal
+          isOpen={isConfirmLogModalOpen}
+          onClose={() => setIsConfirmLogModalOpen(false)}
           medication={selectedMedication}
           onConfirm={() => {
             invoke("log_medication", {
@@ -120,38 +117,40 @@ const LogTab = () => {
                 });
             });
 
-            setIsConfirmationModelOpen(false);
+            setIsConfirmLogModalOpen(false);
           }}
         />
         <div className={styles.medsWrap}>
           <div className={styles.logsContainer}>
-            {filteredLogs.length === 0 ? (
+            {filteredMedications.length === 0 ? (
               <div className={styles.emptyMessage}>No medications found.</div>
             ) : (
-              filteredLogs.map((log, index) => (
+              filteredMedications.map((medication, index) => (
                 <div key={index} className={styles.logMeds}>
                   <div className={styles.logName}>
-                    <strong>{log.name}</strong>
+                    <strong>{medication.name}</strong>
                   </div>
                   <div className={styles.circle}></div> {/* Circle */}
                   <div className={styles.logDosage}>
-                    {log.dosage.toString() + " " + log.measurement}
+                    {medication.dosage.toString() +
+                      " " +
+                      medication.measurement}
                   </div>
                   <div className={styles.logLastTake}>
                     <strong>Last taken</strong>
                     <br />
-                    {log.last_taken ? (
-                      <>{`${timestampToString(log.last_taken, "MMDDYYYY")} @ ${timestampToString(log.last_taken, "HH:MM XX")}`}</>
+                    {medication.last_taken ? (
+                      <>{`${timestampToString(medication.last_taken, "MMDDYYYY")} @ ${timestampToString(medication.last_taken, "HH:MM XX")}`}</>
                     ) : (
                       <>Not yet taken.</>
                     )}
                     {/* Format timestamp */}
                   </div>
-                  <div key={log.name} className={styles.logButtons}>
+                  <div key={medication.name} className={styles.logButtons}>
                     <Button
                       type="PRIMARY"
                       label="Log"
-                      onClick={() => medicationSelect(log)}
+                      onClick={() => handleLogClick(medication)}
                     />
                     <Button
                       type="SECONDARY"
@@ -159,7 +158,7 @@ const LogTab = () => {
                       link={{
                         pathname: "/medications/view/",
                         query: {
-                          name: log.name,
+                          name: medication.name,
                         },
                       }}
                     />
@@ -174,4 +173,4 @@ const LogTab = () => {
   );
 };
 
-export default LogTab;
+export default MedicationsView;

@@ -1,17 +1,18 @@
-// This is the popup that appears when you select "Add Medication"
-// Used by /medications/page.tsx
-
+// NewMedicationModal.tsx
+// Ojos Project
+//
+// A popup that appears to create a new medication.
 import React, { useState } from "react";
-import { Medication, MedicationLog } from "../types";
-import styles from "./newMed.module.css";
+import { Medication } from "../types";
+import styles from "./NewMedicationModal.module.css";
 
-interface MedicationModalProps {
+interface NewMedicationModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (newMedication: Medication) => void;
 }
 
-const MedicationModal: React.FC<MedicationModalProps> = ({
+const NewMedicationModal: React.FC<NewMedicationModalProps> = ({
   isOpen,
   onClose,
   onSubmit,
@@ -117,4 +118,4 @@ const MedicationModal: React.FC<MedicationModalProps> = ({
   );
 };
 
-export default MedicationModal;
+export default NewMedicationModal;

@@ -90,16 +90,16 @@ const MedicineView = () => {
     type_of: "NURSE",
   });
   const logContainerRef = useRef(null);
-  const medication_name = useSearchParams().get("name");
+  const medicationName = useSearchParams().get("name");
   {
     useEffect(() => {
       invoke("get_medication_logs", {
-        medication: medication_name,
+        medication: medicationName,
       }).then((medication_log) => {
         setVisibleLogs(medication_log as MedicationLog[]);
       });
 
-      invoke("get_medication", { medication: medication_name }).then((m) => {
+      invoke("get_medication", { medication: medicationName }).then((m) => {
         setMedication((m as Medication[])[0]);
       });
 
