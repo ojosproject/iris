@@ -55,11 +55,10 @@
 
 .logsContainer {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   gap: 15px;
   max-height: 60vh;
   overflow-x: auto;
-  width: 100%;
   padding: 10px;
 }
 
@@ -139,7 +138,7 @@
   width: 100%;
   max-width: 800px;
   margin: 20px auto;
-  padding: 15px;
+  padding: 20px;
   border: 2px solid #000000;
   border-radius: 10px;
   background-color: #f9f9f9;
