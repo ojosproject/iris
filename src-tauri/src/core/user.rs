@@ -33,13 +33,6 @@ pub fn get_patient(app: AppHandle) -> User {
     matched_user.next().unwrap().unwrap()
 }
 
-fn is_none(o: Option<f64>) -> bool {
-    match o {
-        Some(_) => false,
-        None => true,
-    }
-}
-
 impl User {
     pub fn create(app: AppHandle, name: String, type_of: String) -> Self {
         let app_data_dir = app.path().app_data_dir().unwrap();
@@ -99,7 +92,7 @@ impl User {
         let mut returning_medications: Vec<Medication> = vec![];
 
         for med in self.get_medications(app) {
-            if !is_none(med.upcoming_dose) {
+            if med.upcoming_dose.is_some() {
                 returning_medications.push(med);
             }
         }
