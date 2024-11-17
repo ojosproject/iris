@@ -16,6 +16,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "tauri": "tauri dev",
+    "tauri:dev": "tauri dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

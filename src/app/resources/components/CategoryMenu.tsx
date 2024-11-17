@@ -2,27 +2,26 @@
 
 import { useState } from "react";
 import classes from "./CategoryMenu.module.css";
-import { Resource } from "@/types";
+import { Resource } from "../types";
 import { invoke } from "@tauri-apps/api/core";
-import Button from "@/app/components/Button";
+import Button from "@/app/core/components/Button";
 
 export default function CategoryMenu(props: {
   labels: string[];
   resources: Resource[];
   setResources: Function;
 }) {
-  const [selectedLabel, setSelectedLabel] = useState("All");
+  const [selectedLabel, setSelectedLabel] = useState("all");
 
   function handleMenuClick(label: string) {
     setSelectedLabel(label);
 
     invoke("get_resources").then((r) => {
       props.setResources(
-        label === "All"
+        label === "all"
           ? r
           : (r as Resource[]).filter(
-              (resource) =>
-                resource.category.toLowerCase() === label.toLowerCase(),
+              (resource) => resource.category.toLowerCase() === label,
             ),
       );
     });
@@ -34,6 +33,7 @@ export default function CategoryMenu(props: {
         type={props.label === selectedLabel ? "PRIMARY" : "SECONDARY"}
         label={props.label}
         onClick={() => handleMenuClick(props.label)}
+        style={{ textTransform: "capitalize" }}
       />
     );
   }

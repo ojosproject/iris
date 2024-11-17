@@ -1,0 +1,36 @@
+.onboarding_center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  height: 95dvh;
+}
+
+.onboarding_center h1 {
+  margin: 0;
+}
+
+.onboarding_center h3 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.button_on_bottom {
+  position: fixed;
+  bottom: 2%;
+}
+
+.text_input {
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
+
+  margin: 10px;
+
+  width: 200px;
+  height: 20px;
+
+  text-align: center;
+  font-size: 20px;
+}
