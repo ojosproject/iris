@@ -47,10 +47,10 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 600,
         "resizable": true,
         "title": "Iris",
-        "width": 1024
+        "minHeight": 600,
+        "minWidth": 1024
       }
     ],
     "security": {
