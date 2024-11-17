@@ -21,7 +21,7 @@ export const HubApps: HubAppProps[] = [
   {
     link: "./call",
     name: "Video",
-    icon: "/images/video.png",
+    icon: "/images/icon_video.png",
   },
 ].sort((a, b) => {
   // Sorts list by HubAppProps.name
