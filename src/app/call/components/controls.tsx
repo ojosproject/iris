@@ -3,6 +3,7 @@ import clsx from "clsx"; // Import clsx for conditional class names
 import classes from "./controls.module.css"; // Import CSS module for styling
 import { useRouter } from "next/navigation";
 import Dialog from "./confirmMessage";
+import { saveVideo } from "../helper";
 
 const WebcamRecorder: React.FC = () => {
   // Reference to the video element
@@ -95,13 +96,8 @@ const WebcamRecorder: React.FC = () => {
 
   // Function to download the recorded video
   const downloadVideo = () => {
-    const blob = new Blob(recordedChunks, { type: "video/webm" }); // Create a Blob from the recorded chunks
-    const url = URL.createObjectURL(blob); // Create a URL for the Blob
-    const a = document.createElement("a"); // Create an anchor element
-    a.href = url; // Set the href to the Blob URL
-    a.download = "recording.webm"; // Set the download filename
-    a.click(); // Programmatically click the anchor to trigger the download
-    URL.revokeObjectURL(url); // Cleanup the URL object
+    let blob = new Blob(recordedChunks, { type: "video/mp4" });
+    saveVideo(blob);
   };
 
   const toggleMute = () => {

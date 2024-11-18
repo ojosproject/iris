@@ -1,0 +1,15 @@
+{
+  "identifier": "default",
+  "description": "some permissions that were migrated from v1",
+  "local": true,
+  "windows": [
+    "main"
+  ],
+  "permissions": [
+    "core:default",
+    "fs:allow-app-write",
+    "fs:allow-app-meta",
+    {"identifier": "fs:scope",
+      "allow": [{ "path": "$APPDATA/recordings/*" }]}
+  ]
+}

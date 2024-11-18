@@ -9,6 +9,7 @@ use tauri::Manager;
 
 fn main() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_fs::init())
         .invoke_handler(tauri::generate_handler![
             medications::commands::create_medication,
             medications::commands::get_medications,

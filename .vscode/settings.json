@@ -30,7 +30,8 @@
     "rusqlite",
     "struct",
     "structs",
-    "Tauri"
+    "Tauri",
+    "webm"
   ],
   "indentRainbow.indentSetter": {
     "markdown": 2

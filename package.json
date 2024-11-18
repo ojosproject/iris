@@ -16,14 +16,14 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "tauri": "tauri dev",
+    "tauri": "tauri",
     "tauri:dev": "tauri dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "tauri": "tauri"
+    "lint": "next lint"
   },
   "dependencies": {
+    "@tauri-apps/plugin-fs": "^2.0.2",
     "clsx": "^2.1.1",
     "next": "^14.2.5",
     "react": "^18.3.1",
