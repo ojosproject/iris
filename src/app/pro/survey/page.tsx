@@ -36,10 +36,12 @@ export default function Survey() {
     };
 
     // Store responses in sessionStorage and open modal
-    const handleSurveySubmit = (responses: string[][]) => {
+    const handleSurveySubmit = (responses: (string | number)[][]) => {
         console.log("Survey Responses:", responses);
         // Store the results in sessionStorage as a JSON string
         sessionStorage.setItem("surveyResults", JSON.stringify(responses));
+        invoke('add_pros', {pros: responses});
+        console.log("pros in survey/page.tsx: ", responses)
         setModalOpen(true); // Open modal after survey submission
     };
 

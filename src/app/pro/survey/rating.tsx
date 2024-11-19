@@ -7,7 +7,7 @@ interface RatingProps {
     className?: string;
     count: number;
     size: number;
-    onSubmit: (responses: string[][]) => void;
+    onSubmit: (responses: (string | number)[][]) => void;
     questions: string[];
 }
 
@@ -60,7 +60,7 @@ const SurveyPage: React.FC<RatingProps> = ({ className, count, size, questions, 
             return;
         }
 
-        const responses: string[][] = questions.map((q, i) => [q, ratings[i].toString()]);
+        const responses: (string | number)[][] = questions.map((q, i) => [q, Number(ratings[i])]);
         onSubmit(responses);
     };
 
