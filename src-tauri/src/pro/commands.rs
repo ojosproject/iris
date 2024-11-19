@@ -10,7 +10,7 @@ use tauri::AppHandle;
 /// ## TypeScript Usage
 ///
 /// ```typescript
-/// invoke('add_pro', {recorded_date: "", question: "", response: ""});
+/// invoke('add_pro', {pros: []});
 /// ```
 #[tauri::command(rename_all = "snake_case")]
 pub fn add_pros(app: AppHandle, pros: Vec<(String, i32)>) {

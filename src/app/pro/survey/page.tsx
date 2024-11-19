@@ -9,15 +9,14 @@ import Button from "@/app/core/components/Button";
 
 export default function Survey() {
     const [isModalOpen, setModalOpen] = React.useState(false);
+    const [questions, setQuestions] = useState<string[]>([]);
     const router = useRouter();
 
-    // Example questions in the required string format
-    const example_questions = [
-        "How do you feel today?",
-        "How was your experience with our service?",
-        "How likely are you to recommend us?",
-        "How likely would you have your caregiver again?"
-    ];
+    useEffect(() => {
+        invoke("get_pro_questions").then(questions => {
+            setQuestions(questions as string[]);
+        })
+    }, [])
 
     // Function to go back
     const handleGoBack = () => {
@@ -53,7 +52,7 @@ export default function Survey() {
                     <SurveyPage
                         count={10} // Dynamically set count based on number of questions
                         size={40}
-                        questions={example_questions} // Pass the updated questions array
+                        questions={questions} // Pass the updated questions array
                         onSubmit={handleSurveySubmit}
                     />
                 </div>
