@@ -21,7 +21,7 @@ pub fn relay(body: &String, app: AppHandle) {
     }
 }
 
-pub fn send_sms_message(message: &String, recipient: &String){
+pub fn send_sms(message: &String, recipient: &String){
     dotenv().ok();
 
     let twilio_account_sid =
@@ -36,7 +36,9 @@ pub fn send_sms_message(message: &String, recipient: &String){
 
     let request_url =
         format!("https://api.twilio.com/2010-04-01/Accounts/{twilio_account_sid}/Messages.json");
-    //todo: maybe don't hard code this url... maybe put it in .env
+    // change the above URL to the flask API created once that exists
+    // also ensure that the naming conventions sent from here correspond to the
+    // ones received there (if that's necessary I don't really know)
 
     let client = Client::new();
     let request_params = [
