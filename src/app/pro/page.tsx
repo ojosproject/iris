@@ -1,7 +1,9 @@
 "use client";
 import { useRouter } from "next/navigation";
-import BackButton from "../components/BackButton";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import "./pro.css";
+import BackButton from "../core/components/BackButton";
 
 export default function Main_page() {
 const router = useRouter();
@@ -23,3 +25,4 @@ return (
     </>
 );
 }
+

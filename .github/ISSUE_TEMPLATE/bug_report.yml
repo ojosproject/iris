@@ -37,11 +37,8 @@ body:
       label: Operating System
       description: What operating system are you using?
       options:
-        - iOS
-        - Android
         - Windows
         - macOS
-        - ChromeOS
         - Linux
     validations:
       required: true

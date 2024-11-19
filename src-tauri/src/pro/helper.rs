@@ -3,10 +3,10 @@
 //
 // Functions for getting and modifying Patient Reported Outcomes.
 // PROs are
-use crate::structs::PatientReportedOutcome;
+use super::structs::PatientReportedOutcome;
 use rusqlite::{named_params, Connection};
 use std::time::SystemTime;
-use tauri::{App, AppHandle, Manager};
+use tauri::{AppHandle, Manager};
 
 pub fn get_all_pros(app: AppHandle) -> Vec<PatientReportedOutcome> {
     let app_data_dir = app.path().app_data_dir().unwrap();
@@ -35,7 +35,6 @@ pub fn get_all_pros(app: AppHandle) -> Vec<PatientReportedOutcome> {
 }
 
 pub fn add_pros(app: AppHandle, pros: Vec<(String, i32)>) {
-    /// 
     let app_data_dir = app.path().app_data_dir().unwrap();
     let conn = Connection::open(app_data_dir).unwrap();
 

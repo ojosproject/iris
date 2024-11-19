@@ -1,13 +1,13 @@
 "use client";
 import classes from "./page.module.css";
-import HubHeader from "./components/HubHeader";
-import HubApp from "./components/HubApp";
-import UpcomingList from "./components/UpcomingList";
-import { HubApps } from "./HubApps";
+import HubHeader from "./core/hub/HubHeader";
+import HubApp from "./core/hub/HubApp";
+import UpcomingList from "./core/hub/UpcomingList";
+import { HubApps } from "./core/HubApps";
 import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
-import { Config } from "@/types";
-import Onboarding from "./Onboarding";
+import { Config } from "@/app/core/types";
+import Onboarding from "./core/Onboarding";
 
 export default function Home() {
   const [onboardingCompleted, setOnboardingCompleted] = useState(false);

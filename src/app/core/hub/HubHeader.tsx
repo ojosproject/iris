@@ -3,7 +3,7 @@ import { invoke } from "@tauri-apps/api/core";
 import classes from "./HubHeader.module.css";
 import { useEffect, useState } from "react";
 import Clock from "react-live-clock";
-import { User } from "@/types";
+import { User } from "@/app/core/types";
 
 function get_time_of_day(): "morning" | "afternoon" | "evening" {
   // Remember that Date.getHours() returns in 24-hour format

@@ -1,22 +1,21 @@
-"use client"
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import SurveyPage from "./rating";
 import { useRouter } from "next/navigation";
-import BackButton from "@/app/components/BackButton";
-import Button from "@/app/components/Button";
 import "./survey.css";
+import BackButton from "@/app/core/components/BackButton";
+import { invoke } from "@tauri-apps/api/core";
 
 export default function Survey() {
-    const [isModalOpen, setModalOpen] = React.useState(false);
-    const router = useRouter();
+  const [isModalOpen, setModalOpen] = React.useState(false);
+  const [questions, setQuestions] = useState<string[]>([]);
+  const router = useRouter();
 
-    // Example questions in the required string format
-    const example_questions = [
-        "How do you feel today?",
-        "How was your experience with our service?",
-        "How likely are you to recommend us?",
-        "How likely would you have your caregiver again?"
-    ];
+  useEffect(() => {
+    invoke("get_pro_questions").then((q) => {
+      setQuestions(q as string[]);
+    });
+  }, []);
 
     // Function to go back
     const handleGoBack = () => {

@@ -19,6 +19,42 @@ const FullCircle = ({ size = 24, number = 1 }: { size?: number; number?: number 
         </text>
     </svg>
 );
+interface IconProps {
+  size?: number;
+  color?: string;
+  number?: number;
+}
+
+const FullCircle = ({
+  size = 24,
+  color = "#000000",
+  number = 1,
+}: IconProps) => {
+  return (
+    <div style={{ color: color }}>
+      <svg height={size} viewBox="0 0 24 24">
+        <circle
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="#0063D7"
+          strokeWidth="3"
+          fill="#0063D7"
+        />
+        <text
+          x="12"
+          y="16"
+          textAnchor="middle"
+          fontSize="10"
+          fontWeight="bold"
+          fill="white"
+        >
+          {number}
+        </text>
+      </svg>
+    </div>
+  );
+};
 
 const EmptyCircle = ({ size = 24, number = 1 }: { size?: number; number?: number }) => (
     <svg height={size} viewBox="0 0 24 24">

@@ -1,10 +1,17 @@
-import { HubAppProps } from "./components/HubApp";
+import { HubAppProps } from "./hub/HubApp";
 
 export const HubApps: HubAppProps[] = [
   {
     link: "./resources",
     name: "Resources",
     icon: "/images/icon_resources.png",
+  },
+
+  // Extra care instructions provided by the caregivers for the nurses.
+  {
+    link: "./care_instructions",
+    name: "Care Instructions",
+    icon: "/images/icon_care_instructions.png",
   },
   {
     link: "./pro",
