@@ -1,13 +1,7 @@
 "use client";
-import { useRouter, useSearchParams } from "next/navigation";
-import "./results.css";
-import "survey-core/defaultV2.min.css";
-import { useEffect, useState } from "react";
+import React from "react";
+import { useRouter } from "next/navigation";
 import BackButton from "@/app/core/components/BackButton";
-
-type SurveyData = {
-  [key: string]: string | string[]; // This defines that each key in surveyData is a string or an array of strings
-};
 
 export default function SurveyResults() {
     const router = useRouter();
@@ -46,4 +40,4 @@ export default function SurveyResults() {
             </div>
         </div>
     );
-}
+};

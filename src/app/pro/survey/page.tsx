@@ -5,17 +5,19 @@ import { useRouter } from "next/navigation";
 import "./survey.css";
 import BackButton from "@/app/core/components/BackButton";
 import { invoke } from "@tauri-apps/api/core";
+import Button from "@/app/core/components/Button";
 
 export default function Survey() {
-  const [isModalOpen, setModalOpen] = React.useState(false);
-  const [questions, setQuestions] = useState<string[]>([]);
-  const router = useRouter();
+    const [isModalOpen, setModalOpen] = React.useState(false);
+    const router = useRouter();
 
-  useEffect(() => {
-    invoke("get_pro_questions").then((q) => {
-      setQuestions(q as string[]);
-    });
-  }, []);
+    // Example questions in the required string format
+    const example_questions = [
+        "How do you feel today?",
+        "How was your experience with our service?",
+        "How likely are you to recommend us?",
+        "How likely would you have your caregiver again?"
+    ];
 
     // Function to go back
     const handleGoBack = () => {
@@ -74,4 +76,4 @@ export default function Survey() {
             )}
         </div>
     );
-}
+};
