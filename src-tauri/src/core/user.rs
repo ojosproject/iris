@@ -4,8 +4,8 @@
 // This handles a lot of user-related functions for Iris.
 #![allow(dead_code)]
 use crate::core::structs::User;
-use crate::Medication;
-use rusqlite::Connection;
+use crate::medications::structs::Medication;
+use rusqlite::{named_params, Connection};
 use tauri::{AppHandle, Manager};
 use uuid::Uuid;
 
@@ -26,6 +26,8 @@ pub fn get_patient(app: AppHandle) -> User {
                 id: row.get(0).unwrap(),
                 full_name: row.get(1).unwrap(),
                 type_of: row.get(2).unwrap(),
+                email: None,
+                phone_number: None,
             })
         })
         .unwrap();
@@ -33,11 +35,27 @@ pub fn get_patient(app: AppHandle) -> User {
     matched_user.next().unwrap().unwrap()
 }
 
-fn is_none(o: Option<f64>) -> bool {
-    match o {
-        Some(_) => false,
-        None => true,
-    }
+pub fn get_user(app: AppHandle, id: String) -> User {
+    let app_data_dir = app.path().app_data_dir().unwrap();
+    let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
+
+    let mut stmt = conn
+        .prepare("SELECT * FROM user WHERE type = 'NURSE' AND id = :nurse_id")
+        .unwrap();
+
+    let mut matched_user = stmt
+        .query_map(named_params! {":nurse_id": id}, |row| {
+            Ok(User {
+                id: row.get(0).unwrap(),
+                full_name: row.get(1).unwrap(),
+                type_of: row.get(2).unwrap(),
+                phone_number: row.get(3).unwrap(),
+                email: row.get(4).unwrap(),
+            })
+        })
+        .unwrap();
+
+    matched_user.next().unwrap().unwrap()
 }
 
 impl User {
@@ -50,6 +68,8 @@ impl User {
             id: new_user_id,
             full_name: name,
             type_of,
+            email: None,
+            phone_number: None,
         };
 
         conn.execute(
@@ -77,11 +97,13 @@ impl User {
                     dosage: row.get(2)?,
                     frequency: row.get(3)?,
                     supply: row.get(4)?,
-                    first_added: row.get(5)?,
-                    last_taken: row.get(6)?,
-                    upcoming_dose: row.get(7)?,
-                    schedule: row.get(8)?,
-                    measurement: row.get(9)?,
+                    total_prescribed: row.get(5)?,
+                    first_added: row.get(6)?,
+                    last_taken: row.get(7)?,
+                    upcoming_dose: row.get(8)?,
+                    schedule: row.get(9)?,
+                    measurement: row.get(10)?,
+                    nurse_id: row.get(11)?,
                 })
             })
             .expect("That did not work.");
@@ -99,7 +121,7 @@ impl User {
         let mut returning_medications: Vec<Medication> = vec![];
 
         for med in self.get_medications(app) {
-            if !is_none(med.upcoming_dose) {
+            if med.upcoming_dose.is_some() {
                 returning_medications.push(med);
             }
         }
@@ -112,5 +134,42 @@ impl User {
         });
 
         returning_medications
+    }
+
+    pub fn search_medications(&mut self, app: AppHandle, query: &str) -> Vec<Medication> {
+        let app_data_dir = app.path().app_data_dir().unwrap();
+        let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
+
+        // https://github.com/rusqlite/rusqlite/issues/600#issuecomment-562258168
+        let mut stmt = conn
+            .prepare("SELECT * FROM medication WHERE name LIKE '%' || ? || '%'")
+            .unwrap();
+
+        let matched_medications = stmt
+            .query_map([query], |row| {
+                Ok(Medication {
+                    name: row.get(0)?,
+                    brand: row.get(1)?,
+                    dosage: row.get(2)?,
+                    frequency: row.get(3)?,
+                    supply: row.get(4)?,
+                    total_prescribed: row.get(5)?,
+                    first_added: row.get(6)?,
+                    last_taken: row.get(7)?,
+                    upcoming_dose: row.get(8)?,
+                    schedule: row.get(9)?,
+                    measurement: row.get(10)?,
+                    nurse_id: row.get(11)?,
+                })
+            })
+            .unwrap();
+
+        let mut vec_to_return: Vec<Medication> = vec![];
+
+        for med in matched_medications {
+            vec_to_return.push(med.unwrap());
+        }
+
+        vec_to_return
     }
 }

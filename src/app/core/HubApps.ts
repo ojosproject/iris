@@ -17,6 +17,11 @@ export const HubApps: HubAppProps[] = [
     link: "./pro",
     name: "Survey",
   },
+  {
+    link: "./medications",
+    name: "Medications",
+    icon: "/images/icon_pill.png",
+  },
 ].sort((a, b) => {
   // Sorts list by HubAppProps.name
   return a.name.localeCompare(b.name);

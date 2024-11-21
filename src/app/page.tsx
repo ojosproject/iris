@@ -32,6 +32,7 @@ export default function Home() {
           <ul className={classes.appList}>
             {HubApps.map((hubApp) => (
               <HubApp
+                key={hubApp.name}
                 link={hubApp.link}
                 icon={hubApp.icon}
                 name={hubApp.name}

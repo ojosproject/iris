@@ -1,0 +1,202 @@
+.flexCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flexColumn {
+  flex-direction: column;
+}
+
+.flexWrap {
+  flex-wrap: wrap;
+}
+
+.gap {
+  gap: 20px;
+}
+
+.boxShadow {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.boxShadowSmall {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.borderRadius {
+  border-radius: 5px;
+}
+
+.button {
+  padding: 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  background-color: #0000ff;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #414141;
+}
+
+/* Container Styles */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
+.inputContainer {
+  padding-bottom: 200px;
+}
+
+.logsContainer {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  max-height: 60vh;
+  overflow-x: auto;
+  padding: 10px;
+}
+
+.logButtons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px;
+}
+
+.logItem {
+  flex: 1;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #0000ff;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.logItem:hover {
+  background-color: #414141;
+}
+
+.logMeds {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: calc(33.333% - 20px);
+  min-width: 250px;
+  margin: 5px;
+  border: 4px solid #094595;
+  border-radius: 6px;
+  background-color: #ffffff;
+  align-items: center;
+  min-height: 200px;
+  padding: 10px;
+}
+
+.circle {
+  width: 50px;
+  height: 50px;
+  background-color: #acacac;
+  border-radius: 50%;
+  margin: 10px auto;
+}
+
+.logMeds .logName,
+.logMeds .logDosage,
+.logMeds .logFrequency,
+.logMeds .logLastTake {
+  margin: 5px 0;
+  text-align: center;
+}
+
+.medicationLog {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.medicationCard {
+  width: 48%;
+  margin: 1%;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.medicationCard div {
+  margin-bottom: 5px;
+}
+
+.medsWrap {
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 2px solid #000000;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: center;
+}
+
+.searchBarContainer {
+  display: flex;
+  width: 100%;
+  max-width: 700px;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 20px;
+}
+
+.searchInput {
+  flex: 2;
+  background-color: #f9f9f9;
+  color: #000000;
+  padding: 15px;
+  width: 100%;
+  height: 20px;
+  font-size: 15px;
+  outline: none; /* Should be changed back at some point for accessibility. */
+  border: black 1px solid;
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .logMeds {
+    width: 100%;
+    min-width: auto;
+  }
+
+  .logsContainer {
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+
+  .medicationCard {
+    width: 100%;
+    margin: 5px 0;
+    flex-shrink: 1;
+  }
+
+  .searchBarContainer {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .addMedicationButton {
+    width: 100%;
+  }
+}

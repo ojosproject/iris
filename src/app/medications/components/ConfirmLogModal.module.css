@@ -50,6 +50,33 @@
   width: 45%;
 }
 
-.buttonGroup:hover {
-  background-color: #414141;
+.buttonGroup button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.buttonGroup button:first-child {
+  background-color: #4caf50;
+  color: white;
+}
+
+.buttonGroup button:first-child:hover {
+  background-color: #45a049;
+  cursor: pointer;
+}
+
+.buttonGroup button:last-child {
+  background-color: #f44336;
+  color: white;
+}
+
+.buttonGroup button:last-child:hover {
+  background-color: #e53935;
+  cursor: pointer;
 }
