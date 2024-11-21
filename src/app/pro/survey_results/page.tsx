@@ -11,17 +11,12 @@ export default function SurveyResults() {
     React.useEffect(() => {
         const params = new URLSearchParams(window.location.search);
         const data = params.get("data");
-
-        invoke('get_all_pros').then(all_pros => {
-            setPros(all_pros as (string | number)[][])
-        });
-        console.log("pros: ", pros)
         
-        // if (data) {
-        //     setPros(JSON.parse(decodeURIComponent(data)));
-        // } else {
-        //     console.error("No survey results found");
-        // }
+        if (data) {
+            setPros(JSON.parse(decodeURIComponent(data)));
+        } else {
+            console.error("No survey results found");
+        }
     }, []);
 
     return (

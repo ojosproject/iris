@@ -8,8 +8,8 @@ Rows:
     response        - The PRO response given by the patient
 */
 CREATE TABLE IF NOT EXISTS patient_recorded_outcome (
-    recorded_date TEXT NOT NULL,
+    id TEXT NOT NULL PRIMARY KEY,
+    recorded_date INTEGER NOT NULL,
     question TEXT NOT NULL,
-    response TEXT NOT NULL,
-    PRIMARY KEY (recorded_date, question)
+    response INTEGER NOT NULL
 ) STRICT;

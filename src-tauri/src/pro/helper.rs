@@ -7,6 +7,7 @@ use super::structs::PatientReportedOutcome;
 use rusqlite::{named_params, Connection};
 use std::time::SystemTime;
 use tauri::{AppHandle, Manager};
+use uuid::Uuid;
 
 pub fn get_all_pros(app: AppHandle) -> Vec<PatientReportedOutcome> {
     let app_data_dir = app.path().app_data_dir().unwrap();
@@ -21,9 +22,10 @@ pub fn get_all_pros(app: AppHandle) -> Vec<PatientReportedOutcome> {
     let matched_pros = statement
         .query_map([], |row| {
             Ok(PatientReportedOutcome {
-                recorded_date: row.get(0)?,
-                question: row.get(1)?,
-                response: row.get(2)?,
+                id: row.get(0)?,
+                recorded_date: row.get(1)?,
+                question: row.get(2)?,
+                response: row.get(3)?,
             })
         })
         .unwrap();
@@ -46,8 +48,8 @@ pub fn add_pros(app: AppHandle, pros: Vec<(String, i32)>) {
         // INSERT OR IGNORE will skip an insertion if a primary or unique constraint
         // is failed.
         conn.execute(
-            "INSERT OR IGNORE INTO patient_recorded_outcome (recorded_date, question, response) VALUES (:recorded_date, :question, :response)", 
-            named_params! {":recorded_date": recorded_date, ":question": pro_tuple.0, ":response": pro_tuple.1}
+            "INSERT INTO patient_recorded_outcome (id, recorded_date, question, response) VALUES (:uuid, :recorded_date, :question, :response)", 
+            named_params! {":uuid": Uuid::new_v4().to_string(), ":recorded_date": i64::try_from(recorded_date).unwrap(), ":question": pro_tuple.0, ":response": i64::try_from(pro_tuple.1).unwrap()}
         ).expect("Inserting into patient_recorded_outcome failed.");
     }
 }
