@@ -40,16 +40,15 @@ margin-top: 5%;
 }
 
 .box {
-padding-right: 10%;
-padding-left: 10%;
-padding-bottom: 5%;
-padding-top: 2%;
-margin-top: 2%;
-margin-right: 5%;
-margin-left: 5%;
-margin-bottom: 5%;
-border: 1mm solid #094595;
+    padding: 2% 10% 5%; /* Combines all padding values for brevity */
+    margin: 2% 5%; /* Combines all margin values for brevity */
+    border: 1mm solid #094595;
+    max-width: 90%; /* Ensures the box won't exceed 90% of the screen width */
+    max-height: 80%; /* Ensures the box won't exceed 80% of the screen height */
+    box-sizing: border-box; /* Includes padding and border in width/height calculations */
+    overflow: auto; /* Adds scrollbars if the content exceeds the size */
 }
+
 
 .chart-nav {
 display: flex;
