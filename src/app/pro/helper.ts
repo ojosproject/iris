@@ -8,17 +8,20 @@ export function sortChartData(data: PatientReportedOutcome[]): ChartData {
   let questions: ChartData = {};
 
   data.forEach((pro) => {
-    if (!Object.keys(questions).includes(pro.question)) {
-      questions[pro.question] = [
-        [pro.response, new Date(pro.recorded_date * 1000)],
-      ];
-    } else {
-      questions[pro.question].push([
-        pro.response,
-        new Date(pro.recorded_date * 1000),
-      ]);
+    if (!questions[pro.question]) {
+      questions[pro.question] = [];
     }
+
+    questions[pro.question].push([
+      pro.response,
+      new Date(pro.recorded_date * 1000),
+    ]);
   });
+
+  for (const question in questions) {
+    questions[question].sort((a, b) => a[1].getTime() - b[1].getTime());
+  }
 
   return questions;
 }
+
