@@ -45,9 +45,7 @@ useEffect(() => {
 useEffect(() => {
     if (pros && Object.keys(pros).length > 0) {
         const questionList = Object.keys(pros);
-        console.log("Questions: ", questionList)
         const question = questionList[currentQuestionIndex];
-        console.log("Question: ", question)
         const canvasId = `chart-${question}`;
         const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
 
@@ -57,27 +55,60 @@ useEffect(() => {
         console.log("Questions with pros: ", pros[question])
         // Get the data for the current week
         const dataForCurrentWeek = pros[question].slice(currentWeek * 7, currentWeek * 7 + 7);
-
         const fullWeekData = [];
         const dayLabels = [];
-        const arrayDate = Array.from(Array(7).keys()).map((idx) => {const d = new Date(); d.setDate(d.getDate() - d.getDay() + idx); return d; });
-        console.log("arraydate: ", arrayDate)
+
+        // Generate array of dates for the current week (from Sunday to Saturday)
+        // source: https://stackoverflow.com/questions/70073988/how-to-get-the-all-the-dates-of-the-current-week/70074156
+        const arrayDate = Array.from(Array(7).keys()).map((idx) => {
+            const d = new Date();
+            d.setDate(d.getDate() - d.getDay() + idx); 
+            return d;
+        });
+
+        console.log("arrayDate: ", arrayDate);
+
         for (let i = 0; i < 7; i++) {
             const date = arrayDate[i];
             const dataForDay = dataForCurrentWeek[i];
-            const dayOfWeek = date.toLocaleString("en-us", { weekday: "long" });
-            const monthAndDate = `${date.getMonth() + 1}/${date.getDate()}`;
-            console.log("month and date: ", monthAndDate);
-            dayLabels.push(`${dayOfWeek}\n${monthAndDate}`);
-
-            // If data for the day exists, push the response; otherwise, push 0
-            if (dataForDay) {
-                fullWeekData.push(dataForDay[0]);
-            } else {
-                fullWeekData.push(null);
+            if (dataForDay !== null ) {
+                console.log("dataForDay: ", dataForDay);
+                console.log("dataforweek: ", dataForCurrentWeek);
+                // Convert timestamp to a Date object
+                const dataDayDate = new Date(dataForDay[1]);
+                console.log("dataDayDate: ", dataDayDate);
+                // Compare only the date part and no time
+                // console.log("date getfullyear: ", date.getFullYear())
+                // console.log("date getmonth: ", date.getMonth())
+                // console.log("date getday: ", date.getDate())
+                // console.log("datedaydate getfullyear: ", dataDayDate.getFullYear())
+                // console.log("datedaydate getmonth: ", dataDayDate.getMonth())
+                // console.log("datedaydate getday: ", dataDayDate.getDate())
+                const sameDay = date.getFullYear() === dataDayDate.getFullYear() &&
+                                date.getMonth() === dataDayDate.getMonth() &&
+                                date.getDate() === dataDayDate.getDate();
+    
+                console.log("Date comparison (sameDay): ", sameDay);
+                
+                // Format day and month
+                const dayOfWeek = date.toLocaleString("en-us", { weekday: "long" });
+                const monthAndDate = `${date.getMonth() + 1}/${date.getDate()}`;
+                console.log("Month and Date: ", monthAndDate);
+                
+                dayLabels.push(`${dayOfWeek}\n${monthAndDate}`);
+    
+                // If data for the day exists and the date matches
+                // push the response else push null
+                if (dataForDay && sameDay) {
+                    fullWeekData.push(dataForDay[0]);
+                } else {
+                    fullWeekData.push(null);
+                }
             }
         }
-        console.log("fullweekdata: ", fullWeekData);
+
+        console.log("Full Week Data: ", fullWeekData);
+
 
         const newChart = new Chart(canvas, {
             type: "bar",
