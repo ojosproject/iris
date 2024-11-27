@@ -39,6 +39,15 @@ pub fn get_contacts(app:AppHandle) -> Vec<HashMap<String, String>> {
     config.contacts
 }
 
+pub fn get_api_token(app:AppHandle) -> String {
+    let config = get_config(app.app_handle());
+    config.api_token
+}
+
+pub fn save_api_token(app:AppHandle, token: String) {
+    
+}
+
 pub fn get_config(app: &AppHandle) -> Config {
     let app_data_dir = app.path().app_config_dir().unwrap();
 
@@ -48,6 +57,7 @@ pub fn get_config(app: &AppHandle) -> Config {
                 let template_config = Config {
                     resources_last_call: 0,
                     contacts : vec![],
+                    api_token: "".to_string()
                 };
                 let template_config_string = serde_json::to_string(&template_config).unwrap();
                 fs::write(app_data_dir.join("config.json"), &template_config_string).unwrap();

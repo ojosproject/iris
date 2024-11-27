@@ -10,7 +10,7 @@ mod relay;
 use crate::menu::menu;
 use crate::structs::{Medication, Resource};
 use std::{env, fs, process};
-use structs::{ResponseStatus, User};
+use structs::User;
 use tauri::{AppHandle, Manager};
 use user::get_patient;
 

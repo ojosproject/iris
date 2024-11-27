@@ -34,6 +34,7 @@ pub struct MedicationLog {
 pub struct Config {
     pub resources_last_call: i64,
     pub contacts: Vec<HashMap<String, String>>,
+    pub api_token: String
 }
 
 #[derive(Serialize, Deserialize)]
@@ -44,11 +45,4 @@ pub struct Resource {
     pub organization: String,
     pub category: String,
     pub last_updated: f32,
-}
-
-pub enum ResponseStatus {
-    ClientError(String),
-    TooManyRequests(String),
-    Ok(String),
-    OtherError(String)
 }
