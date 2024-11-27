@@ -5,7 +5,7 @@ use crate::config::get_contacts;
 use dotenv::dotenv;
 use reqwest::{blocking::Client, Error, StatusCode};
 use serde::{Deserialize, Serialize};
-use std::env;
+use std::{env, collections::HashMap};
 use tauri::AppHandle;
 
 pub fn relay(body: &String, app: AppHandle) {
@@ -13,7 +13,7 @@ pub fn relay(body: &String, app: AppHandle) {
 
     for contact in contacts {
         if contact.get("type").unwrap() == "sms" {
-            send_sms_message(body, contact.get("value").unwrap());
+            send_sms(body, contact.get("value").unwrap());
         }
         else if contact.get("type").unwrap() == "email" {
             send_email(body, contact.get("value").unwrap());
@@ -24,33 +24,22 @@ pub fn relay(body: &String, app: AppHandle) {
 pub fn send_sms(message: &String, recipient: &String){
     dotenv().ok();
 
-    let twilio_account_sid =
-        env::var("TWILIO_ACCOUNT_SID").expect("Could not retrieve twilio account sid");
-    let twilio_auth_token =
-        env::var("TWILIO_AUTH_TOKEN").expect("Could not retrieve twilio auth token");
-    let twilio_phone_number =
-        env::var("TWILIO_PHONE_NUMBER").expect("Could not retrieve twilio PHone number");
-    let recipient_phone_number =
-        env::var("RECIPIENT_PHONE_NUMBER").expect("could not retrieve recipient phone number");
-    // I am leaving this variable here for the sake of potential testing. It can just be my personal phone number if/when we test independently of calls to config.rs
+    let api_key = 12345;
+    // GENERATE THIS TOKEN SOMEHOW SOMEWHERE ELSE
 
-    let request_url =
-        format!("https://api.twilio.com/2010-04-01/Accounts/{twilio_account_sid}/Messages.json");
-    // change the above URL to the flask API created once that exists
-    // also ensure that the naming conventions sent from here correspond to the
-    // ones received there (if that's necessary I don't really know)
+    let flask_url =
+        format!("https://api.ojosproject.org/iris/send-sms/");
 
     let client = Client::new();
-    let request_params = [
-        ("To", &recipient),
-        ("From", &&twilio_phone_number),
-        ("Body", &message),
-    ];
+    let mut map: HashMap<&str, &String> = HashMap::new();
+    map.insert("to", recipient);
+    map.insert("message", message);
+
 
     let response = client
-        .post(request_url)
-        .basic_auth(twilio_account_sid, Some(twilio_auth_token))
-        .form(&request_params)
+        .post(flask_url)
+        .json(&map)
+        .header("X-API-Key", api_key)
         .send()
         .expect("FAILED TO SEND MESSAGE");
     
