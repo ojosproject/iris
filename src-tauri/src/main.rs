@@ -2,6 +2,7 @@
 mod care_instructions;
 mod core;
 mod medications;
+mod pro;
 mod resources;
 use core::config;
 use std::{env, process};
@@ -26,6 +27,10 @@ fn main() {
             care_instructions::commands::get_single_care_instruction,
             care_instructions::commands::update_care_instructions,
             care_instructions::commands::care_instructions_previous_next_ids,
+            pro::commands::add_pros,
+            pro::commands::get_all_pros,
+            pro::commands::add_pro_question,
+            pro::commands::get_pro_questions,
             resources::commands::get_resources,
         ])
         .setup(|app| {

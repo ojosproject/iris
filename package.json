@@ -16,21 +16,23 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "tauri": "tauri dev",
+    "tauri": "tauri",
     "tauri:dev": "tauri dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "tauri": "tauri"
+    "lint": "next lint"
   },
   "dependencies": {
+    "chart.js": "^4.4.6",
+    "chartjs-plugin-datalabels": "^2.2.0",
     "clsx": "^2.1.1",
     "next": "^14.2.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-live-clock": "^6.1.23-beta",
     "react-qr-code": "^2.0.15",
-    "react-webcam": "^7.2.0"
+    "react-webcam": "^7.2.0",
+    "run": "^1.5.0"
   },
   "devDependencies": {
     "@tauri-apps/api": "^2.1.0",
