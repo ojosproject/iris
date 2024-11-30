@@ -24,3 +24,10 @@
   right: 2rem;
   z-index: 3;
 }
+
+.video_main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

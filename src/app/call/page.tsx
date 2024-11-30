@@ -16,7 +16,7 @@ export default function Call() {
           }}
         />
       </header>
-      <main>
+      <main className={classes.video_main}>
         <WebcamRecorder />
       </main>
     </>
