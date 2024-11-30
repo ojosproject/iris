@@ -28,10 +28,10 @@ const Dialog: React.FC<DialogProps> = ({
         </div>
         <div className="dialog-actions">
           <button className="confirm-button" onClick={onConfirm}>
-            Yes, I am sure
+            Yes, leave page
           </button>
           <button className="cancel-button" onClick={onClose}>
-            Go Back
+            Never mind
           </button>
         </div>
       </div>

@@ -150,7 +150,7 @@ const WebcamRecorder: React.FC = () => {
         {showDialog && (
           <Dialog
             title="You are still recording!"
-            content="Current recording will be lost and cannot be recovered."
+            content="Recording will end if you leave the page. Leave the page?"
             onClose={closeDialog}
             onConfirm={confirmDialog}
           />
