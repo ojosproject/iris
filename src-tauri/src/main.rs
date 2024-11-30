@@ -1,4 +1,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+mod call;
 mod care_instructions;
 mod core;
 mod medications;
@@ -28,6 +29,7 @@ fn main() {
             care_instructions::commands::update_care_instructions,
             care_instructions::commands::care_instructions_previous_next_ids,
             resources::commands::get_resources,
+            call::commands::open_recordings_folder
         ])
         .setup(|app| {
             app.set_menu(core::menu::menu(app.app_handle().clone()))
