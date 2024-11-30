@@ -22,7 +22,7 @@ pub fn setup_onboarding(app: &AppHandle) {
     let app_data_dir = app.path().app_data_dir().unwrap();
 
     if !app_data_dir.join("iris.db").exists() {
-        fs::create_dir_all(&app_data_dir).unwrap();
+        fs::create_dir_all(app_data_dir.join("recordings/")).unwrap();
         get_config(&app);
 
         let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
