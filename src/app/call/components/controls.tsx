@@ -134,13 +134,12 @@ const WebcamRecorder: React.FC = () => {
     <div>
       {/* Video element to display the webcam feed */}
       <video
+        className={classes.video_container}
         ref={videoRef}
         autoPlay
         playsInline
-        width="900"
-        height="700"
         muted={true}
-      ></video>
+      />
       <div className={classes.controls}>
         {/* Button to go back to the previous page */}
         <Button
