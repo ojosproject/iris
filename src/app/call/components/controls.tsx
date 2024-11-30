@@ -158,7 +158,7 @@ const WebcamRecorder: React.FC = () => {
         <Button
           type={isRecording ? "SECONDARY" : "PRIMARY"}
           label={isRecording ? "Stop Recording" : "Start Recording"}
-          onClick={isRecording ? () => stopRecording : startRecording}
+          onClick={isRecording ? stopRecording : startRecording}
         />
 
         <Button
