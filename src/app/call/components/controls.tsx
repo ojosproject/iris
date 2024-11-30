@@ -92,12 +92,8 @@ const WebcamRecorder: React.FC = () => {
       mediaRecorderRef.current.stop(); // Stop the MediaRecorder
       setIsRecording(false); // Update recording state
     }
-  };
 
-  // Function to download the recorded video
-  const downloadVideo = () => {
-    let blob = new Blob(recordedChunks, { type: "video/mp4" });
-    saveVideo(blob);
+    setRecordedChunks([]);
   };
 
   const toggleMute = () => {
@@ -129,6 +125,10 @@ const WebcamRecorder: React.FC = () => {
       router.push("/");
     }
   };
+
+  if (recordedChunks && mediaRecorderRef.current?.state === "inactive") {
+    saveVideo(new Blob(recordedChunks, { type: "video/mp4" }));
+  }
 
   return (
     <div>
