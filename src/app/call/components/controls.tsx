@@ -140,6 +140,14 @@ const WebcamRecorder: React.FC = () => {
         playsInline
         muted={true}
       />
+      {showDialog && (
+        <Dialog
+          title="You are still recording!"
+          content="Recording will end if you leave the page. Leave the page?"
+          onClose={closeDialog}
+          onConfirm={confirmDialog}
+        />
+      )}
       <div className={classes.controls}>
         {/* Button to go back to the previous page */}
         <Button
@@ -147,14 +155,6 @@ const WebcamRecorder: React.FC = () => {
           label="Back"
           onClick={handleEnd}
         />
-        {showDialog && (
-          <Dialog
-            title="You are still recording!"
-            content="Recording will end if you leave the page. Leave the page?"
-            onClose={closeDialog}
-            onConfirm={confirmDialog}
-          />
-        )}
         <Button
           type={isRecording ? "SECONDARY" : "PRIMARY"}
           label={isRecording ? "Stop Recording" : "Start Recording"}
