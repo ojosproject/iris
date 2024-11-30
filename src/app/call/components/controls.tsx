@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react"; // Import necessary hooks and components from React
-import clsx from "clsx"; // Import clsx for conditional class names
 import classes from "./controls.module.css"; // Import CSS module for styling
 import { useRouter } from "next/navigation";
 import Dialog from "./confirmMessage";
 import { saveVideo } from "../helper";
+import Button from "@/app/core/components/Button";
 
 const WebcamRecorder: React.FC = () => {
   // Reference to the video element
@@ -11,10 +11,10 @@ const WebcamRecorder: React.FC = () => {
   // Reference to the MediaRecorder instance
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   // State to track if recording is in progress
-  const [recording, setRecording] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
   // State to store recorded video chunks
   const [recordedChunks, setRecordedChunks] = useState<Blob[]>([]);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMicOn, setIsMicOn] = useState(true);
   const [isCameraOn, setIsCameraOn] = useState(true);
   const router = useRouter();
   const [showDialog, setShowDialog] = useState(false);
@@ -82,7 +82,7 @@ const WebcamRecorder: React.FC = () => {
     setRecordedChunks([]); // Clear any previously recorded chunks
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.start(); // Start the MediaRecorder
-      setRecording(true); // Update recording state
+      setIsRecording(true); // Update recording state
     }
   };
 
@@ -90,7 +90,7 @@ const WebcamRecorder: React.FC = () => {
   const stopRecording = () => {
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop(); // Stop the MediaRecorder
-      setRecording(false); // Update recording state
+      setIsRecording(false); // Update recording state
     }
   };
 
@@ -104,10 +104,10 @@ const WebcamRecorder: React.FC = () => {
     if (mediaRecorderRef.current?.stream) {
       const audioTracks = mediaRecorderRef.current.stream.getAudioTracks();
       audioTracks.forEach((track) => {
-        track.enabled = !isMuted; // Toggle audio track enabled state
+        track.enabled = !isMicOn; // Toggle audio track enabled state
       });
-      console.log("muted state: ", isMuted);
-      setIsMuted(!isMuted); // Update muted state
+      console.log("muted state: ", isMicOn);
+      setIsMicOn(!isMicOn); // Update muted state
     }
   };
 
@@ -123,7 +123,7 @@ const WebcamRecorder: React.FC = () => {
 
   // Function to handle ending the recording and cleanup
   const handleEnd = () => {
-    if (recording) {
+    if (isRecording) {
       setShowDialog(!showDialog);
     } else {
       router.push("/");
@@ -142,9 +142,11 @@ const WebcamRecorder: React.FC = () => {
       ></video>
       <div className={classes.controls}>
         {/* Button to go back to the previous page */}
-        <button className={clsx(classes.normalButton)} onClick={handleEnd}>
-          Go Back
-        </button>
+        <Button
+          type={isRecording ? "SECONDARY" : "PRIMARY"}
+          label="Back"
+          onClick={handleEnd}
+        />
         {showDialog && (
           <Dialog
             title="You are still recording!"
@@ -153,37 +155,22 @@ const WebcamRecorder: React.FC = () => {
             onConfirm={confirmDialog}
           />
         )}
-        {/* Conditional button to start or stop recording */}
-        {!recording ? (
-          <button
-            className={clsx(classes.normalButton)}
-            onClick={startRecording}
-          >
-            Start Recording
-          </button>
-        ) : (
-          <button
-            className={clsx(classes.normalButton)}
-            onClick={stopRecording}
-          >
-            Stop Recording
-          </button>
-        )}
-        <button className={clsx(classes.normalButton)} onClick={toggleCamera}>
-          {isCameraOn ? "Turn Camera Off" : "Turn Camera On"}
-        </button>
-        <button className={clsx(classes.normalButton)} onClick={toggleMute}>
-          {isMuted ? "Mute" : "Unmute"}
-        </button>
-        {/* Button to download the video if there are recorded chunks */}
-        {recordedChunks.length > 0 && (
-          <button
-            className={clsx(classes.normalButton)}
-            onClick={downloadVideo}
-          >
-            Download Video
-          </button>
-        )}
+        <Button
+          type={isRecording ? "SECONDARY" : "PRIMARY"}
+          label={isRecording ? "Stop Recording" : "Start Recording"}
+          onClick={isRecording ? () => stopRecording : startRecording}
+        />
+
+        <Button
+          type={isCameraOn ? "SECONDARY" : "PRIMARY"}
+          label={isCameraOn ? "Stop Camera" : "Start Camera"}
+          onClick={toggleCamera}
+        />
+        <Button
+          type={isMicOn ? "SECONDARY" : "PRIMARY"}
+          label={isMicOn ? "Stop Mic" : "Start Mic"}
+          onClick={toggleMute}
+        />
       </div>
     </div>
   );
