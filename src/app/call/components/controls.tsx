@@ -139,6 +139,7 @@ const WebcamRecorder: React.FC = () => {
         playsInline
         width="900"
         height="700"
+        muted={true}
       ></video>
       <div className={classes.controls}>
         {/* Button to go back to the previous page */}
