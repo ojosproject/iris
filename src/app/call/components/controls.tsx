@@ -71,10 +71,7 @@ const WebcamRecorder: React.FC = () => {
 
   // Handler for when data is available from the MediaRecorder
   const handleDataAvailable = (event: BlobEvent) => {
-    if (event.data.size > 0) {
-      // Append recordings if it has data
-      setRecordedChunks((prev) => [...prev, event.data]);
-    }
+    saveVideo(new Blob([event.data], { type: "video/mp4" }));
   };
 
   // Function to start recording
@@ -125,10 +122,6 @@ const WebcamRecorder: React.FC = () => {
       router.push("/");
     }
   };
-
-  if (recordedChunks && mediaRecorderRef.current?.state === "inactive") {
-    saveVideo(new Blob(recordedChunks, { type: "video/mp4" }));
-  }
 
   return (
     <div>
