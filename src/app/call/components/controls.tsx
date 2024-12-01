@@ -13,7 +13,6 @@ const WebcamRecorder: React.FC = () => {
   // State to track if recording is in progress
   const [isRecording, setIsRecording] = useState(false);
   // State to store recorded video chunks
-  const [recordedChunks, setRecordedChunks] = useState<Blob[]>([]);
   const [isMicOn, setIsMicOn] = useState(true);
   const [isCameraOn, setIsCameraOn] = useState(true);
   const router = useRouter();
@@ -76,7 +75,6 @@ const WebcamRecorder: React.FC = () => {
 
   // Function to start recording
   const startRecording = () => {
-    setRecordedChunks([]); // Clear any previously recorded chunks
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.start(); // Start the MediaRecorder
       setIsRecording(true); // Update recording state
@@ -89,8 +87,6 @@ const WebcamRecorder: React.FC = () => {
       mediaRecorderRef.current.stop(); // Stop the MediaRecorder
       setIsRecording(false); // Update recording state
     }
-
-    setRecordedChunks([]);
   };
 
   const toggleMute = () => {
