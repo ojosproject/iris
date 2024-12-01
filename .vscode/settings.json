@@ -32,18 +32,5 @@
     "structs",
     "Tauri",
     "webm"
-  ],
-  "indentRainbow.indentSetter": {
-    "markdown": 2
-  },
-  "sqltools.connections": [
-    {
-      "previewLimit": 50,
-      "driver": "SQLite",
-      "database": "${workspaceFolder:iris}/src-tauri/iris.db",
-      "name": "Iris DB"
-    }
-  ],
-  "sqltools.useNodeRuntime": true,
-  "coverage-gutters.coverageFileNames": ["src-tauri/lcov.info"]
+  ]
 }
