@@ -1,6 +1,6 @@
 "use client";
 
-import { Resource } from "@/app/core/types";
+import { Resource } from "./types";
 import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import ResourcesView from "./ResourcesView";

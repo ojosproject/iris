@@ -1,22 +1,25 @@
-import Link from "next/link";
+// call/page.tsx
+// Ojos Project
+"use client";
 import classes from "./page.module.css";
-import Controls from "./components/controls";
-import Camera from "./components/camera";
-import RecordingsButton from "./components/recordingsButton";
+import Button from "../core/components/Button";
+import { invoke } from "@tauri-apps/api/core";
+import WebcamRecorder from "./components/controls";
 
 export default function Call() {
   return (
     <>
       <header className={classes.header}>
-        {/* <Link href="/call/recordings" className={classes.link}>
-          <div className={classes.viewRecordings}>View Recordings</div>
-        </Link> */}
-        <RecordingsButton />
+        <Button
+          type="SECONDARY"
+          label="View Recordings"
+          onClick={() => {
+            invoke("open_recordings_folder");
+          }}
+        />
       </header>
-      <main>
-        {/* <h1>Video Call</h1> */}
-        <Camera />
-        <Controls />
+      <main className={classes.video_main}>
+        <WebcamRecorder />
       </main>
     </>
   );

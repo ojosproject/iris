@@ -23,8 +23,6 @@
     - [Setting up your coding environment](#setting-up-your-coding-environment)
       - [Tauri](#tauri)
       - [Next.js](#nextjs)
-      - [Rust](#rust)
-      - [VS Code Extensions](#vs-code-extensions)
     - [Run the program](#run-the-program)
     - [Clearing Iris Data](#clearing-iris-data)
     - [Now what?](#now-what)
@@ -144,6 +142,14 @@ It may be useful to read the following resources before development:
 
 ### Setting up your coding environment
 
+Before you clone the repository, please:
+
+1. Follow [Tauri's prerequisite guide](https://tauri.app/start/prerequisites/)
+2. Follow the [Rust install guide](https://www.rust-lang.org/tools/install)
+3. Install the Tauri CLI: `cargo install tauri-cli --version "^2.0.0" --locked`
+4. VSCode (Optional)
+   1. Install recommended plugins with `@recommended`
+
 ```shell
 # Clone the repository with SSH (or HTTPS)
 git clone git@github.com:ojosproject/iris.git
@@ -153,26 +159,13 @@ cd iris
 #### Tauri
 
 Iris is written with a lot of different tools; however, we primarily use the
-[Tauri](https://tauri.app/) toolkit. Before attempting to write any code,
-please follow their
-[prerequisite guide here](https://tauri.app/start/prerequisites/).
+[Tauri](https://tauri.app/) toolkit, which requires [Rust](https://rust-lang.org/).
 
 #### Next.js
 
 Because of Tauri, we're also allowed to write the frontend using
 [Next.js](https://nextjs.org/) using [React](https://react.dev/) and
 [Typescript](https://www.typescriptlang.org/).
-
-#### Rust
-
-Please install Rust using [this guide](https://www.rust-lang.org/tools/install).
-
-#### VS Code Extensions
-
-[Download the recommended VS Code extensions with `@recommended`](https://code.visualstudio.com/docs/editor/extension-marketplace#_extensions-view-filters).
-
-When you open the repository in VS Code, you can open the Extensions tab and
-type `@recommended` to see all of the extensions we use. Please install them.
 
 ### Run the program
 
@@ -188,14 +181,6 @@ npm i
 cargo tauri dev
 # npm run tauri dev   <-- also works!
 ```
-
-> [!NOTE]
-> If `cargo tauri dev` does not work, you might have to install the Tauri CLI.
-> You can do so by running:
->
-> ```shell
-> cargo install tauri-cli --version "^2.0.0" --locked
-> ```
 
 ### Clearing Iris Data
 

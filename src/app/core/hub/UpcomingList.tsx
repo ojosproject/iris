@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import classes from "./UpcomingList.module.css";
 import UpcomingMed from "../hub/UpcomingMed";
-import { Medication } from "@/app/core/types";
+import { Medication } from "@/app/medications/types";
 import { invoke } from "@tauri-apps/api/core";
 
 export default function UpcomingList() {
