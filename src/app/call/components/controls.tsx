@@ -1,32 +1,30 @@
-import React, { useEffect, useRef, useState } from "react"; // Import necessary hooks and components from React
-import classes from "./controls.module.css"; // Import CSS module for styling
+// controls.tsx
+// Ojos Project
+import React, { useEffect, useRef, useState } from "react";
+import classes from "./controls.module.css";
 import { useRouter } from "next/navigation";
 import Dialog from "./confirmMessage";
 import { saveVideo } from "../helper";
 import Button from "@/app/core/components/Button";
 
 const WebcamRecorder: React.FC = () => {
-  // Reference to the video element
+  const router = useRouter();
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  // Reference to the MediaRecorder instance
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-  // State to track if recording is in progress
   const [isRecording, setIsRecording] = useState(false);
-  // State to store recorded video chunks
   const [isMicOn, setIsMicOn] = useState(true);
   const [isCameraOn, setIsCameraOn] = useState(true);
-  const router = useRouter();
   const [showDialog, setShowDialog] = useState(false);
 
   const confirmDialog = () => {
-    stopRecording(); // Stop recording
+    stopRecording();
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stream
         .getTracks()
         .forEach((track) => track.stop());
     }
-    setShowDialog(false); // Close the dialog
-    router.push("/"); // Navigate to home page
+    setShowDialog(false);
+    router.push("/");
   };
 
   const closeDialog = () => {
@@ -76,16 +74,16 @@ const WebcamRecorder: React.FC = () => {
   // Function to start recording
   const startRecording = () => {
     if (mediaRecorderRef.current) {
-      mediaRecorderRef.current.start(); // Start the MediaRecorder
-      setIsRecording(true); // Update recording state
+      mediaRecorderRef.current.start();
+      setIsRecording(true);
     }
   };
 
   // Function to stop recording
   const stopRecording = () => {
     if (mediaRecorderRef.current) {
-      mediaRecorderRef.current.stop(); // Stop the MediaRecorder
-      setIsRecording(false); // Update recording state
+      mediaRecorderRef.current.stop();
+      setIsRecording(false);
     }
   };
 
@@ -95,8 +93,7 @@ const WebcamRecorder: React.FC = () => {
       audioTracks.forEach((track) => {
         track.enabled = !isMicOn; // Toggle audio track enabled state
       });
-      console.log("muted state: ", isMicOn);
-      setIsMicOn(!isMicOn); // Update muted state
+      setIsMicOn(!isMicOn);
     }
   };
 
@@ -106,7 +103,7 @@ const WebcamRecorder: React.FC = () => {
       videoTracks.forEach((track) => {
         track.enabled = !isCameraOn; // Toggle video track enabled state
       });
-      setIsCameraOn(!isCameraOn); // Update camera state
+      setIsCameraOn(!isCameraOn);
     }
   };
 
@@ -165,4 +162,4 @@ const WebcamRecorder: React.FC = () => {
   );
 };
 
-export default WebcamRecorder; // Export the WebcamRecorder component
+export default WebcamRecorder;

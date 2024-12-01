@@ -1,3 +1,5 @@
+// confirmMessage.tsx
+// Ojos Project
 import React from "react";
 import "./confirmMessage.css";
 
@@ -5,7 +7,7 @@ interface DialogProps {
   title: string;
   content: string;
   onClose: () => void;
-  onConfirm: () => void; // Adding a confirm action
+  onConfirm: () => void;
 }
 
 const Dialog: React.FC<DialogProps> = ({
