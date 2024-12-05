@@ -1,0 +1,34 @@
+.container_settings {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.column {
+  max-width: 300px;
+}
+
+.label_row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.number_button_row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.add_number_button {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.section_column {
+  display: flex;
+  flex-direction: column;
+}

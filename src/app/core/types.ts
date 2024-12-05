@@ -12,7 +12,13 @@ export type User = {
   email?: string;
 };
 
+type ConfigContact = {
+  method: "SMS";
+  value: string;
+};
+
 export type Config = {
   resources_last_call: number; // integer
   onboarding_completed: boolean;
+  contacts: ConfigContact[];
 };
