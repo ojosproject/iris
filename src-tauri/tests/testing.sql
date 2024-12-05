@@ -97,3 +97,104 @@ VALUES
 INSERT INTO care_instruction (id, title, content, frequency, added_by, last_updated)
 VALUES
 ("t4d0e8f2-e4d5-40f5-b79c-d48b5d986cb7", "Maintain Hygiene of Breathing Equipment", "Clean the patient's breathing equipment (mask, tubing) regularly to prevent infection and ensure proper function.", "Once a day", "a1b2c3d4-e5f6-7890-abcd-1234ef567890", 1633161600);
+
+-- Insert medication 1
+INSERT INTO medication (name, brand, dose, frequency, supply, total_prescribed, first_added, last_taken, upcoming_dose, schedule, measurement, nurse_id) 
+VALUES ("Aspirin", "Bayer", 500.0, 1.0, 30.0, 90.0, 1695850200, 1695990000, 500.0, NULL, "mg", "b8f1a16e-10f3-4dbf-bbfa-24e60476b7d9");
+
+-- Insert medication 2
+INSERT INTO medication (name, brand, dose, frequency, supply, total_prescribed, first_added, last_taken, upcoming_dose, schedule, measurement, nurse_id) 
+VALUES ("Lisinopril", "Zestril", 10.0, 1.0, 60.0, 180.0, 1695855000, 1695986400, 10.0, NULL, "mg", "d983b31c-6a92-41d7-9f6f-02d5b9208425");
+
+-- Insert medication 3
+INSERT INTO medication (name, brand, dose, frequency, supply, total_prescribed, first_added, last_taken, upcoming_dose, schedule, measurement, nurse_id) 
+VALUES ("Metformin", "Glucophage", 500.0, 2.0, 90.0, 270.0, 1695858000, 1695982800, 500.0, NULL, "mg", "7bb7d8bb-8bfa-4d78-a019-178f015e871b");
+
+-- Insert medication 4
+INSERT INTO medication (name, brand, dose, frequency, supply, total_prescribed, first_added, last_taken, upcoming_dose, schedule, measurement, nurse_id) 
+VALUES ("Atorvastatin", "Lipitor", 20.0, 1.0, 30.0, 90.0, 1695860400, 1695981000, 20.0, NULL, "mg", "76456f98-d8bc-4d3a-a2cf-9a1b98269f35");
+
+-- Insert medication 5
+INSERT INTO medication (name, brand, dose, frequency, supply, total_prescribed, first_added, last_taken, upcoming_dose, schedule, measurement, nurse_id) 
+VALUES ("Insulin", "Humalog", 15.0, 3.0, 100.0, 300.0, 1695862800, 1695985200, 15.0, NULL, "units", "d1b63b88-3a84-4e73-b7fa-88f6b6a0bfa3");
+
+-- Insert log 1
+INSERT INTO medication_log (timestamp, medication_name, given_dose, measurement, comment) 
+VALUES (1695993600, "Aspirin", 500.0, "mg", "Morning dose taken.");
+
+-- Insert log 2
+INSERT INTO medication_log (timestamp, medication_name, given_dose, measurement, comment) 
+VALUES (1695997200, "Aspirin", 500.0, "mg", "Aspirin taken with breakfast.");
+
+-- Insert log 3
+INSERT INTO medication_log (timestamp, medication_name, given_dose, measurement, comment) 
+VALUES (1696000800, "Lisinopril", 10.0, "mg", "Lisinopril taken after breakfast.");
+
+-- Insert log 4
+INSERT INTO medication_log (timestamp, medication_name, given_dose, measurement, comment) 
+VALUES (1696004400, "Lisinopril", 10.0, "mg", "Morning dose of Lisinopril.");
+
+-- Insert log 5
+INSERT INTO medication_log (timestamp, medication_name, given_dose, measurement, comment) 
+VALUES (1696008000, "Metformin", 500.0, "mg", "Metformin taken with first meal.");
+
+-- Insert log 6
+INSERT INTO medication_log (timestamp, medication_name, given_dose, measurement, comment) 
+VALUES (1696011600, "Metformin", 500.0, "mg", "Morning dose of Metformin taken.");
+
+-- Insert log 7
+INSERT INTO medication_log (timestamp, medication_name, given_dose, measurement, comment) 
+VALUES (1696015200, "Atorvastatin", 20.0, "mg", "Atorvastatin taken in the morning.");
+
+-- Insert log 8
+INSERT INTO medication_log (timestamp, medication_name, given_dose, measurement, comment) 
+VALUES (1696018800, "Atorvastatin", 20.0, "mg", "Atorvastatin taken after breakfast.");
+
+-- Insert log 9
+INSERT INTO medication_log (timestamp, medication_name, given_dose, measurement, comment) 
+VALUES (1696022400, "Insulin", 15.0, "units", "Insulin taken before lunch.");
+
+-- Insert log 10
+INSERT INTO medication_log (timestamp, medication_name, given_dose, measurement, comment) 
+VALUES (1696026000, "Insulin", 15.0, "units", "Afternoon dose of Insulin.");
+
+-- Insert log 11
+INSERT INTO medication_log (timestamp, medication_name, given_dose, measurement, comment) 
+VALUES (1696029600, "Aspirin", 500.0, "mg", "Aspirin taken after lunch.");
+
+-- Insert log 12
+INSERT INTO medication_log (timestamp, medication_name, given_dose, measurement, comment) 
+VALUES (1696033200, "Lisinopril", 10.0, "mg", "Lisinopril taken with evening meal.");
+
+-- Insert log 13
+INSERT INTO medication_log (timestamp, medication_name, given_dose, measurement, comment) 
+VALUES (1696036800, "Metformin", 500.0, "mg", "Metformin taken before dinner.");
+
+-- Insert log 14
+INSERT INTO medication_log (timestamp, medication_name, given_dose, measurement, comment) 
+VALUES (1696040400, "Metformin", 500.0, "mg", "Evening dose of Metformin.");
+
+-- Insert log 15
+INSERT INTO medication_log (timestamp, medication_name, given_dose, measurement, comment) 
+VALUES (1696044000, "Atorvastatin", 20.0, "mg", "Atorvastatin taken after dinner.");
+
+-- Insert log 16
+INSERT INTO medication_log (timestamp, medication_name, given_dose, measurement, comment) 
+VALUES (1696047600, "Insulin", 15.0, "units", "Insulin taken before dinner.");
+
+-- Insert log 17
+INSERT INTO medication_log (timestamp, medication_name, given_dose, measurement, comment) 
+VALUES (1696051200, "Aspirin", 500.0, "mg", "Aspirin taken in the evening.");
+
+-- Insert log 18
+INSERT INTO medication_log (timestamp, medication_name, given_dose, measurement, comment) 
+VALUES (1696054800, "Lisinopril", 10.0, "mg", "Lisinopril taken before bed.");
+
+-- Insert log 19
+INSERT INTO medication_log (timestamp, medication_name, given_dose, measurement, comment) 
+VALUES (1696058400, "Metformin", 500.0, "mg", "Metformin taken at night.");
+
+-- Insert log 20
+INSERT INTO medication_log (timestamp, medication_name, given_dose, measurement, comment) 
+VALUES (1696062000, "Insulin", 15.0, "units", "Evening insulin dose.");
+
