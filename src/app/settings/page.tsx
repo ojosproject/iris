@@ -191,7 +191,7 @@ export default function Settings() {
         <Dialog
           title="Add Phone Number"
           content={
-            'By selecting "Add number", I consent to receiving text messages about your patient\'s care.'
+            'By selecting "Add number", I consent to receiving text messages about my patient\'s care.'
           }
         >
           <input
