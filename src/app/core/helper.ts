@@ -36,15 +36,18 @@ export function timestampToString(
   return ``;
 }
 
-export function parse_phone_number(digits: number): string {
+export function parse_phone_number(digits: number | string): string {
   let parsed = digits.toString();
-
-  if (parsed.length === 10) {
+  if (4 > parsed.length) {
+    return parsed;
+  } else if (parsed.length < 7) {
+    return `(${parsed.slice(0, 3)}) ${parsed.slice(3, 6)}`;
+  } else if (parsed.length < 11) {
     return `(${parsed.slice(0, 3)}) ${parsed.slice(3, 6)}-${parsed.slice(6)}`;
   } else if (parsed.length === 11) {
     // if it includes the 1 in the beginning
     // though, please try to prevent that if possible
-    return `${parsed.slice(0, 1)} (${parsed.slice(1, 4)}) ${parsed.slice(4, 7)}-${parsed.slice(8)}`;
+    return `${parsed.slice(0, 1)} (${parsed.slice(1, 4)}) ${parsed.slice(4, 7)}-${parsed.slice(7)}`;
   }
 
   // if neither of the above conditions fit, return an empty string

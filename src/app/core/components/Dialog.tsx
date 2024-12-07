@@ -20,7 +20,7 @@ const Dialog: React.FC<DialogProps> = ({ title, content, children }) => {
         <div className="dialog-content">
           <p>{content}</p>
         </div>
-        <div className="dialog-actions">{children}</div>
+        {children}
       </div>
     </div>
   );

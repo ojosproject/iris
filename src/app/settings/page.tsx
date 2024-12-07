@@ -11,6 +11,7 @@ import { Config } from "../core/types";
 import Button from "../core/components/Button";
 import { parse_phone_number } from "../core/helper";
 import Dialog from "../core/components/Dialog";
+import { invoke } from "@tauri-apps/api/core";
 
 type SectionProps = {
   children: ReactElement;
@@ -45,21 +46,23 @@ function Section({ children, title, description }: SectionProps) {
 export default function Settings() {
   const [config, setConfig] = useState<Config | null>(null);
   const [displayDialog, setDisplayDialog] = useState(false);
+  const [displayNumberDialog, setDisplayNumberDialog] = useState(false);
   const [relayActivated, setRelayActivated] = useState(false);
+  const [newNumber, setNewNumber] = useState("");
 
   useEffect(() => {
-    /*invoke("get_config").then((c) => {
+    invoke("get_config").then((c) => {
       setConfig(c as Config);
-      if ((c as Config).contacts.length()) {
+      if ((c as Config).contacts.length) {
         setRelayActivated(true);
       }
-    });*/
-    setConfig({
-      contacts: [],
-      onboarding_completed: true,
-      resources_last_call: 0,
     });
   }, []);
+
+  function commitConfig(newConfig: Config) {
+    invoke("set_config", { config: newConfig });
+    setConfig(newConfig);
+  }
 
   function RelaySection({
     config,
@@ -84,6 +87,12 @@ export default function Settings() {
                 setRelayActivated(!relayActivated);
                 if (!relayActivated) {
                   setDisplayDialog(!displayDialog);
+                } else {
+                  commitConfig({
+                    contacts: [],
+                    onboarding_completed: config.onboarding_completed,
+                    resources_last_call: config.resources_last_call,
+                  });
                 }
               }}
             ></Switch>
@@ -99,7 +108,15 @@ export default function Settings() {
                     <Button
                       type="SECONDARY"
                       label="Delete"
-                      onClick={() => {}}
+                      onClick={() => {
+                        commitConfig({
+                          onboarding_completed: config.onboarding_completed,
+                          resources_last_call: config.resources_last_call,
+                          contacts: config.contacts.filter(
+                            (contact) => contact.value !== c.value,
+                          ),
+                        });
+                      }}
                     />
                   </div>
                 );
@@ -109,7 +126,13 @@ export default function Settings() {
 
           {relayActivated && (
             <div className={classes.add_number_button}>
-              <Button type="PRIMARY" label="Add Number" onClick={() => {}} />
+              <Button
+                type="PRIMARY"
+                label="Add Number"
+                onClick={() => {
+                  setDisplayNumberDialog(true);
+                }}
+              />
             </div>
           )}
         </div>
@@ -137,15 +160,105 @@ export default function Settings() {
           title="Activate Relay?"
           content="By adding your phone number to this program, you consent to receiving messages about the hospice patient's care. Messages such as when the patient takes their medication, new care instructions, and more. "
         >
-          <Button type="PRIMARY" label="I consent" onClick={() => {}} />
-          <Button
-            type="SECONDARY"
-            label="Never mind"
-            onClick={() => {
-              setDisplayDialog(!displayDialog);
-              setRelayActivated(false);
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignContent: "center",
+            }}
+          >
+            <Button
+              type="PRIMARY"
+              label="I consent"
+              onClick={() => {
+                setDisplayDialog(!displayDialog);
+                setRelayActivated(true);
+              }}
+            />
+            <Button
+              type="SECONDARY"
+              label="Never mind"
+              onClick={() => {
+                setDisplayDialog(!displayDialog);
+                setRelayActivated(false);
+              }}
+            />
+          </div>
+        </Dialog>
+      )}
+      {displayNumberDialog && (
+        <Dialog
+          title="Add Phone Number"
+          content={
+            'By selecting "Add number", I consent to receiving text messages about your patient\'s care.'
+          }
+        >
+          <input
+            placeholder="(000) 000-0000"
+            style={{
+              height: "35px",
+              width: "250px",
+              border: "solid black 2px",
+              margin: "20px",
+              outline: "none",
+              borderRadius: "5px",
+              textAlign: "center",
+            }}
+            type="text"
+            value={parse_phone_number(newNumber)}
+            onChange={(e) => {
+              let cleanedNumber = "";
+              e.target.value.split("").forEach((char) => {
+                if (
+                  ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"].includes(
+                    char,
+                  )
+                ) {
+                  cleanedNumber += char;
+                }
+              });
+              if (cleanedNumber.length > 11) {
+                return "";
+              }
+              setNewNumber(cleanedNumber === "" ? "" : cleanedNumber);
             }}
           />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignContent: "center",
+            }}
+          >
+            <Button
+              type="PRIMARY"
+              label="Add number"
+              onClick={() => {
+                setDisplayNumberDialog(!displayNumberDialog);
+                commitConfig({
+                  onboarding_completed: config!.onboarding_completed,
+                  resources_last_call: config!.resources_last_call,
+                  contacts: [
+                    ...config!.contacts,
+                    { method: "SMS", value: newNumber },
+                  ],
+                });
+                config?.contacts.push({
+                  method: "SMS",
+                  value: newNumber,
+                });
+              }}
+            />
+            <Button
+              type="SECONDARY"
+              label="Cancel"
+              onClick={() => {
+                setDisplayNumberDialog(!displayNumberDialog);
+              }}
+            />
+          </div>
         </Dialog>
       )}
     </div>

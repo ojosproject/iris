@@ -20,6 +20,7 @@ fn main() {
             medications::commands::log_medication,
             core::commands::get_patient_info,
             core::commands::get_config,
+            core::commands::set_config,
             core::commands::complete_onboarding,
             core::commands::get_nurse_info,
             core::commands::create_user,
