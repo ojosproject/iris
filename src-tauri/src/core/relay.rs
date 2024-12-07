@@ -9,15 +9,15 @@ use std::{collections::HashMap, env};
 use tauri::AppHandle;
 
 pub fn relay(body: &String, app: AppHandle) {
-    let contacts = config::get_contacts(app.clone());
+    let contacts = config::get_config(&app).contacts;
     let token = _verify_device_token(app.clone());
 
     if !token.is_empty() {
         for contact in contacts {
-            if contact.get("type").unwrap() == "sms" {
-                send_sms(body, contact.get("value").unwrap(), &token);
-            } else if contact.get("type").unwrap() == "email" {
-                send_email(body, contact.get("value").unwrap());
+            if contact.method == "sms" {
+                send_sms(body, &contact.value, &token);
+            } else if contact.method == "email" {
+                send_email(body, &contact.value);
             }
         }
     } else {
@@ -68,10 +68,10 @@ fn _verify_device_token(app: AppHandle) -> String {
         // TODO: figure out where to generate a unique device id. the device id must be unique as it will be stored in a database
 
         let response = client
-        .post(flask_url)
-        .json(&request_map)
-        .send()
-        .expect("FAILED TO SEND MESSAGE");
+            .post(flask_url)
+            .json(&request_map)
+            .send()
+            .expect("FAILED TO SEND MESSAGE");
 
         let response_status = response.status();
         let response_body: Value = serde_json::from_str(&response.text().unwrap()).unwrap();
@@ -79,7 +79,7 @@ fn _verify_device_token(app: AppHandle) -> String {
         if response_status.is_success() {
             return token;
         } else {
-            return "".to_string(); 
+            return "".to_string();
         }
     } else {
         return token;

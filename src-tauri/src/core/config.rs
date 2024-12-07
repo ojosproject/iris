@@ -18,6 +18,13 @@ pub fn set_resources_last_call(app: AppHandle, value: i64) {
     fs::write(app_config_dir.join("config.json"), config_string).unwrap();
 }
 
+pub fn get_api_token(app: AppHandle) -> String {
+    let config = get_config(app.app_handle());
+    config.api_token
+}
+
+pub fn save_api_token(app: AppHandle, token: String) {}
+
 pub fn set_onboarding_completed(app: AppHandle, value: bool) {
     let app_config_dir = app.path().app_config_dir().unwrap();
 
@@ -38,6 +45,7 @@ pub fn get_config(app: &AppHandle) -> Config {
                     resources_last_call: 0,
                     onboarding_completed: false,
                     contacts: vec![],
+                    api_token: "".to_string(),
                 };
                 if !app_data_dir.exists() {
                     fs::create_dir(&app_data_dir).unwrap();
