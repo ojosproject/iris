@@ -13,7 +13,7 @@ pub fn open_recordings_folder(app: AppHandle) {
     };
 
     process::Command::new(command)
-        .args([app.path().app_data_dir().unwrap().join("recordings/")])
+        .args([app.path().app_data_dir().unwrap().join("recordings")])
         .output()
         .unwrap();
 }
