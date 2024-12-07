@@ -21,4 +21,5 @@ export type Config = {
   resources_last_call: number; // integer
   onboarding_completed: boolean;
   contacts: ConfigContact[];
+  enable_ai: boolean;
 };
