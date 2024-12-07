@@ -1,11 +1,9 @@
 "use client";
 
-import { Resource } from "@/types";
+import { Resource } from "../types";
 import classes from "./ResourcesList.module.css";
 import QRCode from "react-qr-code";
-import { timestampToString } from "@/helper";
-import { useEffect } from "react";
-import { invoke } from "@tauri-apps/api/core";
+import { timestampToString } from "@/app/core/helper";
 
 export default function ResourcesList(props: {
   resources: Resource[];
@@ -45,7 +43,7 @@ export default function ResourcesList(props: {
   return (
     <div className={classes.resource_list_container}>
       {props.resources.map((resource) => {
-        return <Resource key={resource.last_updated} resource={resource} />;
+        return <Resource key={resource.url} resource={resource} />;
       })}
     </div>
   );

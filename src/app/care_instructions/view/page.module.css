@@ -1,0 +1,84 @@
+/*
+care_instructions/view/page.module.css
+Ojos Project
+*/
+.care_instructions_container {
+  display: flex;
+  flex-direction: column;
+}
+
+.button_column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.topics_button {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+}
+
+.last_updated {
+  position: fixed;
+  top: 180px;
+  right: 20px;
+
+  color: grey;
+  font-size: 15px;
+}
+
+.last_updated_inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  line-height: 1px;
+}
+
+.input_container {
+  margin: 20px 0 0 50px;
+  width: 60dvw;
+  overflow-wrap: anywhere;
+}
+
+.back_button {
+  position: fixed;
+  top: 2%;
+  left: 2%;
+}
+
+.button_save_instructions {
+  position: fixed;
+  bottom: 10%;
+  right: 2%;
+}
+
+.care_title {
+  align-self: center;
+}
+
+.input_care_title {
+  width: 500px;
+  height: 35px;
+
+  margin-bottom: 35px;
+  padding: 0 5px;
+
+  border: solid #094595 2px;
+  border-radius: 5px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.input_care_content {
+  resize: none;
+  width: 650px;
+  min-height: 50dvh;
+  padding: 5px;
+
+  border: solid #094595 2px;
+  border-radius: 10px;
+  font-size: 15px;
+}

@@ -12,7 +12,7 @@
     "editor.defaultFormatter": "rust-lang.rust-analyzer",
     "editor.formatOnSave": true
   },
-  "[typescriptreact][css][scss]": {
+  "[typescriptreact][css][scss][typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true
   },
@@ -28,19 +28,9 @@
     "ojosproject",
     "Pipenv",
     "rusqlite",
-    "Tauri"
-  ],
-  "indentRainbow.indentSetter": {
-    "markdown": 2
-  },
-  "sqltools.connections": [
-    {
-      "previewLimit": 50,
-      "driver": "SQLite",
-      "database": "${workspaceFolder:iris}/src-tauri/iris.db",
-      "name": "Iris DB"
-    }
-  ],
-  "sqltools.useNodeRuntime": true,
-  "coverage-gutters.coverageFileNames": ["src-tauri/lcov.info"]
+    "struct",
+    "structs",
+    "Tauri",
+    "webm"
+  ]
 }

@@ -1,100 +1,40 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
-mod config;
-mod dev;
+mod call;
+mod care_instructions;
+mod core;
 mod medications;
-mod menu;
 mod resources;
-mod structs;
-mod user;
-mod relay;
-use crate::menu::menu;
-use crate::structs::{Medication, Resource};
-use std::{env, fs, process};
-use structs::User;
-use tauri::{AppHandle, Manager};
-use user::get_patient;
-
-//todo: fix the below methods to work with hashmaps & not a vector
-// #[tauri::command(rename_all = "snake_case")]
-// fn add_phone_number(app: AppHandle, number: String) {
-//     config::add_phone_number(app, number);
-// }
-
-// #[tauri::command(rename_all = "snake_case")]
-// fn send_sms_messages(app: AppHandle, message: String) {
-//     for recipient in config::get_phone_numbers(app) {
-//         let success = relay::send_SMS_message(&message, recipient);
-//         // success is a tuple that contains a boolean and then a ResponseStatus,
-//         // which contains a String message
-//         if !success.0 {
-//             panic!("{:?}", relay::read_response_status(success.1));
-//         }
-//     }
-// }
-
-#[tauri::command(rename_all = "snake_case")]
-fn get_medications(app: AppHandle) -> Vec<Medication> {
-    get_patient(app.clone()).get_medications(app)
-}
-
-#[tauri::command]
-fn get_patient_info(app: AppHandle) -> User {
-    get_patient(app)
-}
-
-#[tauri::command(rename_all = "snake_case")]
-fn get_upcoming_medications(app: AppHandle) -> Vec<Medication> {
-    get_patient(app.clone()).get_upcoming_medications(app)
-}
-
-/// # `get_config` Command
-///
-/// Returns the `config.json` file as an object. For more information on the
-/// structure of `config.json`, check out the Config struct in `structs.rs`.
-///
-/// ## TypeScript Usage
-///
-/// ```typescript
-/// invoke('get_config').then(c => {
-///     console.log((c as Config).resources_last_call);
-/// });
-/// ```
-#[tauri::command(rename_all = "snake_case")]
-fn get_config(app: AppHandle) -> structs::Config {
-    config::get_config(app.app_handle())
-}
-
-/// # `get_resources` Command
-///
-/// Returns all of the resources that are available to Iris. This also checks
-/// the GitHub [resources repository](https://github.com/ojosproject/resources)
-/// for any updates. Returns a `Resource[]`.
-///
-/// ## TypeScript Usage
-///
-/// ```typescript
-/// invoke('get_resources').then(r => {
-///     setResources(r as Resource[])
-/// })
-/// ```
-#[tauri::command(rename_all = "snake_case")]
-fn get_resources(app: AppHandle) -> Vec<Resource> {
-    resources::get_resources(app.clone())
-}
+use core::config;
+use std::{env, process};
+use tauri::Manager;
 
 fn main() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_fs::init())
         .invoke_handler(tauri::generate_handler![
-            get_medications,
-            get_upcoming_medications,
-            get_patient_info,
-            get_config,
-            get_resources,
-            // send_SMS_messages,
-            // add_phone_number
+            medications::commands::create_medication,
+            medications::commands::get_medications,
+            medications::commands::get_upcoming_medications,
+            medications::commands::get_medication,
+            medications::commands::get_medication_logs,
+            medications::commands::log_medication,
+            core::commands::get_patient_info,
+            core::commands::get_config,
+            core::commands::set_config,
+            core::commands::complete_onboarding,
+            core::commands::get_nurse_info,
+            core::commands::create_user,
+            care_instructions::commands::get_all_care_instructions,
+            care_instructions::commands::create_care_instructions,
+            care_instructions::commands::get_single_care_instruction,
+            care_instructions::commands::update_care_instructions,
+            care_instructions::commands::care_instructions_previous_next_ids,
+            resources::commands::get_resources,
+            call::commands::open_recordings_folder
         ])
         .setup(|app| {
-            app.set_menu(menu(app.app_handle().clone())).unwrap();
+            app.set_menu(core::menu::menu(app.app_handle().clone()))
+                .unwrap();
 
             app.on_menu_event(move |app, event| {
                 let copy = app.clone();
@@ -117,16 +57,18 @@ fn main() {
                         .unwrap();
                 } else if event.id() == "import_test_data" {
                     println!("Importing testing.sql...");
-                    dev::import_dummy_data(app.path().app_data_dir().unwrap().join("iris.db"));
+                    core::dev::import_dummy_data(
+                        app.path().app_data_dir().unwrap().join("iris.db"),
+                    );
                     println!("Done.");
                 } else if event.id() == "delete_db" {
                     let iris_path = app.path().app_data_dir().unwrap().join("iris.db");
                     println!("Deleting iris.db...");
-                    dev::delete_database(iris_path.clone());
+                    core::dev::delete_database(iris_path.clone());
                     println!("Done!");
 
                     println!("Recreating iris.db...");
-                    dev::create_database(iris_path.clone());
+                    core::onboarding::setup_onboarding(app.app_handle());
                     println!("Done!");
                 }
             });
@@ -136,11 +78,7 @@ fn main() {
             println!("Iris DB location: {:?}", app_data_dir.join("iris.db"));
             println!("Use the \"Help\" menu to open it on your computer.");
 
-            if !app_data_dir.join("iris.db").exists() {
-                fs::create_dir_all(&app_data_dir).unwrap();
-
-                dev::create_database(app_data_dir.join("iris.db"));
-            }
+            core::onboarding::setup_onboarding(app.app_handle());
 
             Ok(())
         })

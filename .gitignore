@@ -19,6 +19,7 @@ dist-ssr
 
 src-tauri/gen/schemas
 src-tauri/capabilities/schemas
+out
 
 .env
 

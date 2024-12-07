@@ -15,7 +15,7 @@
   - [Acknowledgements](#acknowledgements)
   - [Support](#support)
     - [GitHub Issues](#github-issues)
-    - [Contact Carlos](#contact-carlos)
+    - [Contact Us](#contact-us)
   - [License](#license)
 
 <!-- todo: Add sections for "Installation", "Usage" once we're in beta. -->
@@ -25,7 +25,7 @@
 
 > [!IMPORTANT]
 > Iris is not yet ready to be used as we're still working on the code. If you'd
-> like to help, please visit the [`CONTRIBUTING`](https://github.com/ojosproject/iris/blob/main/CONTRIBUTING.md) document.
+> like to help, please visit the [`CONTRIBUTING`](./CONTRIBUTING.md) document.
 > Thanks!
 >
 > To be updated on the status of this project, please
@@ -38,7 +38,7 @@ your loved one's care.
 ## Contributing
 
 Any and all contributions are welcomed! Please read our
-[`CONTRIBUTING` guide](https://github.com/ojosproject/iris/blob/dev/CONTRIBUTING.md) for more in-depth instructions to get
+[`CONTRIBUTING` guide](./CONTRIBUTING.md) for more in-depth instructions to get
 started.
 
 Don't forget to follow the
@@ -52,7 +52,7 @@ Notably...
 - [Professor Mark S. Baldwin](https://markbaldw.in/)
 - The [University of California, Irvine](https://uci.edu)'s [Undergraduate
   Research Opportunities Program](https://urop.uci.edu/)
-- The [entirety of the Ojos Project members](https://ojosproject.org/docs/url/members/),
+- The [entirety of the Ojos Project members](https://ojosproject.org/docs/members/),
   both current and former
 
 ## Support
@@ -66,11 +66,11 @@ to see if anybody else has had the same issue.
 If nobody's had the same issue,
 [please open an issue here](https://github.com/ojosproject/iris/issues/new/choose)!
 
-### Contact Carlos
+### Contact Us
 
-If you have any questions regarding Iris or the Ojos Project, please feel free
-to contact [Carlos Valdez](https://github.com/calejvaldez) at
-[cvaldezh@uci.edu](mailto:cvaldezh@uci.edu).
+To contact the team, you can join our
+[Discord server](https://discord.gg/qZyQadbuMG) or email us at
+<developers@ojosproject.org>.
 
 ## License
 

@@ -1,0 +1,18 @@
+/*
+CareInstructionButton.module.css
+Ojos Project
+*/
+.single_care_instruction {
+  width: 65dvw;
+  margin: 20px 0;
+  overflow-wrap: anywhere;
+}
+
+.single_care_instruction:hover {
+  cursor: pointer;
+}
+
+.tap_message {
+  font-size: 14px;
+  color: grey;
+}

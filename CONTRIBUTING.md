@@ -23,10 +23,9 @@
     - [Setting up your coding environment](#setting-up-your-coding-environment)
       - [Tauri](#tauri)
       - [Next.js](#nextjs)
-      - [Rust](#rust)
-      - [VS Code Extensions](#vs-code-extensions)
     - [Run the program](#run-the-program)
-    - [Structure (Frontend v. Backend)](#structure-frontend-v-backend)
+    - [Clearing Iris Data](#clearing-iris-data)
+    - [Now what?](#now-what)
 
 ## Introduction
 
@@ -55,10 +54,14 @@ work, and that does not change with this repository.
 We file issues in this space, we collaborate in this space, send commits in this
 space, and more.
 
+> [!TIP]
+>
+> Want to talk with the team? Feel free to join our Discord server!
+
 ### Get in contact
 
-As of now, the best way to get in contact with us is through Carlos via
-<cvaldezh@uci.edu>.
+You can contact the team via <developers@ojosproject.org> or through our
+[Discord server](https://discord.gg/qZyQadbuMG).
 
 ### License
 
@@ -89,7 +92,7 @@ Here's a few good examples:
 
 Since Iris is not yet production-ready, we are keeping all Iris-related
 documentation in the `docs` folder at the root of the repository. It's written
-in simple Markdown! (That is... until we figure out ojosproject/iris#10)
+in simple Markdown!
 
 Once Iris is production ready, we will be publishing the documents on
 [ojosproject.org](https://ojosproject.org/docs/).
@@ -103,6 +106,9 @@ to see various examples of designs by us.
 
 If you'd like to help with this aspect of the project, please contact Carlos so
 that he gives you access to the Figma projects and gets you set up.
+
+Ojos Project primarily uses [Figma](https://figma.com/) for our designs. Our
+main designer is [Jesse](https://github.com/jessed7).
 
 ### Community Building
 
@@ -121,11 +127,6 @@ information.
 
 ### `git` policies
 
-> [!IMPORTANT]
-> Our git policies states that when you want to merge your work, you should
-> use `dev`. Until we have a stable version of Iris, **please request to merge
-> into `main`.**
-
 Please make sure to follow our
 [git policies](https://ojosproject.org/docs/policies/git/).
 
@@ -137,8 +138,17 @@ It may be useful to read the following resources before development:
 - [Thinking in React](https://react.dev/learn/thinking-in-react)
 - [NextJS App Routing Fundamentals](https://nextjs.org/docs/app/building-your-application/routing)
 - [Clear explanation of Rust’s module system](https://www.sheshbabu.com/posts/rust-module-system/)
+- [Creating an Iris feature](./docs/create-a-feature.md)
 
 ### Setting up your coding environment
+
+Before you clone the repository, please:
+
+1. Follow [Tauri's prerequisite guide](https://tauri.app/start/prerequisites/)
+2. Follow the [Rust install guide](https://www.rust-lang.org/tools/install)
+3. Install the Tauri CLI: `cargo install tauri-cli --version "^2.0.0" --locked`
+4. VSCode (Optional)
+   1. Install recommended plugins with `@recommended`
 
 ```shell
 # Clone the repository with SSH (or HTTPS)
@@ -149,9 +159,7 @@ cd iris
 #### Tauri
 
 Iris is written with a lot of different tools; however, we primarily use the
-[Tauri](https://tauri.app/) framework. Before attempting to write any code,
-please follow their
-[prerequisite guide here](https://tauri.app/v1/guides/getting-started/prerequisites).
+[Tauri](https://tauri.app/) toolkit, which requires [Rust](https://rust-lang.org/).
 
 #### Next.js
 
@@ -159,20 +167,9 @@ Because of Tauri, we're also allowed to write the frontend using
 [Next.js](https://nextjs.org/) using [React](https://react.dev/) and
 [Typescript](https://www.typescriptlang.org/).
 
-#### Rust
-
-Please install Rust using [this guide](https://www.rust-lang.org/tools/install).
-
-#### VS Code Extensions
-
-[Download the recommended VS Code extensions with `@recommended`](https://code.visualstudio.com/docs/editor/extension-marketplace#_extensions-view-filters).
-
-When you open the repository in VS Code, you can open the Extensions tab and
-type `@recommended` to see all of the extensions we use. Please install them.
-
 ### Run the program
 
-After getting all tests, please install the npm dependencies:
+Please install the npm dependencies:
 
 ```shell
 npm i
@@ -182,20 +179,19 @@ npm i
 
 ```shell
 cargo tauri dev
+# npm run tauri dev   <-- also works!
 ```
 
-> [!NOTE]
-> If `cargo tauri dev` does not work, you might have to install the Tauri CLI.
-> You can do so by running:
->
-> ```shell
-> cargo install tauri-cli@^2.0.0-rc
-> ```
+### Clearing Iris Data
 
-### Structure (Frontend v. Backend)
+When developing, you may want to clear the data produced by Iris to get a fresh
+experience. To do so, you should run the following commands on the terminal:
 
-Our frontend code is inside the `/src/` folder at the root. It is written with
-React and TypeScript using the Next.js framework.
+- **Windows**: `rm -r -fo ~/AppData/Roaming/org.ojosproject.Iris`
+- **macOS**: `rm -fr ~/Library/'Application Support'/org.ojosproject.Iris`
+- **Linux**: `rm -fr ~/.local/share/org.ojosproject.Iris; rm -fr ~/.config/org.ojosproject.Iris`
 
-Our backend code is inside the `/src-tauri/src/` folder. It is written in Rust
-using the Tauri toolkit. Tauri connects everything together.
+### Now what?
+
+Start programming! A good place to start may be the
+[Creating an Iris feature](./docs/create-a-feature.md) doc.

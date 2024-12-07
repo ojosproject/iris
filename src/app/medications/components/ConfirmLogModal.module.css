@@ -1,0 +1,82 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  padding: 20px;
+  color: #000000;
+  border: 2px solid #000000;
+  background-color: #fff;
+  border-radius: 10px;
+  width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.medicationDetails {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.notificationSection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.phoneNumberInput {
+  margin-left: 10px;
+  padding: 5px;
+  width: 60%;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: space-between;
+  width: 45%;
+}
+
+.buttonGroup button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.buttonGroup button:first-child {
+  background-color: #4caf50;
+  color: white;
+}
+
+.buttonGroup button:first-child:hover {
+  background-color: #45a049;
+  cursor: pointer;
+}
+
+.buttonGroup button:last-child {
+  background-color: #f44336;
+  color: white;
+}
+
+.buttonGroup button:last-child:hover {
+  background-color: #e53935;
+  cursor: pointer;
+}

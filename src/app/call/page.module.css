@@ -1,21 +1,7 @@
-.link {
-  text-decoration: none;
-  color: inherit;
-}
-
-.link:visited {
-  color: inherit;
-}
-
-.viewRecordings {
-  color: var(--white);
-  background-color: var(--dark-blue);
-  padding: 8px 32px;
-  border-radius: 32px;
-  font-size: 1rem;
-  font-weight: 700;
-}
-
+/*
+call/page.module.css
+Ojos Project
+*/
 .header {
   display: flex;
   justify-content: right;
@@ -23,4 +9,11 @@
   top: 2rem;
   right: 2rem;
   z-index: 3;
+}
+
+.video_main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

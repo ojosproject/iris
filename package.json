@@ -16,23 +16,29 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "tauri": "tauri",
+    "tauri:dev": "tauri dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "tauri": "tauri"
+    "lint": "next lint"
   },
   "dependencies": {
-    "@tauri-apps/api": "^2.0.0-rc.2",
-    "@tauri-apps/cli": "^2.0.0-rc.17",
+    "@emotion/react": "^11.13.5",
+    "@emotion/styled": "^11.13.5",
+    "@mui/material": "^6.1.10",
+    "@mui/styled-engine-sc": "^6.1.10",
+    "@tauri-apps/plugin-fs": "^2.0.2",
     "clsx": "^2.1.1",
     "next": "^14.2.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-live-clock": "^6.1.23-beta",
     "react-qr-code": "^2.0.15",
-    "react-webcam": "^7.2.0"
+    "styled-components": "^6.1.13"
   },
   "devDependencies": {
+    "@tauri-apps/api": "^2.1.0",
+    "@tauri-apps/cli": "^2.1.0",
     "@types/next": "^9.0.0",
     "@types/node": "^20",
     "@types/react": "^18",
