@@ -7,7 +7,7 @@ use tauri::{AppHandle, Manager};
 pub fn open_recordings_folder(app: AppHandle) {
     let command = match env::consts::OS {
         "macos" => "open",
-        "windows" => "explore",
+        "windows" => "explorer",
         "linux" => "xdg-open",
         _ => panic!("Cannot recognize the system."),
     };
