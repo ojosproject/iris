@@ -26,6 +26,7 @@ export const HubApps: HubAppProps[] = [
   {
     link: "./settings",
     name: "Settings",
+    icon: "/images/icon_settings.png",
   },
 ].sort((a, b) => {
   // Sorts list by HubAppProps.name
