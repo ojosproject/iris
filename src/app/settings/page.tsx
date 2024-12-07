@@ -235,6 +235,7 @@ export default function Settings() {
             <Button
               type="PRIMARY"
               label="Add number"
+              disabled={newNumber.length < 10}
               onClick={() => {
                 setDisplayNumberDialog(!displayNumberDialog);
                 commitConfig({
@@ -245,10 +246,7 @@ export default function Settings() {
                     { method: "SMS", value: newNumber },
                   ],
                 });
-                config?.contacts.push({
-                  method: "SMS",
-                  value: newNumber,
-                });
+                setNewNumber("");
               }}
             />
             <Button
@@ -256,6 +254,7 @@ export default function Settings() {
               label="Cancel"
               onClick={() => {
                 setDisplayNumberDialog(!displayNumberDialog);
+                setNewNumber("");
               }}
             />
           </div>
