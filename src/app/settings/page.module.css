@@ -9,6 +9,10 @@
   max-width: 300px;
 }
 
+.column_of_settings {
+  display: flex;
+}
+
 .label_row {
   display: flex;
   flex-direction: row;

@@ -145,7 +145,7 @@ export default function Settings() {
       <BackButton />
       <div className={classes.container_settings}>
         <h1>Settings</h1>
-        <div>
+        <div className={classes.column_of_settings}>
           {config && (
             <RelaySection
               config={config}
