@@ -10,7 +10,14 @@ pub struct User {
 }
 
 #[derive(Serialize, Deserialize)]
+pub struct ConfigContact {
+    pub method: String,
+    pub value: String,
+}
+
+#[derive(Serialize, Deserialize)]
 pub struct Config {
     pub resources_last_call: i64,
     pub onboarding_completed: bool,
+    pub contacts: Vec<ConfigContact>,
 }

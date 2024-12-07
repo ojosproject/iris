@@ -21,6 +21,11 @@ pub fn get_config(app: AppHandle) -> Config {
     config::get_config(&app)
 }
 
+#[tauri::command(rename_all = "snake_case")]
+pub fn set_config(app: AppHandle, config: Config) {
+    config::set_config(&app, config);
+}
+
 /// # `complete_onboarding` Command
 ///
 /// Sets the `onboarding_completed` value in the `config.json` to `true`.
