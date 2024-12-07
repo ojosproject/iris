@@ -64,15 +64,7 @@ export default function Settings() {
     setConfig(newConfig);
   }
 
-  function RelaySection({
-    config,
-    displayDialog,
-    setDisplayDialog,
-  }: {
-    config: Config;
-    displayDialog: boolean;
-    setDisplayDialog: Function;
-  }) {
+  function RelaySection({ config }: { config: Config }) {
     return (
       <Section
         title="Relay Notifications"
@@ -146,13 +138,7 @@ export default function Settings() {
       <div className={classes.container_settings}>
         <h1>Settings</h1>
         <div className={classes.column_of_settings}>
-          {config && (
-            <RelaySection
-              config={config}
-              displayDialog={displayDialog}
-              setDisplayDialog={setDisplayDialog}
-            />
-          )}
+          {config && <RelaySection config={config} />}
         </div>
       </div>
       {displayDialog && (
