@@ -38,6 +38,7 @@ pub fn get_config(app: &AppHandle) -> Config {
                     resources_last_call: 0,
                     onboarding_completed: false,
                     contacts: vec![],
+                    enable_ai: false,
                 };
                 if !app_data_dir.exists() {
                     fs::create_dir(&app_data_dir).unwrap();

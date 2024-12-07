@@ -64,6 +64,30 @@ export default function Settings() {
     setConfig(newConfig);
   }
 
+  function AISection({ config }: { config: Config }) {
+    return (
+      <Section
+        title="AI"
+        description="Use Artificial Intelligence to help you with various tasks."
+      >
+        <Row label="Enable AI?">
+          <Switch
+            defaultChecked={config.enable_ai}
+            checked={config.enable_ai}
+            onChange={() => {
+              commitConfig({
+                contacts: config.contacts,
+                enable_ai: !config.enable_ai,
+                onboarding_completed: config.onboarding_completed,
+                resources_last_call: config.resources_last_call,
+              });
+            }}
+          ></Switch>
+        </Row>
+      </Section>
+    );
+  }
+
   function RelaySection({
     config,
     displayDialog,
@@ -92,6 +116,7 @@ export default function Settings() {
                     contacts: [],
                     onboarding_completed: config.onboarding_completed,
                     resources_last_call: config.resources_last_call,
+                    enable_ai: config.enable_ai,
                   });
                 }
               }}
@@ -115,6 +140,7 @@ export default function Settings() {
                           contacts: config.contacts.filter(
                             (contact) => contact.value !== c.value,
                           ),
+                          enable_ai: config.enable_ai,
                         });
                       }}
                     />
@@ -145,7 +171,7 @@ export default function Settings() {
       <BackButton />
       <div className={classes.container_settings}>
         <h1>Settings</h1>
-        <div>
+        <div className={classes.column_of_settings}>
           {config && (
             <RelaySection
               config={config}
@@ -153,6 +179,7 @@ export default function Settings() {
               setDisplayDialog={setDisplayDialog}
             />
           )}
+          {config && <AISection config={config} />}
         </div>
       </div>
       {displayDialog && (
@@ -245,6 +272,7 @@ export default function Settings() {
                     ...config!.contacts,
                     { method: "SMS", value: newNumber },
                   ],
+                  enable_ai: config!.enable_ai,
                 });
                 setNewNumber("");
               }}
