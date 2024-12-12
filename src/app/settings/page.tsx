@@ -84,6 +84,7 @@ export default function Settings() {
                     contacts: [],
                     onboarding_completed: config.onboarding_completed,
                     resources_last_call: config.resources_last_call,
+                    api_token: config.api_token,
                   });
                 }
               }}
@@ -107,6 +108,7 @@ export default function Settings() {
                           contacts: config.contacts.filter(
                             (contact) => contact.value !== c.value,
                           ),
+                          api_token: config.api_token,
                         });
                       }}
                     />
@@ -231,6 +233,7 @@ export default function Settings() {
                     ...config!.contacts,
                     { method: "SMS", value: newNumber },
                   ],
+                  api_token: config!.api_token,
                 });
                 setNewNumber("");
               }}
