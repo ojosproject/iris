@@ -3,7 +3,6 @@ Sprint Details
 
 | Event                       | Date                    |
 | --------------------------- | ----------------------- |
-| Scrum Master                | Carlos Valdez           |
 | Sprint Start                | December 13, 2024       |
 | Sprint End                  | January 3, 2025         |
 | Sprint Review/Retrospective | Week of January 6, 2024 |
