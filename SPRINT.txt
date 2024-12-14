@@ -1,0 +1,26 @@
+Sprint Details
+==============
+
+Initial commit.
+
+Sprint Backlog
+--------------
+
+N/A
+
+Our Workflow
+------------
+
+We use the Scrum collaboration framework. Since we are students, our sprints are
+designed to accommodate the quarter system used by the University of California,
+Irvine. This is the schedule for a typical quarter:
+
+Week 1: Introduction Week
+Week 2-4: First Sprint
+Week 5-7: Second Sprint
+Week 8-10: Third Sprint
+
+We are sometimes active outside academic quarters, though it's entirely
+voluntary. It must be indicated in the sprint details.
+
+Carlos Valdez is the current scrum master.
