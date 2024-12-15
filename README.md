@@ -46,6 +46,10 @@ Don't forget to follow the
 
 ## Acknowledgements
 
+[Carlos Valdez](https://github.com/calejvaldez/) is the maintainer of the Iris
+repository. Iris is being developed by the Ojos Project team at the University
+of California, Irvine.
+
 A massive thank you to everyone who's helped make this project possible.
 Notably...
 
