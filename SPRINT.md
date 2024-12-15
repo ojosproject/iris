@@ -14,7 +14,12 @@ of the Ojos Project.
 Sprint Backlog
 --------------
 
-Currently being generated...
+| Activity                     | Type    | Assignee(s)                                      | GitHub                                               |
+| ---------------------------- | ------- | ------------------------------------------------ | ---------------------------------------------------- |
+| Fix build issues with NextJS | Bug fix | [Carlos Valdez](https://github.com/calejvaldez/) | [#36](https://github.com/ojosproject/iris/issues/36) |
+| Joystick Support             | Feature | [Carlos Valdez](https://github.com/calejvaldez/) | [#44](https://github.com/ojosproject/iris/issues/44) |
+| Relay Notifications via SMS  | Feature | [Jason Martin](https://github.com/jasonbm2)      | [#29](https://github.com/ojosproject/iris/pull/29)   |
+| Patient Reported Outcomes    | Feature | [Helen Chau](https://github.com/bbobateaa)       | [#26](https://github.com/ojosproject/iris/pull/26)   |
 
 Our Workflow
 ------------
