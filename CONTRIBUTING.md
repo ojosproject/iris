@@ -144,7 +144,7 @@ It may be useful to read the following resources before development:
 
 Before you clone the repository, please:
 
-1. Install [NodeJS](https://nodejs.org/)
+1. Install NodeJS using [nvm](https://github.com/nvm-sh/nvm) or an equivalent tool
 2. Follow [Tauri's prerequisite guide](https://tauri.app/start/prerequisites/)
 3. Follow the [Rust install guide](https://www.rust-lang.org/tools/install)
 4. Install the Tauri CLI: `cargo install tauri-cli --version "^2.0.0" --locked`
@@ -173,6 +173,7 @@ Because of Tauri, we're also allowed to write the frontend using
 Please install the npm dependencies:
 
 ```shell
+nvm use
 npm i
 ```
 
