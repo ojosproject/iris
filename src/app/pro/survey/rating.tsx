@@ -90,16 +90,19 @@ const handleSubmit = () => {
     const hasEmptyResponses = ratings.some((rating) => rating === 0);
 
     if (hasEmptyResponses) {
-    alert("Please answer all the questions before submitting.");
-    return;
+        alert("Please answer all the questions before submitting.");
+        return;
     }
 
-    const responses: (string | number)[][] = questions.map((q, i) => [
-    q,
-    Math.round(Number(ratings[i])),
+    // Map the questions and ratings into the required format: a tuple of (question, response)
+    const responses: [string, number][] = questions.map((q, i) => [
+        q, // question as a string
+        Math.round(Number(ratings[i])), // response as a number (rounded)
     ]);
-    onSubmit(responses);
+
+    onSubmit(responses); // Pass the formatted responses to onSubmit
 };
+
 
 return (
     <div className={`survey-page ${className}`}>
