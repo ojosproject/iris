@@ -25,6 +25,7 @@ const ProChart = () => {
     const [pros, setPros] = useState<ChartData | null>(null);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [currentWeek, setCurrentWeek] = useState(0);
+    const [counter, setCounter] = useState(0);
     const router = useRouter();
 
     useEffect(() => {
@@ -49,13 +50,45 @@ const ProChart = () => {
         });
     }, [currentWeek]);
 
+    const getOldestWeek = useMemo(() => {
+        if (!pros) return 0;
+
+        const allDates: Date[] = [];
+        Object.keys(pros).forEach((question) => {
+            pros[question].forEach(([_, recordedDate]) => {
+                allDates.push(recordedDate);
+            });
+        });
+
+        const oldestDate = new Date(Math.min(...allDates.map((date) => date.getTime())));
+        const latestDate = new Date(Math.max(...allDates.map((date) => date.getTime())));
+
+        const startOfOldestWeek = new Date(oldestDate);
+        const startOfNewestWeek = new Date(latestDate);
+        startOfOldestWeek.setDate(oldestDate.getDate() - oldestDate.getDay());
+        startOfNewestWeek.setDate(latestDate.getDate() - latestDate.getDay());
+        return Math.floor((startOfOldestWeek.getTime() - startOfNewestWeek.getTime()) / (7 * 24 * 60 * 60 * 1000));
+    }, [pros]);
+
+    const dayLabels = useMemo(() => {
+        const weekDates = getWeekDates();
+        return weekDates.map((date) => {
+            const dayOfWeek = date.toLocaleString("en-us", { weekday: "long" });
+            const monthAndDate = `${date.getMonth() + 1}/${date.getDate()}`;
+            return `${dayOfWeek}\n${monthAndDate}`;
+        });
+    }, [getWeekDates]);
+    
     const dataForCurrentWeek = useMemo(() => {
         if (!pros) return [];
+    
         const questions = Object.keys(pros);
         const currentQuestion = questions[currentQuestionIndex];
         if (!currentQuestion) return [];
-
+    
         const weekDates = getWeekDates();
+        console.log("week: ", weekDates);
+    
         return weekDates.map((date) => {
             const data = pros[currentQuestion]?.find(([_, recordedDate]) => {
                 return (
@@ -64,10 +97,10 @@ const ProChart = () => {
                     recordedDate.getDate() === date.getDate()
                 );
             });
-            return data ? data[0] : 0; // Default to 0 if no data exists
+            return data ? data[0] : 0;
         });
     }, [pros, currentQuestionIndex, getWeekDates]);
-
+    
     useEffect(() => {
         const canvas = document.getElementById("chartCanvas") as HTMLCanvasElement | null;
         if (!canvas) return;
@@ -78,7 +111,7 @@ const ProChart = () => {
         const chart = new Chart(ctx, {
             type: "bar",
             data: {
-                labels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+                labels: dayLabels,
                 datasets: [
                     {
                         label: "Weekly Data",
@@ -131,6 +164,9 @@ const ProChart = () => {
     const questionKeys = pros ? Object.keys(pros) : [];
     const currentQuestion = questionKeys[currentQuestionIndex];
 
+    console.log('current week: ', currentWeek)
+    console.log("oldest week: ", getOldestWeek)
+
     return (
         <>
             <BackButton />
@@ -159,7 +195,7 @@ const ProChart = () => {
                                     alignItems: "center"
                                 }}
                                 color="WHITE" 
-                                disabled={currentWeek <= -4}
+                                disabled={currentWeek <= getOldestWeek}
                             />
                             
                             <ForwardButton 
@@ -174,7 +210,7 @@ const ProChart = () => {
                                     alignItems: "center"
                                 }}
                                 color="WHITE"
-                                disabled={currentWeek >= 4}
+                                disabled={currentWeek >= 0}
                             />
                         </div>
                     </div>

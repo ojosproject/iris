@@ -41,13 +41,13 @@ padding: 5%;
 }
 
 .box {
-    padding: 2% 10% 5%; /* Combines all padding values for brevity */
-    margin: 2% 5%; /* Combines all margin values for brevity */
+    padding: 2% 10% 5%; 
+    margin: 2% 5%;
     border: 1mm solid #094595;
-    max-width: 90%; /* Ensures the box won't exceed 90% of the screen width */
-    max-height: 80%; /* Ensures the box won't exceed 80% of the screen height */
-    box-sizing: border-box; /* Includes padding and border in width/height calculations */
-    overflow: auto; /* Adds scrollbars if the content exceeds the size */
+    max-width: 90%;
+    max-height: 40%;
+    box-sizing: border-box;
+    overflow: auto;
 }
 
 
