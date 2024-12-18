@@ -26,4 +26,3 @@ export function sortChartData(data: PatientReportedOutcome[]): ChartData {
 
   return questions;
 }
-

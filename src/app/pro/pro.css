@@ -1,63 +1,62 @@
 h1 {
-    text-align: center;
-    size: 10px;
+  text-align: center;
+  size: 10px;
 }
 
 .pro_button_1 {
-border-radius: 50px;
-padding: 20px;
-width: 4.5%;
-background-color: #ffffff;
-border-color: #1d7ff0;
-color: #1d7ff0;
+  border-radius: 50px;
+  padding: 20px;
+  width: 4.5%;
+  background-color: #ffffff;
+  border-color: #1d7ff0;
+  color: #1d7ff0;
 }
 
 .pro_button_2 {
-padding: 10px;
-border-color: #1d7ff0;
-border-radius: 4px;
-cursor: pointer;
-transition: background 0.3s;
-color: #1d7ff0;
-width: 200px;
-background-color: #ffffff;
+  padding: 10px;
+  border-color: #1d7ff0;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+  color: #1d7ff0;
+  width: 200px;
+  background-color: #ffffff;
 }
 .pro_button_2:hover {
-background-color: #1d7ff0;
-color: #ffffff;
+  background-color: #1d7ff0;
+  color: #ffffff;
 }
 
 .container {
-display: flex;
-justify-content: center;
-margin-top: 5%;
+  display: flex;
+  justify-content: center;
+  margin-top: 5%;
 }
 
 .container-2 {
-display: flex;
-justify-content: space-between;
-margin-top: 5%;
-padding: 5%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5%;
+  padding: 5%;
 }
 
 .box {
-    padding: 2% 10% 5%; 
-    margin: 2% 5%;
-    border: 1mm solid #094595;
-    max-width: 90%;
-    max-height: 40%;
-    box-sizing: border-box;
-    overflow: auto;
+  padding: 2% 10% 5%;
+  margin: 2% 5%;
+  border: 1mm solid #094595;
+  max-width: 90%;
+  max-height: 40%;
+  box-sizing: border-box;
+  overflow: auto;
 }
 
-
 .chart-nav {
-display: flex;
-justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .container-3 {
-display: flex;
-justify-content: center;
-gap: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
 }

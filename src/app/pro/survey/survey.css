@@ -1,69 +1,68 @@
 .pro_button_1 {
-    border-radius: 50px;
-    padding: 20px;
-    width: 4.5%;
-    background-color: #ffffff;
-    border-color:#1d7ff0;
-    color:#1d7ff0;
+  border-radius: 50px;
+  padding: 20px;
+  width: 4.5%;
+  background-color: #ffffff;
+  border-color: #1d7ff0;
+  color: #1d7ff0;
 }
 
 .container {
-    justify-content: center;
+  justify-content: center;
 }
 
 .container-2 {
-    justify-content: center;
-    margin: auto;
-    max-height: 100px;
-    height: 100%;
+  justify-content: center;
+  margin: auto;
+  max-height: 100px;
+  height: 100%;
 }
 
 .container-3 {
-    justify-content: left;
+  justify-content: left;
 }
 
 .container-sidebyside {
-    display: inline-block;
+  display: inline-block;
 }
 /* Modal overlay */
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
 }
 
 /* Modal content */
 .modal-content {
-    background: white;
-    padding: 3%;
-    border-radius: 8px;
-    max-width: 600px;
-    width: 100%;
-    align-items: center;
-    text-align: center;
-
+  background: white;
+  padding: 3%;
+  border-radius: 8px;
+  max-width: 600px;
+  width: 100%;
+  align-items: center;
+  text-align: center;
 }
 
 .modal-content button {
-    margin: 30px;
-    padding: 10px;
-    border-color: #1d7ff0;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.3s;
-    color:#1d7ff0;
-    width: 200px;
-    background-color: #ffffff;
+  margin: 30px;
+  padding: 10px;
+  border-color: #1d7ff0;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+  color: #1d7ff0;
+  width: 200px;
+  background-color: #ffffff;
 }
 
 .modal-content button:hover {
-    background-color: #1d7ff0;
-    color:#ffffff;
+  background-color: #1d7ff0;
+  color: #ffffff;
 }
