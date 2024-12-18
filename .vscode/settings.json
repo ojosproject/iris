@@ -12,7 +12,7 @@
     "editor.defaultFormatter": "rust-lang.rust-analyzer",
     "editor.formatOnSave": true
   },
-  "[typescriptreact][css][scss][typescript]": {
+  "[typescriptreact][css][scss][typescript][javascript][javascriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true
   },
