@@ -9,13 +9,7 @@ import Button from "../core/components/Button";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import BackButton from "../core/components/BackButton";
 import ForwardButton from "../core/components/ForwardButton";
-
-interface PatientReportedOutcome {
-  id: string;
-  recorded_date: number;
-  question: string;
-  response: number;
-}
+import { PatientReportedOutcome } from "./types";
 
 interface ChartData {
   [question: string]: [response: number, recorded_date: Date][];
