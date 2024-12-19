@@ -23,7 +23,15 @@ pub fn get_api_token(app: AppHandle) -> String {
     config.api_token
 }
 
-pub fn save_api_token(app: AppHandle, token: String) {}
+pub fn set_api_token(app: AppHandle, token: String) {
+    let app_config_dir = app.path().app_config_dir().unwrap();
+
+    let mut config = get_config(app.app_handle());
+    config.api_token = token;
+    let config_string = serde_json::to_string(&config).unwrap();
+
+    fs::write(app_config_dir.join("config.json"), config_string).unwrap();
+}
 
 pub fn set_onboarding_completed(app: AppHandle, value: bool) {
     let app_config_dir = app.path().app_config_dir().unwrap();
