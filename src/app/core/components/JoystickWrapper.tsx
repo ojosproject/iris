@@ -1,35 +1,54 @@
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import { listen } from "@tauri-apps/api/event";
 
 type JoystickWrapperProps = {
-  left?: string;
-  right?: string;
-  up?: string;
-  down?: string;
+  leftId?: string;
+  rightId?: string;
+  upId?: string;
+  downId?: string;
   id: string;
-  onInput: Function;
+  activeId: string;
+  setActiveId: Function;
+  onSelect: Function;
   children: ReactNode;
 };
 
 export default function JoystickWrapper({
-  left,
-  right,
-  up,
-  down,
+  leftId,
+  rightId,
+  upId,
+  downId,
   id,
-  onInput,
+  activeId,
+  setActiveId,
+  onSelect,
   children,
 }: JoystickWrapperProps) {
-  const [isActive, setIsActive] = useState(false);
+  const isActive = activeId === id;
 
   listen("joystick-event", (event) => {
     console.log(event.payload);
+    console.log(leftId, rightId, upId, downId);
+    if (leftId && event.payload === "left") {
+      setActiveId(leftId);
+    } else if (rightId && event.payload === "right") {
+      setActiveId(rightId);
+    } else if (upId && event.payload === "up") {
+      setActiveId(upId);
+    } else if (downId && event.payload === "down") {
+      setActiveId(downId);
+    } else if (event.payload === "select") {
+      onSelect();
+    }
   });
 
   return (
     <div
-      id={id}
-      style={{ padding: "5px", border: isActive ? "solid red 2px" : "" }}
+      style={{
+        padding: "8px",
+        borderRadius: "20px",
+        border: isActive ? "solid red 2px" : "",
+      }}
     >
       {children}
     </div>
