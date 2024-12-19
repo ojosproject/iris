@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { Config } from "@/app/core/types";
 import Onboarding from "./core/Onboarding";
+import JoystickWrapper from "./core/components/JoystickWrapper";
 
 export default function Home() {
   const [onboardingCompleted, setOnboardingCompleted] = useState(false);
@@ -15,6 +16,7 @@ export default function Home() {
     invoke("get_config").then((c) => {
       setOnboardingCompleted((c as Config).onboarding_completed);
     });
+    invoke("joystick_events");
   }, []);
 
   function handleCompletedOnboarding() {
@@ -30,12 +32,14 @@ export default function Home() {
           <h2> Your Apps </h2>
           <ul className={classes.appList}>
             {HubApps.map((hubApp) => (
-              <HubApp
-                key={hubApp.name}
-                link={hubApp.link}
-                icon={hubApp.icon}
-                name={hubApp.name}
-              />
+              <JoystickWrapper id={hubApp.name} onInput={() => {}}>
+                <HubApp
+                  key={hubApp.name}
+                  link={hubApp.link}
+                  icon={hubApp.icon}
+                  name={hubApp.name}
+                />
+              </JoystickWrapper>
             ))}
           </ul>
         </section>
