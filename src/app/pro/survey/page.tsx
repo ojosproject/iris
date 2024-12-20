@@ -8,79 +8,87 @@ import { invoke } from "@tauri-apps/api/core";
 import Button from "@/app/core/components/Button";
 
 export default function Survey() {
-  const [isModalOpen, setModalOpen] = React.useState(false);
-  const [questions, setQuestions] = useState<string[]>([]);
-  const router = useRouter();
+const [isModalOpen, setModalOpen] = useState(false);
+const [questions, setQuestions] = useState<string[]>([]);
+const [surveyResults, setSurveyResults] = useState<(string | number)[][] | null>(null);
+const router = useRouter();
 
-  useEffect(() => {
+useEffect(() => {
     invoke("get_pro_questions").then((questions) => {
-      setQuestions(questions as string[]);
+    setQuestions(questions as string[]);
     });
-  }, []);
+}, []);
 
-  // Function to go back
-  const handleGoBack = () => {
-    router.back(); // Navigate to main page
-  };
+// Function to go back
+const handleGoBack = () => {
+    router.back();
+    setModalOpen(false); 
+};
 
-  // View results after survey submission
-  const handleViewResults = () => {
-    // Get the results from sessionStorage
-    const results = sessionStorage.getItem("surveyResults");
-    if (results) {
-      router.push(`./survey_results?data=${encodeURIComponent(results)}`); // Pass results as query parameter
-    } else {
-      console.error("Survey results are not available");
-    }
-    setModalOpen(false); // Close modal after viewing results
-  };
-
-  // Store responses in sessionStorage and open modal
-  const handleSurveySubmit = (responses: (string | number)[][]) => {
-    console.log("Survey Responses:", responses);
-    // Store the results in sessionStorage as a JSON string
+// Store responses in sessionStorage and open modal
+const handleSurveySubmit = (responses: (string | number)[][]) => {
     sessionStorage.setItem("surveyResults", JSON.stringify(responses));
     invoke("add_pros", { pros: responses });
-    console.log("pros in survey/page.tsx: ", responses);
-    setModalOpen(true); // Open modal after survey submission
-  };
+    setSurveyResults(responses); 
+    setModalOpen(true); 
+};
 
-  return (
+return (
     <div className="Survey">
-      <div>
+    <div>
         <BackButton />
-        <h1>Survey</h1>
+        <h1>Today's Survey</h1>
         <div className="container">
-          <SurveyPage
-            count={10} // Dynamically set count based on number of questions
+        <SurveyPage
+            count={10}
             size={40}
-            questions={questions} // Pass the updated questions array
+            questions={questions}
             onSubmit={handleSurveySubmit}
-          />
+        />
         </div>
-      </div>
-      {isModalOpen && (
+    </div>
+
+    {isModalOpen && (
         <div className="modal-overlay">
-          <div className="modal-content">
+        <div className="modal-content">
             <div className="container">
-              <h1>Thank you!</h1>
+            <h1>Thank you!</h1>
             </div>
             <h3>You have completed your survey for today.</h3>
-            <div className="container-sidebyside">
-              <Button
-                type="SECONDARY"
-                label="Return to Pros"
-                onClick={handleGoBack}
-              />
-              <Button
-                type="SECONDARY"
-                label="View Response"
-                onClick={handleViewResults}
-              />
+
+            <div className="survey-results">
+            <h2>Your Responses:</h2>
+            {surveyResults ? (
+                surveyResults.map((item, index) => (
+                    <div key={index}>
+                        <div className="container-4">
+                            <h3  style={{ marginRight: '5px' }}>
+                                {index + 1}. {item[0]}:
+                            </h3>
+                        </div>
+                        <div className="container">
+                            <h2> 
+                                {item[1]}
+                            </h2>
+                        </div>
+                    </div>
+                ))
+                ) : (
+                <p>No survey responses available.</p>
+                )}
             </div>
-          </div>
         </div>
-      )}
+        <div className="modal-content-2">
+            <div className="container-sidebyside">
+                <Button
+                    type="PRIMARY"
+                    label="Return to Pros"
+                    onClick={handleGoBack}
+                />
+            </div>
+        </div>
+        </div>
+    )}
     </div>
-  );
+);
 }
