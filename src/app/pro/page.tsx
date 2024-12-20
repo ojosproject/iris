@@ -184,7 +184,7 @@ const questionKeys = pros ? Object.keys(pros) : [];
 const currentQuestion = questionKeys[currentQuestionIndex];
 
 const SurveyTaken = () => {
-    if (!pros) return false; // If no data, return false (survey can be taken)
+    if (!pros) return false;
 
     const allDates: Date[] = [];
     Object.keys(pros).forEach((question) => {
@@ -195,12 +195,10 @@ const SurveyTaken = () => {
 
     const latestDate = new Date(Math.max(...allDates.map((date) => date.getTime())));
     const today = new Date();
-    
-    // Set the time to 00:00:00 to compare only the date part
+
     today.setHours(0, 0, 0, 0);
     latestDate.setHours(0, 0, 0, 0);
 
-    // Return true if the latest date is today, otherwise false
     return latestDate.getTime() === today.getTime();
 };
 
