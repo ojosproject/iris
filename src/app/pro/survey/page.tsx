@@ -76,10 +76,6 @@ return (
                 ) : (
                 <p>No survey responses available.</p>
                 )}
-            </div>
-        </div>
-        <div className="modal-content-2">
-            <div className="container-sidebyside">
                 <Button
                     type="PRIMARY"
                     label="Return to Pros"
