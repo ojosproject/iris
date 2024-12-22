@@ -16,6 +16,12 @@ export default function Button(props: {
   disabled?: boolean;
   style?: CSSProperties;
 }) {
+  const buttonStyle: CSSProperties = {
+    ...props.style,
+    opacity: props.disabled ? 0.5 : 1,
+    cursor: props.disabled ? "not-allowed" : "pointer",
+  };
+
   return props.onClick ? (
     <button
       className={
@@ -24,20 +30,21 @@ export default function Button(props: {
           : classes.button_iris_secondary
       }
       disabled={props.disabled}
-      onClick={props.onClick}
-      style={props.style}
+      onClick={!props.disabled ? props.onClick : undefined}
+      style={buttonStyle}
     >
       {props.label}
     </button>
   ) : (
-    <Link href={props.link!}>
+    <Link href={props.disabled ? "#" : props.link!} passHref>
       <button
         className={
           props.type === "PRIMARY"
             ? classes.button_iris_primary
             : classes.button_iris_secondary
         }
-        style={props.style}
+        style={buttonStyle}
+        disabled={props.disabled}
       >
         {props.label}
       </button>

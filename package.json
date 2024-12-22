@@ -23,6 +23,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "chart.js": "^4.4.6",
+    "chartjs-plugin-datalabels": "^2.2.0",
     "@emotion/react": "^11.13.5",
     "@emotion/styled": "^11.13.5",
     "@mui/material": "^6.1.10",
@@ -34,7 +36,8 @@
     "react-dom": "^18.3.1",
     "react-live-clock": "^6.1.23-beta",
     "react-qr-code": "^2.0.15",
-    "styled-components": "^6.1.13"
+    "styled-components": "^6.1.13",
+    "run": "^1.5.0"
   },
   "devDependencies": {
     "@tauri-apps/api": "^2.1.0",
