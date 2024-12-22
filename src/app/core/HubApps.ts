@@ -16,6 +16,7 @@ export const HubApps: HubAppProps[] = [
   {
     link: "./pro",
     name: "Survey",
+    icon: "/images/icon_survey.png"
   },
   {
     link: "./medications",
