@@ -68,7 +68,7 @@
   max-width: 600px;
   width: 100%;
   text-align: center;
-  border-top-color:#1d7ff0;
+  border-top-color: #1d7ff0;
   border-top-width: 5px;
 }
 
@@ -88,7 +88,6 @@
   background-color: #1d7ff0;
   color: #ffffff;
 }
-
 
 .survey-page {
   display: flex;
@@ -118,4 +117,3 @@
   gap: 12px;
   width: 100%;
 }
-

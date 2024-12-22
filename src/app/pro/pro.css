@@ -1,43 +1,43 @@
 h1 {
-text-align: center;
-size: 10px;
+  text-align: center;
+  size: 10px;
 }
 
 .container {
-display: flex;
-justify-content: center;
-margin-top: 5%;
+  display: flex;
+  justify-content: center;
+  margin-top: 5%;
 }
 
 .container-2 {
-display: flex;
-justify-content: space-between;
-gap: 20px;
-padding: 5%;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 5%;
 }
 
 .box {
-    padding: 10px;
-    margin: 3% 5%;
-    border: 1mm solid #094595;
-    max-width: 90%;
-    max-height: 40%;
-    box-sizing: border-box;
-    overflow: auto;
+  padding: 10px;
+  margin: 3% 5%;
+  border: 1mm solid #094595;
+  max-width: 90%;
+  max-height: 40%;
+  box-sizing: border-box;
+  overflow: auto;
 }
 
 .chart-nav {
-display: flex;
-justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .container-3 {
-display: flex;
-justify-content: center;
-gap: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
 }
 
 .container-4 {
-    justify-content: center;
-    text-align: center;
+  justify-content: center;
+  text-align: center;
 }
