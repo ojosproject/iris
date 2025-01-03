@@ -5,12 +5,12 @@ import BackButton from "@/app/core/components/BackButton";
 import { useRouter, useSearchParams } from "next/navigation";
 import classes from "./page.module.css";
 import Button from "@/app/core/components/Button";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { CareInstruction } from "../types";
 import { timestampToString } from "@/app/core/helper";
 
-export default function EditInstructions() {
+function EditInstructions() {
   // Params get passed from AllCareInstructions.tsx
   // If `id` is empty, you're creating a new care instruction
   // If `id` has something, we're editing a care instruction
@@ -179,5 +179,15 @@ export default function EditInstructions() {
         </div>
       </div>
     </div>
+  );
+}
+
+// Required to prevent
+// https://github.com/ojosproject/iris/issues/36
+export default function EditInstructionsWrapper() {
+  return (
+    <Suspense>
+      <EditInstructions />
+    </Suspense>
   );
 }
