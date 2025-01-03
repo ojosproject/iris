@@ -2,6 +2,7 @@
 mod call;
 mod care_instructions;
 mod core;
+mod joystick;
 mod medications;
 mod pro;
 mod resources;
@@ -35,7 +36,8 @@ fn main() {
             pro::commands::add_pro_question,
             pro::commands::get_pro_questions,
             resources::commands::get_resources,
-            call::commands::open_recordings_folder
+            call::commands::open_recordings_folder,
+            joystick::events::joystick_events
         ])
         .setup(|app| {
             app.set_menu(core::menu::menu(app.app_handle().clone()))
