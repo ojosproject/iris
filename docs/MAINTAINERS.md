@@ -25,6 +25,8 @@ project.
   - [Patient-Reported Outcomes](#patient-reported-outcomes)
   - [Resources](#resources)
   - [Settings](#settings)
+  - [Artificial Intelligence](#artificial-intelligence)
+  - [Joystick Support](#joystick-support)
 
 ## How to add to this list
 
@@ -153,3 +155,20 @@ A page to manage the program's settings.
 - Maintainer: `Carlos Valdez <cvaldezh@uci.edu>`
 - Designer: N/A
 - Folder: `/src/app/settings/`
+
+## Artificial Intelligence
+
+Opt-in features for artificial intelligence.
+
+- Maintainer: N/A
+- Folder: `/src-tauri/src/ai/`
+
+## Joystick Support
+
+Allows patients with limited capabilities to control Iris using a console game
+controller.
+
+- Maintainer: `Carlos Valdez <cvaldezh@uci.edu`
+- Folders:
+  - `/src/app/joystick/`
+  - `/src-tauri/src/joystick/`
