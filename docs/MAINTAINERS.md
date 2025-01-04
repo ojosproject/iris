@@ -90,7 +90,9 @@ Leave behind notes regarding your patient's care instructions.
 
 - Maintainer: `Carlos Valdez <cvaldezh@uci.edu>`
 - Designer: N/A
-- Folders: `/src/app/care_instructions/`, `/src-tauri/src/care_instructions/`
+- Folders:
+  - `/src/app/care_instructions/`
+  - `/src-tauri/src/care_instructions/`
 
 ## Core
 
