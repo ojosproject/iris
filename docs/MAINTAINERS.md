@@ -4,9 +4,27 @@ Iris is a project with multiple layers to it. Every link in the Iris Hub is
 meant to represent a part of Iris that is maintained. This file exists to list
 out who is responsible for each part of Iris.
 
+This list exists to help you know who to contact about a specific aspect of the
+project.
+
 > [!IMPORTANT]
 > Although some spots are vacant, that does not mean Ojos Project is looking for
 > maintainers. Rather, members have not yet been assigned.
+
+## Table of Contents
+
+- [List of Maintainers](#list-of-maintainers)
+  - [Table of Contents](#table-of-contents)
+  - [How to add to this list](#how-to-add-to-this-list)
+  - [Repository](#repository)
+  - [Video Recording](#video-recording)
+  - [Care Instructions](#care-instructions)
+  - [Core](#core)
+  - [Relay Notifications](#relay-notifications)
+  - [Medications (\& Logging)](#medications--logging)
+  - [Patient-Reported Outcomes](#patient-reported-outcomes)
+  - [Resources](#resources)
+  - [Settings](#settings)
 
 ## How to add to this list
 
