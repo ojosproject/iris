@@ -88,7 +88,7 @@ Video recording capabilities to monitor the patient.
 
 Leave behind notes regarding your patient's care instructions.
 
-- Maintainer: `Carlos Valdez <cvaldezh@uci.edu>`
+- Maintainer: N/A
 - Designer: N/A
 - Folders:
   - `/src/app/care_instructions/`
@@ -123,7 +123,9 @@ developed alongside the [Iris API](https://github.com/ojosproject/api/).
 
 Medication management capabilities for patients.
 
-- Maintainer: N/A
+- Maintainers:
+  - Frontend: N/A
+  - Backend: `Carlos Valdez <cvaldezh@uci.edu>`
 - Designer: N/A
 - Folders:
   - `/src/app/medications/`
@@ -144,7 +146,7 @@ whether the patient's care is efficient or not.
 
 A list of resources for people going through EoL care.
 
-- Maintainer: `Carlos Valdez <cvaldezh@uci.edu`
+- Maintainer: N/A
 - Designer: N/A
 - Folders:
   - `/src/app/resources/`
