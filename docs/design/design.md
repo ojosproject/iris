@@ -1,6 +1,6 @@
 # Iris Branding Guide
 
-![Brand Guide sample for Iris](./assets/design_sample.jpg)
+![Brand Guide sample for Iris](../assets/design_sample.jpg)
 
 This document exists to establish a branding guide for the Iris project. Please
 read this document to its fullest and make sure you know where you can find
@@ -16,7 +16,7 @@ and it goes with the
 [UCI color scheme](https://brand.uci.edu/master-branding/color-palette/). The
 aim for text contrast is to at least WCAG AA criteria.
 
-![Brand Guide colors for Iris](./assets/design_colors.jpg)
+![Brand Guide colors for Iris](../assets/design_colors.jpg)
 
 Color codes:
 
@@ -37,7 +37,7 @@ Noto Sans was chosen due to being
 [considered accessible](https://www.audioeye.com/post/accessible-fonts/) and
 [supporting several languages](https://typogram.co/font-discovery/how-to-use-noto-sans-font).
 
-![Brand Guide fonts for Iris](./assets/design_fonts.jpg)
+![Brand Guide fonts for Iris](../assets/design_fonts.jpg)
 
 ## Buttons
 
