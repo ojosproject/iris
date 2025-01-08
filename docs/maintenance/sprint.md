@@ -3,23 +3,26 @@ Sprint Details
 
 | Event                       | Date                    |
 | --------------------------- | ----------------------- |
-| Sprint Start                | December 13, 2024       |
-| Sprint End                  | January 3, 2025         |
-| Sprint Review/Retrospective | Week of January 6, 2024 |
+| Sprint Start                | January 13, 2025        |
+| Sprint End                  | February 3, 2025        |
+| Sprint Review/Retrospective | Week of January 3, 2025 |
 
-VOLUNTARY SPRINT. A few developers are finishing some tasks during their Winter
-break. This sprint is also meant to test the Scrum workflow with a few members
-of the Ojos Project.
+During this sprint, developers are focusing on improving Iris for the CHI
+Competition. This includes work such as adding missing features, making it
+bug-resistant, and more.
 
 Sprint Backlog
 --------------
 
-| Activity                     | Type    | Assignee(s)                                      | GitHub                                               |
-| ---------------------------- | ------- | ------------------------------------------------ | ---------------------------------------------------- |
-| Fix build issues with NextJS | Bug fix | [Carlos Valdez](https://github.com/calejvaldez/) | [#36](https://github.com/ojosproject/iris/issues/36) |
-| Joystick Support             | Feature | [Carlos Valdez](https://github.com/calejvaldez/) | [#44](https://github.com/ojosproject/iris/issues/44) |
-| Relay Notifications via SMS  | Feature | [Jason Martin](https://github.com/jasonbm2)      | [#29](https://github.com/ojosproject/iris/pull/29)   |
-| Patient Reported Outcomes    | Feature | [Helen Chau](https://github.com/bbobateaa)       | [#26](https://github.com/ojosproject/iris/pull/26)   |
+| Activity                    | Type      | Assignee(s)              | GitHub                                               |
+| --------------------------- | --------- | ------------------------ | ---------------------------------------------------- |
+| Joystick Support            | Feature   | Carlos Valdez            | [#53](https://github.com/ojosproject/iris/pull/53)   |
+| Rewrite Medications backend | Refactor  | Carlos Valdez, Mai Luong | None yet                                             |
+| Relay Notifications via SMS | Feature   | Jason Martin             | [#29](https://github.com/ojosproject/iris/pull/29)   |
+| AI (Care Instructions)      | Feature   | Ayush Jain               | [#51](https://github.com/ojosproject/iris/pull/51)   |
+| Frontend bugs               | Bug fixes | Helen Chau               | [#43](https://github.com/ojosproject/iris/issues/43) |
+| Backend bugs                | Bug fixes | Jason Martin             | [#43](https://github.com/ojosproject/iris/issues/43) |
+| Frontend/Backend bugs       | Bug fixes | Carlos Valdez            | [#43](https://github.com/ojosproject/iris/issues/43) |
 
 Our Workflow
 ------------
