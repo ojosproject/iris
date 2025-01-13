@@ -5,3 +5,4 @@ pub mod menu;
 pub mod onboarding;
 pub mod structs;
 pub mod user;
+pub mod schema;
