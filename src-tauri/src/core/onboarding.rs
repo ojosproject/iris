@@ -1,6 +1,6 @@
 use crate::{care_instructions, config::get_config, medications, pro, resources};
 use rusqlite::Connection;
-use std::{fs, path::PathBuf, str::FromStr};
+use std::fs;
 use tauri::{AppHandle, Manager};
 
 use super::schema;
