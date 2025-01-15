@@ -105,10 +105,12 @@ function EditInstructions() {
               placeholder="Short Title"
               className={classes.input_care_title}
               type="text"
+              spellCheck={true}
             />
             <textarea
               value={content}
               placeholder="Enter a detailed description of how to care for your loved one."
+              spellCheck={true}
               onChange={(e) => {
                 setContent(e.target.value);
               }}
