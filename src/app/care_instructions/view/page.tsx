@@ -9,7 +9,7 @@ import { Suspense, useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { CareInstruction } from "../types";
 import { timestampToString } from "@/app/core/helper";
-import Dialog from "@/app/call/components/confirmMessage";
+import Dialog from "@/app/core/components/Dialog";
 
 function EditInstructions() {
   // Params get passed from AllCareInstructions.tsx
@@ -49,10 +49,9 @@ function EditInstructions() {
   function isModalOpen(valueForModal: boolean) {
     console.log("CLICKED DELETE");
     if (valueForModal === false) {
-      document.body.style.overflow = 'hidden';
-
+      document.body.style.overflow = "";
     } else {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "hidden";
     }
     setModalOpen(valueForModal);
   }
@@ -156,37 +155,37 @@ function EditInstructions() {
             })}
           </>
         )}
-      {/* {modalOpen && (
-        <Dialog
-          title="Are you sure?"
-          content={"Deleted instructions cannot be recovered"}
-        >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-              alignContent: "center",
-            }}
+        {modalOpen && (
+          <Dialog
+            title="Are you sure?"
+            content={"Deleted instructions cannot be recovered"}
           >
-            <Button
-              type="PRIMARY"
-              label="I consent"
-              onClick={() => {
-                isModalOpen(false);
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                alignContent: "center",
               }}
-            />
-            <Button
-              type="SECONDARY"
-              label="Never mind"
-              onClick={() => {
-                isModalOpen(false);
-              }}
-            />
-          </div>
-        </Dialog>
-      )} */}
-      
+            >
+              <Button
+                type="PRIMARY"
+                label="I consent"
+                onClick={() => {
+                  isModalOpen(false);
+                }}
+              />
+              <Button
+                type="SECONDARY"
+                label="Never mind"
+                onClick={() => {
+                  isModalOpen(false);
+                }}
+              />
+            </div>
+          </Dialog>
+        )}
+
         {lastUpdated === 0 ? null : (
           <div className={classes.last_updated}>
             <div className={classes.last_updated_inner}>
