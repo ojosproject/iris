@@ -9,6 +9,7 @@ import { Suspense, useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { CareInstruction } from "../types";
 import { timestampToString } from "@/app/core/helper";
+import Dialog from "@/app/call/components/confirmMessage";
 
 function EditInstructions() {
   // Params get passed from AllCareInstructions.tsx
@@ -23,6 +24,7 @@ function EditInstructions() {
   const [onEditMode, setOnEditMode] = useState(false);
   const [nextTopic, setNextTopic] = useState("");
   const [previousTopic, setPreviousTopic] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
   const router = useRouter();
 
   function fetchInformation(fetch_id: string) {
@@ -42,6 +44,17 @@ function EditInstructions() {
         });
       })
       .catch((e) => console.log(e));
+  }
+
+  function isModalOpen(valueForModal: boolean) {
+    console.log("CLICKED DELETE");
+    if (valueForModal === false) {
+      document.body.style.overflow = 'hidden';
+
+    } else {
+      document.body.style.overflow = '';
+    }
+    setModalOpen(valueForModal);
   }
 
   useEffect(() => {
@@ -143,6 +156,37 @@ function EditInstructions() {
             })}
           </>
         )}
+      {/* {modalOpen && (
+        <Dialog
+          title="Are you sure?"
+          content={"Deleted instructions cannot be recovered"}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignContent: "center",
+            }}
+          >
+            <Button
+              type="PRIMARY"
+              label="I consent"
+              onClick={() => {
+                isModalOpen(false);
+              }}
+            />
+            <Button
+              type="SECONDARY"
+              label="Never mind"
+              onClick={() => {
+                isModalOpen(false);
+              }}
+            />
+          </div>
+        </Dialog>
+      )} */}
+      
         {lastUpdated === 0 ? null : (
           <div className={classes.last_updated}>
             <div className={classes.last_updated_inner}>
@@ -170,6 +214,11 @@ function EditInstructions() {
                 type="PRIMARY"
                 label="Edit Instructions"
                 onClick={() => setOnEditMode(!onEditMode)}
+              />
+              <Button
+                type="SECONDARY"
+                label="Delete Instructions"
+                onClick={() => isModalOpen(true)}
               />
               <Button
                 type="SECONDARY"
