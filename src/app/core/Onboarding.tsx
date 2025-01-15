@@ -44,6 +44,7 @@ export default function Onboarding(props: {
         <Button
           type="PRIMARY"
           label="Continue"
+          disabled={patientName === ""}
           onClick={() => {
             if (patientName === "") {
               return;
