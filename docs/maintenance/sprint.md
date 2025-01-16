@@ -14,15 +14,22 @@ bug-resistant, and more.
 Sprint Backlog
 --------------
 
-| Activity                    | Type      | Assignee(s)              | GitHub                                               |
-| --------------------------- | --------- | ------------------------ | ---------------------------------------------------- |
-| Joystick Support            | Feature   | Carlos Valdez            | [#53](https://github.com/ojosproject/iris/pull/53)   |
-| Rewrite Medications backend | Refactor  | Carlos Valdez, Mai Luong | None yet                                             |
-| Relay Notifications via SMS | Feature   | Jason Martin             | [#29](https://github.com/ojosproject/iris/pull/29)   |
-| AI (Care Instructions)      | Feature   | Ayush Jain               | [#51](https://github.com/ojosproject/iris/pull/51)   |
-| Frontend bugs               | Bug fixes | Helen Chau               | [#43](https://github.com/ojosproject/iris/issues/43) |
-| Backend bugs                | Bug fixes | Jason Martin             | [#43](https://github.com/ojosproject/iris/issues/43) |
-| Frontend/Backend bugs       | Bug fixes | Carlos Valdez            | [#43](https://github.com/ojosproject/iris/issues/43) |
+| Activity                               | Type     | Assignee(s)              | GitHub                                                |
+| -------------------------------------- | -------- | ------------------------ | ----------------------------------------------------- |
+| Joystick Support                       | Feature  | Carlos Valdez            | [#53](https://github.com/ojosproject/iris/pull/53)    |
+| Rewrite Medications backend            | Refactor | Carlos Valdez, Mai Luong | None yet                                              |
+| Relay Notifications via SMS            | Feature  | Jason Martin             | [#29](https://github.com/ojosproject/iris/pull/29)    |
+| iris#60 (Backend)                      | Bug fix  | Jason Martin             | [#60](https://github.com/ojosproject/iris/issues/60/) |
+| Replace `.sql` to `.rs` to avoid crash | Bug fix  | Jason Martin             | N/A                                                   |
+| Avoid duplicate #s in Relay Settings   | Bug fix  | Jason Martin             | N/A                                                   |
+| Fix #s not saving in Relay Settings    | Bug fix  | Jason Martin             | N/A                                                   |
+| AI (Care Instructions)                 | Feature  | Ayush Jain               | [#51](https://github.com/ojosproject/iris/pull/51)    |
+| iris#55                                | Bug fix  | Carlos Valdez            | [#55](https://github.com/ojosproject/iris/issues/55/) |
+| iris#57                                | Bug fix  | Carlos Valdez            | [#57](https://github.com/ojosproject/iris/issues/57/) |
+| iris#58                                | Bug fix  | Carlos Valdez            | [#58](https://github.com/ojosproject/iris/issues/58/) |
+| iris#40                                | Bug fix  | Helen Chau               | [#40](https://github.com/ojosproject/iris/issues/40/) |
+| iris#60 (Frontend)                     | Bug fix  | Helen Chau               | [#60](https://github.com/ojosproject/iris/issues/60/) |
+| iris#66                                | Bug fix  | Helen Chau               | [#66](https://github.com/ojosproject/iris/issues/66/) |
 
 Our Workflow
 ------------
