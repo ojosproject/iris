@@ -5,7 +5,7 @@ Sprint Details
 | --------------------------- | ------------------------ |
 | Sprint Start                | January 13, 2025         |
 | Sprint End                  | February 3, 2025         |
-| Sprint Review/Retrospective | Week of January 13, 2025 |
+| Sprint Review/Retrospective | Week of February 3, 2025 |
 
 During this sprint, developers are focusing on improving Iris for the CHI
 Competition. This includes work such as adding missing features, making it
