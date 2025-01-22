@@ -119,13 +119,13 @@ const WebcamRecorder: React.FC = () => {
   return (
     <div>
       {/* Video element to display the webcam feed */}
-      <video
+      {isCameraOn ? (<video
         className={classes.video_container}
         ref={videoRef}
         autoPlay
         playsInline
         muted={true}
-      />
+      />) : <h1>Camera is not on</h1>}
       {showDialog && (
         <Dialog
           title="You are still recording!"
