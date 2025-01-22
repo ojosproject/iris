@@ -158,7 +158,7 @@ function EditInstructions() {
         {modalOpen && (
           <Dialog
             title="Are you sure?"
-            content={"Deleted instructions cannot be recovered"}
+            content={"Deleted care instructions cannot be recovered."}
           >
             <div
               style={{
@@ -170,7 +170,7 @@ function EditInstructions() {
             >
               <Button
                 type="PRIMARY"
-                label="I consent"
+                label="Delete"
                 onClick={() => {
                   isModalOpen(false);
                   invoke("delete_care_instructions", { id: id });
