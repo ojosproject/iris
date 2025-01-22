@@ -173,6 +173,8 @@ function EditInstructions() {
                 label="I consent"
                 onClick={() => {
                   isModalOpen(false);
+                  invoke("delete_care_instructions", { id: id });
+                  router.back();
                 }}
               />
               <Button
