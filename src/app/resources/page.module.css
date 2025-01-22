@@ -10,11 +10,9 @@
 }
 
 .sticky {
-  position: fixed;
+  position: sticky;
+  top: 15px;
   z-index: 1000;
-  top: 80;
-  left: 170px;
-  
 }
 
 .menu_and_resources_container {
