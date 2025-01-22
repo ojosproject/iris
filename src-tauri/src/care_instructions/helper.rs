@@ -97,3 +97,14 @@ pub fn get_all_care_instructions(app: &AppHandle) -> Vec<CareInstruction> {
 
     vec_to_return
 }
+
+pub fn delete_care_instructions(app: &AppHandle, id: String) {
+    let app_data_dir = app.path().app_data_dir().unwrap();
+    let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
+
+    conn.execute(
+        "DELETE FROM care_instruction WHERE id=:id",
+        named_params! {":id": id},
+    )
+    .unwrap();
+}

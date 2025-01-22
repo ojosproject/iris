@@ -30,6 +30,7 @@ fn main() {
             care_instructions::commands::get_single_care_instruction,
             care_instructions::commands::update_care_instructions,
             care_instructions::commands::care_instructions_previous_next_ids,
+            care_instructions::commands::delete_care_instructions,
             pro::commands::add_pros,
             pro::commands::get_all_pros,
             pro::commands::add_pro_question,

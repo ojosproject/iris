@@ -139,3 +139,8 @@ pub fn care_instructions_previous_next_ids(app: AppHandle, id: String) -> Vec<St
         (&instructions[next]).id.clone(),
     ];
 }
+
+#[tauri::command(rename_all = "snake_case")]
+pub fn delete_care_instructions(app: AppHandle, id: String) {
+    helper::delete_care_instructions(&app, id);
+}

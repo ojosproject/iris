@@ -123,26 +123,30 @@ const SurveyPage: React.FC<RatingProps> = ({
       {questions.map((item, index) => (
         <div key={index} className="survey-question">
           <h4>
-            <p> {index + 1}. </p>
+            <p>{index + 1}. </p>
             {item}
           </h4>
-          <div className="rating-options">
-            {[...Array(count)].map((_, i) => {
-              const isSelected = i === ratings[index] - 1;
-              return (
-                <div
-                  key={i}
-                  style={{ cursor: "pointer" }}
-                  onClick={() => handleRatingChange(index, i)}
-                >
-                  {isSelected ? (
-                    <FullCircle size={size} number={i + 1} />
-                  ) : (
-                    <EmptyCircle size={size} number={i + 1} />
-                  )}
-                </div>
-              );
-            })}
+          <div className="rating-wrapper">
+            <p className="rating-label">Not at all</p>
+            <div className="rating-options">
+              {[...Array(count)].map((_, i) => {
+                const isSelected = i === ratings[index] - 1;
+                return (
+                  <div
+                    key={i}
+                    style={{ cursor: "pointer" }}
+                    onClick={() => handleRatingChange(index, i)} 
+                  >
+                    {isSelected ? (
+                      <FullCircle size={size} number={i + 1} />
+                    ) : (
+                      <EmptyCircle size={size} number={i + 1} />
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+            <p className="rating-label text-align-right">All the time</p>
           </div>
         </div>
       ))}
@@ -164,8 +168,6 @@ const SurveyPage: React.FC<RatingProps> = ({
                 </div>
               ))}
             </ul>
-          </div>
-          <div className="modal-content-2">
             <div className="container-sidebyside">
               <Button
                 type="PRIMARY"
