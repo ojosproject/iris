@@ -23,3 +23,8 @@ Ojos Project
   min-width: 500px;
   min-height: 500px;
 }
+
+.container-center {
+  margin: auto;
+  text-align: center;
+}
