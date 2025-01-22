@@ -9,8 +9,6 @@
 
 .container {
   justify-content: center;
-  margin-left: 20%;
-  margin-right: 20%;
 }
 
 .container-2 {
@@ -26,6 +24,29 @@
 
 .container-4 {
   text-align: left;
+}
+
+.rating-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  margin: auto;
+}
+
+.rating-options {
+  display: flex;
+  gap: 10px; /* Adjust spacing between circles */
+}
+
+.rating-label {
+  flex: 0 0 auto;
+  font-size: 14px;
+  margin: 0 10px;
+}
+
+.text-align-right {
+  text-align: right;
 }
 
 .container-sidebyside {
@@ -51,27 +72,12 @@
   margin-top: 10%;
   background: white;
   padding: 3%;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
+  border-radius: 8px;
   height: 60dvh;
   width: 80dvw;
   align-items: center;
   text-align: center;
   overflow-y: auto;
-}
-
-.modal-content-2 {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
-  background: white;
-  padding: 3%;
-  max-width: 600px;
-  width: 100%;
-  text-align: center;
-  border-top-color: #1d7ff0;
-  border-top-width: 5px;
 }
 
 .modal-content button {
@@ -95,8 +101,8 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  margin-right: 80px;
-  margin-left: 80px;
+  margin-right: 25%;
+  margin-left: 25%;
   padding-bottom: 30px;
 }
 
