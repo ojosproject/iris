@@ -10,8 +10,11 @@
 }
 
 .sticky {
-  position: sticky;
-  top: 20px;
+  position: fixed;
+  z-index: 1000;
+  top: 80;
+  left: 170px;
+  
 }
 
 .menu_and_resources_container {
@@ -20,7 +23,6 @@
   justify-content: center;
   align-items: flex-start;
   margin: 0 20px;
-  position: sticky;
 }
 
 .not_found {
