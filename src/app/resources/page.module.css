@@ -9,13 +9,18 @@
   align-self: flex-start;
 }
 
+.sticky {
+  position: sticky;
+  top: 20px;
+}
+
 .menu_and_resources_container {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
-
   margin: 0 20px;
+  position: sticky;
 }
 
 .not_found {

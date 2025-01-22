@@ -39,7 +39,7 @@ export default function Survey() {
     <div className="Survey">
       <div>
         <BackButton />
-        <h1>Today's Survey</h1>
+        <h1 className="text-align-center">Today's Survey</h1>
         <div className="container">
           <SurveyPage
             count={10}

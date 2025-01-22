@@ -135,7 +135,7 @@ const SurveyPage: React.FC<RatingProps> = ({
                   <div
                     key={i}
                     style={{ cursor: "pointer" }}
-                    onClick={() => handleRatingChange(index, i + 1)} // Ensure it's 1-based
+                    onClick={() => handleRatingChange(index, i)} 
                   >
                     {isSelected ? (
                       <FullCircle size={size} number={i + 1} />

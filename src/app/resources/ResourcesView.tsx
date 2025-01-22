@@ -30,11 +30,14 @@ export default function ResourcesView(props: {
       </header>
 
       <div className={classes.menu_and_resources_container}>
-        <CategoryMenu
-          labels={categories}
-          resources={props.resources}
-          setResources={props.setResources}
-        />
+        <div className={classes.sticky}>
+          <CategoryMenu
+            labels={categories}
+            resources={props.resources}
+            setResources={props.setResources}
+          />
+        </div>
+        
         <ResourcesList
           resources={props.resources}
           setResources={props.setResources}
