@@ -1,35 +1,27 @@
 Sprint Details
 ==============
 
-| Event                       | Date                     |
-| --------------------------- | ------------------------ |
-| Sprint Start                | January 13, 2025         |
-| Sprint End                  | February 3, 2025         |
-| Sprint Review/Retrospective | Week of February 3, 2025 |
+| Event                       | Date                      |
+| --------------------------- | ------------------------- |
+| Sprint Start                | February 3, 2025          |
+| Sprint End                  | February 17, 2025         |
+| Sprint Review/Retrospective | Week of February 17, 2025 |
 
-During this sprint, developers are focusing on improving Iris for the CHI
-Competition. This includes work such as adding missing features, making it
-bug-resistant, and more.
+N/A
 
 Sprint Backlog
 --------------
 
-| Activity                               | Type     | Assignee(s)              | GitHub                                                |
-| -------------------------------------- | -------- | ------------------------ | ----------------------------------------------------- |
-| Joystick Support                       | Feature  | Carlos Valdez            | [#53](https://github.com/ojosproject/iris/pull/53)    |
-| Rewrite Medications backend            | Refactor | Carlos Valdez, Mai Luong | None yet                                              |
-| Relay Notifications via SMS            | Feature  | Jason Martin             | [#29](https://github.com/ojosproject/iris/pull/29)    |
-| iris#60 (Backend)                      | Bug fix  | Jason Martin             | [#60](https://github.com/ojosproject/iris/issues/60/) |
-| Replace `.sql` to `.rs` to avoid crash | Bug fix  | Jason Martin             | N/A                                                   |
-| Avoid duplicate #s in Relay Settings   | Bug fix  | Jason Martin             | N/A                                                   |
-| Fix #s not saving in Relay Settings    | Bug fix  | Jason Martin             | N/A                                                   |
-| AI (Care Instructions)                 | Feature  | Ayush Jain               | [#51](https://github.com/ojosproject/iris/pull/51)    |
-| iris#55                                | Bug fix  | Carlos Valdez            | [#55](https://github.com/ojosproject/iris/issues/55/) |
-| iris#57                                | Bug fix  | Carlos Valdez            | [#57](https://github.com/ojosproject/iris/issues/57/) |
-| iris#58                                | Bug fix  | Carlos Valdez            | [#58](https://github.com/ojosproject/iris/issues/58/) |
-| iris#40                                | Bug fix  | Helen Chau               | [#40](https://github.com/ojosproject/iris/issues/40/) |
-| iris#60 (Frontend)                     | Bug fix  | Helen Chau               | [#60](https://github.com/ojosproject/iris/issues/60/) |
-| iris#66                                | Bug fix  | Helen Chau               | [#66](https://github.com/ojosproject/iris/issues/66/) |
+| Activity                     | Type     | Assignee(s)                | GitHub   |
+| ---------------------------- | -------- | -------------------------- | -------- |
+| Rewrite Medications frontend | Refactor | Mai Luong                  | None yet |
+| Edit medications             | Feature  | Mai Luong                  | None yet |
+| Drop-in mode for video       | Feature  | Carlos Valdez/Jason Martin | None yet |
+| Medication scheduler         | Feature  | Carlos Valdez/Jason Martin | None yet |
+| Frontend bug fixes           | Bug fix  | Jason Martin               | None yet |
+| Animation                    | Feature  | Helen Chau                 | None yet |
+| Medication icons             | Feature  | Jesse David                | None yet |
+| Contacts tool                | Feature  | Carlos Valdez              | None yet |
 
 Our Workflow
 ------------
