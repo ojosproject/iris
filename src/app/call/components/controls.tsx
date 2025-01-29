@@ -100,10 +100,19 @@ const WebcamRecorder: React.FC = () => {
   const toggleCamera = () => {
     if (mediaRecorderRef.current?.stream) {
       const videoTracks = mediaRecorderRef.current.stream.getVideoTracks();
-      videoTracks.forEach((track) => {
-        track.enabled = !isCameraOn; // Toggle video track enabled state
-      });
-      setIsCameraOn(!isCameraOn);
+      if (isCameraOn) {
+        setIsCameraOn(false)
+        videoTracks.forEach((track) => {
+          track.enabled = false; // Toggle video track enabled state
+        });
+      }
+      else {
+        setIsCameraOn(true);
+        videoTracks.forEach((track) => {
+          track.enabled = true; // Toggle video track enabled state
+        });
+      }
+      
     }
   };
 
@@ -119,13 +128,15 @@ const WebcamRecorder: React.FC = () => {
   return (
     <div>
       {/* Video element to display the webcam feed */}
-      {isCameraOn ? (<video
+      {isCameraOn ? (<>      
+      <div className="container-center"> 
+        <h1>Camera is on</h1>
+      </div><video
         className={classes.video_container}
         ref={videoRef}
         autoPlay
         playsInline
-        muted={true}
-      />) : 
+        muted={true} /></>) : 
       <div className="container-center"> 
         <h1>Camera is not on</h1>
       </div>}
