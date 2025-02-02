@@ -4,7 +4,6 @@
 // This handles a lot of user-related functions for Iris.
 #![allow(dead_code)]
 use crate::core::structs::User;
-use crate::medications::structs::Medication;
 use rusqlite::{named_params, Connection};
 use tauri::{AppHandle, Manager};
 use uuid::Uuid;
@@ -79,97 +78,5 @@ impl User {
         .unwrap();
 
         user
-    }
-
-    pub fn get_medications(&mut self, app: AppHandle) -> Vec<Medication> {
-        let app_data_dir = app.path().app_data_dir().unwrap();
-        let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
-
-        let mut statement = conn
-            .prepare("SELECT * FROM medication")
-            .expect("This did not work!");
-
-        let matched_medications = statement
-            .query_map([], |row| {
-                Ok(Medication {
-                    name: row.get(0)?,
-                    brand: row.get(1)?,
-                    dosage: row.get(2)?,
-                    frequency: row.get(3)?,
-                    supply: row.get(4)?,
-                    total_prescribed: row.get(5)?,
-                    first_added: row.get(6)?,
-                    last_taken: row.get(7)?,
-                    upcoming_dose: row.get(8)?,
-                    schedule: row.get(9)?,
-                    measurement: row.get(10)?,
-                    nurse_id: row.get(11)?,
-                })
-            })
-            .expect("That did not work.");
-
-        let mut vec_to_return: Vec<Medication> = vec![];
-
-        for med in matched_medications {
-            vec_to_return.push(med.expect("ok"));
-        }
-
-        return vec_to_return;
-    }
-
-    pub fn get_upcoming_medications(&mut self, app: AppHandle) -> Vec<Medication> {
-        let mut returning_medications: Vec<Medication> = vec![];
-
-        for med in self.get_medications(app) {
-            if med.upcoming_dose.is_some() {
-                returning_medications.push(med);
-            }
-        }
-
-        returning_medications.sort_by(|med_a, med_b| {
-            med_a
-                .upcoming_dose
-                .unwrap()
-                .total_cmp(&med_b.upcoming_dose.unwrap())
-        });
-
-        returning_medications
-    }
-
-    pub fn search_medications(&mut self, app: AppHandle, query: &str) -> Vec<Medication> {
-        let app_data_dir = app.path().app_data_dir().unwrap();
-        let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
-
-        // https://github.com/rusqlite/rusqlite/issues/600#issuecomment-562258168
-        let mut stmt = conn
-            .prepare("SELECT * FROM medication WHERE name LIKE '%' || ? || '%'")
-            .unwrap();
-
-        let matched_medications = stmt
-            .query_map([query], |row| {
-                Ok(Medication {
-                    name: row.get(0)?,
-                    brand: row.get(1)?,
-                    dosage: row.get(2)?,
-                    frequency: row.get(3)?,
-                    supply: row.get(4)?,
-                    total_prescribed: row.get(5)?,
-                    first_added: row.get(6)?,
-                    last_taken: row.get(7)?,
-                    upcoming_dose: row.get(8)?,
-                    schedule: row.get(9)?,
-                    measurement: row.get(10)?,
-                    nurse_id: row.get(11)?,
-                })
-            })
-            .unwrap();
-
-        let mut vec_to_return: Vec<Medication> = vec![];
-
-        for med in matched_medications {
-            vec_to_return.push(med.unwrap());
-        }
-
-        vec_to_return
     }
 }
