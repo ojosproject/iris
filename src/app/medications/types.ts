@@ -1,22 +1,25 @@
 export type Medication = {
+  id: string;
   name: string;
-  brand?: string;
-  dosage: number; // float
-  frequency: number; // float, 0.0 if it's "as needed"
-  supply: number; // float
-  total_prescribed: number; // float
-  first_added: number; // Epoch seconds
-  last_taken?: number; // Epoch seconds
-  upcoming_dose?: number; // Epoch seconds
-  schedule?: string; // comma separated values, hours in 24-hr format (e.g., 0,6,12,18 to represent 12am, 6am, 12pm, 6pm)
-  measurement: string;
-  nurse_id: string;
+  generic_name?: string;
+  dosage_type: string;
+  strength: number;
+  units: string;
+  quantity: number;
+  created_at: number;
+  updated_at: number;
+  start_date?: number;
+  end_date?: number;
+  expiration_date?: number;
+  frequency?: string;
+  notes?: string;
 };
 
 export type MedicationLog = {
-  timestamp: number; // float
-  medication_name: string;
-  given_dose: number; // float
-  measurement: string;
-  comment?: string;
+  id: string;
+  timestamp: number;
+  medication_id: string;
+  strength: number;
+  units: string;
+  comments?: string;
 };
