@@ -6,10 +6,17 @@ Ojos Project
   width: 65dvw;
   margin: 20px 0;
   overflow-wrap: anywhere;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .single_care_instruction:hover {
   cursor: pointer;
+  transform: translateY(-10px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+  
 }
 
 .tap_message {
