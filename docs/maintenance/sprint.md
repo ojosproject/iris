@@ -12,16 +12,23 @@ N/A
 Sprint Backlog
 --------------
 
-| Activity                     | Type     | Assignee(s)                | GitHub   |
-| ---------------------------- | -------- | -------------------------- | -------- |
-| Rewrite Medications frontend | Refactor | Mai Luong                  | None yet |
-| Edit medications             | Feature  | Mai Luong                  | None yet |
-| Drop-in mode for video       | Feature  | Carlos Valdez/Jason Martin | None yet |
-| Medication scheduler         | Feature  | Carlos Valdez/Jason Martin | None yet |
-| Frontend bug fixes           | Bug fix  | Jason Martin               | None yet |
-| Animation                    | Feature  | Helen Chau                 | None yet |
-| Medication icons             | Feature  | Jesse David                | None yet |
-| Contacts tool                | Feature  | Carlos Valdez              | None yet |
+| Activity                        | Type     | Assignee(s)                | GitHub                                                    |
+| ------------------------------- | -------- | -------------------------- | --------------------------------------------------------- |
+| Rewrite Medications frontend    | Refactor | Mai Luong                  | [iris#77](https://github.com/ojosproject/iris/pull/77)    |
+| Edit medications                | Feature  | Mai Luong                  | [iris#77](https://github.com/ojosproject/iris/pull/77)    |
+| Create a way to add comments    | Feature  | Mai Luong                  | [iris#62](https://github.com/ojosproject/iris/issues/62/) |
+| Change PRO questions            | Bug fix  | Mai Luong                  | [iris#69](https://github.com/ojosproject/iris/issues/69/) |
+| Drop-in mode for video          | Feature  | Carlos Valdez/Jason Martin | None yet                                                  |
+| Medication scheduler            | Feature  | Carlos Valdez/Jason Martin | [iris#64](https://github.com/ojosproject/iris/issues/64/) |
+| Change monospace font to Arial  | Bug fix  | Carlos Valdez              | [iris#78](https://github.com/ojosproject/iris/issues/78/) |
+| Add old keyboard shortcuts back | Bug fix  | Carlos Valdez              | N/A                                                       |
+| Fix recording saving on Windows | Bug fix  | Carlos Valdez              | [iris#72](https://github.com/ojosproject/iris/issues/72/) |
+| Animation                       | Feature  | Helen Chau                 | None yet                                                  |
+| Changes to the PRO tool         | Big fix  | Helen Chau                 | [iris#80](https://github.com/ojosproject/iris/issues/80)  |
+| Accessibility                   | Feature  | Helen Chau                 | None yet                                                  |
+| Medication icons                | Design   | Jesse David                | [iris#63](https://github.com/ojosproject/iris/issues/63/) |
+| Contacts tool design            | Design   | Jesse David                | [iris#74](https://github.com/ojosproject/iris/issues/74/) |
+| Contacts tool                   | Feature  | Ayush Jain                 | [iris#74](https://github.com/ojosproject/iris/issues/74/) |
 
 Our Workflow
 ------------
