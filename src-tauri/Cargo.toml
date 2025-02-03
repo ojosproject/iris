@@ -8,7 +8,7 @@ authors = ["Ojos Project"]
 license = "GPL-3.0-only"
 repository = "https://github.com/ojosproject/iris/"
 edition = "2021"
-rust-version = "1.60"
+rust-version = "1.82"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -25,6 +25,10 @@ chrono = "0.4.38"
 itertools = "0.13.0"
 reqwest = { version = "0.11", features = ["blocking", "json"] }
 tauri-plugin-fs = "2"
+regex-automata = "0.4.9"
+mistralrs = { git = "https://github.com/EricLBuehler/mistral.rs.git" }
+anyhow = "1.0.95"
+tokio = "1.43.0"
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem and the built-in dev server is disabled.

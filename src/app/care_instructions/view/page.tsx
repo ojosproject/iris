@@ -105,6 +105,11 @@ export default function EditInstructions() {
               placeholder="Short Title"
               className={classes.input_care_title}
               type="text"
+              onBlur={(e) => {
+                console.log("Clicked away from Title", e)
+                //emit("input-blur", { inputName: "Short Title"})
+                invoke('load_model');
+              }}
             />
             <textarea
               value={content}
