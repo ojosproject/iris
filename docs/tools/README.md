@@ -11,6 +11,13 @@ Medications tool, where you need to interact with the UI to function. An example
 of a functions-related tool can be the Relay functionality, which doesn't
 require a dedicated full page for it to function.
 
+## Where are tools located?
+
+In the code, tools are located in
+[`/src/app/`](../../src/app/) (frontend) and
+[`/src-tauri/src/`](../../src-tauri/src/) (backend). The tool folder's name
+should be the same in both locations.
+
 ## Documenting tools
 
 Tools should either (have a Markdown file OR collection of Markdown files in a
