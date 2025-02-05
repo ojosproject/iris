@@ -61,27 +61,27 @@ Ojos Project
 }
 
 .input_care_title {
-  width: 500px;
-  height: 35px;
+  width: 80%;
+  height: 50px;
 
   margin-bottom: 35px;
   padding: 0 5px;
 
   border: solid #094595 2px;
-  border-radius: 5px;
-  font-size: 20px;
+  border-radius: 8px;
+  font-size: 30px;
   font-weight: bold;
 }
 
 .input_care_content {
   resize: none;
-  width: 650px;
-  min-height: 50dvh;
+  width: 100%;
+  min-height: 52dvh;
   padding: 5px;
 
   border: solid #094595 2px;
   border-radius: 10px;
-  font-size: 15px;
+  font-size: 20px;
   font-family: "Noto Sans", "Inter", "sans-serif";
 }
 
@@ -100,7 +100,8 @@ Ojos Project
 
 .modal-content {
   background: white;
-  padding: 20px;
+  padding: 10px;
   border-radius: 8px;
+  width: 100%;
   z-index: 1001; /* Higher than overlay to ensure visibility */
 }

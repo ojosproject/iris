@@ -3,6 +3,11 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.app:hover {
+  transform: translateY(-10px);
 }
 
 .link {
@@ -20,4 +25,13 @@
   width: 200px;
   height: 200px;
   border-radius: 12px;
+}
+
+@keyframes slideDownAnimation {
+    from {
+        transform: translateY(-50%);
+    }
+    to {
+        transform: translateY(0);
+    }
 }

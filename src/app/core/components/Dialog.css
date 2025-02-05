@@ -23,6 +23,8 @@ Ojos Project
   max-width: 400px;
   width: 100%;
   text-align: center;
+  animation: scale 0.25s ease-out;
+  animation-fill-mode: forwards;
 }
 
 .dialog-header {
@@ -39,4 +41,15 @@ Ojos Project
 .dialog-actions {
   display: flex;
   justify-content: space-between;
+}
+
+@keyframes scale {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }

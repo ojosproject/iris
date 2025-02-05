@@ -22,6 +22,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  animation: scale 0.25s ease-out;
+  animation-fill-mode: forwards;
 }
 
 .medicationDetails {
@@ -79,4 +81,15 @@
 .buttonGroup button:last-child:hover {
   background-color: #e53935;
   cursor: pointer;
+}
+
+@keyframes scale {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
