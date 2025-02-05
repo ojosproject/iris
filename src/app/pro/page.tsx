@@ -220,7 +220,7 @@ const ProChart = () => {
           type="PRIMARY"
           label="Take Today's Survey"
           onClick={() => router.push("./pro/survey")}
-          // disabled={isSurveyTaken}
+          disabled={isSurveyTaken}
         />
       </div>
 
