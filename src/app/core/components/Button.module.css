@@ -10,6 +10,13 @@
   border: solid transparent 2px;
 }
 
+.button_iris_primary:hover {
+  text-decoration: none;
+  color: white;
+  background-color: #094595;
+  cursor: pointer;
+}
+
 .button_iris_primary:disabled {
   background-color: grey;
 }
@@ -31,15 +38,54 @@
   border: solid #0063d7 2px;
 }
 
-.button_iris_primary:hover {
-  text-decoration: none;
-  color: white;
-  background-color: #094595;
-  cursor: pointer;
-}
-
 .button_iris_secondary:hover {
   text-decoration: none;
   color: #0063d7;
+  cursor: pointer;
+}
+
+.button_iris_danger_primary {
+  font-weight: bold;
+  padding: 10px 25px;
+  min-width: 100px;
+  border-radius: 10px;
+  margin: 5px;
+
+  color: white;
+  background-color: #b10b08;
+  border: solid transparent 2px;
+}
+
+.button_iris_danger_primary:hover {
+  text-decoration: none;
+  color: white;
+  background-color: #dc0f0b;
+  cursor: pointer;
+}
+
+.button_iris_danger_primary:disabled {
+  background-color: grey;
+}
+
+.button_iris_danger_primary:hover:disabled {
+  cursor: default;
+  background-color: grey;
+}
+
+.button_iris_danger_secondary {
+  font-weight: bold;
+  padding: 10px 25px;
+  min-width: 100px;
+  border-radius: 10px;
+  margin: 5px;
+
+  color: #b10b08;
+  background-color: white;
+  border: solid #b10b08 2px;
+}
+
+.button_iris_danger_secondary:hover {
+  text-decoration: none;
+  color: #b10b08;
   cursor: pointer;
 }

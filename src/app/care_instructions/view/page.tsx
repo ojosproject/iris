@@ -169,7 +169,7 @@ function EditInstructions() {
               }}
             >
               <Button
-                type="PRIMARY"
+                type="DANGER-PRIMARY"
                 label="Delete"
                 onClick={() => {
                   isModalOpen(false);
@@ -217,7 +217,7 @@ function EditInstructions() {
                 onClick={() => setOnEditMode(!onEditMode)}
               />
               <Button
-                type="SECONDARY"
+                type="DANGER-SECONDARY"
                 label="Delete Instructions"
                 onClick={() => isModalOpen(true)}
               />
