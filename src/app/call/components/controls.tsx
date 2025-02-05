@@ -125,10 +125,7 @@ const WebcamRecorder: React.FC = () => {
         autoPlay
         playsInline
         muted={true}
-      />) : 
-      <div className="container-center"> 
-        <h1>Camera is not on</h1>
-      </div>}
+      />) : <h1>Camera is not on</h1>}
       {showDialog && (
         <Dialog
           title="You are still recording!"
