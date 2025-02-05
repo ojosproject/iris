@@ -214,13 +214,13 @@ const ProChart = () => {
         {isSurveyTaken ? (
           <p>The survey has already been taken today</p>
         ) : (
-          <p>Please take the survey</p>
+          <p>Please take the survey for today</p>
         )}
         <Button
           type="PRIMARY"
           label="Take Today's Survey"
           onClick={() => router.push("./pro/survey")}
-          disabled={isSurveyTaken}
+          // disabled={isSurveyTaken}
         />
       </div>
 

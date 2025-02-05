@@ -6,6 +6,7 @@ import "./survey.css";
 import BackButton from "@/app/core/components/BackButton";
 import { invoke } from "@tauri-apps/api/core";
 import Button from "@/app/core/components/Button";
+import Dialog from "@/app/core/components/Dialog";
 
 export default function Survey() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -50,15 +51,12 @@ export default function Survey() {
         </div>
       </div>
 
-      {isModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <div className="container">
-              <h1>Thank you!</h1>
-            </div>
-            <h3>You have completed your survey for today.</h3>
-
-            <div className="survey-results">
+      {isModalOpen && ( 
+      <Dialog
+        title="Thank you!"
+        content="You have completed your survey for today"
+      >
+        <div className="modal-content">
               <h2>Your Responses:</h2>
               {surveyResults ? (
                 surveyResults.map((item, index) => (
@@ -76,14 +74,13 @@ export default function Survey() {
               ) : (
                 <p>No survey responses available.</p>
               )}
-              <Button
+            </div>
+            <Button
                 type="PRIMARY"
                 label="Return to Pros"
                 onClick={handleGoBack}
               />
-            </div>
-          </div>
-        </div>
+      </Dialog>
       )}
     </div>
   );
