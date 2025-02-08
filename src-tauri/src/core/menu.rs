@@ -8,7 +8,7 @@ use tauri::{
 use tauri_plugin_os::platform;
 
 fn submenu_app(app: &AppHandle) -> Submenu<Wry> {
-    SubmenuBuilder::new(app.app_handle(), "App")
+    SubmenuBuilder::new(app, "App")
         .about(Some(AboutMetadata {
             ..Default::default()
         }))
@@ -112,8 +112,8 @@ fn submenu_help(app: &AppHandle) -> Submenu<Wry> {
 pub fn menu(app: &AppHandle) -> Menu<Wry> {
     match platform() {
         "macos" => MenuBuilder::new(app)
-            .item(&submenu_file(app))
             .item(&submenu_app(app))
+            .item(&submenu_file(app))
             .item(&submenu_edit(app))
             .item(&submenu_view(app))
             .item(&submenu_window(app))
