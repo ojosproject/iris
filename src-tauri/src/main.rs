@@ -40,8 +40,7 @@ fn main() {
             call::commands::open_recordings_folder
         ])
         .setup(|app| {
-            app.set_menu(core::menu::menu(app.app_handle().clone()))
-                .unwrap();
+            app.set_menu(core::menu::menu(&app.app_handle())).unwrap();
 
             app.on_menu_event(move |app, event| {
                 let copy = app.clone();
@@ -77,6 +76,17 @@ fn main() {
                     println!("Recreating iris.db...");
                     core::onboarding::setup_onboarding(app.app_handle());
                     println!("Done!");
+                } else if event.id() == "open-recordings" {
+                    process::Command::new(command)
+                        .args(
+                            app.path()
+                                .app_data_dir()
+                                .unwrap()
+                                .join("recordings")
+                                .to_str(),
+                        )
+                        .output()
+                        .unwrap();
                 }
             });
 
