@@ -82,7 +82,7 @@ Ojos Project
   border: solid #094595 2px;
   border-radius: 10px;
   font-size: 20px;
-  font-family: "Noto Sans", "Inter", "sans-serif";
+  font-family: "Noto Sans", "Inter", "sans-serif", "Arial";
 }
 
 .modal-overlay {
