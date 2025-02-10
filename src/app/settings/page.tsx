@@ -13,6 +13,7 @@ import { parse_phone_number } from "../core/helper";
 import Dialog from "../core/components/Dialog";
 import { invoke } from "@tauri-apps/api/core";
 import useKeyPress from "../accessibility/keyboard_nav";
+import { useRouter } from "next/navigation";
 
 type SectionProps = {
   children: ReactElement;
@@ -50,6 +51,7 @@ export default function Settings() {
   const [displayNumberDialog, setDisplayNumberDialog] = useState(false);
   const [relayActivated, setRelayActivated] = useState(false);
   const [newNumber, setNewNumber] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     invoke("get_config").then((c) => {
@@ -66,13 +68,7 @@ export default function Settings() {
   }
 
   useKeyPress("Escape", () => {
-    setDisplayDialog(false);
-    setRelayActivated(false);
-  });
-  
-  useKeyPress("Enter", () => {
-    setDisplayDialog(false);
-    setRelayActivated(true);
+    router.back();
   });
 
 
