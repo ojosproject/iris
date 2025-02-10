@@ -80,3 +80,12 @@
   background-color: #e53935;
   cursor: pointer;
 }
+
+.commentBox {
+  margin: 12px 0;
+  padding: 10px;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #000000;
+  font: 16px;
+}

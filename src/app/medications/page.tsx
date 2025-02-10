@@ -104,7 +104,7 @@ const MedicationsView = () => {
           onConfirm={() => {
             invoke("log_medication", {
               medication: selectedMedication?.name,
-              comments: null,
+              comments: comment || null,
             }).then((ts) => {
               invoke("get_medications")
                 .then((m) => {
