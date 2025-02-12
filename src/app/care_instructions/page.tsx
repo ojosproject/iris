@@ -10,9 +10,16 @@ import BackButton from "../core/components/BackButton";
 import classes from "./page.module.css";
 import Button from "../core/components/Button";
 import CareInstructionsButton from "./components/CareInstructionButton";
+import useKeyPress from "../accessibility/keyboard_nav";
+import { useRouter } from "next/navigation";
 
 export default function CareInstructions() {
   const [instructions, setInstructions] = useState([] as CareInstruction[]);
+  const router = useRouter();
+
+  useKeyPress("Escape", () => {
+    router.back();
+  });
 
   useEffect(() => {
     invoke("get_all_care_instructions").then((i) => {
