@@ -138,7 +138,7 @@ It may be useful to read the following resources before development:
 - [Thinking in React](https://react.dev/learn/thinking-in-react)
 - [NextJS App Routing Fundamentals](https://nextjs.org/docs/app/building-your-application/routing)
 - [Clear explanation of Rust’s module system](https://www.sheshbabu.com/posts/rust-module-system/)
-- [Creating an Iris feature](./docs/create-a-feature.md)
+- [Creating an Iris feature](./docs/design/create-a-feature.md)
 
 ### Setting up your coding environment
 
