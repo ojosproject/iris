@@ -1,4 +1,4 @@
-use crate::{care_instructions, config::get_config, medications, pro, resources};
+use crate::{care_instructions, config::get_config, medications, pro, resources, contacts};
 use rusqlite::Connection;
 use std::fs;
 use tauri::{AppHandle, Manager};
@@ -6,7 +6,7 @@ use tauri::{AppHandle, Manager};
 use super::schema;
 
 fn combine_schemas() -> String {
-    let combined_schemas = schema::CORE_SCHEMA.to_string() + care_instructions::schema::CARE_INSTRUCTIONS_SCHEMA + medications::schema::MEDICATIONS_SCHEMA + pro::schema::PRO_SCHEMA + resources::schema::RESOURCES_SCHEMA;
+    let combined_schemas = schema::CORE_SCHEMA.to_string() + care_instructions::schema::CARE_INSTRUCTIONS_SCHEMA + medications::schema::MEDICATIONS_SCHEMA + pro::schema::PRO_SCHEMA + resources::schema::RESOURCES_SCHEMA + contacts::schema::CONTACTS_SCHEMA;
     combined_schemas
 }
 
