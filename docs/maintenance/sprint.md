@@ -4,8 +4,8 @@ Sprint Details
 | Event                       | Date                      |
 | --------------------------- | ------------------------- |
 | Sprint Start                | February 3, 2025          |
-| Sprint End                  | February 17, 2025         |
-| Sprint Review/Retrospective | Week of February 17, 2025 |
+| Sprint End                  | February 24, 2025         |
+| Sprint Review/Retrospective | Week of February 24, 2025 |
 
 N/A
 
