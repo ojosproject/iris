@@ -20,6 +20,10 @@ const ConfirmLogModal: React.FC<ConfirmLogModalProps> = ({
   medication,
 }) => {
   const [comment, setComment] = useState("");
+  const logSubmit = () => {
+    onConfirm(comment);
+    onClose();
+  };
 
   if (!isOpen || !medication) return null;
 

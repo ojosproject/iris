@@ -147,6 +147,11 @@
   align-items: center;
 }
 
+.noLog {
+  text-align: "center";
+  padding: "10px";
+}
+
 @media (max-width: 600px) {
   .content {
     flex-direction: column;

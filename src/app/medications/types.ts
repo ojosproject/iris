@@ -13,6 +13,7 @@ export type Medication = {
   expiration_date?: number;
   frequency?: string;
   notes?: string;
+  medium?: string;
 };
 
 export type MedicationLog = {
@@ -21,5 +22,5 @@ export type MedicationLog = {
   medication_id: string;
   strength: number;
   units: string;
-  comments?: string;
+  comments: string;
 };

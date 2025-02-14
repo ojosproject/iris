@@ -182,34 +182,40 @@ const MedicineView = () => {
         </div>
         <div className={styles.logSection}>
           <h3>Log</h3>
-          {visibleLogs.length ? (
-            <div
-              className={styles.logTable}
-              ref={logContainerRef}
-              onScroll={handleScroll}
-            >
-              <table>
-                <thead className={styles.logHeader}>
-                  <tr>
-                    <th>Taken on</th>
-                    <th>Dose</th>
-                    <th>Comments</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {visibleLogs.map((entry, index) => (
+          <div
+            className={styles.logTable}
+            ref={logContainerRef}
+            onScroll={handleScroll}
+          >
+            <table>
+              <thead className={styles.logHeader}>
+                <tr>
+                  <th>Taken on</th>
+                  <th>Dose</th>
+                  <th>Comments</th>
+                </tr>
+              </thead>
+              <tbody>
+                {visibleLogs.length ? (
+                  visibleLogs.map((entry, index) => (
                     <tr key={index}>
-                      <td>{`${timestampToString(entry.timestamp)}, ${timestampToString(entry.timestamp, "HH:MM XX")}`}</td>
+                      <td>
+                        {`${timestampToString(entry.timestamp)}, ${timestampToString(entry.timestamp, "hh:mm a")}`}
+                      </td>
                       <td>{`${entry.given_dose}${entry.measurement}`}</td>
                       <td>{entry.comment ? entry.comment : "None"}</td>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <p>No logs to display.</p>
-          )}
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={3} className="noLog">
+                      No logs to display.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </>

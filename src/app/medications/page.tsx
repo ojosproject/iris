@@ -8,6 +8,7 @@ import BackButton from "../core/components/BackButton";
 import Button from "../core/components/Button";
 import ConfirmLogModal from "./components/ConfirmLogModal";
 import { timestampToString } from "../core/helper";
+import MedicationForm from "./components/MobileNewMedication";
 
 const MedicationsView = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -20,15 +21,15 @@ const MedicationsView = () => {
     setSelectedMedication(medication);
     setIsConfirmLogModalOpen(true);
   };
-  const [isNewMedModalOpen, setIsNewMedModelOpen] = useState(false);
+  const [isNewMedFormOpen, setIsNewMedFormOpen] = useState(false);
   const [isConfirmLogModalOpen, setIsConfirmLogModalOpen] = useState(false);
   const [medications, setMedications] = useState<Medication[]>([]);
   const [loading, setLoading] = useState(true);
   const handleAddMedicationClick = () => {
-    setIsNewMedModelOpen(true);
+    setIsNewMedFormOpen(true);
   };
   const handleNewMedModelClose = () => {
-    setIsNewMedModelOpen(false);
+    setIsNewMedFormOpen(false);
   };
   const filteredMedications = medications.filter((medication) =>
     medication.name.toLowerCase().includes(searchQuery.toLowerCase()),
@@ -53,7 +54,7 @@ const MedicationsView = () => {
   // Function to handle the submission of new medication
   const handleNewMedModelSubmit = async (newMedication: Medication) => {
     const exists = medications.some(
-      (log) => log.name.toLowerCase() === newMedication.name.toLowerCase(),
+      (med) => med.name.toLowerCase() === newMedication.name.toLowerCase(),
     );
 
     if (exists) {
@@ -62,15 +63,15 @@ const MedicationsView = () => {
 
     invoke("create_medication", {
       name: newMedication.name,
-      dosage: newMedication.dosage,
+      dosage: newMedication.strength,
       frequency: newMedication.frequency,
-      supply: newMedication.supply,
-      measurement: newMedication.measurement,
-      nurse_id: newMedication.nurse_id,
+      supply: newMedication.quantity,
+      measurement: newMedication.units,
+      //nurse_id: newMedication.nurse_id,
     });
 
     setMedications([...medications, newMedication]);
-    setIsNewMedModelOpen(false);
+    setIsNewMedFormOpen(false);
   };
 
   return (
@@ -92,8 +93,8 @@ const MedicationsView = () => {
             onClick={handleAddMedicationClick}
           />
         </div>
-        <NewMedicationModal
-          isOpen={isNewMedModalOpen}
+        <MedicationForm
+          isOpen={isNewMedFormOpen}
           onClose={handleNewMedModelClose}
           onSubmit={handleNewMedModelSubmit}
         />

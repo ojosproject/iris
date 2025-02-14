@@ -31,3 +31,4 @@ out
 *.sw?
 
 .env
+src-tauri/Cargo.toml
