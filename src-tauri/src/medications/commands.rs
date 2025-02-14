@@ -1,76 +1,312 @@
-use super::structs::{Medication, MedicationLog};
-use crate::core::{self, user::get_patient};
+use crate::{
+    core::helpers::{db_connect, stamp, unix_timestamp},
+    medications::structs::{Medication, MedicationLog},
+};
+use rusqlite::named_params;
 use tauri::AppHandle;
-
-#[tauri::command(rename_all = "snake_case")]
-pub fn get_medications(app: AppHandle) -> Vec<Medication> {
-    core::user::get_patient(app.clone()).get_medications(app)
-}
-
-#[tauri::command(rename_all = "snake_case")]
-pub fn get_upcoming_medications(app: AppHandle) -> Vec<Medication> {
-    core::user::get_patient(app.clone()).get_upcoming_medications(app)
-}
 
 #[tauri::command(rename_all = "snake_case")]
 pub fn create_medication(
     app: AppHandle,
     name: String,
-    dosage: f64,
-    frequency: f64,
-    supply: f64,
-    measurement: String,
-    nurse_id: String,
+    generic_name: Option<String>,
+    dosage_type: String,
+    strength: f64,
+    units: String,
+    quantity: i64,
+    start_date: Option<i64>,
+    end_date: Option<i64>,
+    expiration_date: Option<i64>,
+    frequency: Option<String>,
+    notes: Option<String>,
 ) -> Medication {
-    Medication::create(
-        app,
-        &name,
-        dosage,
+    let conn = db_connect(&app);
+    let (timestamp, uuid) = stamp();
+
+    conn.execute("INSERT INTO medication (id, name, generic_name, dosage_type, strength, units, quantity, created_at, updated_at, start_date, end_date, expiration_date, frequency, notes) VALUES (:id, :name, :generic_name, :dosage_type, :strength, :units, :quantity, :created_at, :updated_at, :start_date, :end_date, :expiration_date, :frequency, :notes)",
+        named_params! {":id": uuid, ":name": name, ":generic_name": generic_name, ":dosage_type": dosage_type, ":strength": strength, ":units": units, ":quantity": quantity, ":created_at": timestamp, ":updated_at": timestamp, ":start_date": start_date, ":end_date": end_date, ":expiration_date": expiration_date, ":frequency": frequency, ":notes": notes})
+        .expect("Inserting into medication failed.");
+
+    Medication {
+        id: uuid,
+        name,
+        generic_name,
+        dosage_type,
+        strength,
+        units,
+        quantity,
+        created_at: timestamp,
+        updated_at: timestamp,
+        start_date,
+        end_date,
+        expiration_date,
         frequency,
-        supply,
-        &measurement,
-        &nurse_id,
-    )
+        notes,
+    }
 }
 
-/// # `get_medication_log` Command
-/// Gets a user's medication logs for a single medication.
-///
-/// Parameters:
-/// - `medication`: The medication to get the log for.
-///
-/// ## TypeScript Usage
-///
-/// ```typescript
-/// invoke('get_medication_log', {medication: ''}).then(m => {
-///     setMedicationLog(m as MedicationLog)
-/// })
-/// ```
+/// Returns a vector of medications with matched `medication_name`. If the
+/// vector is empty, no matches were found.
 #[tauri::command(rename_all = "snake_case")]
-pub fn get_medication_logs(app: AppHandle, medication: String) -> Vec<MedicationLog> {
-    // todo: please refactor. this is like, o(n^3)...
-    // get_patient() == o(n) + search_medications() == o(n) + get_logs() == o(n)
-    let mut m = get_patient(app.clone()).search_medications(app.clone(), &medication);
+pub fn search_medications(app: AppHandle, medication_name: String) -> Vec<Medication> {
+    let conn = db_connect(&app);
 
-    if m.len() == 1 {
-        return m[0].get_logs(app.clone());
+    let mut stmt = conn
+        .prepare(
+            // https://github.com/rusqlite/rusqlite/issues/600#issuecomment-562258168
+            "SELECT * FROM medication WHERE name LIKE '%' || ? || '%'",
+        )
+        .unwrap();
+    let wrapped_medications = stmt
+        .query_map([medication_name], |row| {
+            Ok(Medication {
+                id: row.get(0)?,
+                name: row.get(1)?,
+                generic_name: row.get(2)?,
+                dosage_type: row.get(3)?,
+                strength: row.get(4)?,
+                units: row.get(5)?,
+                quantity: row.get(6)?,
+                created_at: row.get(7)?,
+                updated_at: row.get(8)?,
+                start_date: row.get(9)?,
+                end_date: row.get(10)?,
+                expiration_date: row.get(11)?,
+                frequency: row.get(12)?,
+                notes: row.get(13)?,
+            })
+        })
+        .unwrap();
+
+    let mut unwrapped_medications = vec![];
+    for wrap in wrapped_medications {
+        unwrapped_medications.push(wrap.unwrap());
+    }
+    unwrapped_medications
+}
+
+/// Returns a vector of medications with matched `id`. If the vector is empty,
+/// no matches were found.
+#[tauri::command(rename_all = "snake_case")]
+pub fn get_medications(app: AppHandle, id: Option<String>) -> Vec<Medication> {
+    let conn = db_connect(&app);
+
+    if id.is_some() {
+        let mut stmt = conn
+            .prepare("SELECT * FROM medication WHERE id=:id")
+            .unwrap();
+        let wrapped_medications = stmt
+            .query_map(named_params! {":id": id}, |row| {
+                Ok(Medication {
+                    id: row.get(0)?,
+                    name: row.get(1)?,
+                    generic_name: row.get(2)?,
+                    dosage_type: row.get(3)?,
+                    strength: row.get(4)?,
+                    units: row.get(5)?,
+                    quantity: row.get(6)?,
+                    created_at: row.get(7)?,
+                    updated_at: row.get(8)?,
+                    start_date: row.get(9)?,
+                    end_date: row.get(10)?,
+                    expiration_date: row.get(11)?,
+                    frequency: row.get(12)?,
+                    notes: row.get(13)?,
+                })
+            })
+            .unwrap();
+        let mut unwrapped_medications = vec![];
+        for wrap in wrapped_medications {
+            unwrapped_medications.push(wrap.unwrap());
+        }
+        unwrapped_medications
+    } else {
+        let mut stmt = conn.prepare("SELECT * FROM medication").unwrap();
+        let wrapped_medications = stmt
+            .query_map(named_params! {":id": id}, |row| {
+                Ok(Medication {
+                    id: row.get(0)?,
+                    name: row.get(1)?,
+                    generic_name: row.get(2)?,
+                    dosage_type: row.get(3)?,
+                    strength: row.get(4)?,
+                    units: row.get(5)?,
+                    quantity: row.get(6)?,
+                    created_at: row.get(7)?,
+                    updated_at: row.get(8)?,
+                    start_date: row.get(9)?,
+                    end_date: row.get(10)?,
+                    expiration_date: row.get(11)?,
+                    frequency: row.get(12)?,
+                    notes: row.get(13)?,
+                })
+            })
+            .unwrap();
+        let mut unwrapped_medications = vec![];
+        for wrap in wrapped_medications {
+            unwrapped_medications.push(wrap.unwrap());
+        }
+        unwrapped_medications
+    }
+}
+
+#[tauri::command(rename_all = "snake_case")]
+pub fn delete_medication(app: AppHandle, id: String) {
+    let conn = db_connect(&app);
+    conn.execute("DELETE medication WHERE id=:id", named_params! {":id": id})
+        .unwrap();
+}
+
+#[tauri::command(rename_all = "snake_case")]
+pub fn update_medication(
+    app: AppHandle,
+    id: String,
+    name: Option<String>,
+    generic_name: Option<String>,
+    strength: Option<f64>,
+    quantity: Option<i64>,
+    end_date: Option<i64>,
+    expiration_date: Option<i64>,
+    frequency: Option<String>,
+    notes: Option<String>,
+) {
+    let conn = db_connect(&app);
+    let timestamp = unix_timestamp();
+
+    if name.is_some() {
+        conn.execute(
+            "UPDATE medication SET name=:name, updated_at=:updated_at WHERE id=:id",
+            named_params! {":id": id, ":name": name, ":updated_at": timestamp},
+        )
+        .expect("Updating medication.name failed.");
     }
 
-    vec![]
+    if generic_name.is_some() {
+        conn.execute(
+            "UPDATE medication SET generic_name=:generic_name, updated_at=:updated_at WHERE id=:id",
+            named_params! {":id": id, ":generic_name": generic_name, ":updated_at": timestamp},
+        )
+        .expect("Updating medication.generic_name failed.");
+    }
+
+    if strength.is_some() {
+        conn.execute(
+            "UPDATE medication SET strength=:strength, updated_at=:updated_at WHERE id=:id",
+            named_params! {":id": id, ":strength": strength, ":updated_at": timestamp},
+        )
+        .expect("Updating medication.strength failed.");
+    }
+
+    if quantity.is_some() {
+        conn.execute(
+            "UPDATE medication SET quantity=:quantity, updated_at=:updated_at WHERE id=:id",
+            named_params! {":id": id, ":quantity": quantity, ":updated_at": timestamp},
+        )
+        .expect("Updating medication.quantity failed.");
+    }
+
+    if end_date.is_some() {
+        conn.execute(
+            "UPDATE medication SET end_date=:end_date, updated_at=:updated_at WHERE id=:id",
+            named_params! {":id": id, ":end_date": end_date, ":updated_at": timestamp},
+        )
+        .expect("Updating medication.end_date failed.");
+    }
+
+    if expiration_date.is_some() {
+        conn.execute(
+            "UPDATE medication SET expiration_date=:expiration_date, updated_at=:updated_at WHERE id=:id",
+            named_params! {":id": id, ":expiration_date": expiration_date, ":updated_at": timestamp},
+        )
+        .expect("Updating medication.expiration_date failed.");
+    }
+
+    if frequency.is_some() {
+        conn.execute(
+            "UPDATE medication SET frequency=:frequency, updated_at=:updated_at WHERE id=:id",
+            named_params! {":id": id, ":frequency": frequency, ":updated_at": timestamp},
+        )
+        .expect("Updating medication.frequency failed.");
+    }
+
+    if notes.is_some() {
+        conn.execute(
+            "UPDATE medication SET notes=:notes, updated_at=:updated_at WHERE id=:id",
+            named_params! {":id": id, ":notes": notes, ":updated_at": timestamp},
+        )
+        .expect("Updating medication.notes failed.");
+    }
 }
 
 #[tauri::command(rename_all = "snake_case")]
-pub fn get_medication(app: AppHandle, medication: String) -> Vec<Medication> {
-    get_patient(app.clone()).search_medications(app.clone(), &medication)
+pub fn log_medication(
+    app: AppHandle,
+    medication_id: String,
+    strength: f64,
+    units: String,
+    comments: Option<String>,
+) -> MedicationLog {
+    let conn = db_connect(&app);
+    let (timestamp, uuid) = stamp();
+
+    conn.execute("INSERT INTO medication_log(id, timestamp, medication_id, strength, units, comments) VALUES (:id, :timestamp, :medication_id, :strength, :units, :comments)", named_params! {":id": uuid, ":timestamp": timestamp, ":medication_id": medication_id, ":strength": strength, ":units": units, ":comments": comments}).expect("Inserting into medication_log failed.");
+
+    MedicationLog {
+        id: uuid,
+        timestamp,
+        medication_id,
+        strength,
+        units,
+        comments,
+    }
 }
 
 #[tauri::command(rename_all = "snake_case")]
-pub fn log_medication(app: AppHandle, medication: String, comments: Option<String>) -> f64 {
-    let mut found_meds = get_patient(app.clone()).search_medications(app.clone(), &medication);
+pub fn get_medication_logs(app: AppHandle, medication_id: Option<String>) -> Vec<MedicationLog> {
+    let conn = db_connect(&app);
+    if medication_id.is_some() {
+        let mut stmt = conn
+            .prepare("SELECT * FROM medication_log WHERE id=:id ORDER BY timestamp DESC")
+            .unwrap();
+        let wrapped_logs = stmt
+            .query_map(named_params! {":id": medication_id}, |row| {
+                Ok(MedicationLog {
+                    id: row.get(0)?,
+                    timestamp: row.get(1)?,
+                    medication_id: row.get(2)?,
+                    strength: row.get(3)?,
+                    units: row.get(4)?,
+                    comments: row.get(5)?,
+                })
+            })
+            .unwrap();
 
-    if found_meds.len() > 0 {
-        found_meds[0].log(app.clone(), comments)
+        let mut unwrapped_logs: Vec<MedicationLog> = vec![];
+        for wrapped_log in wrapped_logs {
+            unwrapped_logs.push(wrapped_log.unwrap());
+        }
+        unwrapped_logs
     } else {
-        0.0
+        let mut stmt = conn
+            .prepare("SELECT * FROM medication_log ORDER BY timestamp DESC")
+            .unwrap();
+        let wrapped_logs = stmt
+            .query_map([], |row| {
+                Ok(MedicationLog {
+                    id: row.get(0)?,
+                    timestamp: row.get(1)?,
+                    medication_id: row.get(2)?,
+                    strength: row.get(3)?,
+                    units: row.get(4)?,
+                    comments: row.get(5)?,
+                })
+            })
+            .unwrap();
+
+        let mut unwrapped_logs: Vec<MedicationLog> = vec![];
+        for wrapped_log in wrapped_logs {
+            unwrapped_logs.push(wrapped_log.unwrap());
+        }
+        unwrapped_logs
     }
 }

@@ -2,35 +2,28 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
 pub struct Medication {
+    pub id: String,
     pub name: String,
-    pub brand: Option<String>,
-    pub dosage: f64,
-    pub frequency: f64,
-    pub supply: f64,
-    pub total_prescribed: f64,
-    pub first_added: f64,
-    pub last_taken: Option<f64>,
-    pub upcoming_dose: Option<f64>,
-    pub schedule: Option<String>,
-    pub measurement: String,
-    pub nurse_id: String,
+    pub generic_name: Option<String>,
+    pub dosage_type: String,
+    pub strength: f64,
+    pub units: String,
+    pub quantity: i64,
+    pub created_at: i64,
+    pub updated_at: i64,
+    pub start_date: Option<i64>,
+    pub end_date: Option<i64>,
+    pub expiration_date: Option<i64>,
+    pub frequency: Option<String>,
+    pub notes: Option<String>,
 }
 
 #[derive(Serialize, Deserialize)]
 pub struct MedicationLog {
-    pub timestamp: f64,
-    pub medication_name: String,
-    pub given_dose: f64,
-    pub measurement: String,
-    pub comment: Option<String>,
-}
-
-#[derive(Serialize, Deserialize)]
-pub struct Resource {
-    pub label: String,
-    pub description: String,
-    pub url: String,
-    pub organization: String,
-    pub category: String,
-    pub last_updated: f32,
+    pub id: String,
+    pub timestamp: i64,
+    pub medication_id: String,
+    pub strength: f64,
+    pub units: String,
+    pub comments: Option<String>,
 }
