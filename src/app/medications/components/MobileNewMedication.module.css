@@ -11,15 +11,20 @@
   z-index: 1000;
 }
 
+.modal-overlay {
+  pointer-events: none;
+}
+
 .modalContent {
   background: white;
   padding: 25px;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  width: 60vw;
+  width: 70vw;
   font-family: Arial, sans-serif;
   max-height: 90vh;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .modalContent::-webkit-scrollbar {

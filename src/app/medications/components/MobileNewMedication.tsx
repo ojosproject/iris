@@ -1,7 +1,7 @@
 import { use, useState } from "react";
 import { Medication } from "../types";
 import styles from "./MobileNewMedication.module.css";
-import ScheduleMedicationModal from "./ScheduleRequest";
+import ScheduleForm from "./ScheduleRequest";
 
 interface MobileNewMedication {
   isOpen: boolean;
@@ -40,6 +40,7 @@ const MedicationForm: React.FC<MobileNewMedication> = ({
   const [showNextModal, setShowNextModal] = useState(false);
 
   const handleSubmit = () => {
+    //console.log("Continue button clicked 1");
     if (!medicationName || !medicationSupply) {
       alert("Please fill in all required fields.");
       return;
@@ -67,8 +68,9 @@ const MedicationForm: React.FC<MobileNewMedication> = ({
       medium: selectedMedium || undefined, //added to @types also
     };
 
+    //console.log("Continue button clicked 2");
+
     setShowNextModal(true);
-    onClose();
   };
 
   return (
@@ -178,9 +180,13 @@ const MedicationForm: React.FC<MobileNewMedication> = ({
           />
         </label>
         <div className={styles.buttonContainer}>
+          <button className={styles.cancelButton} onClick={onClose}>
+            Cancel
+          </button>
           <button
             className={styles.submitButton}
             onClick={handleSubmit}
+            onMouseDown={() => console.log("Mouse down on Continue!")}
             disabled={
               medicationName === "" ||
               medicationStrength === 0 ||
@@ -189,13 +195,17 @@ const MedicationForm: React.FC<MobileNewMedication> = ({
           >
             Continue
           </button>
-          <button className={styles.cancelButton} onClick={onClose}>
-            Cancel
-          </button>
         </div>
         {/* Show Next Modal */}
         {showNextModal && (
-          <ScheduleMedicationModal onClose={() => setShowNextModal(false)} />
+          <ScheduleForm
+            isOpen={showNextModal}
+            onClose={() => setShowNextModal(false)}
+            onSubmit={(newMedication) => {
+              console.log("Scheduled Medication:", newMedication);
+              setShowNextModal(false);
+            }}
+          />
         )}
       </div>
     </div>
