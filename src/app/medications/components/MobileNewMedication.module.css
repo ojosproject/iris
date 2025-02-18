@@ -13,17 +13,33 @@
 
 .modalContent {
   background: white;
-  padding: 20px;
+  padding: 25px;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  width: 500px;
+  width: 60vw;
   font-family: Arial, sans-serif;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modalContent::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modalContent::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.modalContent::-webkit-scrollbar-track {
+  background: #f1f1f1;
 }
 
 .modalContent h2 {
   text-align: center;
   font-size: 20px;
   font-weight: bold;
+  margin-bottom: 15px;
 }
 
 .modalContent label {
@@ -35,7 +51,7 @@
 
 .modalContent input,
 .modalContent select {
-  width: 100%;
+  width: calc(100% - 20px);
   padding: 10px;
   border-radius: 6px;
   border: 2px solid #094595;
@@ -44,16 +60,27 @@
   outline: none;
 }
 
+.dosageInput {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
 .unitOptions {
   display: flex;
   align-items: center;
   border: 2px solid #094595;
   border-radius: 6px;
-  overflow: hidden;
+  overflow: auto;
   padding: 4px;
-  border-radius: 6px;
   font-size: 14px;
+  white-space: nowrap;
+  max-width: 100%;
   transition: all 0.3s ease;
+}
+
+.unitOptions::-webkit-scrollbar {
+  height: 6px;
 }
 
 .unitButton {
@@ -63,6 +90,7 @@
   cursor: pointer;
   border-radius: 4px;
   font-size: 16px;
+  border: 1px solid #094595;
   transition: all 0.3s ease;
 }
 
@@ -84,6 +112,7 @@
 .quantityBox {
   display: flex;
   align-items: center;
+  gap: 5px;
   margin-right: 5px;
 }
 
