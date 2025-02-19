@@ -14,6 +14,11 @@ const MedicationForm: React.FC<MobileNewMedication> = ({
   onClose,
   onSubmit,
 }) => {
+  if (!isOpen) {
+    return null;
+  }
+
+  //TODO: Refactor
   const [medicationName, setMedicationName] = useState("");
   const [medicationGenericName, setMedicationGenericName] = useState("");
   const [medicationStrength, setMedicationStrength] = useState(0);
@@ -39,12 +44,9 @@ const MedicationForm: React.FC<MobileNewMedication> = ({
 
   const [showNextModal, setShowNextModal] = useState(false);
 
+
   const handleSubmit = () => {
     //console.log("Continue button clicked 1");
-    if (!medicationName || !medicationSupply) {
-      alert("Please fill in all required fields.");
-      return;
-    }
 
     const newMedication: Medication = {
       id: crypto.randomUUID(),

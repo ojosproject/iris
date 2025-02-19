@@ -1,0 +1,191 @@
+.inputLabel {
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 16px;
+    display: block;
+}
+
+.input {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 4px;
+    padding: 8px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+}
+
+/* Page container styles */
+.pageContainer {
+    background-color: #f0f0f0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0;
+    width: 100%;
+}
+
+/* Page content styles */
+.pageContent {
+    background-color: white;
+    padding: 25px;
+    border-radius: 0;
+    box-shadow: none;
+    width: 100%;
+    font-family: Arial, sans-serif;
+    max-height: 90vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.pageContent::-webkit-scrollbar {
+    width: 8px;
+}
+
+.pageContent::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.pageContent::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Heading styles */
+.pageContent h2 {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Label styles */
+.pageContent label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Input and select styles */
+.pageContent input,
+.pageContent select {
+    width: 45%;
+    box-sizing: border-box;
+    padding: 10px;
+    border-radius: 6px;
+    border: 2px solid #094595;
+    margin-bottom: 15px;
+    font-size: 16px;
+    outline: none;
+}
+
+/* Container for dosage section */
+.dosageInputContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.dosageInputContainer input {
+    width: 48%;
+}
+
+.customUnitContainer {
+    display: flex;
+    align-items: center;
+}
+
+.customInput {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #094595;
+    font-size: 16px;
+    width: 100px;
+}
+
+.unitOptions {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    border: 2px solid #094595;
+    border-radius: 6px;
+    padding: 4px;
+    font-size: 14px;
+    white-space: nowrap;
+    max-width: 100%;
+    transition: all 0.3s ease;
+}
+
+.unitOptions::-webkit-scrollbar {
+    height: 6px;
+}
+
+.unitRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Unit button styling */
+.unitButton {
+    padding: 8px 12px;
+    background: white;
+    color: #094595;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+    border: 1px solid #094595;
+    transition: all 0.3s ease;
+    margin-right: 6px;
+}
+
+.unitButton:hover {
+    background: #094595 !important;
+    color: white !important;
+}
+
+.unitButton.selected {
+    background: #094595;
+    color: white;
+}
+
+.unitButton:not(.selected) {
+    background: white;
+    color: #094595;
+}
+
+/* Quantity box styles */
+.quantityBox {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-right: 5px;
+}
+
+/* Button container and button styles */
+.pageContent .buttonContainer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.pageContent button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-right: 10px;
+}
+
+.pageContent .submitButton {
+    background-color: #094595;
+    color: white;
+}
+
+.pageContent .submitButton:hover {
+    background-color: #062c5f;
+}
