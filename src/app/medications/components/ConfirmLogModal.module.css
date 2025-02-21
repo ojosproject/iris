@@ -84,8 +84,11 @@
 .commentBox {
   margin: 12px 0;
   padding: 10px;
-  width: 100%;
+  max-height: 100px;
+  resize: none;
+  overflow-y: auto;
   border-radius: 5px;
-  border: 1px solid #000000;
-  font: 16px;
+  border: 1px solid #094595;
+  font: 14px;
+  font-family: Arial, sans-serif;
 }

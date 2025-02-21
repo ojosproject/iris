@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Medication } from "../types";
 import styles from "./page.module.css";
 
-
 interface MedicationFormProps {
     isOpen: boolean;
     onClose: () => void;
@@ -50,9 +49,9 @@ const MedicationForm: React.FC<MedicationFormProps> = ({
             id: crypto.randomUUID(),
             name: medicationData.medicationName,
             generic_name: medicationData.medicationGenericName || "",
-            dosage_type: medicationData.selectedDosageType || "tablet",
+            dosage_type: medicationData.selectedDosageType || medicationData.customMedium || "tablet",
             strength: medicationData.medicationStrength || 0,
-            units: medicationData.selectedUnits || "mg",
+            units: medicationData.selectedUnits || medicationData.customUnit || "mg",
             quantity: medicationData.medicationSupply,
             created_at: Date.now(),
             updated_at: Date.now(),
@@ -195,7 +194,7 @@ const MedicationForm: React.FC<MedicationFormProps> = ({
                             onChange={(e) => handleInputChange("medicationSupply", Number(e.target.value))}
                             className={styles.input}
                         />
-                        <span>{medicationData.selectedUnit}</span>
+                        <span>{medicationData.selectedUnit === "Custom" ? medicationData.customUnit : medicationData.selectedUnit}</span>
                     </div>
                 </div>
                 <p className={styles.textStructure}>

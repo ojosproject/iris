@@ -22,8 +22,15 @@ const ConfirmLogModal: React.FC<ConfirmLogModalProps> = ({
   const [comment, setComment] = useState("");
   const logSubmit = () => {
     onConfirm(comment);
+    setComment("");
     onClose();
   };
+
+  const handleClose = () => {
+    setComment("");
+    onClose();
+  };
+
 
   if (!isOpen || !medication) return null;
 
@@ -34,8 +41,7 @@ const ConfirmLogModal: React.FC<ConfirmLogModalProps> = ({
         <p>
           Log{" "}
           <strong>
-            {medication.name} {medication.dosage}
-            {medication.measurement}
+            {medication.name} {medication.strength.toString() + " " + medication.units}
           </strong>
           ?
         </p>
@@ -46,8 +52,8 @@ const ConfirmLogModal: React.FC<ConfirmLogModalProps> = ({
           onChange={(e) => setComment(e.target.value)}
         />
         <div className={styles.buttonGroup}>
-          <button onClick={() => onConfirm(comment)}>Yes</button>
-          <button onClick={onClose}>No</button>
+          <button onClick={logSubmit}>Yes</button>
+          <button onClick={handleClose}>No</button>
         </div>
       </div>
     </div>

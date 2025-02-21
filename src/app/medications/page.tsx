@@ -60,6 +60,8 @@ const MedicationsView = () => {
       return;
     }
 
+    setMedications((prevMedications) => [...prevMedications, newMedication]);
+
     invoke("create_medication", {
       name: newMedication.name,
       dosage: newMedication.strength,
@@ -67,17 +69,42 @@ const MedicationsView = () => {
       supply: newMedication.quantity,
       measurement: newMedication.units,
       //nurse_id: newMedication.nurse_id,
+    }).catch((err) => {
+      console.error("Error creating medication", err);
     });
 
     setMedications([...medications, newMedication]);
     handleNewMedModelClose();
   };
 
+  const handleCommentSubmit = (comment: string) => {
+    if (selectedMedication) {
+      console.log(`Comment for ${selectedMedication.name}: ${comment}`);
+      // Send the medication and comment to your backend or perform the necessary action
+      invoke("log_medication", {
+        medication: selectedMedication.name,
+        comments: comment || null,
+      }).then(() => {
+        // After logging the medication, refresh the list of medications
+        invoke("get_medications")
+          .then((medications) => {
+            setMedications(medications as Medication[]);
+            setLoading(false);
+          })
+          .catch((err) => {
+            console.error("Error fetching medications", err);
+            setLoading(false);
+          });
+      });
+
+      setIsConfirmLogModalOpen(false); // Close the modal after submission
+    }
+  };
+
   return (
     <>
       <BackButton />
       {isNewMedFormOpen ? (
-        // Render MedicationForm as a separate page-like section
         <div className={styles.medicationFormPage}>
           <MedicationForm
             isOpen={isNewMedFormOpen}
@@ -106,24 +133,7 @@ const MedicationsView = () => {
             isOpen={isConfirmLogModalOpen}
             onClose={() => setIsConfirmLogModalOpen(false)}
             medication={selectedMedication}
-            onConfirm={() => {
-              invoke("log_medication", {
-                medication: selectedMedication?.name,
-                comments: comment || null,
-              }).then((ts) => {
-                invoke("get_medications")
-                  .then((m) => {
-                    setMedications(m as Medication[]);
-                    setLoading(false);
-                  })
-                  .catch((err) => {
-                    console.error("Error fetching medications", err);
-                    setLoading(false);
-                  });
-              });
-
-              setIsConfirmLogModalOpen(false);
-            }}
+            onConfirm={handleCommentSubmit}
           />
           <div className={styles.medsWrap}>
             <div className={styles.logsContainer}>
@@ -137,15 +147,13 @@ const MedicationsView = () => {
                     </div>
                     <div className={styles.circle}></div> {/* Circle */}
                     <div className={styles.logDosage}>
-                      {medication.dosage.toString() +
-                        " " +
-                        medication.measurement}
+                      {medication.strength.toString() + " " + medication.units}
                     </div>
                     <div className={styles.logLastTake}>
                       <strong>Last taken</strong>
                       <br />
-                      {medication.last_taken ? (
-                        <>{`${timestampToString(medication.last_taken, "MMDDYYYY")} @ ${timestampToString(medication.last_taken, "HH:MM XX")}`}</>
+                      {medication.start_date ? (
+                        <>{`${timestampToString(medication.start_date, "MMDDYYYY")} @ ${timestampToString(medication.start_date, "HH:MM XX")}`}</>
                       ) : (
                         <>Not yet taken.</>
                       )}
