@@ -166,37 +166,9 @@
   width: 100%;
   height: 20px;
   font-size: 15px;
-  outline: none; /* Should be changed back at some point for accessibility. */
+  outline: none;
+  /* Should be changed back at some point for accessibility. */
   border: black 1px solid;
   border-radius: 10px;
   box-shadow: none;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .logMeds {
-    width: 100%;
-    min-width: auto;
-  }
-
-  .logsContainer {
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden;
-  }
-
-  .medicationCard {
-    width: 100%;
-    margin: 5px 0;
-    flex-shrink: 1;
-  }
-
-  .searchBarContainer {
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .addMedicationButton {
-    width: 100%;
-  }
 }
