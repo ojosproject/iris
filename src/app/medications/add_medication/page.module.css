@@ -1,73 +1,32 @@
-.inputLabel {
-    font-weight: bold;
-    margin-bottom: 8px;
-    font-size: 16px;
-    display: block;
-}
-
 .input {
-    width: 100%;
-    max-width: 300px;
+    width: 48%;
     border-radius: 4px;
     padding: 8px;
-    border: 1px solid #aaa;
     border-radius: 4px;
 }
 
-/* Page container styles */
 .pageContainer {
-    background-color: #f0f0f0;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 0;
-    width: 100%;
-}
-
-/* Page content styles */
-.pageContent {
     background-color: white;
-    padding: 25px;
-    border-radius: 0;
-    box-shadow: none;
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    font-family: Arial, sans-serif;
-    max-height: 90vh;
+    box-sizing: border-box;
     overflow-y: auto;
     overflow-x: hidden;
 }
 
-.pageContent::-webkit-scrollbar {
-    width: 8px;
+.pageContent {
+    padding: 10px;
+    font-family: Arial, sans-serif;
 }
 
-.pageContent::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 4px;
-}
-
-.pageContent::-webkit-scrollbar-track {
-    background: #f1f1f1;
-}
-
-/* Heading styles */
 .pageContent h2 {
     text-align: center;
-    font-size: 20px;
+    font-size: 30px;
     font-weight: bold;
     margin-bottom: 15px;
 }
 
-/* Label styles */
-.pageContent label {
-    display: block;
-    font-size: 14px;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-/* Input and select styles */
 .pageContent input,
 .pageContent select {
     width: 45%;
@@ -80,28 +39,10 @@
     outline: none;
 }
 
-/* Container for dosage section */
 .dosageInputContainer {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-}
-
-.dosageInputContainer input {
-    width: 48%;
-}
-
-.customUnitContainer {
-    display: flex;
-    align-items: center;
-}
-
-.customInput {
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid #094595;
-    font-size: 16px;
-    width: 100px;
 }
 
 .unitOptions {
@@ -117,17 +58,12 @@
     transition: all 0.3s ease;
 }
 
-.unitOptions::-webkit-scrollbar {
-    height: 6px;
-}
-
 .unitRow {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-/* Unit button styling */
 .unitButton {
     padding: 8px 12px;
     background: white;
@@ -155,19 +91,11 @@
     color: #094595;
 }
 
-/* Quantity box styles */
 .quantityBox {
     display: flex;
     align-items: center;
     gap: 5px;
     margin-right: 5px;
-}
-
-/* Button container and button styles */
-.pageContent .buttonContainer {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 10px;
 }
 
 .pageContent button {
@@ -188,4 +116,158 @@
 
 .pageContent .submitButton:hover {
     background-color: #062c5f;
+}
+
+.yesNoButtons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.textStructure {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    font-weight: bold;
+}
+
+.yesNoButtons button,
+.daySelection button {
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: 2px solid #094595;
+    background: white;
+    color: #094595;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.yesNoButtons button.selected,
+.daySelection button.selected {
+    background: #094595;
+    color: white;
+}
+
+.daySelection button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: transparent;
+    border: 2px solid #094595;
+    font-size: 14px;
+    color: #094595;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-right: 5px;
+}
+
+.daySelection button:hover {
+    background-color: #a9a9a9;
+}
+
+.addTimeButton {
+    padding: 8px 12px;
+    background: #094595;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.addTimeButton:hover {
+    background: #062c5f;
+    color: white;
+}
+
+.removeTimeButton {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #094595;
+    border: 2px solid #094595;
+    font-size: 14px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: 10px;
+}
+
+.removeTimeButton:hover {
+    background: #094595;
+    color: white;
+}
+
+.scheduleDetails {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-right: 10px;
+}
+
+.daySelection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.timeSelection {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.timeSelection input,
+.timeSelection select {
+    width: 70px;
+    padding: 5px;
+    text-align: center;
+    border: 2px solid #094595;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+.modalActions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px;
+}
+
+.modalActions button {
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: 2px solid #094595;
+    background: white;
+    color: #094595;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+}
+
+.modalActions button:hover {
+    background: #094595;
+    color: white;
+}
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.disabledButton {
+    background-color: #a9a9a9;
+    color: #d3d3d3;
+    border-color: #a9a9a9;
+    cursor: not-allowed;
 }

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Medication } from "../types";
 import styles from "./page.module.css";
-import ScheduleForm from "../add_medication/components/schedule";
 
 
 interface MedicationFormProps {
@@ -10,199 +9,298 @@ interface MedicationFormProps {
     onSubmit: (newMedication: Medication) => Promise<void>;
 }
 
-const MedicationForm: React.FC<MedicationFormProps> = ({ isOpen, onClose, onSubmit }) => {
-    const [medicationName, setMedicationName] = useState("");
-    const [medicationGenericName, setMedicationGenericName] = useState("");
-    const [medicationStrength, setMedicationStrength] = useState(0);
-    const [medicationSupply, setMedicationSupply] = useState(0);
-    const [selectedDosageType, setSelectedDosageType] = useState("");
-    const [selectedUnits, setSelectedUnits] = useState("");
-    const [selectedMedium, setSelectedMedium] = useState("");
-    const [medicationFrequency, setMedicationFrequency] = useState("");
-    const [medicationStartDate, setMedicationStartDate] = useState<string | undefined>(undefined);
-    const [medicationEndDate, setMedicationEndDate] = useState<string | undefined>(undefined);
-    const [medicationExpirationDate, setMedicationExpirationDate] = useState<string | undefined>(undefined);
-    const [medicationNotes, setMedicationNotes] = useState("");
+const MedicationForm: React.FC<MedicationFormProps> = ({
+    isOpen,
+    onClose,
+    onSubmit,
+}) => {
+    if (!isOpen) {
+        return null;
+    }
 
-    const [selectedUnit, setSelectedUnit] = useState("custom");
-    const [customUnit, setCustomUnit] = useState("");
-    const [customMedium, setCustomMedium] = useState("");
-    const [isShowSchedule, setShowSchedule] = useState(false);
+    // Group all medication data into one object
+    const [medicationData, setMedicationData] = useState({
+        medicationName: "",
+        medicationGenericName: "",
+        medicationStrength: 0,
+        medicationSupply: 0,
+        selectedDosageType: "",
+        selectedUnits: "",
+        selectedMedium: "",
+        medicationFrequency: "",
+        medicationStartDate: undefined as string | undefined,
+        medicationEndDate: undefined as string | undefined,
+        medicationExpirationDate: undefined as string | undefined,
+        medicationNotes: "",
+        selectedUnit: "custom",
+        customUnit: "",
+        customMedium: "",
+    });
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        //console.log("Continue button clicked");
+    // Handle input changes for each field
+    const handleInputChange = (field: string, value: any) => {
+        setMedicationData((prevData) => ({
+            ...prevData,
+            [field]: value,
+        }));
+    };
+
+    const handleSubmit = () => {
         const newMedication: Medication = {
             id: crypto.randomUUID(),
-            name: medicationName,
-            generic_name: medicationGenericName || "",
-            dosage_type: selectedDosageType || "tablet",
-            strength: medicationStrength || 0,
-            units: selectedUnits || "mg",
-            quantity: medicationSupply,
+            name: medicationData.medicationName,
+            generic_name: medicationData.medicationGenericName || "",
+            dosage_type: medicationData.selectedDosageType || "tablet",
+            strength: medicationData.medicationStrength || 0,
+            units: medicationData.selectedUnits || "mg",
+            quantity: medicationData.medicationSupply,
             created_at: Date.now(),
             updated_at: Date.now(),
-            start_date: medicationStartDate ? Date.parse(medicationStartDate) : undefined,
-            end_date: medicationEndDate ? Date.parse(medicationEndDate) : undefined,
-            expiration_date: medicationExpirationDate ? Date.parse(medicationExpirationDate) : undefined,
-            frequency: medicationFrequency || undefined,
-            notes: medicationNotes || undefined,
-            medium: selectedMedium || undefined,
+            start_date: medicationData.medicationStartDate
+                ? Date.parse(medicationData.medicationStartDate)
+                : undefined,
+            end_date: medicationData.medicationEndDate
+                ? Date.parse(medicationData.medicationEndDate)
+                : undefined,
+            expiration_date: medicationData.medicationExpirationDate
+                ? Date.parse(medicationData.medicationExpirationDate)
+                : undefined,
+            frequency: medicationData.medicationFrequency || undefined,
+            notes: medicationData.medicationNotes || undefined,
+            medium: medicationData.selectedMedium || undefined,
         };
-        //await onSubmit(newMedication);
-        setShowSchedule(true);
+
+        // Call onSubmit with newMedication
+        onSubmit(newMedication);
     };
-    const handleScheduleSubmit = (newMedication: Medication) => {
-        console.log("Scheduled Medication:", newMedication);
-        setShowSchedule(false); // Close the schedule form after submitting
+
+    const [scheduleMedication, setScheduleMedication] = useState<boolean | null>(null);
+    const [selectedDays, setSelectedDays] = useState<string[]>([]);
+    const [times, setTimes] = useState<{ hour: string; minute: string; period: "AM" | "PM" }[]>([
+        { hour: "", minute: "", period: "AM" },
+    ]);
+
+    const toggleDaySelection = (day: string) => {
+        setSelectedDays((prev) =>
+            prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
+        );
+    };
+
+    const addTimeSlot = () => {
+        setTimes([...times, { hour: "", minute: "", period: "AM" }]);
+    };
+
+    const updateTimeSlot = (index: number, field: string, value: string) => {
+        const newTimes = [...times];
+        newTimes[index] = { ...newTimes[index], [field]: value };
+        setTimes(newTimes);
+    };
+
+    const removeTimeSlot = (index: number) => {
+        const newTimes = times.filter((_, i) => i !== index);
+        setTimes(newTimes);
     };
 
     return (
-        <>
-            {isShowSchedule ? (
-                // Render ScheduleForm as a separate page-like section
-                <div className={styles.scheduleFormPage}>
-                    <ScheduleForm
-                        isOpen={isShowSchedule}
-                        onClose={() => setShowSchedule(false)} // Use a function to close
-                        onSubmit={handleScheduleSubmit}
+        <div className={styles.pageContainer}>
+            <div className={styles.pageContent}>
+                <h2>Add New Medication</h2>
+                <p className={styles.textStructure}>
+                    Medication Name
+                </p>
+                <input
+                    className={styles.input}
+                    type="text"
+                    placeholder="Medication Name"
+                    value={medicationData.medicationName}
+                    onChange={(e) => handleInputChange("medicationName", e.target.value)}
+                />
+                <p className={styles.textStructure}>
+                    Generic Name
+                </p>
+                <input
+                    className={styles.input}
+                    type="text"
+                    placeholder="Generic Name"
+                    value={medicationData.medicationGenericName}
+                    onChange={(e) => handleInputChange("medicationGenericName", e.target.value)}
+                />
+                <p className={styles.textStructure}>
+                    Dosage</p>
+                <div className={styles.dosageInputContainer}>
+                    <input
+                        className={styles.input}
+                        type="number"
+                        placeholder="0"
+                        value={medicationData.medicationStrength}
+                        onChange={(e) => handleInputChange("medicationStrength", Number(e.target.value))}
                     />
-                </div>
-            ) : (
-                <div className={styles.pageContainer}>
-                    <div className={styles.pageContent}>
-                        <h2>Add New Medication</h2>
-                        <label className={styles.inputLabel}>
-                            Medication Name
-                        </label>
-                        <input
-                            type="text"
-                            placeholder="Medication Name"
-                            value={medicationName}
-                            onChange={(e) => setMedicationName(e.target.value)}
-                        />
 
-                        <label className={styles.inputLabel}>
-                            Generic Name
-                        </label>
-                        <input
-                            type="text"
-                            placeholder="Generic Name"
-                            value={medicationGenericName}
-                            onChange={(e) => setMedicationGenericName(e.target.value)}
-                        />
-
-                        <label className={styles.inputLabel}>
-                            Dosage Strength
-                        </label>
-                        <input
-                            type="number"
-                            placeholder="0"
-                            value={medicationStrength}
-                            onChange={(e) => setMedicationStrength(Number(e.target.value))}
-                        />
-
-                        <div>
-                            <label className={styles.inputLabel}>Dosage</label>
-                            <div className={styles.dosageInputContainer}>
-                                <input
-                                    type="number"
-                                    min="0"
-                                    placeholder="0"
-                                    className={styles.input}
-                                />
-                                <div className={styles.unitRow}>
-                                    {selectedUnit === "custom" && (
-                                        <div className={styles.customUnitContainer}>
-                                            <input
-                                                type="text"
-                                                placeholder="unit"
-                                                className={styles.customInput}
-                                                value={customUnit}
-                                                onChange={(e) => setCustomUnit(e.target.value)}
-                                            />
-                                        </div>
-                                    )}
-                                    <div className={styles.unitOptions}>
-                                        {["custom", "g", "mg", "mcg", "mL"].map((unit) => (
-                                            <button
-                                                key={unit}
-                                                className={`${styles.unitButton} ${selectedUnit === unit ? styles.selected : ""}`}
-                                                onClick={() => setSelectedUnit(unit)}
-                                            >
-                                                {unit}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                            <label className={styles.inputLabel}>Medication Medium</label>
-                            <div className={styles.dosageInputContainer}>
-                                <div className={styles.unitRow}>
-                                    {selectedMedium === "custom" && (
-                                        <div className={styles.customUnitContainer}>
-                                            <input
-                                                type="text"
-                                                placeholder="Medication Medium"
-                                                className={styles.customInput}
-                                                value={customMedium}
-                                                onChange={(e) => setCustomMedium(e.target.value)}
-                                            />
-                                        </div>
-                                    )}
-                                    <div className={styles.unitOptions}>
-                                        {["custom", "tablet", "pill", "injection"].map((medium) => (
-                                            <button
-                                                key={medium}
-                                                className={`${styles.unitButton} ${selectedMedium === medium ? styles.selected : ""}`}
-                                                onClick={() => setSelectedMedium(medium)}
-                                            >
-                                                {medium.charAt(0).toUpperCase() + medium.slice(1)}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <label className={styles.inputLabel}>Quantity</label>
-                                <div className={styles.quantityBox}>
-                                    <input
-                                        type="number"
-                                        placeholder="0"
-                                        value={medicationSupply}
-                                        onChange={(e) => setMedicationSupply(Number(e.target.value))}
-                                    />
-                                    <span>{selectedUnit}</span>
-                                </div>
-                            </div>
-                            <label className={styles.inputLabel}>
-                                Expiration Date
-                            </label>
+                    <div className={styles.unitRow}>
+                        {medicationData.selectedUnit === "Custom" && (
                             <input
-                                type="date"
-                                placeholder="Expiration Date in MM/DD/YYYY"
-                                value={medicationExpirationDate}
-                                onChange={(e) => setMedicationExpirationDate(e.target.value)}
+                                type="text"
+                                placeholder="unit"
+                                className={`${styles.input} ${medicationData.selectedUnit === "Custom" ? styles.active : ""}`}
+                                value={medicationData.customUnit}
+                                onChange={(e) => handleInputChange("customUnit", e.target.value)}
                             />
+                        )}
 
-                            <div className={styles.buttonContainer}>
+                        <div className={styles.unitOptions}>
+                            {["Custom", "g", "mg", "mcg", "mL"].map((unit) => (
                                 <button
-                                    className={styles.submitButton}
-                                    onClick={handleSubmit}
-                                    disabled={
-                                        medicationName === "" ||
-                                        medicationStrength === 0 ||
-                                        medicationSupply === 0
-                                    }
+                                    key={unit}
+                                    className={`${styles.unitButton} ${medicationData.selectedUnit === unit ? styles.selected : ""}`}
+                                    onClick={() => handleInputChange("selectedUnit", unit)}
                                 >
-                                    Continue
+                                    {unit}
                                 </button>
-                            </div>
+                            ))}
                         </div>
                     </div>
                 </div>
-            )}
-        </>
+                <p className={styles.textStructure}>Medication Medium</p>
+                <div className={styles.dosageInputContainer}>
+                    <div className={styles.unitRow}>
+                        {medicationData.selectedMedium === "Custom" && (
+                            <input
+                                type="text"
+                                placeholder="Medication Medium"
+                                className={`${styles.input} ${medicationData.selectedMedium === "Custom" ? styles.active : ""}`}
+                                value={medicationData.customMedium}
+                                onChange={(e) => handleInputChange("customMedium", e.target.value)}
+                            />
+                        )}
+                        <div className={styles.unitOptions}>
+                            {["Custom", "tablet", "capsule", "injection", "syrup"].map((medium) => (
+                                <button
+                                    key={medium}
+                                    className={`${styles.unitButton} ${medicationData.selectedMedium === medium ? styles.selected : ""}`}
+                                    onClick={() => handleInputChange("selectedMedium", medium)}
+                                >
+                                    {medium.charAt(0).toUpperCase() + medium.slice(1)}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <p className={styles.textStructure}>Quantity:</p>
+                    <div className={styles.quantityBox}>
+                        <input
+                            type="number"
+                            placeholder="0"
+                            value={medicationData.medicationSupply}
+                            onChange={(e) => handleInputChange("medicationSupply", Number(e.target.value))}
+                            className={styles.input}
+                        />
+                        <span>{medicationData.selectedUnit}</span>
+                    </div>
+                </div>
+                <p className={styles.textStructure}>
+                    Expiration Date</p>
+                <input
+                    className={styles.input}
+                    type="date"
+                    placeholder="Expiration Date in MM/DD/YYYY"
+                    value={medicationData.medicationExpirationDate}
+                    onChange={(e) => handleInputChange("medicationExpirationDate", e.target.value)}
+                />
+                <p className={styles.textStructure}>Would you like to add scheduling for this medication?</p>
+                <div className={styles.yesNoButtons}>
+                    <button
+                        className={scheduleMedication === true ? styles.selected : ""}
+                        onClick={() => setScheduleMedication(true)}
+                    >
+                        Yes
+                    </button>
+                    <button
+                        className={scheduleMedication === false ? styles.selected : ""}
+                        onClick={() => setScheduleMedication(false)}
+                    >
+                        No
+                    </button>
+                </div>
+                <p className={styles.textStructure}>Select Days</p>
+                <div className={`${styles.scheduleDetails} ${scheduleMedication ? "" : styles.disabled}`}>
+                    <div className={styles.daySelection}>
+                        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
+                            <button
+                                key={day}
+                                className={`${selectedDays.includes(day) ? styles.selected : ""} ${!scheduleMedication ? styles.disabledButton : ""}`}
+                                onClick={() => scheduleMedication && toggleDaySelection(day)}
+                                disabled={!scheduleMedication}
+                            >
+                                {day}
+                            </button>
+                        ))}
+                    </div>
+                    <p className={styles.textStructure}>Select Time</p>
+                    {times.map((time, index) => (
+                        <div key={index} className={`${styles.timeSelection} ${!scheduleMedication ? styles.disabled : ""}`}>
+                            <input
+                                type="number"
+                                min="1"
+                                max="12"
+                                placeholder="HH"
+                                value={time.hour}
+                                onChange={(e) => scheduleMedication && updateTimeSlot(index, "hour", e.target.value)}
+                                disabled={!scheduleMedication}
+                            />
+                            <input
+                                type="number"
+                                min="0"
+                                max="59"
+                                placeholder="MM"
+                                value={time.minute}
+                                onChange={(e) => scheduleMedication && updateTimeSlot(index, "minute", e.target.value)}
+                                disabled={!scheduleMedication}
+                            />
+                            <select
+                                value={time.period}
+                                onChange={(e) => scheduleMedication && updateTimeSlot(index, "period", e.target.value)}
+                                disabled={!scheduleMedication}
+                            >
+                                <option>AM</option>
+                                <option>PM</option>
+                            </select>
+
+                            <button
+                                className={styles.removeTimeButton}
+                                onClick={() => removeTimeSlot(index)}
+                                disabled={!scheduleMedication}
+                            >
+                                X
+                            </button>
+                        </div>
+                    ))}
+                    <button
+                        className={styles.addTimeButton}
+                        onClick={addTimeSlot}
+                        disabled={!scheduleMedication}
+                    >
+                        + Add Another Time
+                    </button>
+                </div>
+                <div className={styles.modalActions}>
+                    <button className={styles.cancelButton} onClick={onClose}>
+                        Previous
+                    </button>
+                    <button
+                        disabled={
+                            medicationData.medicationName === "" ||
+                            medicationData.medicationStrength === 0 ||
+                            medicationData.medicationSupply === 0
+                        }
+                        onClick={handleSubmit}
+                        className={styles.submitButton}
+                    >
+                        Add Medication
+                    </button>
+                </div>
+            </div>
+        </div>
     );
 };
 
