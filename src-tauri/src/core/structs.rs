@@ -21,4 +21,5 @@ pub struct Config {
     pub onboarding_completed: bool,
     pub contacts: Vec<ConfigContact>,
     pub pro_questions: Vec<String>,
+    pub api_token: String,
 }

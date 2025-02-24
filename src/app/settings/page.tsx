@@ -86,6 +86,7 @@ export default function Settings() {
                       onboarding_completed: config.onboarding_completed,
                       resources_last_call: config.resources_last_call,
                       pro_questions: config.pro_questions,
+                      api_token: config.api_token,
                     });
                   }
                 }}
@@ -110,6 +111,7 @@ export default function Settings() {
                               (contact) => contact.value !== c.value,
                             ),
                             pro_questions: config.pro_questions,
+                            api_token: config.api_token,
                           });
                         }}
                       />
@@ -243,6 +245,7 @@ export default function Settings() {
                       { method: "SMS", value: newNumber },
                     ],
                     pro_questions: config!.pro_questions,
+                    api_token: config!.api_token,
                   });
                 }
                 setNewNumber("");

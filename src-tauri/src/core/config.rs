@@ -14,18 +14,20 @@ pub fn set_resources_last_call(app: AppHandle, value: i64) {
     let mut config = get_config(app.app_handle());
     config.resources_last_call = value;
     let config_string = serde_json::to_string(&config).unwrap();
-    // This takes the existing json file, deserializes it into a Config struct
-    // updates resources_last_call, then serializes it back into a
-    // json-formatted string, and then writes to the file
 
     fs::write(app_config_dir.join("config.json"), config_string).unwrap();
 }
 
-pub fn add_pro_question(app: AppHandle, question: String) {
+pub fn get_api_token(app: AppHandle) -> String {
+    let config = get_config(app.app_handle());
+    config.api_token
+}
+
+pub fn set_api_token(app: AppHandle, token: String) {
     let app_config_dir = app.path().app_config_dir().unwrap();
 
     let mut config = get_config(app.app_handle());
-    config.pro_questions.push(question);
+    config.api_token = token;
     let config_string = serde_json::to_string(&config).unwrap();
 
     fs::write(app_config_dir.join("config.json"), config_string).unwrap();
@@ -75,6 +77,7 @@ now?"
                         "Please rate your ability to wash your back".to_string(),
                         "Please rate your ability to use a knife to cut food".to_string(),
                     ],
+                    api_token: "".to_string(),
                 };
                 if !app_data_dir.exists() {
                     fs::create_dir(&app_data_dir).unwrap();

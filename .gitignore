@@ -21,6 +21,8 @@ src-tauri/gen/schemas
 src-tauri/capabilities/schemas
 out
 
+.env
+
 # Editor directories and files
 .idea
 .DS_Store
