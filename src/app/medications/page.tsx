@@ -31,7 +31,7 @@ const MedicationsView = () => {
   useKeyPress("Escape", () => {
     router.back();
   });
-  
+
   const handleAddMedicationClick = () => {
     setIsNewMedModelOpen(true);
   };
@@ -80,6 +80,7 @@ const MedicationsView = () => {
     setMedications([...medications, newMedication]);
     setIsNewMedModelOpen(false);
   };
+
 
   return (
     <>

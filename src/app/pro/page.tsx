@@ -26,6 +26,12 @@ const ProChart = () => {
   useKeyPress("Escape", () => {
     router.back();
   });
+
+  useKeyPress("Enter", () => {
+    if (!isSurveyTaken) {
+      router.push("./pro/survey");
+    }
+  });
   
   useEffect(() => {
     invoke<PatientReportedOutcome[]>("get_all_pros")
