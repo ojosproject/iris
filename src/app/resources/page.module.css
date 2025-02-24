@@ -9,12 +9,17 @@
   align-self: flex-start;
 }
 
+.sticky {
+  position: sticky;
+  top: 15px;
+  z-index: 1000;
+}
+
 .menu_and_resources_container {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
-
   margin: 0 20px;
 }
 

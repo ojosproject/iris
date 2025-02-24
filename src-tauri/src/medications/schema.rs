@@ -1,3 +1,7 @@
+// schema.rs
+// represents schema.sql as a rust string to be usable in executables
+
+pub static MEDICATIONS_SCHEMA: &str = r#"
 /*
 medication_log
 To log medications given to the patient.
@@ -45,3 +49,4 @@ CREATE TABLE IF NOT EXISTS medication (
     measurement TEXT NOT NULL,
     nurse_id TEXT NOT NULL
 ) STRICT;
+"#;

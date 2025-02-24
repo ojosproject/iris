@@ -1,7 +1,6 @@
 // relay.rs
 
 use crate::config;
-use dotenv::dotenv;
 use reqwest::{blocking::Client, Error, StatusCode};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -28,8 +27,6 @@ pub fn relay(body: &String, app: AppHandle) {
 }
 
 pub fn send_sms(message: &String, recipient: &String, token: &String) {
-    dotenv().ok();
-
     let flask_url = format!("https://api.ojosproject.org/iris/send-sms/");
 
     let client = Client::new();
@@ -46,7 +43,7 @@ pub fn send_sms(message: &String, recipient: &String, token: &String) {
     match response {
         Ok(r) if r.status().is_success() => (), // handle success here
         Ok(r) => (),                            // handle error here
-        Err(err) => (),                            // handle error here
+        Err(err) => (),                         // handle error here
     }
 }
 

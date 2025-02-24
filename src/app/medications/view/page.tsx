@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import styles from "./page.module.css";
 import { Medication, MedicationLog } from "../types";
 import { User } from "@/app/core/types";
@@ -216,4 +216,12 @@ const MedicineView = () => {
   );
 };
 
-export default MedicineView;
+// Required to prevent
+// https://github.com/ojosproject/iris/issues/36
+export default function WrappedView() {
+  return (
+    <Suspense>
+      <MedicineView />
+    </Suspense>
+  );
+}

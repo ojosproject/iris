@@ -3,6 +3,7 @@ mod call;
 mod care_instructions;
 mod core;
 mod medications;
+mod pro;
 mod resources;
 use core::config;
 use std::{env, process};
@@ -10,6 +11,7 @@ use tauri::Manager;
 
 fn main() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_os::init())
         .plugin(tauri_plugin_fs::init())
         .invoke_handler(tauri::generate_handler![
             medications::commands::create_medication,
@@ -29,12 +31,16 @@ fn main() {
             care_instructions::commands::get_single_care_instruction,
             care_instructions::commands::update_care_instructions,
             care_instructions::commands::care_instructions_previous_next_ids,
+            care_instructions::commands::delete_care_instructions,
+            pro::commands::add_pros,
+            pro::commands::get_all_pros,
+            pro::commands::add_pro_question,
+            pro::commands::get_pro_questions,
             resources::commands::get_resources,
             call::commands::open_recordings_folder
         ])
         .setup(|app| {
-            app.set_menu(core::menu::menu(app.app_handle().clone()))
-                .unwrap();
+            app.set_menu(core::menu::menu(&app.app_handle())).unwrap();
 
             app.on_menu_event(move |app, event| {
                 let copy = app.clone();
@@ -70,6 +76,17 @@ fn main() {
                     println!("Recreating iris.db...");
                     core::onboarding::setup_onboarding(app.app_handle());
                     println!("Done!");
+                } else if event.id() == "open-recordings" {
+                    process::Command::new(command)
+                        .args(
+                            app.path()
+                                .app_data_dir()
+                                .unwrap()
+                                .join("recordings")
+                                .to_str(),
+                        )
+                        .output()
+                        .unwrap();
                 }
             });
 

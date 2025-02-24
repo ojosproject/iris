@@ -20,5 +20,6 @@ pub struct Config {
     pub resources_last_call: i64,
     pub onboarding_completed: bool,
     pub contacts: Vec<ConfigContact>,
+    pub pro_questions: Vec<String>,
     pub api_token: String,
 }

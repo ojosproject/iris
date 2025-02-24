@@ -9,7 +9,17 @@
     "core:default",
     "fs:allow-app-write",
     "fs:allow-app-meta",
-    {"identifier": "fs:scope",
-      "allow": [{ "path": "$APPDATA/recordings/*" }]}
+    {
+      "identifier": "fs:scope",
+      "allow": [
+        {
+          "path": "$APPDATA/recordings/*"
+        },
+        {
+          "path": "$APPDATA\\recordings\\*"
+        }
+      ]
+    },
+    "os:default"
   ]
 }

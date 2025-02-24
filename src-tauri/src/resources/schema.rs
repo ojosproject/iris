@@ -1,3 +1,7 @@
+// schema.rs
+// represents schema.sql as a rust string to be usable in executables
+
+pub static RESOURCES_SCHEMA: &str = r#"
 /*
 resource
 Resources available for the patient and their family
@@ -16,3 +20,4 @@ CREATE TABLE IF NOT EXISTS resource (
     category TEXT NOT NULL,
     last_updated REAL NOT NULL
 ) STRICT;
+"#;

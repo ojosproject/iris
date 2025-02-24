@@ -14,6 +14,11 @@ export const HubApps: HubAppProps[] = [
     icon: "/images/icon_care_instructions.png",
   },
   {
+    link: "./pro",
+    name: "Survey",
+    icon: "/images/icon_survey.png"
+  },
+  {
     link: "./medications",
     name: "Medications",
     icon: "/images/icon_pill.png",

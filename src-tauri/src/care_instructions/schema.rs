@@ -1,3 +1,7 @@
+// schema.rs
+// represents schema.sql as a rust string to be usable in executables
+
+pub static CARE_INSTRUCTIONS_SCHEMA: &str = r#"
 /*
 care_instruction
 Extra care instructions provided by the caregivers for the nurses.
@@ -18,3 +22,4 @@ CREATE TABLE IF NOT EXISTS care_instruction (
     added_by TEXT NOT NULL,
     last_updated INTEGER NOT NULL
 ) STRICT;
+"#;

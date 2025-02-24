@@ -1,7 +1,7 @@
-// specs.rs
+// config.rs
 // Ojos Project
 //
-// Handles storing system specifications
+// Works with storing data that isn't needed in the database. Think settings.
 
 #![allow(dead_code)]
 use crate::core::structs::Config;
@@ -53,6 +53,30 @@ pub fn get_config(app: &AppHandle) -> Config {
                     resources_last_call: 0,
                     onboarding_completed: false,
                     contacts: vec![],
+                    pro_questions: vec![
+                        "During the past 4 weeks, how much of the time have you had any of the
+following problems with your work or other regular daily activities as a
+result of your physical health?"
+                            .to_string(),
+                        "During the past 4 weeks, how much of the time have you had any of the
+following problems with your work or other regular daily activities as a
+result of any emotional problems (such as feeling depressed or anxious)?"
+                            .to_string(),
+                        "During the past 4 weeks, to what extent has your physical health or
+emotional problems interfered with your normal social activities with
+family, friends, neighbors, or groups?"
+                            .to_string(),
+                        "How much bodily pain have you had during the past 4 weeks?".to_string(),
+                        "During the past 4 weeks, how much did pain interfere with your normal
+work (including both work outside the home and housework)?"
+                            .to_string(),
+                        "Compared to one year ago, how would you rate your health in general
+now?"
+                            .to_string(),
+                        "Please rate your ability to carry a shopping bag or briefcase".to_string(),
+                        "Please rate your ability to wash your back".to_string(),
+                        "Please rate your ability to use a knife to cut food".to_string(),
+                    ],
                     api_token: "".to_string(),
                 };
                 if !app_data_dir.exists() {

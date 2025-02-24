@@ -22,4 +22,5 @@ export type Config = {
   onboarding_completed: boolean;
   contacts: ConfigContact[];
   api_token: string;
+  pro_questions: string[];
 };

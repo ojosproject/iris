@@ -5,12 +5,13 @@ import BackButton from "@/app/core/components/BackButton";
 import { useRouter, useSearchParams } from "next/navigation";
 import classes from "./page.module.css";
 import Button from "@/app/core/components/Button";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { CareInstruction } from "../types";
 import { timestampToString } from "@/app/core/helper";
+import Dialog from "@/app/core/components/Dialog";
 
-export default function EditInstructions() {
+function EditInstructions() {
   // Params get passed from AllCareInstructions.tsx
   // If `id` is empty, you're creating a new care instruction
   // If `id` has something, we're editing a care instruction
@@ -23,6 +24,7 @@ export default function EditInstructions() {
   const [onEditMode, setOnEditMode] = useState(false);
   const [nextTopic, setNextTopic] = useState("");
   const [previousTopic, setPreviousTopic] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
   const router = useRouter();
 
   function fetchInformation(fetch_id: string) {
@@ -42,6 +44,16 @@ export default function EditInstructions() {
         });
       })
       .catch((e) => console.log(e));
+  }
+
+  function isModalOpen(valueForModal: boolean) {
+    console.log("CLICKED DELETE");
+    if (valueForModal === false) {
+      document.body.style.overflow = "";
+    } else {
+      document.body.style.overflow = "hidden";
+    }
+    setModalOpen(valueForModal);
   }
 
   useEffect(() => {
@@ -105,10 +117,12 @@ export default function EditInstructions() {
               placeholder="Short Title"
               className={classes.input_care_title}
               type="text"
+              spellCheck={true}
             />
             <textarea
               value={content}
               placeholder="Enter a detailed description of how to care for your loved one."
+              spellCheck={true}
               onChange={(e) => {
                 setContent(e.target.value);
               }}
@@ -141,6 +155,39 @@ export default function EditInstructions() {
             })}
           </>
         )}
+        {modalOpen && (
+          <Dialog
+            title="Are you sure?"
+            content={"Deleted care instructions cannot be recovered."}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                alignContent: "center",
+              }}
+            >
+              <Button
+                type="DANGER-PRIMARY"
+                label="Delete"
+                onClick={() => {
+                  isModalOpen(false);
+                  invoke("delete_care_instructions", { id: id });
+                  router.back();
+                }}
+              />
+              <Button
+                type="SECONDARY"
+                label="Never mind"
+                onClick={() => {
+                  isModalOpen(false);
+                }}
+              />
+            </div>
+          </Dialog>
+        )}
+
         {lastUpdated === 0 ? null : (
           <div className={classes.last_updated}>
             <div className={classes.last_updated_inner}>
@@ -170,6 +217,11 @@ export default function EditInstructions() {
                 onClick={() => setOnEditMode(!onEditMode)}
               />
               <Button
+                type="DANGER-SECONDARY"
+                label="Delete Instructions"
+                onClick={() => isModalOpen(true)}
+              />
+              <Button
                 type="SECONDARY"
                 label="Resources"
                 onClick={() => router.push("/resources")}
@@ -179,5 +231,15 @@ export default function EditInstructions() {
         </div>
       </div>
     </div>
+  );
+}
+
+// Required to prevent
+// https://github.com/ojosproject/iris/issues/36
+export default function EditInstructionsWrapper() {
+  return (
+    <Suspense>
+      <EditInstructions />
+    </Suspense>
   );
 }

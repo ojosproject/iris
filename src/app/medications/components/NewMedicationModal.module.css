@@ -17,6 +17,8 @@
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   width: 400px;
+  animation: scale 0.25s ease-out;
+  animation-fill-mode: forwards;
 }
 
 .modalContent h2 {
@@ -76,4 +78,15 @@
 
 .modalContent .cancelButton:hover {
   background-color: #ce2f2c;
+}
+
+@keyframes scale {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }

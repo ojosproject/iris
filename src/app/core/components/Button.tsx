@@ -9,35 +9,46 @@ import { CSSProperties, MouseEventHandler } from "react";
 import { UrlObject } from "url";
 
 export default function Button(props: {
-  type: "PRIMARY" | "SECONDARY";
+  type: "PRIMARY" | "SECONDARY" | "DANGER-PRIMARY" | "DANGER-SECONDARY";
   label: string;
   onClick?: MouseEventHandler;
   link?: UrlObject | string;
   disabled?: boolean;
   style?: CSSProperties;
 }) {
+  const buttonStyle: CSSProperties = {
+    ...props.style,
+    opacity: props.disabled ? 0.5 : 1,
+    cursor: props.disabled ? "not-allowed" : "pointer",
+  };
+
+  function buttonStyleSelection(): string {
+    if (props.type === "PRIMARY") {
+      return classes.button_iris_primary;
+    } else if (props.type === "SECONDARY") {
+      return classes.button_iris_secondary;
+    } else if (props.type === "DANGER-PRIMARY") {
+      return classes.button_iris_danger_primary;
+    } else {
+      return classes.button_iris_danger_secondary;
+    }
+  }
+
   return props.onClick ? (
     <button
-      className={
-        props.type === "PRIMARY"
-          ? classes.button_iris_primary
-          : classes.button_iris_secondary
-      }
+      className={buttonStyleSelection()}
       disabled={props.disabled}
-      onClick={props.onClick}
-      style={props.style}
+      onClick={!props.disabled ? props.onClick : undefined}
+      style={buttonStyle}
     >
       {props.label}
     </button>
   ) : (
-    <Link href={props.link!}>
+    <Link href={props.disabled ? "#" : props.link!} passHref>
       <button
-        className={
-          props.type === "PRIMARY"
-            ? classes.button_iris_primary
-            : classes.button_iris_secondary
-        }
-        style={props.style}
+        className={buttonStyleSelection()}
+        style={buttonStyle}
+        disabled={props.disabled}
       >
         {props.label}
       </button>

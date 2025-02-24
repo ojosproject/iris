@@ -64,73 +64,77 @@ export default function Settings() {
     setConfig(newConfig);
   }
 
-  function RelaySection({ config }: { config: Config }) {
+  function RelaySection() {
     return (
-      <Section
-        title="Relay Notifications"
-        description="Relay your patient's care via SMS messages."
-      >
-        <div>
-          <Row label="Relay Numbers?">
-            <Switch
-              defaultChecked={relayActivated}
-              checked={relayActivated}
-              onChange={() => {
-                setRelayActivated(!relayActivated);
-                if (!relayActivated) {
-                  setDisplayDialog(!displayDialog);
-                } else {
-                  commitConfig({
-                    contacts: [],
-                    onboarding_completed: config.onboarding_completed,
-                    resources_last_call: config.resources_last_call,
-                    api_token: config.api_token,
-                  });
-                }
-              }}
-            ></Switch>
-          </Row>
-
-          {relayActivated && config.contacts.length !== 0 && (
-            <div>
-              <h3>Push to these numbers...</h3>
-              {config.contacts.map((c) => {
-                return (
-                  <div className={classes.number_button_row}>
-                    <p>{parse_phone_number(parseInt(c.value))}</p>
-                    <Button
-                      type="SECONDARY"
-                      label="Delete"
-                      onClick={() => {
-                        commitConfig({
-                          onboarding_completed: config.onboarding_completed,
-                          resources_last_call: config.resources_last_call,
-                          contacts: config.contacts.filter(
-                            (contact) => contact.value !== c.value,
-                          ),
-                          api_token: config.api_token,
-                        });
-                      }}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          )}
-
-          {relayActivated && (
-            <div className={classes.add_number_button}>
-              <Button
-                type="PRIMARY"
-                label="Add Number"
-                onClick={() => {
-                  setDisplayNumberDialog(true);
+      config && (
+        <Section
+          title="Relay Notifications"
+          description="Relay your patient's care via SMS messages."
+        >
+          <div>
+            <Row label="Relay Numbers?">
+              <Switch
+                defaultChecked={relayActivated}
+                checked={relayActivated}
+                onChange={() => {
+                  setRelayActivated(!relayActivated);
+                  if (!relayActivated) {
+                    setDisplayDialog(!displayDialog);
+                  } else {
+                    commitConfig({
+                      contacts: [],
+                      onboarding_completed: config.onboarding_completed,
+                      resources_last_call: config.resources_last_call,
+                      pro_questions: config.pro_questions,
+                      api_token: config.api_token,
+                    });
+                  }
                 }}
-              />
-            </div>
-          )}
-        </div>
-      </Section>
+              ></Switch>
+            </Row>
+
+            {relayActivated && config && config.contacts.length !== 0 && (
+              <div>
+                <h3>Push to these numbers...</h3>
+                {config.contacts.map((c) => {
+                  return (
+                    <div className={classes.number_button_row}>
+                      <p>{parse_phone_number(parseInt(c.value))}</p>
+                      <Button
+                        type="SECONDARY"
+                        label="Delete"
+                        onClick={() => {
+                          commitConfig({
+                            onboarding_completed: config.onboarding_completed,
+                            resources_last_call: config.resources_last_call,
+                            contacts: config.contacts.filter(
+                              (contact) => contact.value !== c.value,
+                            ),
+                            pro_questions: config.pro_questions,
+                            api_token: config.api_token,
+                          });
+                        }}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            {relayActivated && (
+              <div className={classes.add_number_button}>
+                <Button
+                  type="PRIMARY"
+                  label="Add Number"
+                  onClick={() => {
+                    setDisplayNumberDialog(true);
+                  }}
+                />
+              </div>
+            )}
+          </div>
+        </Section>
+      )
     );
   }
 
@@ -140,7 +144,7 @@ export default function Settings() {
       <div className={classes.container_settings}>
         <h1>Settings</h1>
         <div className={classes.column_of_settings}>
-          {config && <RelaySection config={config} />}
+          <RelaySection />
         </div>
       </div>
       {displayDialog && (
@@ -175,7 +179,7 @@ export default function Settings() {
           </div>
         </Dialog>
       )}
-      {displayNumberDialog && (
+      {displayNumberDialog && config && (
         <Dialog
           title="Add Phone Number"
           content={
@@ -226,15 +230,24 @@ export default function Settings() {
               disabled={newNumber.length < 10}
               onClick={() => {
                 setDisplayNumberDialog(!displayNumberDialog);
-                commitConfig({
-                  onboarding_completed: config!.onboarding_completed,
-                  resources_last_call: config!.resources_last_call,
-                  contacts: [
-                    ...config!.contacts,
-                    { method: "SMS", value: newNumber },
-                  ],
-                  api_token: config!.api_token,
-                });
+                if (
+                  config.contacts.filter((contact) => {
+                    return contact.value === newNumber.toString();
+                  }).length === 0
+                ) {
+                  console.log(config.contacts);
+                  console.log(newNumber);
+                  commitConfig({
+                    onboarding_completed: config!.onboarding_completed,
+                    resources_last_call: config!.resources_last_call,
+                    contacts: [
+                      ...config!.contacts,
+                      { method: "SMS", value: newNumber },
+                    ],
+                    pro_questions: config!.pro_questions,
+                    api_token: config!.api_token,
+                  });
+                }
                 setNewNumber("");
               }}
             />

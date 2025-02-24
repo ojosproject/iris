@@ -6,3 +6,4 @@ pub mod onboarding;
 mod relay;
 pub mod structs;
 pub mod user;
+pub mod schema;
