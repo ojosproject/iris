@@ -30,7 +30,14 @@ function EditInstructions() {
   const router = useRouter();
 
   useKeyPress("Escape", () => {
-    router.back();
+    if (onEditMode) {
+      setOnEditMode(false);
+    } else if (modalOpen) {
+      setModalOpen(false)
+    } else {
+      router.back();
+    }
+    
   });
 
   useKeyPress("Enter", () => {

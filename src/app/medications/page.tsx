@@ -29,7 +29,13 @@ const MedicationsView = () => {
   const router = useRouter();
 
   useKeyPress("Escape", () => {
-    router.back();
+    if (isNewMedModalOpen) {
+      setIsNewMedModelOpen(false);
+    } else if (isConfirmLogModalOpen) {
+      setIsConfirmLogModalOpen(false);
+    } else {
+      router.back();
+    }
   });
 
   const handleAddMedicationClick = () => {
