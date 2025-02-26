@@ -32,6 +32,12 @@ function EditInstructions() {
   useKeyPress("Escape", () => {
     router.back();
   });
+
+  useKeyPress("Enter", () => {
+    if (onEditMode) {
+      handleOnSaveClick();
+    }
+  });
   
 
   function fetchInformation(fetch_id: string) {
