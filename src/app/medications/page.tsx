@@ -32,10 +32,6 @@ const MedicationsView = () => {
     router.back();
   });
 
-  useKeyPress("Enter", () => {
-    router.back();
-  });
-
   const handleAddMedicationClick = () => {
     setIsNewMedModelOpen(true);
   };
