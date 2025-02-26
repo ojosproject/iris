@@ -12,12 +12,14 @@ Rows:
     phone_number    - (Optional) The contact's phone number
     company         - (Optional) The contact's company
     email           - (Optional) The contact's email
+    last_updated    - A Unix timestamp indicating the last edit
 */
 CREATE TABLE IF NOT EXISTS contacts (
     id TEXT NOT NULL PRIMARY KEY,
     name TEXT NOT NULL,
     phone_number TEXT,
     company TEXT,
-    email TEXT
+    email TEXT,
+    last_updated INTEGER NOT NULL
 ) STRICT;
 "#;

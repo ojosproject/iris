@@ -5,4 +5,5 @@ export type Contact = {
     phone_number?: string;
     company?: string,
     email?: string;
+    last_updated: number;
   };
