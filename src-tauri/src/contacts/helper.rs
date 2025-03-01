@@ -32,10 +32,10 @@ pub fn add_contact(
     conn.execute(
         "INSERT INTO contacts(
             id, 
-            title, 
-            content, 
-            frequency, 
-            added_by, 
+            name, 
+            phone_number, 
+            company, 
+            email, 
             last_updated
         ) VALUES ( ?1, ?2, ?3, ?4, ?5, ?6)",
         (&c.id, &c.name, &c.phone_number, &c.company, &c.email, &c.last_updated),

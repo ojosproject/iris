@@ -76,7 +76,7 @@ function EditContacts() {
       setCompany((i as Contact).company ?? "");
       setEmail((i as Contact).email ?? "");
 
-      router.replace(`/contacts/view/?id=${id}`);
+      router.replace(`/contacts/view/?id=${id}`);   
     });
   }
   return (
@@ -106,9 +106,9 @@ function EditContacts() {
                 <input
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
-                  placeholder="(123) 456-7890 (optional)"
+                  placeholder="(123)-456-7890 (optional)"
                   className={classes.input_fields}
-                  type="text"
+                  type="tel"
                 />
               </div>
               <div className={classes.input_group}>
@@ -118,7 +118,7 @@ function EditContacts() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="email@email.com (optional)"
                   className={classes.input_fields}
-                  type="text"
+                  type="email"
                 />
               </div>
               <div className={classes.input_group}>
