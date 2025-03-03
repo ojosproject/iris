@@ -62,30 +62,11 @@ export default function Survey() {
         title="Thank you!"
         content="You have completed your survey for today"
       >
-        <div className="modal-content">
-              <h2>Your Responses:</h2>
-              {surveyResults ? (
-                surveyResults.map((item, index) => (
-                  <div key={index}>
-                    <div className="container-4">
-                      <h3 style={{ marginRight: "5px" }}>
-                        {index + 1}. {item[0]}:
-                      </h3>
-                    </div>
-                    <div className="container">
-                      <h2>{item[1]}</h2>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <p>No survey responses available.</p>
-              )}
-            </div>
-            <Button
-                type="PRIMARY"
-                label="Return to Pros"
-                onClick={handleGoBack}
-              />
+        <Button
+            type="PRIMARY"
+            label="Return to Pros"
+            onClick={handleGoBack}
+          />
       </Dialog>
       )}
     </div>
