@@ -31,20 +31,25 @@ function EditInstructions() {
 
   useKeyPress("Escape", () => {
     if (onEditMode) {
-      setOnEditMode(false);
+      if (title.trim() === "" && content.trim() === "") {
+        setOnEditMode(false);
+        router.back();
+      } else {
+        setOnEditMode(false);
+      }
     } else if (modalOpen) {
-      setModalOpen(false)
+      setModalOpen(false);
     } else {
       router.back();
     }
-    
   });
+  
 
   useKeyPress("Enter", () => {
-    if (onEditMode) {
+    if (onEditMode && title.trim() !== "" && content.trim() !== "") {
       handleOnSaveClick();
     }
-  });
+  });  
   
 
   function fetchInformation(fetch_id: string) {
