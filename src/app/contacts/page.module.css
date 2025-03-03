@@ -7,6 +7,7 @@ Ojos Project
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 
 .back_button {
@@ -26,4 +27,45 @@ Ojos Project
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
+}
+
+.contacts_container {
+  display: flex;
+  width: 80%; /* Ensure it stretches */
+  max-width: 1200px; /* Prevent excessive stretching */
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  
+}
+
+.contacts_list {
+  width: auto;
+  min-width: max-content;
+}
+
+.contact_details {
+  width: 50%;
+}
+
+.contact_name {
+  width: max-content;
+  cursor: pointer;
+  margin: 20px 0;
+  overflow-wrap: anywhere;
+  padding: 10px;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin: 10px;
+  border-radius: 10px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact_name:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 15px rgba(111, 110, 110, 0.3);
+  
+}
+.placeholder {
+  font-style: italic;
 }
