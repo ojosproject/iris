@@ -10,6 +10,7 @@ import ChartDataLabels from "chartjs-plugin-datalabels";
 import BackButton from "../core/components/BackButton";
 import ForwardButton from "../core/components/ForwardButton";
 import { PatientReportedOutcome } from "./types";
+import Helper from "../core/components/helper_screen";
 
 interface ChartData {
   [question: string]: [response: number, recorded_date: Date][];
@@ -21,8 +22,10 @@ const ProChart = () => {
   const [currentWeek, setCurrentWeek] = useState(0);
   const router = useRouter();
   const [isSurveyTaken, setIsSurveyTaken] = useState<boolean>(false);
+  const [isHelperModalOpen, setIsHelperModalOpen] = useState(false);
 
   useEffect(() => {
+    setIsHelperModalOpen(true);
     invoke<PatientReportedOutcome[]>("get_all_pros")
       .then((allPros) => {
         const sortedData = sortChartData(allPros);
@@ -208,6 +211,30 @@ const ProChart = () => {
 
   return (
     <>
+        {isHelperModalOpen && (
+        <Helper
+          title="Survey Guide"
+          content="Take your daily survey to help improve the Iris experience for hospice and healthcare patients.
+          You can view your results in the bar chart to see how much has changed for each question. Thank you for making Iris better!"
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignContent: "center",
+            }}
+          >
+            <Button
+              type="PRIMARY"
+              label="Close"
+              onClick={() => {
+                setIsHelperModalOpen(!isHelperModalOpen);
+              }}
+            />
+          </div>
+        </Helper>
+      )}
       <BackButton />
       <h1>Patient Reported Outcomes (PROs)</h1>
       <div className="container-4">

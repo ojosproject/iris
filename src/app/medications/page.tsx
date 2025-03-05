@@ -8,6 +8,7 @@ import BackButton from "../core/components/BackButton";
 import Button from "../core/components/Button";
 import ConfirmLogModal from "./components/ConfirmLogModal";
 import { timestampToString } from "../core/helper";
+import Helper from "../core/components/helper_screen";
 
 const MedicationsView = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -24,6 +25,7 @@ const MedicationsView = () => {
   const [isConfirmLogModalOpen, setIsConfirmLogModalOpen] = useState(false);
   const [medications, setMedications] = useState<Medication[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isHelperModalOpen, setIsHelperModalOpen] = useState(false);
   const handleAddMedicationClick = () => {
     setIsNewMedModelOpen(true);
   };
@@ -35,6 +37,7 @@ const MedicationsView = () => {
   );
 
   useEffect(() => {
+    setIsHelperModalOpen(true);
     invoke("get_medications")
       .then((m) => {
         setMedications(m as Medication[]);
@@ -75,6 +78,32 @@ const MedicationsView = () => {
 
   return (
     <>
+    {isHelperModalOpen && (
+        <Helper
+          title="Medication Guide"
+          content="Add new medication with the add medication button.
+          Please enter medication name, dosage, measurement type, and supply amount. 
+          Log medication by pressing the log button and view medication information by pressing view. 
+          Search for any medication in the search bar."
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignContent: "center",
+            }}
+          >
+            <Button
+              type="PRIMARY"
+              label="Close"
+              onClick={() => {
+                setIsHelperModalOpen(!isHelperModalOpen);
+              }}
+            />
+          </div>
+        </Helper>
+      )}
       <BackButton />
       <div className={styles.container}>
         <h1>Your Medications</h1>
