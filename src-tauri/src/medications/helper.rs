@@ -5,6 +5,7 @@
 #![allow(dead_code)]
 use std::time::{SystemTime, UNIX_EPOCH};
 
+use crate::core::relay::relay;
 use crate::medications::structs::{Medication, MedicationLog};
 use chrono::{Local, NaiveTime};
 use itertools::Itertools;
@@ -119,9 +120,18 @@ impl Medication {
         )
         .unwrap();
 
-        self.set_upcoming_dose(app);
+        self.set_upcoming_dose(app.clone());
         //updates the medication's upcoming_dose such that every time a patient logs that they've taken a medication,
         //the next time they need to take that medication will be calculated and stored in the database
+
+        let relay_message = format!(
+            "Your loved one took {} of {} at {}!",
+            self.dosage, self.name, current_timestamp
+        );
+        relay(&relay_message, app.clone());
+        // sends a relay that a medication was taken once it was successfully
+        // logged. Ideally, we could say the patient's actual name instead
+        // of "your loved one"
 
         self.last_taken
             .expect("Last taken was not found even though it was set...")
