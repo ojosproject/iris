@@ -8,10 +8,11 @@ import { invoke } from "@tauri-apps/api/core";
 import Button from "@/app/core/components/Button";
 import Dialog from "@/app/core/components/Dialog";
 import useKeyPress from "@/app/accessibility/keyboard_nav";
+import { ProQuestion } from "../types";
 
 export default function Survey() {
   const [isModalOpen, setModalOpen] = useState(false);
-  const [questions, setQuestions] = useState<string[]>([]);
+  const [questions, setQuestions] = useState<ProQuestion[]>([]);
   const [surveyResults, setSurveyResults] = useState<
     (string | number)[][] | null
   >(null);
@@ -23,7 +24,7 @@ export default function Survey() {
 
   useEffect(() => {
     invoke("get_pro_questions").then((questions) => {
-      setQuestions(questions as string[]);
+      setQuestions(questions as ProQuestion[]);
     });
   }, []);
 

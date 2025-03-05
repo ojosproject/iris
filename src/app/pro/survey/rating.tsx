@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import "./survey.css";
 import Button from "@/app/core/components/Button";
 import Dialog from "@/app/core/components/Dialog";
+import { ProQuestion } from "../types";
 
 interface RatingProps {
   className?: string;
   count: number;
   size: number;
   onSubmit: (responses: (string | number)[][]) => void;
-  questions: string[];
+  questions: ProQuestion[];
 }
 
 const FullCircle = ({
@@ -136,7 +137,7 @@ const SurveyPage: React.FC<RatingProps> = ({
                   <div
                     key={i}
                     style={{ cursor: "pointer" }}
-                    onClick={() => handleRatingChange(index, i)} 
+                    onClick={() => handleRatingChange(index, i)}
                   >
                     {isSelected ? (
                       <FullCircle size={size} number={i + 1} />
@@ -152,32 +153,31 @@ const SurveyPage: React.FC<RatingProps> = ({
         </div>
       ))}
       <Button type="PRIMARY" label="Submit Survey" onClick={handleSubmit} />
-      {isModalOpen && ( 
-      <Dialog 
-        title="Unanswered Questions"
-        content="Please answer all questions below"
-      >
-      <ul className="modal-content">
-        {modalContent.map((question, index) => (
-          <div key={index} className="container-4">
-            <p>
-              <strong style={{ marginRight: "5px" }}>
-                {questions.indexOf(question) + 1}.
-              </strong>
-              {question}
-            </p>
+      {isModalOpen && (
+        <Dialog
+          title="Unanswered Questions"
+          content="Please answer all questions below"
+        >
+          <ul className="modal-content">
+            {modalContent.map((question, index) => (
+              <div key={index} className="container-4">
+                <p>
+                  <strong style={{ marginRight: "5px" }}>
+                    {questions.indexOf(question) + 1}.
+                  </strong>
+                  {question}
+                </p>
+              </div>
+            ))}
+          </ul>
+          <div className="container-sidebyside">
+            <Button
+              type="PRIMARY"
+              label="Continue Survey"
+              onClick={handleGoBack}
+            />
           </div>
-        ))}
-      </ul>
-      <div className="container-sidebyside">
-          <Button
-            type="PRIMARY"
-            label="Continue Survey"
-            onClick={handleGoBack}
-          />
-        </div>
-
-      </Dialog>
+        </Dialog>
       )}
     </div>
   );

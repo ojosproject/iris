@@ -4,3 +4,14 @@ export type PatientReportedOutcome = {
   question: string;
   response: number;
 };
+
+export type ProQuestion = {
+  id: string;
+  group: string;
+  category: string;
+  question_type: string;
+  lowest_ranking?: number;
+  highest_ranking?: number;
+  lowest_label?: string;
+  highest_label?: string;
+};

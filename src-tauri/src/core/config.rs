@@ -21,16 +21,6 @@ pub fn set_resources_last_call(app: AppHandle, value: i64) {
     fs::write(app_config_dir.join("config.json"), config_string).unwrap();
 }
 
-pub fn add_pro_question(app: AppHandle, question: String) {
-    let app_config_dir = app.path().app_config_dir().unwrap();
-
-    let mut config = get_config(app.app_handle());
-    config.pro_questions.push(question);
-    let config_string = serde_json::to_string(&config).unwrap();
-
-    fs::write(app_config_dir.join("config.json"), config_string).unwrap();
-}
-
 pub fn set_onboarding_completed(app: AppHandle, value: bool) {
     let app_config_dir = app.path().app_config_dir().unwrap();
 
@@ -51,30 +41,6 @@ pub fn get_config(app: &AppHandle) -> Config {
                     resources_last_call: 0,
                     onboarding_completed: false,
                     contacts: vec![],
-                    pro_questions: vec![
-                        "During the past 4 weeks, how much of the time have you had any of the
-following problems with your work or other regular daily activities as a
-result of your physical health?"
-                            .to_string(),
-                        "During the past 4 weeks, how much of the time have you had any of the
-following problems with your work or other regular daily activities as a
-result of any emotional problems (such as feeling depressed or anxious)?"
-                            .to_string(),
-                        "During the past 4 weeks, to what extent has your physical health or
-emotional problems interfered with your normal social activities with
-family, friends, neighbors, or groups?"
-                            .to_string(),
-                        "How much bodily pain have you had during the past 4 weeks?".to_string(),
-                        "During the past 4 weeks, how much did pain interfere with your normal
-work (including both work outside the home and housework)?"
-                            .to_string(),
-                        "Compared to one year ago, how would you rate your health in general
-now?"
-                            .to_string(),
-                        "Please rate your ability to carry a shopping bag or briefcase".to_string(),
-                        "Please rate your ability to wash your back".to_string(),
-                        "Please rate your ability to use a knife to cut food".to_string(),
-                    ],
                 };
                 if !app_data_dir.exists() {
                     fs::create_dir(&app_data_dir).unwrap();

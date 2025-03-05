@@ -34,7 +34,6 @@ fn main() {
             care_instructions::commands::delete_care_instructions,
             pro::commands::add_pros,
             pro::commands::get_all_pros,
-            pro::commands::add_pro_question,
             pro::commands::get_pro_questions,
             resources::commands::get_resources,
             call::commands::open_recordings_folder
