@@ -69,18 +69,11 @@
 }
 
 .modal-content {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 10%;
-  background: white;
   padding: 3%;
   border-radius: 8px;
   height: 60dvh;
-  width: 80dvw;
-  align-items: center;
-  text-align: center;
-  overflow-y: auto;
+  width: 100%;
+  overflow-y: scroll;
 }
 
 .modal-content button {

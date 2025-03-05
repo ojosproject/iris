@@ -10,6 +10,7 @@ import ChartDataLabels from "chartjs-plugin-datalabels";
 import BackButton from "../core/components/BackButton";
 import ForwardButton from "../core/components/ForwardButton";
 import { PatientReportedOutcome } from "./types";
+import useKeyPress from "../accessibility/keyboard_nav";
 
 interface ChartData {
   [question: string]: [response: number, recorded_date: Date][];
@@ -22,6 +23,16 @@ const ProChart = () => {
   const router = useRouter();
   const [isSurveyTaken, setIsSurveyTaken] = useState<boolean>(false);
 
+  useKeyPress("Escape", () => {
+    router.back();
+  });
+
+  useKeyPress("Enter", () => {
+    if (!isSurveyTaken) {
+      router.push("./pro/survey");
+    }
+  });
+  
   useEffect(() => {
     invoke<PatientReportedOutcome[]>("get_all_pros")
       .then((allPros) => {
@@ -214,7 +225,7 @@ const ProChart = () => {
         {isSurveyTaken ? (
           <p>The survey has already been taken today</p>
         ) : (
-          <p>Please take the survey</p>
+          <p>Please take the survey for today</p>
         )}
         <Button
           type="PRIMARY"

@@ -7,6 +7,7 @@ import BackButton from "@/app/core/components/BackButton";
 import { invoke } from "@tauri-apps/api/core";
 import Button from "@/app/core/components/Button";
 import Dialog from "@/app/core/components/Dialog";
+import useKeyPress from "@/app/accessibility/keyboard_nav";
 
 export default function Survey() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -15,6 +16,10 @@ export default function Survey() {
     (string | number)[][] | null
   >(null);
   const router = useRouter();
+
+  useKeyPress("Escape", () => {
+    router.back();
+  });
 
   useEffect(() => {
     invoke("get_pro_questions").then((questions) => {
@@ -53,16 +58,14 @@ export default function Survey() {
 
       {isModalOpen && (
         <Dialog
-        title="Thank You!"
-        content="You have completed your survey for today."
+          title="Thank you!"
+          content="You have completed your survey for today"
         >
-        <Button
-              type="PRIMARY"
-              label="Back to Pros"
-              onClick={() => {
-                router.back();
-              }}
-            />
+          <Button
+            type="PRIMARY"
+            label="Return to Pros"
+            onClick={handleGoBack}
+          />
         </Dialog>
       )}
     </div>

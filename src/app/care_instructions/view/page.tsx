@@ -10,6 +10,8 @@ import { invoke } from "@tauri-apps/api/core";
 import { CareInstruction } from "../types";
 import { timestampToString } from "@/app/core/helper";
 import Dialog from "@/app/core/components/Dialog";
+import useKeyPress from "@/app/accessibility/keyboard_nav";
+
 
 function EditInstructions() {
   // Params get passed from AllCareInstructions.tsx
@@ -26,6 +28,29 @@ function EditInstructions() {
   const [previousTopic, setPreviousTopic] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const router = useRouter();
+
+  useKeyPress("Escape", () => {
+    if (onEditMode) {
+      if (title.trim() === "" && content.trim() === "") {
+        setOnEditMode(false);
+        router.back();
+      } else {
+        setOnEditMode(false);
+      }
+    } else if (modalOpen) {
+      setModalOpen(false);
+    } else {
+      router.back();
+    }
+  });
+  
+
+  useKeyPress("Enter", () => {
+    if (onEditMode && title.trim() !== "" && content.trim() !== "") {
+      handleOnSaveClick();
+    }
+  });  
+  
 
   function fetchInformation(fetch_id: string) {
     invoke("get_single_care_instruction", { id: fetch_id })

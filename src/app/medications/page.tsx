@@ -8,6 +8,8 @@ import BackButton from "../core/components/BackButton";
 import Button from "../core/components/Button";
 import ConfirmLogModal from "./components/ConfirmLogModal";
 import { timestampToString } from "../core/helper";
+import useKeyPress from "../accessibility/keyboard_nav";
+import { useRouter } from "next/navigation";
 
 const MedicationsView = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -24,6 +26,18 @@ const MedicationsView = () => {
   const [isConfirmLogModalOpen, setIsConfirmLogModalOpen] = useState(false);
   const [medications, setMedications] = useState<Medication[]>([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
+
+  useKeyPress("Escape", () => {
+    if (isNewMedModalOpen) {
+      setIsNewMedModelOpen(false);
+    } else if (isConfirmLogModalOpen) {
+      setIsConfirmLogModalOpen(false);
+    } else {
+      router.back();
+    }
+  });
+
   const handleAddMedicationClick = () => {
     setIsNewMedModelOpen(true);
   };
@@ -72,6 +86,7 @@ const MedicationsView = () => {
     setMedications([...medications, newMedication]);
     setIsNewMedModelOpen(false);
   };
+
 
   return (
     <>

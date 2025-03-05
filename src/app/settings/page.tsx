@@ -12,6 +12,8 @@ import Button from "../core/components/Button";
 import { parse_phone_number } from "../core/helper";
 import Dialog from "../core/components/Dialog";
 import { invoke } from "@tauri-apps/api/core";
+import useKeyPress from "../accessibility/keyboard_nav";
+import { useRouter } from "next/navigation";
 
 type SectionProps = {
   children: ReactElement;
@@ -49,6 +51,7 @@ export default function Settings() {
   const [displayNumberDialog, setDisplayNumberDialog] = useState(false);
   const [relayActivated, setRelayActivated] = useState(false);
   const [newNumber, setNewNumber] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     invoke("get_config").then((c) => {
@@ -63,6 +66,37 @@ export default function Settings() {
     invoke("set_config", { config: newConfig });
     setConfig(newConfig);
   }
+
+  useKeyPress("Escape", () => {
+    if (displayDialog) {
+      setDisplayDialog(false);
+      setRelayActivated(false);
+    } else if (displayNumberDialog) {
+      setDisplayNumberDialog(false);
+    } else {
+      router.back();
+    }
+  });
+
+
+  useKeyPress("Enter", () => {
+    if (displayNumberDialog && newNumber.length >= 10 && config) {
+      setDisplayNumberDialog(false);
+      if (!config.contacts.some(contact => contact.value === newNumber)) {
+        commitConfig({
+          onboarding_completed: config.onboarding_completed,
+          resources_last_call: config.resources_last_call,
+          contacts: [
+            ...config.contacts,
+            { method: "SMS", value: newNumber },
+          ],
+          pro_questions: config.pro_questions,
+        });
+      }
+      setNewNumber("");
+    }
+  });
+  
 
   function RelaySection() {
     return (

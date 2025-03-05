@@ -2,9 +2,10 @@
 // Ojos Project
 //
 // A popup that appears to create a new medication.
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Medication } from "../types";
 import styles from "./NewMedicationModal.module.css";
+import useKeyPress from "@/app/accessibility/keyboard_nav";
 
 interface NewMedicationModalProps {
   isOpen: boolean;
@@ -26,7 +27,14 @@ const NewMedicationModal: React.FC<NewMedicationModalProps> = ({
   // Set timestamp to 0 by default
   //const [timestamp, setTimestamp] = useState(Date.now());
 
+  const isFormValid =
+    medicationName.trim() !== "" &&
+    medicationDosage > 0 &&
+    medicationSupply > 0;
+
   const handleSubmit = () => {
+    if (!isFormValid) return;
+
     onSubmit({
       name: medicationName,
       dosage: medicationDosage,
@@ -34,9 +42,11 @@ const NewMedicationModal: React.FC<NewMedicationModalProps> = ({
       supply: medicationSupply,
       measurement: medicationMeasurement,
       nurse_id: medicationNurseId,
-    } as Medication);
-    onClose();
+      total_prescribed: 0,
+      first_added: 0
+    });
 
+    onClose();
     setMedicationName("");
     setMedicationDosage(0);
     setMedicationFrequency(0);
@@ -45,11 +55,18 @@ const NewMedicationModal: React.FC<NewMedicationModalProps> = ({
     setMedicationNurseId("");
   };
 
+  useKeyPress("Enter", (event) => {
+    if (isOpen && isFormValid) {
+      event.preventDefault();
+      handleSubmit();
+    }
+  });
+
   if (!isOpen) return null;
 
   return (
     <div className={styles.modal}>
-      <div className={styles.modalContent}>
+      <div className={styles.modalContent} id="new-medication-form">
         <h2>Add New Medication</h2>
         <label>
           Medication Name:
