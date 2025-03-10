@@ -7,7 +7,6 @@ export type PatientReportedOutcome = {
 
 export type ProQuestion = {
   id: string;
-  group: string;
   category: string;
   question: string;
   question_type: string;
