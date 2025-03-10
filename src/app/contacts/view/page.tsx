@@ -11,6 +11,7 @@ import { invoke } from "@tauri-apps/api/core";
 import { Contact } from "../types";
 import { timestampToString } from "@/app/core/helper";
 import Dialog from "@/app/core/components/Dialog";
+import ToastDialog from "@/app/core/components/ToastDialog";
 
 function EditContacts() {
   // If `id` is empty, you're creating a contact
@@ -25,6 +26,9 @@ function EditContacts() {
   const [lastUpdated, setLastUpdated] = useState(0);
   const [onEditMode, setOnEditMode] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [saveMessage, setSaveMessage] = useState(false);
+  const [justSaved, setJustSaved] = useState(false);
+
   const router = useRouter();
 
   function fetchInformation(fetch_id: string) {
@@ -69,111 +73,104 @@ function EditContacts() {
       company: company,
       email: email,
     }).then((i) => {
-      setOnEditMode(false);
+      //setOnEditMode(false);
       setId((i as Contact).id);
       setName((i as Contact).name);
       setPhoneNumber((i as Contact).phone_number ?? "");
       setCompany((i as Contact).company ?? "");
       setEmail((i as Contact).email ?? "");
 
-      router.replace(`/contacts/view/?id=${id}`);   
+      setJustSaved(true);
+      setSaveMessage(true);
+
+      // Hide the pop-up after 2 seconds
+      setTimeout(() => {
+        setSaveMessage(false);
+        setJustSaved(false);
+        router.back();
+      }, 2000);
     });
   }
   return (
     <div className={classes.contacts_container}>
       <div className={classes.back_button}>
-        <BackButton />
+        <BackButton disabled={justSaved} />
       </div>
 
-      <h1 className={classes.contact_name}>Add Contact</h1>
+      {saveMessage && (
+        <ToastDialog title="Contact saved successfully!" content="">
+          <></>
+        </ToastDialog>
+      )}
+
+      {/* {saveMessage && (
+        <div className={classes.save_message}>
+          <p>Contact saved successfully!</p>
+        </div>
+      )} */}
+
+      <h1 className={classes.contact_name}>Add/Edit Contact</h1>
 
       <div className={classes.input_container}>
-        {
-          onEditMode ? (
-            <>
-              <div className={classes.input_group}>
-                <label>Name</label>
-                <input
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Name"
-                  className={classes.input_fields}
-                  type="text"
-                />
-              </div>
-              <div className={classes.input_group}>
-                <label>Phone Number</label>
-                <input
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                  placeholder="(123)-456-7890 (optional)"
-                  className={classes.input_fields}
-                  type="tel"
-                />
-              </div>
-              <div className={classes.input_group}>
-                <label>Email</label>
-                <input
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="email@email.com (optional)"
-                  className={classes.input_fields}
-                  type="email"
-                />
-              </div>
-              <div className={classes.input_group}>
-                <label>Company</label>
-                <input
-                  value={company}
-                  onChange={(e) => setCompany(e.target.value)}
-                  placeholder="Individual's employer (optional)"
-                  className={classes.input_fields}
-                  type="text"
-                />
-              </div>
+        {onEditMode ? (
+          <>
+            <div className={classes.input_group}>
+              <label>Name</label>
+              <input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Name"
+                className={classes.input_fields}
+                type="text"
+              />
+            </div>
+            <div className={classes.input_group}>
+              <label>Phone Number</label>
+              <input
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                placeholder="(123)-456-7890 (optional)"
+                className={classes.input_fields}
+                type="tel"
+              />
+            </div>
+            <div className={classes.input_group}>
+              <label>Email</label>
+              <input
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="email@email.com (optional)"
+                className={classes.input_fields}
+                type="email"
+              />
+            </div>
+            <div className={classes.input_group}>
+              <label>Company</label>
+              <input
+                value={company}
+                onChange={(e) => setCompany(e.target.value)}
+                placeholder="Individual's employer (optional)"
+                className={classes.input_fields}
+                type="text"
+              />
+            </div>
 
-              <div className={classes.button_row}>
-                <Button
-                  type="SECONDARY"
-                  label="Cancel"
-                  onClick={() => router.back()}
-                />
-                <Button
-                  type="PRIMARY"
-                  label="Add"
-                  onClick={handleOnSaveClick}
-                  disabled={name === ""}
-                />
-              </div>
-            </>
-          ) : null
-          // (
-          //     <>
-          //         {!(id === previousTopic && id === nextTopic) ? (
-          //         <div className={classes.topics_button}>
-          //             <Button
-          //             type="SECONDARY"
-          //             label="Previous Topic"
-          //             onClick={() => {
-          //                 fetchInformation(previousTopic);
-          //             }}
-          //             />
-          //             <Button
-          //             type="SECONDARY"
-          //             label="Next Topic"
-          //             onClick={() => {
-          //                 fetchInformation(nextTopic);
-          //             }}
-          //             />
-          //         </div>
-          //         ) : null}
-          //         <h2>{title}</h2>
-          //         {content.split("\n").map((line) => {
-          //         return <p key={line}>{line}</p>;
-          //         })}
-          //     </>
-          // )
-        }
+            <div className={classes.button_row}>
+              <Button
+                type="SECONDARY"
+                label="Cancel"
+                onClick={() => router.back()}
+                disabled={justSaved}
+              />
+              <Button
+                type="PRIMARY"
+                label="Add"
+                onClick={handleOnSaveClick}
+                disabled={name === "" || justSaved}
+              />
+            </div>
+          </>
+        ) : null}
         {modalOpen && (
           <Dialog
             title="Are you sure?"
