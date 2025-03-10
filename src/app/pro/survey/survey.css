@@ -35,11 +35,7 @@
   justify-content: space-between;
   padding: 10px;
   margin: auto;
-}
-
-.rating-options {
-  display: flex;
-  gap: 10px; /* Adjust spacing between circles */
+  width: 100%;
 }
 
 .rating-label {
@@ -117,7 +113,6 @@
 
 .rating-options {
   display: flex;
-  justify-content: center;
-  gap: 12px;
+  justify-content: space-around;
   width: 100%;
 }

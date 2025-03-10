@@ -49,7 +49,6 @@ export default function Survey() {
         <h1 className="text-align-center">Today's Survey</h1>
         <div className="container">
           <SurveyPage
-            count={10}
             size={40}
             questions={questions}
             onSubmit={handleSurveySubmit}
