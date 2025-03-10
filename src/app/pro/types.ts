@@ -9,6 +9,7 @@ export type ProQuestion = {
   id: string;
   group: string;
   category: string;
+  question: string;
   question_type: string;
   lowest_ranking?: number;
   highest_ranking?: number;
