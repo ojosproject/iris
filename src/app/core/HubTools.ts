@@ -1,6 +1,6 @@
-import { HubAppProps } from "./hub/HubApp";
+import { HubToolProps } from "./hub/HubTool";
 
-export const HubApps: HubAppProps[] = [
+export const HubTools: HubToolProps[] = [
   {
     link: "./resources",
     name: "Resources",
@@ -16,7 +16,7 @@ export const HubApps: HubAppProps[] = [
   {
     link: "./pro",
     name: "Survey",
-    icon: "/images/icon_survey.png"
+    icon: "/images/icon_survey.png",
   },
   {
     link: "./medications",
