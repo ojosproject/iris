@@ -12,9 +12,12 @@ h1 {
 
 .container-2 {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   gap: 20px;
-  padding: 5%;
+}
+
+.chart-container {
+  flex: 1; /* Allows the chart to take up more space */
 }
 
 .box {
@@ -38,10 +41,16 @@ h1 {
   gap: 15px;
 }
 
+.button-sections {
+  display: flex;
+  flex-direction: column; /* Stack sections vertically */
+  gap: 20px; /* Space between button sections */
+}
+
 .container-4 {
-  display: grid;
+  display: flex;
+  flex-direction: column; /* Stack buttons vertically */
   justify-content: center;
-  text-align: center;
-  margin: auto;
-  width: 50%;
+  align-items: center;
+  width: 100%;
 }
