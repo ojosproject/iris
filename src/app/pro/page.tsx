@@ -22,6 +22,7 @@ const ProChart = () => {
   const [currentWeek, setCurrentWeek] = useState(0);
   const router = useRouter();
   const [isSurveyTaken, setIsSurveyTaken] = useState<boolean>(false);
+  const MINIMUM_BUTTON_WIDTH = 225;
 
   useKeyPress("Escape", () => {
     router.back();
@@ -251,12 +252,14 @@ const ProChart = () => {
             label="Previous Week"
             onClick={handlePrevWeek}
             disabled={currentWeek <= getOldestWeek}
+            style={{minWidth: MINIMUM_BUTTON_WIDTH}}
           />
           <Button
             type="SECONDARY"
             label="Next Week"
             onClick={handleNextWeek}
             disabled={currentWeek >= 0}
+            style={{minWidth: MINIMUM_BUTTON_WIDTH}}
           />
         </div>
 
@@ -266,12 +269,14 @@ const ProChart = () => {
             label="Previous Question"
             onClick={handlePrevQuestion}
             disabled={currentQuestionIndex === 0}
+            style={{minWidth: MINIMUM_BUTTON_WIDTH}}
           />
           <Button
             type="SECONDARY"
             label="Next Question"
             onClick={handleNextQuestion}
             disabled={currentQuestionIndex === questionKeys.length - 1}
+            style={{minWidth: MINIMUM_BUTTON_WIDTH}}
           />
         </div>
 
@@ -286,6 +291,7 @@ const ProChart = () => {
             label="Take Today's Survey"
             onClick={() => router.push("./pro/survey")}
             disabled={isSurveyTaken}
+            style={{minWidth: MINIMUM_BUTTON_WIDTH}}
           />
         </div>
       </div>
