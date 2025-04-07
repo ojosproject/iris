@@ -143,8 +143,9 @@ impl Medication {
         let readable_time = chrono::DateTime::from_timestamp(current_timestamp as i64, 0)
             .expect("FAILED TO CONVERT UNIX TIMESTAMP TO DATETIME");
         let relay_message = format!(
-            "Your loved one took {} of {} at {}:{}!",
+            "Your loved one took {} {} of {} at {}:{}!",
             self.dosage,
+            self.measurement,
             self.name,
             readable_time.hour12().1, // currently the hour being returned is incorrect, likely due to how current_timestamp is calculated
             readable_time.minute()
