@@ -54,3 +54,9 @@ h1 {
   align-items: center;
   width: 100%;
 }
+
+/* #zoom-container {
+  transform: scale(1);
+  transition: transform 0.3s;
+  transform-origin: top left;
+} */

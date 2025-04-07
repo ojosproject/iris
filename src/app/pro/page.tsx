@@ -22,6 +22,7 @@ const ProChart = () => {
   const [currentWeek, setCurrentWeek] = useState(0);
   const router = useRouter();
   const [isSurveyTaken, setIsSurveyTaken] = useState<boolean>(false);
+  // let scale = 1;
 
   useKeyPress("Escape", () => {
     router.back();
@@ -32,6 +33,16 @@ const ProChart = () => {
       router.push("./pro/survey");
     }
   });
+
+  // function zoomIn() {
+  //   scale += 0.1;
+  //   document.getElementById("zoom-container")!.style.transform = `scale(${scale})`;
+  // }
+
+  // function zoomOut() {
+  //   scale = Math.max(0.1, scale - 0.1);
+  //   document.getElementById("zoom-container")!.style.transform = `scale(${scale})`;
+  // }
   
   useEffect(() => {
     invoke<PatientReportedOutcome[]>("get_all_pros")
@@ -120,8 +131,6 @@ const ProChart = () => {
       return data ? data[0] : null;
     });
   }, [pros, currentQuestionIndex, getWeekDates]);
-
-  console.log("DATAFOR CURENT WEEK: ", dataForCurrentWeek)
 
   useEffect(() => {
     const canvas = document.getElementById(
@@ -223,6 +232,9 @@ const ProChart = () => {
 
   return (
     <>
+    <div id="zoom-container">
+      {/* <button id="zoomIn" onClick={zoomIn}>Zoom In</button>
+      <button id="zoomOut" onClick={zoomOut}>Zoom Out</button> */}
       <BackButton />
       <h1>Patient Reported Outcomes (PROs)</h1>
 
@@ -289,6 +301,7 @@ const ProChart = () => {
           />
         </div>
       </div>
+    </div>
     </div>
     </>
   );
