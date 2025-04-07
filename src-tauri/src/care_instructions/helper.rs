@@ -3,7 +3,8 @@
 //
 // Extra care instructions provided by the caregivers for the nurses.
 use crate::care_instructions::structs::CareInstruction;
-use chrono::Local;
+use crate::core::relay::relay;
+use chrono::{Local, NaiveTime, Timelike};
 use rusqlite::{named_params, Connection};
 use tauri::{AppHandle, Manager};
 use uuid::Uuid;
@@ -30,6 +31,19 @@ pub fn add_care_instruction(
     };
 
     conn.execute("INSERT INTO care_instruction(id, title, content, frequency, added_by, last_updated) VALUES (?1, ?2, ?3, ?4, ?5, ?6)", (&ci.id, &ci.title, &ci.content, &ci.frequency, &ci.added_by, &ci.last_updated)).unwrap();
+
+    // relay a notification that a new care instruction has been added
+    let readable_time = chrono::DateTime::from_timestamp(ts as i64, 0)
+        .expect("FAILED TO CONVERT UNIX TIMESTAMP TO DATETIME");
+    let relay_message = format!(
+        "A new care instruction was added for your loved one at {}:{}!",
+        readable_time.hour12().1, // currently the hour being returned is incorrect, likely due to how current_timestamp is calculated
+        readable_time.minute()
+    );
+    relay(&relay_message, &app);
+
+    //todo: make relay messages sound better...
+
     ci
 }
 

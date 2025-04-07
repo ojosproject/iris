@@ -7,7 +7,7 @@ use std::time::{SystemTime, UNIX_EPOCH};
 
 use crate::core::relay::relay;
 use crate::medications::structs::{Medication, MedicationLog};
-use chrono::{Local, NaiveTime};
+use chrono::{Local, NaiveTime, Timelike};
 use itertools::Itertools;
 use rusqlite::{named_params, Connection};
 use tauri::{AppHandle, Manager};
@@ -64,6 +64,21 @@ impl Medication {
                 &m.nurse_id
             ),
         ).unwrap();
+
+        // relay a notification that a new medication has been added
+        let readable_time = chrono::DateTime::from_timestamp(m.first_added as i64, 0)
+            .expect("FAILED TO CONVERT UNIX TIMESTAMP TO DATETIME");
+        let relay_message = format!(
+            "Your loved one added a new medication: {} with a {} {} dosage at {}:{}!",
+            m.name,
+            m.dosage,
+            m.measurement,
+            readable_time.hour12().1, // currently the hour being returned is incorrect, likely due to how current_timestamp is calculated
+            readable_time.minute()
+        );
+        relay(&relay_message, &app);
+
+        //todo: make relay messages sound better...
 
         m
     }
@@ -122,16 +137,19 @@ impl Medication {
 
         self.set_upcoming_dose(app.clone());
         //updates the medication's upcoming_dose such that every time a patient logs that they've taken a medication,
-        //the next time they need to take that medication will be calculated and stored in the database
+        //the next time they need to take that medication, it will be calculated and stored in the database
 
+        // relay a notification that a medication has been logged
+        let readable_time = chrono::DateTime::from_timestamp(current_timestamp as i64, 0)
+            .expect("FAILED TO CONVERT UNIX TIMESTAMP TO DATETIME");
         let relay_message = format!(
-            "Your loved one took {} of {} at {}!",
-            self.dosage, self.name, current_timestamp
+            "Your loved one took {} of {} at {}:{}!",
+            self.dosage,
+            self.name,
+            readable_time.hour12().1, // currently the hour being returned is incorrect, likely due to how current_timestamp is calculated
+            readable_time.minute()
         );
-        relay(&relay_message, app.clone());
-        // sends a relay that a medication was taken once it was successfully
-        // logged. Ideally, we could say the patient's actual name instead
-        // of "your loved one"
+        relay(&relay_message, &app);
 
         self.last_taken
             .expect("Last taken was not found even though it was set...")

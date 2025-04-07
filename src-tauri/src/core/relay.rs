@@ -6,9 +6,9 @@ use serde::Deserialize;
 use std::collections::HashMap;
 use tauri::AppHandle;
 
-pub fn relay(body: &String, app: AppHandle) {
+pub fn relay(body: &String, app: &AppHandle) {
     let contacts = config::get_config(&app).contacts;
-    let token = _verify_device_token(app.clone());
+    let token = _verify_device_token(&app);
 
     if !token.is_empty() {
         for contact in contacts {
@@ -27,6 +27,7 @@ pub fn relay(body: &String, app: AppHandle) {
 
 pub fn send_sms(message: &String, recipient: &String, token: &String) {
     let url = format!("http://127.0.0.1:5000/iris/relay/send-sms/");
+    // the actual url will look like "https://api.ojosproject.org/iris/send-sms/"
 
     let client = Client::new();
     let mut request_map: HashMap<&str, &String> = HashMap::new();
@@ -63,10 +64,10 @@ struct TokenResponse {
 }
 
 /// Calls the server to check if the token stored on the device is expired. If
-/// there is no token on the device, if the device has never called the server,
+/// there is no token on the device (if the device has never called the server),
 /// it calls the server and generates and returns the new token
-fn _verify_device_token(app: AppHandle) -> String {
-    let mut token = config::get_api_token(app.clone());
+fn _verify_device_token(app: &AppHandle) -> String {
+    let mut token = config::get_api_token(&app);
     if token.is_empty() {
         let url = format!("http://127.0.0.1:5000/iris/auth/register/");
         let client = Client::new();

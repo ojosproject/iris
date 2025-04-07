@@ -18,7 +18,7 @@ pub fn set_resources_last_call(app: AppHandle, value: i64) {
     fs::write(app_config_dir.join("config.json"), config_string).unwrap();
 }
 
-pub fn get_api_token(app: AppHandle) -> String {
+pub fn get_api_token(app: &AppHandle) -> String {
     let config = get_config(app.app_handle());
     config.api_token
 }
