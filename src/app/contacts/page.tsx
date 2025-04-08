@@ -14,8 +14,7 @@ import Dialog from "@/app/core/components/Dialog";
 import { useRouter, useSearchParams } from "next/navigation";
 
 // TODO fix problems
-// - edit contact button doesn't work 
-// - after adding a contact, the edit contact / delete contact / resources button page shows up.
+// - edit contact button doesn't work
 // - delete multiple contacts
 
 export default function Contacts() {
@@ -23,6 +22,9 @@ export default function Contacts() {
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const router = useRouter();
+  const [selectedContactIds, setSelectedContactIds] = useState<Set<number>>(
+    new Set(),
+  );
 
   useEffect(() => {
     invoke("get_all_contacts").then((i) => {
@@ -51,6 +53,18 @@ export default function Contacts() {
     setModalOpen(valueForModal);
   }
 
+  function toggleSelectContact(id: number) {
+    setSelectedContactIds((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
+  }
+
   return (
     <div className={classes.all_contacts_layout}>
       <div className={classes.back_button}>
@@ -69,6 +83,24 @@ export default function Contacts() {
                 <div key={letter}>
                   <h2>{letter}</h2>
                   {groupedContacts[letter].map((contact) => (
+                    <div key={contact.id} className={classes.contact_item}>
+                      <input
+                        type="checkbox"
+                        checked={selectedContactIds.has(contact.id as any)}
+                        onChange={() =>
+                          toggleSelectContact(contact.id as any)
+                        }
+                      />
+                      <p
+                        className={classes.contact_name}
+                        onClick={() => setSelectedContact(contact)}
+                      >
+                        <strong>{contact.name}</strong>
+                      </p>
+                    </div>
+                  ))}
+
+                  {/* {groupedContacts[letter].map((contact) => (
                     <p
                       key={contact.id}
                       className={classes.contact_name}
@@ -76,7 +108,7 @@ export default function Contacts() {
                     >
                       <strong>{contact.name}</strong>
                     </p>
-                  ))}
+                  ))} */}
                 </div>
               ))}
           </div>
@@ -101,9 +133,15 @@ export default function Contacts() {
                         label="Delete"
                         onClick={() => {
                           isModalOpen(false);
-                          invoke("delete_contact", { id: selectedContact.id }).then(() => {
-                            setContacts(contacts.filter((c) => c.id !== selectedContact.id));
-                            setSelectedContact(null)
+                          invoke("delete_contact", {
+                            id: selectedContact.id,
+                          }).then(() => {
+                            setContacts(
+                              contacts.filter(
+                                (c) => c.id !== selectedContact.id,
+                              ),
+                            );
+                            setSelectedContact(null);
                           });
                         }}
                       />
@@ -154,6 +192,25 @@ export default function Contacts() {
             )}
           </div>
           <div></div>
+        </div>
+      )}
+      {selectedContactIds.size > 0 && (
+        <div className={classes.delete_selected_container}>
+          <Button
+            type="DANGER-PRIMARY"
+            label={`Delete Selected (${selectedContactIds.size})`}
+            onClick={async () => {
+              const idsToDelete = Array.from(selectedContactIds);
+              for (const id of idsToDelete) {
+                await invoke("delete_contact", { id });
+              }
+              setContacts((prev) =>
+                prev.filter((c) => !selectedContactIds.has(c.id as any)),
+              );
+              setSelectedContactIds(new Set());
+              setSelectedContact(null);
+            }}
+          />
         </div>
       )}
 

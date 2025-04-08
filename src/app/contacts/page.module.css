@@ -77,3 +77,13 @@ Ojos Project
 .placeholder {
   font-style: italic;
 }
+
+.contact_item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.delete_selected_container {
+  margin: 1rem 0;
+  text-align: center;
+}
