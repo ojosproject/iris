@@ -88,7 +88,7 @@ function EditContacts() {
         setSaveMessage(false);
         setJustSaved(false);
         router.back();
-      }, 2000);
+      }, 1500);
     });
   }
   return (

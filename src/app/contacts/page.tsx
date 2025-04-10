@@ -199,19 +199,49 @@ export default function Contacts() {
           <Button
             type="DANGER-PRIMARY"
             label={`Delete Selected (${selectedContactIds.size})`}
-            onClick={async () => {
-              const idsToDelete = Array.from(selectedContactIds);
-              for (const id of idsToDelete) {
-                await invoke("delete_contact", { id });
-              }
-              setContacts((prev) =>
-                prev.filter((c) => !selectedContactIds.has(c.id as any)),
-              );
-              setSelectedContactIds(new Set());
-              setSelectedContact(null);
-            }}
+            onClick={() => setModalOpen(true)}
           />
         </div>
+      )}
+
+      {modalOpen && (
+        <Dialog
+          title="Are you sure?"
+          content={"Deleted contacts cannot be recovered."}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignContent: "center",
+            }}
+          >
+            <Button
+              type="DANGER-PRIMARY"
+              label="Delete"
+              onClick={async () => {
+                isModalOpen(false);
+                const idsToDelete = Array.from(selectedContactIds);
+                for (const id of idsToDelete) {
+                  await invoke("delete_contact", { id });
+                }
+                setContacts((prev) =>
+                  prev.filter((c) => !selectedContactIds.has(c.id as any)),
+                );
+                setSelectedContactIds(new Set());
+                setSelectedContact(null);
+              }}
+            />
+            <Button
+              type="SECONDARY"
+              label="Never mind"
+              onClick={() => {
+                isModalOpen(false);
+              }}
+            />
+          </div>
+        </Dialog>
       )}
 
       <div className={classes.button_menu_container}>
