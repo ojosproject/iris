@@ -85,6 +85,18 @@ pub fn get_nurse_info(app: AppHandle, nurse_id: String) -> User {
     user::get_user(app, nurse_id)
 }
 
+/// # `import_data_pack` Command
+/// Opens a file picker and imports a Data Pack JSON file. Results a Result of
+/// either a `DataPackReceipt` or a string error.
+/// 
+/// ## TypeScript Usage
+/// ```typescript
+/// invoke<DataPackReceipt>('import_data_pack').then(r => {
+///     setDataPackReceipt(r);
+/// }).catch(e => {
+///     console.log(e);
+/// });
+/// ```
 #[tauri::command]
 pub async fn import_data_pack(app: AppHandle) -> Result<DataPackReceipt, String> {
     let file_path = app
