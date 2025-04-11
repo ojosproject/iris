@@ -11,6 +11,7 @@ use tauri::Manager;
 
 fn main() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_os::init())
         .plugin(tauri_plugin_fs::init())
         .invoke_handler(tauri::generate_handler![
@@ -23,6 +24,7 @@ fn main() {
             core::commands::get_patient_info,
             core::commands::get_config,
             core::commands::set_config,
+            core::commands::import_data_pack,
             core::commands::complete_onboarding,
             core::commands::get_nurse_info,
             core::commands::create_user,
