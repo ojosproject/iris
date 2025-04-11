@@ -25,12 +25,11 @@ export function timestampToString(
     return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
   } else if (format === "HH:MM XX") {
     let hours = d.getHours();
-    hours = hours < 12 ? hours : hours - 12;
+    hours = hours <= 12 ? hours : hours - 12;
     let minutes: string | number = d.getMinutes();
     minutes = minutes > 9 ? `${minutes}` : `0${minutes}`;
-    let am_pm = d.getHours() > 12 ? "PM" : "AM";
-
-    return `${hours}:${minutes} ${am_pm}`;
+    let am_pm = d.getHours() >= 12 ? "PM" : "AM";
+    return `${hours === 0 ? 12 : hours}:${minutes} ${am_pm}`;
   }
 
   return ``;
