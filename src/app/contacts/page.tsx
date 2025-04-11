@@ -10,13 +10,11 @@ import BackButton from "../core/components/BackButton";
 import classes from "./page.module.css";
 import Button from "../core/components/Button";
 import Dialog from "@/app/core/components/Dialog";
-import { useRouter, useSearchParams } from "next/navigation";
 
 export default function Contacts() {
   const [contacts, setContacts] = useState([] as Contact[]);
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const router = useRouter();
   const [selectedContactIds, setSelectedContactIds] = useState<Set<number>>(
     new Set(),
   );
@@ -39,7 +37,6 @@ export default function Contacts() {
   );
 
   function isModalOpen(valueForModal: boolean) {
-    console.log("CLICKED DELETE");
     if (valueForModal === false) {
       document.body.style.overflow = "";
     } else {
@@ -86,7 +83,9 @@ export default function Contacts() {
                       />
                       <p
                         className={classes.contact_name}
-                        onClick={() => setSelectedContact(contact)}
+                        onClick={() => {
+                          setSelectedContact(contact);
+                        }}
                       >
                         <strong>{contact.name}</strong>
                       </p>
@@ -98,50 +97,6 @@ export default function Contacts() {
           <div className={classes.contact_details}>
             {selectedContact ? (
               <>
-                {modalOpen && (
-                  <Dialog
-                    title="Are you sure?"
-                    content={"Deleted contacts cannot be recovered."}
-                  >
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "center",
-                        alignContent: "center",
-                      }}
-                    >
-                      <Button
-                        type="DANGER-PRIMARY"
-                        label="Delete"
-                        onClick={() => {
-                          isModalOpen(false);
-                          invoke("delete_contact", {
-                            id: selectedContact.id,
-                          })
-                            .then(() => {
-                              setContacts(
-                                contacts.filter(
-                                  (c) => c.id !== selectedContact.id,
-                                ),
-                              );
-                              setSelectedContact(null);
-                            })
-                            .catch((e) => {
-                              console.log(e);
-                            });
-                        }}
-                      />
-                      <Button
-                        type="SECONDARY"
-                        label="Never mind"
-                        onClick={() => {
-                          isModalOpen(false);
-                        }}
-                      />
-                    </div>
-                  </Dialog>
-                )}
                 <h2>{selectedContact.name}</h2>
                 <p>
                   <strong>Phone Number:</strong>{" "}
@@ -158,7 +113,6 @@ export default function Contacts() {
                     type="DANGER-SECONDARY"
                     label="Delete"
                     onClick={() => {
-                      console.log("Delete contact");
                       setModalOpen(true);
                     }}
                   />
@@ -210,12 +164,20 @@ export default function Contacts() {
               onClick={async () => {
                 isModalOpen(false);
                 const idsToDelete = Array.from(selectedContactIds);
-                for (const id of idsToDelete) {
-                  await invoke("delete_contact", { id });
+                if (idsToDelete.length > 0) {
+                  for (const id of idsToDelete) {
+                    await invoke("delete_contact", { id });
+                    setContacts((prev) =>
+                      prev.filter((c) => !selectedContactIds.has(c.id as any)),
+                    );
+                  }
+                } else if (selectedContact && !idsToDelete.length) {
+                  await invoke("delete_contact", { id: selectedContact.id });
+                  setContacts((prev) =>
+                    prev.filter((c) => c.id !== selectedContact.id),
+                  );
                 }
-                setContacts((prev) =>
-                  prev.filter((c) => !selectedContactIds.has(c.id as any)),
-                );
+
                 setSelectedContactIds(new Set());
                 setSelectedContact(null);
               }}
