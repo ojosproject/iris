@@ -1,4 +1,4 @@
-# Iris: The At-Home Hospice Management System
+# Iris: The Care Management System
 
 > [!CAUTION]
 > This project is still in active development with no stable version ready.
@@ -8,7 +8,7 @@
 
 ## Table of Contents
 
-- [Iris: The At-Home Hospice Management System](#iris-the-at-home-hospice-management-system)
+- [Iris: The Care Management System](#iris-the-care-management-system)
   - [Table of Contents](#table-of-contents)
   - [Description](#description)
   - [Contributing](#contributing)
@@ -31,7 +31,7 @@
 > To be updated on the status of this project, please
 > [visit our website](https://ojosproject.org/news/).
 
-Iris is a free and open source at-home hospice management system. It helps you
+Iris is a free and open source care management system. It helps you
 and your family care for your loved one by ensuring everybody is in sync with
 your loved one's care.
 

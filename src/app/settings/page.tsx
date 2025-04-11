@@ -78,25 +78,20 @@ export default function Settings() {
     }
   });
 
-
   useKeyPress("Enter", () => {
     if (displayNumberDialog && newNumber.length >= 10 && config) {
       setDisplayNumberDialog(false);
-      if (!config.contacts.some(contact => contact.value === newNumber)) {
+      if (!config.contacts.some((contact) => contact.value === newNumber)) {
         commitConfig({
           onboarding_completed: config.onboarding_completed,
           resources_last_call: config.resources_last_call,
-          contacts: [
-            ...config.contacts,
-            { method: "SMS", value: newNumber },
-          ],
+          contacts: [...config.contacts, { method: "SMS", value: newNumber }],
           pro_questions: config.pro_questions,
         });
       }
       setNewNumber("");
     }
   });
-  
 
   function RelaySection() {
     return (
@@ -182,7 +177,7 @@ export default function Settings() {
       {displayDialog && (
         <Dialog
           title="Activate Relay?"
-          content="By adding your phone number to this program, you consent to receiving messages about the hospice patient's care. Messages such as when the patient takes their medication, new care instructions, and more. "
+          content="By adding your phone number to this program, you consent to receiving messages about your patient's care. Messages such as when the patient takes their medication, new care instructions, and more. "
         >
           <div
             style={{

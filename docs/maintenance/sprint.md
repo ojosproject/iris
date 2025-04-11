@@ -1,39 +1,27 @@
 Sprint Details
 ==============
 
-| Event                       | Date                      |
-| --------------------------- | ------------------------- |
-| Sprint Start                | February 3, 2025          |
-| Sprint End                  | February 24, 2025         |
-| Sprint Review/Retrospective | Week of February 24, 2025 |
+| Event                       | Date                   |
+| --------------------------- | ---------------------- |
+| Sprint Start                | April 7, 2025          |
+| Sprint End                  | April 25, 2025         |
+| Sprint Review/Retrospective | Week of April 28, 2025 |
 
-N/A
+This sprint sets up a distributable (beta) application, while also providing
+some useful features to add before deploying.
 
 Sprint Backlog
 --------------
 
-| Activity                     | Type     | Assignee(s)                | GitHub                                                    |
-| ---------------------------- | -------- | -------------------------- | --------------------------------------------------------- |
-| Rewrite Medications frontend | Refactor | Mai Luong                  | [iris#77](https://github.com/ojosproject/iris/pull/77)    |
-| Edit medications             | Feature  | Mai Luong                  | [iris#77](https://github.com/ojosproject/iris/pull/77)    |
-| Create a way to add comments | Feature  | Mai Luong                  | [iris#62](https://github.com/ojosproject/iris/issues/62/) |
-| Change PRO questions         | Bug fix  | Mai Luong                  | [iris#69](https://github.com/ojosproject/iris/issues/69/) |
-| Drop-in mode for video       | Feature  | Carlos Valdez/Jason Martin | None yet                                                  |
-| Medication scheduler         | Feature  | Carlos Valdez/Jason Martin | [iris#64](https://github.com/ojosproject/iris/issues/64/) |
-| Changes to the PRO tool      | Big fix  | Helen Chau                 | [iris#80](https://github.com/ojosproject/iris/issues/80)  |
-| Accessibility                | Feature  | Helen Chau                 | None yet                                                  |
-| Medication icons             | Design   | Jesse David                | [iris#63](https://github.com/ojosproject/iris/issues/63/) |
-| Contacts tool                | Feature  | Ayush Jain                 | [iris#74](https://github.com/ojosproject/iris/issues/74/) |
-
-The following have been completed:
-
-| Activity                        | Type    | Assignee(s)   | GitHub                                                    |
-| ------------------------------- | ------- | ------------- | --------------------------------------------------------- |
-| Change monospace font to Arial  | Bug fix | Carlos Valdez | [iris#78](https://github.com/ojosproject/iris/issues/78/) |
-| Add old keyboard shortcuts back | Bug fix | Carlos Valdez | N/A                                                       |
-| Fix recording saving on Windows | Bug fix | Carlos Valdez | [iris#72](https://github.com/ojosproject/iris/issues/72/) |
-| Animation                       | Feature | Helen Chau    | None yet                                                  |
-| Contacts tool design            | Design  | Jesse David   | [iris#74](https://github.com/ojosproject/iris/issues/74/) |
+| Activity                              | Type     | Tool                | Assignee(s)                 | GitHub |
+| ------------------------------------- | -------- | ------------------- | --------------------------- | ------ |
+| An "import data" function             | Feature  | Settings            | Carlos Valdez               | N/A    |
+| Separate schedule creator             | Refactor | Medications         | Mai Luong                   | N/A    |
+| Change flow of new medication dialogs | Refactor | Medications         | Carlos Valdez               | N/A    |
+| Have only 1 question be displayed     | Refactor | Survey              | Helen Chau                  | N/A    |
+| Implement an "activate Relay" button  | Feature  | Contacts            | Ayush Jain                  | N/A    |
+| Implement proper Rust error handling  | Refactor | N/A - Entire system | Jason Martin                | N/A    |
+| Set up distribution                   | CI       | N/A                 | Carlos Valdez, Jason Martin | N/A    |
 
 Our Workflow
 ------------
