@@ -112,7 +112,7 @@ pub async fn import_data_pack(app: AppHandle) -> Result<DataPackReceipt, String>
     let file_contents = fs::read_to_string(file_path.unwrap().to_string()).unwrap();
     let conn = Connection::open(app.path().app_data_dir().unwrap().join("iris.db")).unwrap();
 
-    let mut receipt = DataPackReceipt { resources_count: None, pro_count: None };
+    let mut receipt = DataPackReceipt { resources_count: None, pro_count: None, contacts_count: None };
     let data_pack_result =
         serde_json::from_str(&file_contents);
 
@@ -175,6 +175,31 @@ pub async fn import_data_pack(app: AppHandle) -> Result<DataPackReceipt, String>
             if receipt_count > 0 {
                 receipt.resources_count = if receipt.resources_count.is_some() {Some(receipt.resources_count.unwrap() + receipt_count)} else {Some(receipt_count)};
             }
+        }
+    }
+
+    if data_pack.contacts.is_some() {
+        for contact in data_pack.contacts.unwrap() {
+            match conn.execute("INSERT INTO contacts(id, name, phone_number, company, email, last_updated)
+            SELECT ?1, ?2, ?3, ?4, ?5, ?6
+            WHERE NOT EXISTS (
+                SELECT 1 FROM contacts WHERE id = ?1 OR name = ?2 OR phone_number = ?3 OR email = ?4
+            );",
+        (
+            if contact.id.is_some() { contact.id.unwrap() } else { uuid::Uuid::new_v4().to_string() },
+            contact.name,
+            contact.phone_number,
+            contact.company,
+            contact.email,
+            if contact.last_updated.is_some() { contact.last_updated.unwrap() } else { Utc::now().timestamp() as i64 }
+        )) {
+            Ok(count) => {
+                if count > 0 {
+                    receipt.contacts_count = if receipt.contacts_count.is_some() {Some(receipt.contacts_count.unwrap() + count)} else {Some(count)}
+                }
+            },
+            Err(e) => return Err(format!("SQLite error: `{:?}`", e)),
+        }
         }
     }
 

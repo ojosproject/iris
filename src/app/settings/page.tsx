@@ -174,6 +174,7 @@ export default function Settings() {
     type Receipt = {
       resources_count?: number;
       pro_count?: number;
+      contacts_count?: number;
     };
 
     return (
@@ -194,7 +195,11 @@ export default function Settings() {
                       let message =
                         "No data was imported. Make sure the data isn't already in the database. Consult the docs for more information.";
 
-                      if (receipt.pro_count || receipt.resources_count) {
+                      if (
+                        receipt.pro_count ||
+                        receipt.resources_count ||
+                        receipt.contacts_count
+                      ) {
                         title = "Data Pack was successfully imported!";
                         message = "";
                       }
@@ -204,6 +209,10 @@ export default function Settings() {
                       }
                       if (receipt.resources_count) {
                         message += `${receipt.resources_count} resource${receipt.resources_count > 1 ? "s" : ""} imported.\n`;
+                      }
+
+                      if (receipt.contacts_count) {
+                        message += `${receipt.contacts_count} contact${receipt.contacts_count > 1 ? "s" : ""} imported.\n`;
                       }
 
                       setDataPackDialog({

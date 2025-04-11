@@ -4,6 +4,17 @@ use serde::{Deserialize, Serialize};
 pub struct DataPack {
     pub pro: Option<Vec<ProQuestionDataPack>>,
     pub resources: Option<Vec<ResourceDataPack>>,
+    pub contacts: Option<Vec<ContactDataPack>>,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct ContactDataPack {
+    pub id: Option<String>,
+    pub name: String,
+    pub phone_number: Option<String>,
+    pub company: Option<String>,
+    pub email: Option<String>,
+    pub last_updated: Option<i64>,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -32,6 +43,7 @@ pub struct ProQuestionDataPack {
 pub struct DataPackReceipt {
     pub resources_count: Option<usize>,
     pub pro_count: Option<usize>,
+    pub contacts_count: Option<usize>,
 }
 
 #[derive(Serialize, Deserialize)]
