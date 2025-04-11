@@ -1,6 +1,40 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
+pub struct DataPack {
+    pub pro: Option<Vec<ProQuestionDataPack>>,
+    pub resources: Option<Vec<ResourceDataPack>>,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct ResourceDataPack {
+    pub label: String,
+    pub description: String,
+    pub url: String,
+    pub organization: String,
+    pub category: String,
+    pub last_updated: Option<f32>,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct ProQuestionDataPack {
+    pub id: Option<String>,
+    pub category: String,
+    pub question: String,
+    pub question_type: String,
+    pub lowest_ranking: Option<i32>,
+    pub highest_ranking: Option<i32>,
+    pub lowest_label: Option<String>,
+    pub highest_label: Option<String>,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct DataPackReceipt {
+    pub resources_count: Option<usize>,
+    pub pro_count: Option<usize>,
+}
+
+#[derive(Serialize, Deserialize)]
 pub struct User {
     pub id: String,
     pub full_name: String,
@@ -17,7 +51,6 @@ pub struct ConfigContact {
 
 #[derive(Serialize, Deserialize)]
 pub struct Config {
-    pub resources_last_call: i64,
     pub onboarding_completed: bool,
     pub contacts: Vec<ConfigContact>,
 }
