@@ -9,7 +9,11 @@ import Button from "@/app/core/components/Button";
 import { Suspense, useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { Contact } from "../types";
-import { timestampToString } from "@/app/core/helper";
+import {
+  parse_phone_number,
+  sanitizePhoneNumber,
+  timestampToString,
+} from "@/app/core/helper";
 import ToastDialog from "@/app/core/components/ToastDialog";
 
 function EditContacts() {
@@ -31,14 +35,16 @@ function EditContacts() {
   const router = useRouter();
 
   function fetchInformation(fetch_id: string) {
-    invoke("get_single_contact", { id: fetch_id })
+    invoke<Contact>("get_single_contact", { id: fetch_id })
       .then((i) => {
-        setId((i as Contact).id);
-        setName((i as Contact).name);
-        setPhoneNumber((i as Contact).phone_number ?? "");
-        setCompany((i as Contact).company ?? "");
-        setEmail((i as Contact).email ?? "");
-        setLastUpdated((i as Contact).last_updated);
+        setId(i.id);
+        setName(i.name);
+        setPhoneNumber(
+          i.phone_number ? parse_phone_number(i.phone_number) : "",
+        );
+        setCompany(i.company ?? "");
+        setEmail(i.email ?? "");
+        setLastUpdated(i.last_updated);
         setOnEditMode(!onEditMode);
       })
       .catch((e) => console.log(e));
@@ -56,7 +62,7 @@ function EditContacts() {
   function handleOnSaveClick() {
     // If last_updated is 0, it means that this is a newly created contact
 
-    invoke(lastUpdated === 0 ? "create_contact" : "update_contact", {
+    invoke<Contact>(lastUpdated === 0 ? "create_contact" : "update_contact", {
       id: id,
       name: name,
       phone_number: phoneNumber,
@@ -64,11 +70,11 @@ function EditContacts() {
       email: email,
     }).then((i) => {
       setOnEditMode(false);
-      setId((i as Contact).id);
-      setName((i as Contact).name);
-      setPhoneNumber((i as Contact).phone_number ?? "");
-      setCompany((i as Contact).company ?? "");
-      setEmail((i as Contact).email ?? "");
+      setId(i.id);
+      setName(i.name);
+      setPhoneNumber(i.phone_number ? parse_phone_number(i.phone_number) : "");
+      setCompany(i.company ?? "");
+      setEmail(i.email ?? "");
 
       setJustSaved(true);
       setSaveMessage(true);
@@ -113,8 +119,11 @@ function EditContacts() {
             <div className={classes.input_group}>
               <label>Phone Number</label>
               <input
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
+                value={parse_phone_number(phoneNumber)}
+                onChange={(e) => {
+                  let cleanedNumber = sanitizePhoneNumber(e.target.value);
+                  setPhoneNumber(cleanedNumber === "" ? "" : cleanedNumber);
+                }}
                 placeholder="(123)-456-7890 (optional)"
                 className={classes.input_fields}
                 type="tel"
@@ -157,7 +166,6 @@ function EditContacts() {
             </div>
           </>
         ) : null}
-        
 
         {lastUpdated === 0 ? null : (
           <div className={classes.last_updated}>

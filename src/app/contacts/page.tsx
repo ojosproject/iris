@@ -10,6 +10,7 @@ import BackButton from "../core/components/BackButton";
 import classes from "./page.module.css";
 import Button from "../core/components/Button";
 import Dialog from "@/app/core/components/Dialog";
+import { parse_phone_number } from "../core/helper";
 
 export default function Contacts() {
   const [contacts, setContacts] = useState([] as Contact[]);
@@ -100,7 +101,9 @@ export default function Contacts() {
                 <h2>{selectedContact.name}</h2>
                 <p>
                   <strong>Phone Number:</strong>{" "}
-                  {selectedContact.phone_number || "N/A"}
+                  {selectedContact.phone_number
+                    ? parse_phone_number(selectedContact.phone_number)
+                    : "N/A"}
                 </p>
                 <p>
                   <strong>Email:</strong> {selectedContact.email || "N/A"}
