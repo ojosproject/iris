@@ -15,7 +15,7 @@ use tauri::AppHandle;
 /// ```
 
 #[tauri::command]
-pub fn get_all_contacts(app: AppHandle) -> Vec<Contact> {
+pub fn get_all_contacts(app: AppHandle) -> Result<Vec<Contact>, String> {
     helper::get_all_contacts(&app)
 }
 
@@ -35,7 +35,12 @@ pub fn get_all_contacts(app: AppHandle) -> Vec<Contact> {
 /// ```
 #[tauri::command(rename_all = "snake_case")]
 pub fn get_single_contact(app: AppHandle, id: String) -> Option<Contact> {
-    for contact in helper::get_all_contacts(&app) {
+    let contacts = match helper::get_all_contacts(&app) {
+        Ok(c) => c,
+        Err(_) => return None,
+    };
+
+    for contact in contacts {
         if contact.id == id {
             return Some(contact);
         }
@@ -66,7 +71,7 @@ pub fn create_contact(
     phone_number: Option<String>,
     company: Option<String>,
     email: Option<String>,
-) -> Contact {
+) -> Result<Contact, String> {
     helper::add_contact(&app, name, phone_number, company, email)
 }
 
@@ -95,11 +100,11 @@ pub fn update_contact(
     phone_number: Option<String>,
     company: Option<String>,
     email: Option<String>,
-) -> Contact {
+) -> Result<Contact, String> {
     helper::update_contacts(&app, id, name, phone_number, company, email)
 }
 
 #[tauri::command(rename_all = "snake_case")]
-pub fn delete_contact(app: AppHandle, id: String) {
-    helper::delete_contact(&app, id);
+pub fn delete_contact(app: AppHandle, id: String) -> Result<(), String> {
+    helper::delete_contact(&app, id)
 }

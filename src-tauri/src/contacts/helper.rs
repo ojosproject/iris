@@ -3,8 +3,8 @@
 //
 // All contacts associated with the user.
 use crate::contacts::structs::Contact;
-use rusqlite::{named_params, Connection};
 use chrono::Local;
+use rusqlite::{named_params, Connection};
 use tauri::{AppHandle, Manager};
 use uuid::Uuid;
 
@@ -14,22 +14,25 @@ pub fn add_contact(
     phone_number: Option<String>,
     company: Option<String>,
     email: Option<String>,
-) -> Contact {
+) -> Result<Contact, String> {
     let app_data_dir = app.path().app_data_dir().unwrap();
-    let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
+    let conn = match Connection::open(app_data_dir.join("iris.db")) {
+        Ok(c) => c,
+        Err(e) => return Err(format!("SQLite error: `{:?}`", e)),
+    };
     let ts = Local::now().timestamp();
     let id = Uuid::new_v4().to_string();
 
-    let c = Contact {
+    let contact = Contact {
         id,
         name,
         phone_number,
         company,
         email,
-        last_updated: ts
+        last_updated: ts,
     };
 
-    conn.execute(
+    match conn.execute(
         "INSERT INTO contacts(
             id, 
             name, 
@@ -38,11 +41,18 @@ pub fn add_contact(
             email, 
             last_updated
         ) VALUES ( ?1, ?2, ?3, ?4, ?5, ?6)",
-        (&c.id, &c.name, &c.phone_number, &c.company, &c.email, &c.last_updated),
-    )
-    .unwrap();
-
-    c
+        (
+            &contact.id,
+            &contact.name,
+            &contact.phone_number,
+            &contact.company,
+            &contact.email,
+            &contact.last_updated,
+        ),
+    ) {
+        Ok(_) => return Ok(contact),
+        Err(e) => return Err(format!("SQLite error: `{:?}`", e)),
+    };
 }
 
 pub fn update_contacts(
@@ -52,73 +62,87 @@ pub fn update_contacts(
     phone_number: Option<String>,
     company: Option<String>,
     email: Option<String>,
-) -> Contact {
+) -> Result<Contact, String> {
     let app_data_dir = app.path().app_data_dir().unwrap();
-    let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
+    let conn = match Connection::open(app_data_dir.join("iris.db")) {
+        Ok(c) => c,
+        Err(e) => return Err(format!("SQLite error: `{:?}`", e)),
+    };
     let ts = Local::now().timestamp();
 
-    let c = Contact {
+    let contact = Contact {
         id,
         name,
         phone_number,
         company,
         email,
-        last_updated: ts
+        last_updated: ts,
     };
 
-    conn.execute(
+    match conn.execute(
         "UPDATE contacts SET name=:name, phone_number=:phone_number, company=:company, email=:email, last_updated=:last_updated WHERE id=:id",
         named_params! {
-            ":id": &c.id,
-            ":name": &c.name,
-            ":phone_number": &c.phone_number,
-            ":company": &c.company,
-            ":email": &c.email,
-            ":last_updated": &c.last_updated
+            ":id": &contact.id,
+            ":name": &contact.name,
+            ":phone_number": &contact.phone_number,
+            ":company": &contact.company,
+            ":email": &contact.email,
+            ":last_updated": &contact.last_updated
         },
-    )
-    .unwrap();
-
-    c
+    ) {
+        Ok(_) => return Ok(contact),
+        Err(e) => return Err(format!("Sqlite error: `{:?}`", e))
+    }
 }
 
-pub fn get_all_contacts(app: &AppHandle) -> Vec<Contact> {
+pub fn get_all_contacts(app: &AppHandle) -> Result<Vec<Contact>, String> {
     let app_data_dir = app.path().app_data_dir().unwrap();
-    let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
+    let conn = match Connection::open(app_data_dir.join("iris.db")) {
+        Ok(c) => c,
+        Err(e) => return Err(format!("SQLite error: `{:?}`", e)),
+    };
 
-    let mut stmt = conn
-        .prepare("SELECT * FROM contacts ORDER BY name")
-        .unwrap();
-    let matched_c = stmt
-        .query_map([], |row| {
-            Ok(Contact {
-                id: row.get(0)?,
-                name: row.get(1)?,
-                phone_number: row.get(2)?,
-                company: row.get(3)?,
-                email: row.get(4)?,
-                last_updated: row.get(5)?,
-            })
+    let mut stmt = match conn.prepare("SELECT * FROM contacts ORDER BY name") {
+        Ok(s) => s,
+        Err(e) => return Err(format!("SQLite error: `{:?}`", e)),
+    };
+    let matched_c = match stmt.query_map([], |row| {
+        Ok(Contact {
+            id: row.get(0)?,
+            name: row.get(1)?,
+            phone_number: row.get(2)?,
+            company: row.get(3)?,
+            email: row.get(4)?,
+            last_updated: row.get(5)?,
         })
-        .unwrap();
+    }) {
+        Ok(m) => m,
+        Err(e) => return Err(format!("SQLite error: `{:?}`", e)),
+    };
 
     let mut vec_to_return: Vec<Contact> = vec![];
     for c in matched_c {
-        vec_to_return.push(c.unwrap());
+        vec_to_return.push(match c {
+            Ok(mc) => mc,
+            Err(e) => return Err(format!("Failed to convert Result to Contact: `{:?}`", e)),
+        });
     }
 
-    vec_to_return
+    Ok(vec_to_return)
 }
 
 pub fn delete_contact(app: &AppHandle, id: String) -> Result<(), String> {
     let app_data_dir = app.path().app_data_dir().unwrap();
-    let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
+    let conn = match Connection::open(app_data_dir.join("iris.db")) {
+        Ok(c) => c,
+        Err(e) => return Err(format!("SQLite error: {:?}", e)),
+    };
 
-    conn.execute(
+    match conn.execute(
         "DELETE FROM contacts WHERE id=:id",
         named_params! {":id": id},
-    )
-    .unwrap();
-
-    Ok(())
+    ) {
+        Ok(_) => return Ok(()),
+        Err(e) => return Err(format!("SQLite error: {:?}", e)),
+    };
 }
