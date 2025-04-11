@@ -29,6 +29,33 @@
   text-align: left;
 }
 
+.container-space-between {
+  justify-content: space-between;
+  display: flex;
+}
+
+.button-content-next {
+  position: fixed;
+  bottom: 50px; 
+  left: 70%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  z-index: 1000;
+}
+.button-content-prev {
+  position: fixed;
+  bottom: 50px;
+  transform: translateX(-50%);
+  right: 55%;
+  display: flex;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  z-index: 1000;
+}
 .rating-wrapper {
   display: flex;
   align-items: center;
@@ -92,10 +119,8 @@
 .survey-page {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  margin-right: 25%;
-  margin-left: 25%;
-  padding-bottom: 30px;
+  padding: 16px;
+  box-sizing: border-box;
 }
 
 .survey-question {

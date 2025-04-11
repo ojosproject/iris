@@ -12,7 +12,7 @@ interface RatingProps {
 }
 
 const FullCircle = ({
-  size = 24,
+  size = 40,
   number = 1,
 }: {
   size?: number;
@@ -20,18 +20,18 @@ const FullCircle = ({
 }) => (
   <svg height={size} viewBox="0 0 24 24">
     <circle
-      cx="12"
-      cy="12"
-      r="10"
+      cx="24"
+      cy="24"
+      r="20"
       stroke="#0063D7"
       strokeWidth="3"
       fill="#0063D7"
     />
     <text
-      x="12"
-      y="16"
+      x="24"
+      y="32"
       textAnchor="middle"
-      fontSize="10"
+      fontSize="20"
       fontWeight="bold"
       fill="white"
     >
@@ -41,7 +41,7 @@ const FullCircle = ({
 );
 
 const EmptyCircle = ({
-  size = 24,
+  size = 40,
   number = 1,
 }: {
   size?: number;
@@ -49,18 +49,18 @@ const EmptyCircle = ({
 }) => (
   <svg height={size} viewBox="0 0 24 24">
     <circle
-      cx="12"
-      cy="12"
-      r="10"
+      cx="24"
+      cy="24"
+      r="20"
       stroke="#0063D7"
       strokeWidth="3"
       fill="white"
     />
     <text
-      x="12"
-      y="16"
+      x="24"
+      y="32"
       textAnchor="middle"
-      fontSize="10"
+      fontSize="20"
       fill="#0063D7"
       fontWeight="bold"
     >
@@ -90,6 +90,10 @@ const SurveyPage: React.FC<RatingProps> = ({
 
   const [isModalOpen, setModalOpen] = React.useState(false); // State for modal visibility
   const [modalContent, setModalContent] = React.useState<string[]>([]);
+  const [pageNumber, setPageNumber] = React.useState(1);
+  const start = pageNumber - 1;
+  const end = pageNumber;
+
   const stringifiedQuestions = questions.map(
     (proQuestion) => proQuestion.question,
   );
@@ -123,34 +127,39 @@ const SurveyPage: React.FC<RatingProps> = ({
     setModalOpen(false);
   };
 
+  const handleNext = () => {
+    setPageNumber(pageNumber + 1);
+  }
+
+  const handlePrev = () => {
+    setPageNumber(pageNumber - 1);
+  }
+
   // todo: consider having multiple different types of "category labels"
   // todo: for each category.
   return (
     <div className={`survey-page ${className}`}>
-      {questions.map((item, index, arr) => (
-        <div key={index} className="survey-question">
-          {(index === 0 || arr.at(index - 1)?.category !== item.category) && (
-            <h4>In the past 2 weeks, how often did you feel...</h4>
-          )}
+      {questions.slice(start, end).map((item, index) => (
+        <div key={index + start} className="survey-question">
           <h4>
-            <p>{index + 1}. </p>
+            <p>{pageNumber}. </p>
             {item.question}
           </h4>
           <div className="rating-wrapper">
             <p className="rating-label">{item.lowest_label}</p>
             <div className="rating-options">
               {[...Array(item.highest_ranking)].map((_, i) => {
-                const isSelected = i === ratings[index] - 1;
+                const isSelected = i === ratings[index+start] - 1;
                 return (
                   <div
                     key={i}
                     style={{ cursor: "pointer" }}
-                    onClick={() => handleRatingChange(index, i)}
+                    onClick={() => handleRatingChange(index+start, i)}
                   >
                     {isSelected ? (
-                      <FullCircle size={size} number={i + 1} />
+                      <FullCircle size={40} number={i + 1} />
                     ) : (
-                      <EmptyCircle size={size} number={i + 1} />
+                      <EmptyCircle size={40} number={i + 1} />
                     )}
                   </div>
                 );
@@ -162,7 +171,21 @@ const SurveyPage: React.FC<RatingProps> = ({
           </div>
         </div>
       ))}
-      <Button type="PRIMARY" label="Submit Survey" onClick={handleSubmit} />
+      <div className="container-space-between">
+      <div className="button-content-prev">
+        <Button
+        type="SECONDARY" label="Prev Question" onClick={handlePrev} disabled={pageNumber <= 1}
+        />
+      </div>
+      <div className="button-content-next">
+        {end < questions.length ? (
+          <Button type="SECONDARY" label="Next Question" onClick={handleNext} />
+        ) : (
+          <Button type="PRIMARY" label="Submit Survey" onClick={handleSubmit} />
+        )}
+      </div>
+
+      </div>
       {isModalOpen && (
         <Dialog
           title="Unanswered Questions"

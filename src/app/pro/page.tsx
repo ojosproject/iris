@@ -229,19 +229,19 @@ const ProChart = () => {
 
       <div className="container-2">
       {/* Chart Section */}
-      <div className="box chart-container">
-        {pros === null ? (
-          <p>Loading data...</p>
-        ) : (
-          <>
-            <div className="container-2">
-              <p>{currentQuestion || "No Question Available"}</p>
-            </div>
-            <div className="container">
-              <canvas id="chartCanvas" style={{ width: "100%", maxWidth: "100%" }}></canvas>
-            </div>
-          </>
-        )}
+      <div className="chart-container">
+        <div className="box">
+          {pros === null ? (
+            <p>Loading data...</p>
+          ) : (
+            <>
+              <div className="container-2">
+                <p>{currentQuestion || "No Question Available"}</p>
+              </div>
+            </>
+          )}
+          <canvas id="chartCanvas" style={{ width: "100%", maxWidth: "100%" }}></canvas>
+        </div>
       </div>
 
       {/* Button Sections Stacked Vertically */}
@@ -290,7 +290,7 @@ const ProChart = () => {
             type="PRIMARY"
             label="Take Today's Survey"
             onClick={() => router.push("./pro/survey")}
-            disabled={isSurveyTaken}
+            // disabled={isSurveyTaken}
             style={{minWidth: MINIMUM_BUTTON_WIDTH}}
           />
         </div>
