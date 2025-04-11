@@ -49,6 +49,11 @@ export default function Settings() {
   const [config, setConfig] = useState<Config | null>(null);
   const [displayDialog, setDisplayDialog] = useState(false);
   const [displayNumberDialog, setDisplayNumberDialog] = useState(false);
+  const [dataPackDialog, setDataPackDialog] = useState({
+    enabled: false,
+    title: "",
+    content: "",
+  });
   const [relayActivated, setRelayActivated] = useState(false);
   const [newNumber, setNewNumber] = useState("");
   const router = useRouter();
@@ -78,25 +83,20 @@ export default function Settings() {
     }
   });
 
-
   useKeyPress("Enter", () => {
     if (displayNumberDialog && newNumber.length >= 10 && config) {
       setDisplayNumberDialog(false);
-      if (!config.contacts.some(contact => contact.value === newNumber)) {
+      if (!config.contacts.some((contact) => contact.value === newNumber)) {
         commitConfig({
           onboarding_completed: config.onboarding_completed,
           resources_last_call: config.resources_last_call,
-          contacts: [
-            ...config.contacts,
-            { method: "SMS", value: newNumber },
-          ],
+          contacts: [...config.contacts, { method: "SMS", value: newNumber }],
           pro_questions: config.pro_questions,
         });
       }
       setNewNumber("");
     }
   });
-  
 
   function RelaySection() {
     return (
@@ -170,6 +170,73 @@ export default function Settings() {
     );
   }
 
+  function ImportSection() {
+    type Receipt = {
+      resources_count?: number;
+      pro_count?: number;
+      contacts_count?: number;
+    };
+
+    return (
+      config && (
+        <Section
+          title="Data Packs"
+          description="Import data such as resources, survey questions, or contact information with JavaScript Object Notation."
+        >
+          <div>
+            <Row label="Data Pack (JSON)">
+              <Button
+                type="PRIMARY"
+                label="Select..."
+                onClick={() => {
+                  invoke<Receipt>("import_data_pack")
+                    .then((receipt) => {
+                      let title = "Sorry, something went wrong.";
+                      let message =
+                        "No data was imported. Make sure the data isn't already in the database. Consult the docs for more information.";
+
+                      if (
+                        receipt.pro_count ||
+                        receipt.resources_count ||
+                        receipt.contacts_count
+                      ) {
+                        title = "Data Pack was successfully imported!";
+                        message = "";
+                      }
+
+                      if (receipt.pro_count) {
+                        message += `${receipt.pro_count} PRO question${receipt.pro_count > 1 ? "s" : ""} imported.\n`;
+                      }
+                      if (receipt.resources_count) {
+                        message += `${receipt.resources_count} resource${receipt.resources_count > 1 ? "s" : ""} imported.\n`;
+                      }
+
+                      if (receipt.contacts_count) {
+                        message += `${receipt.contacts_count} contact${receipt.contacts_count > 1 ? "s" : ""} imported.\n`;
+                      }
+
+                      setDataPackDialog({
+                        enabled: true,
+                        title: title,
+                        content: message,
+                      });
+                    })
+                    .catch((e) => {
+                      setDataPackDialog({
+                        enabled: true,
+                        title: "Sorry, something went wrong.",
+                        content: e,
+                      });
+                    });
+                }}
+              />
+            </Row>
+          </div>
+        </Section>
+      )
+    );
+  }
+
   return (
     <div>
       <BackButton />
@@ -177,12 +244,13 @@ export default function Settings() {
         <h1>Settings</h1>
         <div className={classes.column_of_settings}>
           <RelaySection />
+          <ImportSection />
         </div>
       </div>
       {displayDialog && (
         <Dialog
           title="Activate Relay?"
-          content="By adding your phone number to this program, you consent to receiving messages about the hospice patient's care. Messages such as when the patient takes their medication, new care instructions, and more. "
+          content="By adding your phone number to this program, you consent to receiving messages about your patient's care. Messages such as when the patient takes their medication, new care instructions, and more. "
         >
           <div
             style={{
@@ -291,6 +359,21 @@ export default function Settings() {
               }}
             />
           </div>
+        </Dialog>
+      )}
+      {dataPackDialog.enabled && config && (
+        <Dialog title={dataPackDialog.title} content={dataPackDialog.content}>
+          <Button
+            type="PRIMARY"
+            label="Continue"
+            onClick={() =>
+              setDataPackDialog({
+                enabled: false,
+                title: "",
+                content: "",
+              })
+            }
+          />
         </Dialog>
       )}
     </div>

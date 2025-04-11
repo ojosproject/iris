@@ -12,7 +12,7 @@ export default function Onboarding(props: {
   const SCREEN_WELCOME = (
     <div className={classes.onboarding_center}>
       <h1>Welcome to Iris!</h1>
-      <h3>Your at-home hospice management system</h3>
+      <h3>Your care management system</h3>
 
       <div className={classes.button_on_bottom}>
         <Button

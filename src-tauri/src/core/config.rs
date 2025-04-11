@@ -8,19 +8,6 @@ use crate::core::structs::Config;
 use std::{fs, io::ErrorKind};
 use tauri::{AppHandle, Manager};
 
-pub fn set_resources_last_call(app: AppHandle, value: i64) {
-    let app_config_dir = app.path().app_config_dir().unwrap();
-
-    let mut config = get_config(app.app_handle());
-    config.resources_last_call = value;
-    let config_string = serde_json::to_string(&config).unwrap();
-    // This takes the existing json file, deserializes it into a Config struct
-    // updates resources_last_call, then serializes it back into a
-    // json-formatted string, and then writes to the file
-
-    fs::write(app_config_dir.join("config.json"), config_string).unwrap();
-}
-
 pub fn set_onboarding_completed(app: AppHandle, value: bool) {
     let app_config_dir = app.path().app_config_dir().unwrap();
 
@@ -38,7 +25,6 @@ pub fn get_config(app: &AppHandle) -> Config {
         match error.kind() {
             ErrorKind::NotFound => {
                 let template_config = Config {
-                    resources_last_call: 0,
                     onboarding_completed: false,
                     contacts: vec![],
                 };

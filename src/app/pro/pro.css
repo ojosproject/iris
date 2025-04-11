@@ -22,10 +22,7 @@ h1 {
 
 .box {
   padding: 10px;
-  margin: 3% 5%;
   border: 1mm solid #094595;
-  max-width: 90%;
-  max-height: 40%;
   box-sizing: border-box;
   overflow: auto;
 }
@@ -53,4 +50,10 @@ h1 {
   justify-content: center;
   align-items: center;
   width: 100%;
+}
+
+#zoom-container {
+  transform: scale(1);
+  transition: transform 0.3s;
+  transform-origin: top left;
 }

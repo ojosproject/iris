@@ -8,6 +8,7 @@ interface DialogProps {
   title: string;
   content: string;
   children: React.ReactNode;
+  fadeOut?: number;
 }
 
 const Dialog: React.FC<DialogProps> = ({ title, content, children }) => {

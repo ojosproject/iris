@@ -5,12 +5,14 @@ mod core;
 mod medications;
 mod pro;
 mod resources;
+mod contacts;
 use core::config;
 use std::{env, process};
 use tauri::Manager;
 
 fn main() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_os::init())
         .plugin(tauri_plugin_fs::init())
         .invoke_handler(tauri::generate_handler![
@@ -23,6 +25,7 @@ fn main() {
             core::commands::get_patient_info,
             core::commands::get_config,
             core::commands::set_config,
+            core::commands::import_data_pack,
             core::commands::complete_onboarding,
             core::commands::get_nurse_info,
             core::commands::create_user,
@@ -36,7 +39,12 @@ fn main() {
             pro::commands::get_all_pros,
             pro::commands::get_pro_questions,
             resources::commands::get_resources,
-            call::commands::open_recordings_folder
+            call::commands::open_recordings_folder,
+            contacts::commands::get_all_contacts,
+            contacts::commands::get_single_contact,
+            contacts::commands::create_contact,
+            contacts::commands::update_contact,
+            contacts::commands::delete_contact,
         ])
         .setup(|app| {
             app.set_menu(core::menu::menu(&app.app_handle())).unwrap();

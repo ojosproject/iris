@@ -1,0 +1,89 @@
+/*
+/contacts/page.module.css
+Ojos Project
+*/
+
+.all_contacts_layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.back_button {
+  position: fixed;
+  top: 2%;
+  left: 2%;
+}
+
+.button_menu_container {
+  position: fixed;
+  bottom: 5%;
+  right: 5%;
+}
+
+.button_menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.contacts_container {
+  display: flex;
+  width: 80%; /* Ensure it stretches */
+  max-width: 1200px; /* Prevent excessive stretching */
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  
+}
+
+.contacts_list {
+  width: auto;
+  min-width: max-content;
+  flex: 1; /* Allows it to take available space */
+  max-height: 70vh; /* Prevents full-page scrolling */
+  overflow-y: auto; /* Enables scrolling */
+  padding: 10px; /* Space for scrollbar */
+
+  border: 2px solid #000000; /* Light gray border */
+  border-radius: 8px; /* Rounded corners */
+  background-color: #fff; /* Optional: White background */
+}
+
+.contact_details {
+  width: 50%;
+}
+
+.contact_name {
+  width: max-content;
+  cursor: pointer;
+  margin: 20px 0;
+  overflow-wrap: anywhere;
+  padding: 10px;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin: 10px;
+  border-radius: 10px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact_name:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 15px rgba(111, 110, 110, 0.3);
+  
+}
+.placeholder {
+  font-style: italic;
+}
+
+.contact_item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.delete_selected_container {
+  margin: 1rem 0;
+  text-align: center;
+}
