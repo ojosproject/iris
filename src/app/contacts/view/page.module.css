@@ -120,3 +120,7 @@
   margin-top: 20px;
 }
 
+.required {
+  color: red;
+  margin-left: 0.25rem;
+}

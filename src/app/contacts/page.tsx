@@ -9,13 +9,8 @@ import { useEffect, useState } from "react";
 import BackButton from "../core/components/BackButton";
 import classes from "./page.module.css";
 import Button from "../core/components/Button";
-import ContactButton from "./components/ContactButton";
 import Dialog from "@/app/core/components/Dialog";
 import { useRouter, useSearchParams } from "next/navigation";
-
-// TODO fix problems
-// - edit contact button doesn't work
-// - delete multiple contacts
 
 export default function Contacts() {
   const [contacts, setContacts] = useState([] as Contact[]);
@@ -87,9 +82,7 @@ export default function Contacts() {
                       <input
                         type="checkbox"
                         checked={selectedContactIds.has(contact.id as any)}
-                        onChange={() =>
-                          toggleSelectContact(contact.id as any)
-                        }
+                        onChange={() => toggleSelectContact(contact.id as any)}
                       />
                       <p
                         className={classes.contact_name}
@@ -99,16 +92,6 @@ export default function Contacts() {
                       </p>
                     </div>
                   ))}
-
-                  {/* {groupedContacts[letter].map((contact) => (
-                    <p
-                      key={contact.id}
-                      className={classes.contact_name}
-                      onClick={() => setSelectedContact(contact)}
-                    >
-                      <strong>{contact.name}</strong>
-                    </p>
-                  ))} */}
                 </div>
               ))}
           </div>
@@ -135,14 +118,18 @@ export default function Contacts() {
                           isModalOpen(false);
                           invoke("delete_contact", {
                             id: selectedContact.id,
-                          }).then(() => {
-                            setContacts(
-                              contacts.filter(
-                                (c) => c.id !== selectedContact.id,
-                              ),
-                            );
-                            setSelectedContact(null);
-                          });
+                          })
+                            .then(() => {
+                              setContacts(
+                                contacts.filter(
+                                  (c) => c.id !== selectedContact.id,
+                                ),
+                              );
+                              setSelectedContact(null);
+                            })
+                            .catch((e) => {
+                              console.log(e);
+                            });
                         }}
                       />
                       <Button
@@ -167,7 +154,6 @@ export default function Contacts() {
                   <strong>Company:</strong> {selectedContact.company || "N/A"}
                 </p>
                 <div className={classes.button_group}>
-                  {/* <Button type="SECONDARY" label="Add to Notifications" onClick={() => {}}/> */}
                   <Button
                     type="DANGER-SECONDARY"
                     label="Delete"
@@ -179,8 +165,9 @@ export default function Contacts() {
                   <Button
                     type="PRIMARY"
                     label="Edit"
-                    onClick={() => {
-                      console.log("Edit contact");
+                    link={{
+                      pathname: "./contacts/view/",
+                      query: { id: selectedContact.id },
                     }}
                   />
                 </div>

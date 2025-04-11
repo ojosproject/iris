@@ -110,7 +110,7 @@ pub fn get_all_contacts(app: &AppHandle) -> Vec<Contact> {
     vec_to_return
 }
 
-pub fn delete_contact(app: &AppHandle, id: String) {
+pub fn delete_contact(app: &AppHandle, id: String) -> Result<(), String> {
     let app_data_dir = app.path().app_data_dir().unwrap();
     let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
 
@@ -119,4 +119,6 @@ pub fn delete_contact(app: &AppHandle, id: String) {
         named_params! {":id": id},
     )
     .unwrap();
+
+    Ok(())
 }

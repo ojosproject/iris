@@ -10,7 +10,6 @@ import { Suspense, useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { Contact } from "../types";
 import { timestampToString } from "@/app/core/helper";
-import Dialog from "@/app/core/components/Dialog";
 import ToastDialog from "@/app/core/components/ToastDialog";
 
 function EditContacts() {
@@ -40,18 +39,9 @@ function EditContacts() {
         setCompany((i as Contact).company ?? "");
         setEmail((i as Contact).email ?? "");
         setLastUpdated((i as Contact).last_updated);
+        setOnEditMode(!onEditMode);
       })
       .catch((e) => console.log(e));
-  }
-
-  function isModalOpen(valueForModal: boolean) {
-    console.log("CLICKED DELETE");
-    if (valueForModal === false) {
-      document.body.style.overflow = "";
-    } else {
-      document.body.style.overflow = "hidden";
-    }
-    setModalOpen(valueForModal);
   }
 
   useEffect(() => {
@@ -73,7 +63,7 @@ function EditContacts() {
       company: company,
       email: email,
     }).then((i) => {
-      //setOnEditMode(false);
+      setOnEditMode(false);
       setId((i as Contact).id);
       setName((i as Contact).name);
       setPhoneNumber((i as Contact).phone_number ?? "");
@@ -103,19 +93,15 @@ function EditContacts() {
         </ToastDialog>
       )}
 
-      {/* {saveMessage && (
-        <div className={classes.save_message}>
-          <p>Contact saved successfully!</p>
-        </div>
-      )} */}
-
       <h1 className={classes.contact_name}>Add/Edit Contact</h1>
 
       <div className={classes.input_container}>
         {onEditMode ? (
           <>
             <div className={classes.input_group}>
-              <label>Name</label>
+              <label>
+                Name<span className={classes.required}>*</span>
+              </label>
               <input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -164,45 +150,14 @@ function EditContacts() {
               />
               <Button
                 type="PRIMARY"
-                label="Add"
+                label="Save"
                 onClick={handleOnSaveClick}
                 disabled={name === "" || justSaved}
               />
             </div>
           </>
         ) : null}
-        {modalOpen && (
-          <Dialog
-            title="Are you sure?"
-            content={"Deleted contacts cannot be recovered."}
-          >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-                alignContent: "center",
-              }}
-            >
-              <Button
-                type="DANGER-PRIMARY"
-                label="Delete"
-                onClick={() => {
-                  isModalOpen(false);
-                  invoke("delete_contact", { id: id });
-                  router.back();
-                }}
-              />
-              <Button
-                type="SECONDARY"
-                label="Never mind"
-                onClick={() => {
-                  isModalOpen(false);
-                }}
-              />
-            </div>
-          </Dialog>
-        )}
+        
 
         {lastUpdated === 0 ? null : (
           <div className={classes.last_updated}>
@@ -214,30 +169,6 @@ function EditContacts() {
             </div>
           </div>
         )}
-      </div>
-
-      <div className={classes.button_save_contact}>
-        <div className={classes.button_column}>
-          {onEditMode ? null : (
-            <>
-              <Button
-                type="PRIMARY"
-                label="Edit Contact"
-                onClick={() => setOnEditMode(!onEditMode)}
-              />
-              <Button
-                type="DANGER-SECONDARY"
-                label="Delete Contact"
-                onClick={() => isModalOpen(true)}
-              />
-              <Button
-                type="SECONDARY"
-                label="Resources"
-                onClick={() => router.push("/resources")}
-              />
-            </>
-          )}
-        </div>
       </div>
     </div>
   );
