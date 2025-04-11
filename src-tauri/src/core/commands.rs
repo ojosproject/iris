@@ -136,7 +136,7 @@ pub async fn import_data_pack(app: AppHandle) -> Result<DataPackReceipt, String>
 
             let receipt_count = result.unwrap();
             if receipt_count > 0 {
-                receipt.pro_count = Some(receipt_count);
+                receipt.pro_count = if receipt.pro_count.is_some() {Some(receipt.pro_count.unwrap() + receipt_count)} else {Some(receipt_count)};
             }
         }
     }
@@ -161,7 +161,7 @@ pub async fn import_data_pack(app: AppHandle) -> Result<DataPackReceipt, String>
 
             let receipt_count = result.unwrap();
             if receipt_count > 0 {
-                receipt.resources_count = Some(receipt_count);
+                receipt.resources_count = if receipt.resources_count.is_some() {Some(receipt.resources_count.unwrap() + receipt_count)} else {Some(receipt_count)};
             }
         }
     }
