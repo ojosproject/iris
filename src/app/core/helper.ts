@@ -25,19 +25,18 @@ export function timestampToString(
     return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
   } else if (format === "HH:MM XX") {
     let hours = d.getHours();
-    hours = hours < 12 ? hours : hours - 12;
+    hours = hours <= 12 ? hours : hours - 12;
     let minutes: string | number = d.getMinutes();
     minutes = minutes > 9 ? `${minutes}` : `0${minutes}`;
-    let am_pm = d.getHours() > 12 ? "PM" : "AM";
-
-    return `${hours}:${minutes} ${am_pm}`;
+    let am_pm = d.getHours() >= 12 ? "PM" : "AM";
+    return `${hours === 0 ? 12 : hours}:${minutes} ${am_pm}`;
   }
 
   return ``;
 }
 
 export function parse_phone_number(digits: number | string): string {
-  let parsed = digits.toString();
+  let parsed = sanitizePhoneNumber(digits);
   if (4 > parsed.length) {
     return parsed;
   } else if (parsed.length < 7) {
@@ -54,3 +53,16 @@ export function parse_phone_number(digits: number | string): string {
   return "";
 }
 
+export function sanitizePhoneNumber(digits: number | string): string {
+  let parsed = digits.toString();
+  let cleanedNumber = "";
+  parsed.split("").forEach((char) => {
+    if (["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"].includes(char)) {
+      cleanedNumber += char;
+    }
+  });
+  if (cleanedNumber.length > 11) {
+    return "";
+  }
+  return cleanedNumber;
+}

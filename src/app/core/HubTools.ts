@@ -33,6 +33,11 @@ export const HubTools: HubToolProps[] = [
     name: "Settings",
     icon: "/images/icon_settings.png",
   },
+  {
+    link: "./contacts",
+    name: "Contacts",
+    icon: "/images/icon_contacts.png",
+  }
 ].sort((a, b) => {
   // Sorts list by HubAppProps.name
   return a.name.localeCompare(b.name);

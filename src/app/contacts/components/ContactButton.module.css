@@ -1,0 +1,22 @@
+/*
+ContactButton.module.css
+Ojos Project
+*/
+.single_contact {
+    width: 65dvw;
+    margin: 20px 0;
+    overflow-wrap: anywhere;
+    padding: 10px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin: 10px;
+    border-radius: 10px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .single_contact:hover {
+    cursor: pointer;
+    transform: translateY(-10px);
+    box-shadow: 0 8px 15px rgba(111, 110, 110, 0.3);
+    
+  }

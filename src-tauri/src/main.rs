@@ -5,6 +5,7 @@ mod core;
 mod medications;
 mod pro;
 mod resources;
+mod contacts;
 use core::config;
 use std::{env, process};
 use tauri::Manager;
@@ -38,7 +39,12 @@ fn main() {
             pro::commands::get_all_pros,
             pro::commands::get_pro_questions,
             resources::commands::get_resources,
-            call::commands::open_recordings_folder
+            call::commands::open_recordings_folder,
+            contacts::commands::get_all_contacts,
+            contacts::commands::get_single_contact,
+            contacts::commands::create_contact,
+            contacts::commands::update_contact,
+            contacts::commands::delete_contact,
         ])
         .setup(|app| {
             app.set_menu(core::menu::menu(&app.app_handle())).unwrap();
