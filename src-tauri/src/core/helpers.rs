@@ -18,10 +18,6 @@ pub fn stamp() -> (i64, String) {
     (unix_timestamp(), Uuid::new_v4().to_string())
 }
 
-pub fn app_data_dir(app: &AppHandle) -> PathBuf {
-    app.path().app_data_dir().unwrap()
-}
-
 pub fn db_connect(app: &AppHandle) -> Connection {
     Connection::open(app.path().app_data_dir().unwrap().join("iris.db"))
         .expect("Connection to iris.db failed.")

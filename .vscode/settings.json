@@ -34,13 +34,4 @@
     "Tauri",
     "webm"
   ],
-  "[css]": {
-    "editor.defaultFormatter": "vscode.css-language-features"
-  },
-  "[javascriptreact]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features"
-  },
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features"
-  }
 }
