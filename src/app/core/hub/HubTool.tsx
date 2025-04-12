@@ -1,13 +1,13 @@
 import Link from "next/link";
-import classes from "./HubApp.module.css";
+import classes from "./HubTool.module.css";
 
-export type HubAppProps = {
+export type HubToolProps = {
   name: string;
   link: string;
   icon?: string;
 };
 
-export default function HubApp({ name, link, icon }: HubAppProps) {
+export default function HubTool({ name, link, icon }: HubToolProps) {
   // todo: add use of icon link for the application icon
   return (
     <Link href={link} className={classes.link}>

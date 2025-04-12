@@ -6,18 +6,25 @@ import "./survey.css";
 import BackButton from "@/app/core/components/BackButton";
 import { invoke } from "@tauri-apps/api/core";
 import Button from "@/app/core/components/Button";
+import Dialog from "@/app/core/components/Dialog";
+import useKeyPress from "@/app/accessibility/keyboard_nav";
+import { ProQuestion } from "../types";
 
 export default function Survey() {
   const [isModalOpen, setModalOpen] = useState(false);
-  const [questions, setQuestions] = useState<string[]>([]);
+  const [questions, setQuestions] = useState<ProQuestion[]>([]);
   const [surveyResults, setSurveyResults] = useState<
     (string | number)[][] | null
   >(null);
   const router = useRouter();
 
+  useKeyPress("Escape", () => {
+    router.back();
+  });
+
   useEffect(() => {
     invoke("get_pro_questions").then((questions) => {
-      setQuestions(questions as string[]);
+      setQuestions(questions as ProQuestion[]);
     });
   }, []);
 
@@ -39,10 +46,9 @@ export default function Survey() {
     <div className="Survey">
       <div>
         <BackButton />
-        <h1>Today's Survey</h1>
+        <h1 className="text-align-center">Today's Survey</h1>
         <div className="container">
           <SurveyPage
-            count={10}
             size={40}
             questions={questions}
             onSubmit={handleSurveySubmit}
@@ -51,39 +57,16 @@ export default function Survey() {
       </div>
 
       {isModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <div className="container">
-              <h1>Thank you!</h1>
-            </div>
-            <h3>You have completed your survey for today.</h3>
-
-            <div className="survey-results">
-              <h2>Your Responses:</h2>
-              {surveyResults ? (
-                surveyResults.map((item, index) => (
-                  <div key={index}>
-                    <div className="container-4">
-                      <h3 style={{ marginRight: "5px" }}>
-                        {index + 1}. {item[0]}:
-                      </h3>
-                    </div>
-                    <div className="container">
-                      <h2>{item[1]}</h2>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <p>No survey responses available.</p>
-              )}
-              <Button
-                type="PRIMARY"
-                label="Return to Pros"
-                onClick={handleGoBack}
-              />
-            </div>
-          </div>
-        </div>
+        <Dialog
+          title="Thank you!"
+          content="You have completed your survey for today"
+        >
+          <Button
+            type="PRIMARY"
+            label="Return to Pros"
+            onClick={handleGoBack}
+          />
+        </Dialog>
       )}
     </div>
   );

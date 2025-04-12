@@ -1,8 +1,8 @@
 "use client";
 import classes from "./page.module.css";
 import HubHeader from "./core/hub/HubHeader";
-import HubApp from "./core/hub/HubApp";
-import { HubApps } from "./core/HubApps";
+import HubTool from "./core/hub/HubTool";
+import { HubTools } from "./core/HubTools";
 import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { Config } from "@/app/core/types";
@@ -27,14 +27,14 @@ export default function Home() {
       <HubHeader></HubHeader>
       <main className={classes.flex}>
         <section className={classes.side1}>
-          <h2> Your Apps </h2>
+          <h2> Your Tools </h2>
           <ul className={classes.appList}>
-            {HubApps.map((hubApp) => (
-              <HubApp
-                key={hubApp.name}
-                link={hubApp.link}
-                icon={hubApp.icon}
-                name={hubApp.name}
+            {HubTools.map((hubTool) => (
+              <HubTool
+                key={hubTool.name}
+                link={hubTool.link}
+                icon={hubTool.icon}
+                name={hubTool.name}
               />
             ))}
           </ul>

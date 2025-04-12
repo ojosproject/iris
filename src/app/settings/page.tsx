@@ -12,6 +12,8 @@ import Button from "../core/components/Button";
 import { parse_phone_number } from "../core/helper";
 import Dialog from "../core/components/Dialog";
 import { invoke } from "@tauri-apps/api/core";
+import useKeyPress from "../accessibility/keyboard_nav";
+import { useRouter } from "next/navigation";
 
 type SectionProps = {
   children: ReactElement;
@@ -47,8 +49,14 @@ export default function Settings() {
   const [config, setConfig] = useState<Config | null>(null);
   const [displayDialog, setDisplayDialog] = useState(false);
   const [displayNumberDialog, setDisplayNumberDialog] = useState(false);
+  const [dataPackDialog, setDataPackDialog] = useState({
+    enabled: false,
+    title: "",
+    content: "",
+  });
   const [relayActivated, setRelayActivated] = useState(false);
   const [newNumber, setNewNumber] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     invoke("get_config").then((c) => {
@@ -64,71 +72,168 @@ export default function Settings() {
     setConfig(newConfig);
   }
 
-  function RelaySection({ config }: { config: Config }) {
+  useKeyPress("Escape", () => {
+    if (displayDialog) {
+      setDisplayDialog(false);
+      setRelayActivated(false);
+    } else if (displayNumberDialog) {
+      setDisplayNumberDialog(false);
+    } else {
+      router.back();
+    }
+  });
+
+  useKeyPress("Enter", () => {
+    if (displayNumberDialog && newNumber.length >= 10 && config) {
+      setDisplayNumberDialog(false);
+      if (!config.contacts.some((contact) => contact.value === newNumber)) {
+        commitConfig({
+          onboarding_completed: config.onboarding_completed,
+          resources_last_call: config.resources_last_call,
+          contacts: [...config.contacts, { method: "SMS", value: newNumber }],
+          pro_questions: config.pro_questions,
+        });
+      }
+      setNewNumber("");
+    }
+  });
+
+  function RelaySection() {
     return (
-      <Section
-        title="Relay Notifications"
-        description="Relay your patient's care via SMS messages."
-      >
-        <div>
-          <Row label="Relay Numbers?">
-            <Switch
-              defaultChecked={relayActivated}
-              checked={relayActivated}
-              onChange={() => {
-                setRelayActivated(!relayActivated);
-                if (!relayActivated) {
-                  setDisplayDialog(!displayDialog);
-                } else {
-                  commitConfig({
-                    contacts: [],
-                    onboarding_completed: config.onboarding_completed,
-                    resources_last_call: config.resources_last_call,
-                  });
-                }
-              }}
-            ></Switch>
-          </Row>
+      config && (
+        <Section
+          title="Relay Notifications"
+          description="Relay your patient's care via SMS messages."
+        >
+          <div>
+            <Row label="Relay Numbers?">
+              <Switch
+                defaultChecked={relayActivated}
+                checked={relayActivated}
+                onChange={() => {
+                  setRelayActivated(!relayActivated);
+                  if (!relayActivated) {
+                    setDisplayDialog(!displayDialog);
+                  } else {
+                    commitConfig({
+                      contacts: [],
+                      onboarding_completed: config.onboarding_completed,
+                      resources_last_call: config.resources_last_call,
+                      pro_questions: config.pro_questions,
+                    });
+                  }
+                }}
+              ></Switch>
+            </Row>
 
-          {relayActivated && config.contacts.length !== 0 && (
-            <div>
-              <h3>Push to these numbers...</h3>
-              {config.contacts.map((c) => {
-                return (
-                  <div className={classes.number_button_row}>
-                    <p>{parse_phone_number(parseInt(c.value))}</p>
-                    <Button
-                      type="SECONDARY"
-                      label="Delete"
-                      onClick={() => {
-                        commitConfig({
-                          onboarding_completed: config.onboarding_completed,
-                          resources_last_call: config.resources_last_call,
-                          contacts: config.contacts.filter(
-                            (contact) => contact.value !== c.value,
-                          ),
-                        });
-                      }}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          )}
+            {relayActivated && config && config.contacts.length !== 0 && (
+              <div>
+                <h3>Push to these numbers...</h3>
+                {config.contacts.map((c) => {
+                  return (
+                    <div className={classes.number_button_row}>
+                      <p>{parse_phone_number(parseInt(c.value))}</p>
+                      <Button
+                        type="SECONDARY"
+                        label="Delete"
+                        onClick={() => {
+                          commitConfig({
+                            onboarding_completed: config.onboarding_completed,
+                            resources_last_call: config.resources_last_call,
+                            contacts: config.contacts.filter(
+                              (contact) => contact.value !== c.value,
+                            ),
+                            pro_questions: config.pro_questions,
+                          });
+                        }}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            )}
 
-          {relayActivated && (
-            <div className={classes.add_number_button}>
+            {relayActivated && (
+              <div className={classes.add_number_button}>
+                <Button
+                  type="PRIMARY"
+                  label="Add Number"
+                  onClick={() => {
+                    setDisplayNumberDialog(true);
+                  }}
+                />
+              </div>
+            )}
+          </div>
+        </Section>
+      )
+    );
+  }
+
+  function ImportSection() {
+    type Receipt = {
+      resources_count?: number;
+      pro_count?: number;
+      contacts_count?: number;
+    };
+
+    return (
+      config && (
+        <Section
+          title="Data Packs"
+          description="Import data such as resources, survey questions, or contact information with JavaScript Object Notation."
+        >
+          <div>
+            <Row label="Data Pack (JSON)">
               <Button
                 type="PRIMARY"
-                label="Add Number"
+                label="Select..."
                 onClick={() => {
-                  setDisplayNumberDialog(true);
+                  invoke<Receipt>("import_data_pack")
+                    .then((receipt) => {
+                      let title = "Sorry, something went wrong.";
+                      let message =
+                        "No data was imported. Make sure the data isn't already in the database. Consult the docs for more information.";
+
+                      if (
+                        receipt.pro_count ||
+                        receipt.resources_count ||
+                        receipt.contacts_count
+                      ) {
+                        title = "Data Pack was successfully imported!";
+                        message = "";
+                      }
+
+                      if (receipt.pro_count) {
+                        message += `${receipt.pro_count} PRO question${receipt.pro_count > 1 ? "s" : ""} imported.\n`;
+                      }
+                      if (receipt.resources_count) {
+                        message += `${receipt.resources_count} resource${receipt.resources_count > 1 ? "s" : ""} imported.\n`;
+                      }
+
+                      if (receipt.contacts_count) {
+                        message += `${receipt.contacts_count} contact${receipt.contacts_count > 1 ? "s" : ""} imported.\n`;
+                      }
+
+                      setDataPackDialog({
+                        enabled: true,
+                        title: title,
+                        content: message,
+                      });
+                    })
+                    .catch((e) => {
+                      setDataPackDialog({
+                        enabled: true,
+                        title: "Sorry, something went wrong.",
+                        content: e,
+                      });
+                    });
                 }}
               />
-            </div>
-          )}
-        </div>
-      </Section>
+            </Row>
+          </div>
+        </Section>
+      )
     );
   }
 
@@ -138,13 +243,14 @@ export default function Settings() {
       <div className={classes.container_settings}>
         <h1>Settings</h1>
         <div className={classes.column_of_settings}>
-          {config && <RelaySection config={config} />}
+          <RelaySection />
+          <ImportSection />
         </div>
       </div>
       {displayDialog && (
         <Dialog
           title="Activate Relay?"
-          content="By adding your phone number to this program, you consent to receiving messages about the hospice patient's care. Messages such as when the patient takes their medication, new care instructions, and more. "
+          content="By adding your phone number to this program, you consent to receiving messages about your patient's care. Messages such as when the patient takes their medication, new care instructions, and more. "
         >
           <div
             style={{
@@ -173,7 +279,7 @@ export default function Settings() {
           </div>
         </Dialog>
       )}
-      {displayNumberDialog && (
+      {displayNumberDialog && config && (
         <Dialog
           title="Add Phone Number"
           content={
@@ -224,14 +330,23 @@ export default function Settings() {
               disabled={newNumber.length < 10}
               onClick={() => {
                 setDisplayNumberDialog(!displayNumberDialog);
-                commitConfig({
-                  onboarding_completed: config!.onboarding_completed,
-                  resources_last_call: config!.resources_last_call,
-                  contacts: [
-                    ...config!.contacts,
-                    { method: "SMS", value: newNumber },
-                  ],
-                });
+                if (
+                  config.contacts.filter((contact) => {
+                    return contact.value === newNumber.toString();
+                  }).length === 0
+                ) {
+                  console.log(config.contacts);
+                  console.log(newNumber);
+                  commitConfig({
+                    onboarding_completed: config!.onboarding_completed,
+                    resources_last_call: config!.resources_last_call,
+                    contacts: [
+                      ...config!.contacts,
+                      { method: "SMS", value: newNumber },
+                    ],
+                    pro_questions: config!.pro_questions,
+                  });
+                }
                 setNewNumber("");
               }}
             />
@@ -244,6 +359,21 @@ export default function Settings() {
               }}
             />
           </div>
+        </Dialog>
+      )}
+      {dataPackDialog.enabled && config && (
+        <Dialog title={dataPackDialog.title} content={dataPackDialog.content}>
+          <Button
+            type="PRIMARY"
+            label="Continue"
+            onClick={() =>
+              setDataPackDialog({
+                enabled: false,
+                title: "",
+                content: "",
+              })
+            }
+          />
         </Dialog>
       )}
     </div>

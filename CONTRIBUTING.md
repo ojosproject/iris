@@ -34,7 +34,7 @@
 First and foremost, thank you for wanting to contribute to Iris.
 
 The Ojos Project is a research project started at the [University of California,
-Irvine](https://uci.edu/) with the goal of making the hospice experience less
+Irvine](https://uci.edu/) with the goal of making the caregiving experience less
 complicated. [Carlos Valdez](https://github.com/calejvaldez/)'s grandmother was
 in hospice, and he witnessed firsthand some of the difficulties that can arise
 in hospice care.
@@ -138,7 +138,7 @@ It may be useful to read the following resources before development:
 - [Thinking in React](https://react.dev/learn/thinking-in-react)
 - [NextJS App Routing Fundamentals](https://nextjs.org/docs/app/building-your-application/routing)
 - [Clear explanation of Rust’s module system](https://www.sheshbabu.com/posts/rust-module-system/)
-- [Creating an Iris feature](./docs/create-a-feature.md)
+- [Creating an Iris feature](./docs/design/create-a-feature.md)
 
 ### Setting up your coding environment
 

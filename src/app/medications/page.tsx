@@ -7,6 +7,8 @@ import BackButton from "../core/components/BackButton";
 import Button from "../core/components/Button";
 import ConfirmLogModal from "./components/ConfirmLogModal";
 import { timestampToString } from "../core/helper";
+import useKeyPress from "../accessibility/keyboard_nav";
+import { useRouter } from "next/navigation";
 import MedicationForm from "./add_medication/page";
 
 const MedicationsView = () => {
@@ -24,6 +26,18 @@ const MedicationsView = () => {
   const [isConfirmLogModalOpen, setIsConfirmLogModalOpen] = useState(false);
   const [medications, setMedications] = useState<Medication[]>([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
+
+  useKeyPress("Escape", () => {
+    if (isNewMedFormOpen) {
+      setIsNewMedFormOpen(false);
+    } else if (isConfirmLogModalOpen) {
+      setIsConfirmLogModalOpen(false);
+    } else {
+      router.back();
+    }
+  });
+
   const handleOpenForm = () => {
     setIsNewMedFormOpen(true);
   };
@@ -100,6 +114,7 @@ const MedicationsView = () => {
       setIsConfirmLogModalOpen(false); // Close the modal after submission
     }
   };
+
 
   return (
     <>

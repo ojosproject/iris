@@ -8,6 +8,8 @@ import moment from "moment";
 import { useSearchParams } from "next/navigation";
 import { parse_phone_number, timestampToString } from "@/app/core/helper";
 import BackButton from "@/app/core/components/BackButton";
+import useKeyPress from "@/app/accessibility/keyboard_nav";
+import { useRouter } from "next/navigation";
 
 const Header = ({ name, brand }: { name: string; brand?: string }) => {
   return (
@@ -91,6 +93,11 @@ const MedicineView = () => {
   });
   const logContainerRef = useRef(null);
   const medicationName = useSearchParams().get("name");
+  const router = useRouter();
+  
+  useKeyPress("Escape", () => {
+    router.back();
+  });
   {
     useEffect(() => {
       invoke("get_medication_logs", {

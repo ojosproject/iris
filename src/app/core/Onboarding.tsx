@@ -12,7 +12,7 @@ export default function Onboarding(props: {
   const SCREEN_WELCOME = (
     <div className={classes.onboarding_center}>
       <h1>Welcome to Iris!</h1>
-      <h3>Your at-home hospice management system</h3>
+      <h3>Your care management system</h3>
 
       <div className={classes.button_on_bottom}>
         <Button
@@ -38,12 +38,14 @@ export default function Onboarding(props: {
         type="text"
         value={patientName}
         className={classes.text_input}
+        autoFocus={onScreen === 1} // auto focus when screen is active
         onChange={(e) => setPatientName(e.target.value)}
       />
       <div className={classes.button_on_bottom}>
         <Button
           type="PRIMARY"
           label="Continue"
+          disabled={patientName === ""}
           onClick={() => {
             if (patientName === "") {
               return;

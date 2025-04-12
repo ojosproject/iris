@@ -1,7 +1,7 @@
 [package]
 name = "iris"
 version = "0.0.0"
-description = "Iris, the at-home hospice management system by the Ojos Project."
+description = "Iris, the care management system by the Ojos Project."
 homepage = "https://ojosproject.org/iris/"
 documentation = "https://ojosproject.org/docs/iris/"
 authors = ["Ojos Project"]
@@ -25,6 +25,8 @@ chrono = "0.4.38"
 itertools = "0.13.0"
 reqwest = { version = "0.11", features = ["blocking", "json"] }
 tauri-plugin-fs = "2"
+tauri-plugin-os = "2"
+tauri-plugin-dialog = "2"
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem and the built-in dev server is disabled.

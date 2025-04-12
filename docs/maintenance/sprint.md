@@ -1,28 +1,27 @@
 Sprint Details
 ==============
 
-| Event                       | Date                     |
-| --------------------------- | ------------------------ |
-| Sprint Start                | January 13, 2025         |
-| Sprint End                  | February 3, 2025         |
-| Sprint Review/Retrospective | Week of January 13, 2025 |
+| Event                       | Date                   |
+| --------------------------- | ---------------------- |
+| Sprint Start                | April 7, 2025          |
+| Sprint End                  | April 25, 2025         |
+| Sprint Review/Retrospective | Week of April 28, 2025 |
 
-During this sprint, developers are focusing on improving Iris for the CHI
-Competition. This includes work such as adding missing features, making it
-bug-resistant, and more.
+This sprint sets up a distributable (beta) application, while also providing
+some useful features to add before deploying.
 
 Sprint Backlog
 --------------
 
-| Activity                    | Type      | Assignee(s)              | GitHub                                               |
-| --------------------------- | --------- | ------------------------ | ---------------------------------------------------- |
-| Joystick Support            | Feature   | Carlos Valdez            | [#53](https://github.com/ojosproject/iris/pull/53)   |
-| Rewrite Medications backend | Refactor  | Carlos Valdez, Mai Luong | None yet                                             |
-| Relay Notifications via SMS | Feature   | Jason Martin             | [#29](https://github.com/ojosproject/iris/pull/29)   |
-| AI (Care Instructions)      | Feature   | Ayush Jain               | [#51](https://github.com/ojosproject/iris/pull/51)   |
-| Frontend bugs               | Bug fixes | Helen Chau               | [#43](https://github.com/ojosproject/iris/issues/43) |
-| Backend bugs                | Bug fixes | Jason Martin             | [#43](https://github.com/ojosproject/iris/issues/43) |
-| Frontend/Backend bugs       | Bug fixes | Carlos Valdez            | [#43](https://github.com/ojosproject/iris/issues/43) |
+| Activity                              | Type     | Tool                | Assignee(s)                 | GitHub |
+| ------------------------------------- | -------- | ------------------- | --------------------------- | ------ |
+| An "import data" function             | Feature  | Settings            | Carlos Valdez               | N/A    |
+| Separate schedule creator             | Refactor | Medications         | Mai Luong                   | N/A    |
+| Change flow of new medication dialogs | Refactor | Medications         | Carlos Valdez               | N/A    |
+| Have only 1 question be displayed     | Refactor | Survey              | Helen Chau                  | N/A    |
+| Implement an "activate Relay" button  | Feature  | Contacts            | Ayush Jain                  | N/A    |
+| Implement proper Rust error handling  | Refactor | N/A - Entire system | Jason Martin                | N/A    |
+| Set up distribution                   | CI       | N/A                 | Carlos Valdez, Jason Martin | N/A    |
 
 Our Workflow
 ------------

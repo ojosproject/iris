@@ -1,4 +1,3 @@
 pub mod commands;
-mod helper;
-mod structs;
 pub mod schema;
+pub mod structs;

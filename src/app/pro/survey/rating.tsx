@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "./survey.css";
 import Button from "@/app/core/components/Button";
+import Dialog from "@/app/core/components/Dialog";
+import { ProQuestion } from "../types";
 
 interface RatingProps {
   className?: string;
-  count: number;
   size: number;
   onSubmit: (responses: (string | number)[][]) => void;
-  questions: string[];
+  questions: ProQuestion[];
 }
 
 const FullCircle = ({
@@ -70,7 +71,6 @@ const EmptyCircle = ({
 
 const SurveyPage: React.FC<RatingProps> = ({
   className,
-  count,
   size,
   questions,
   onSubmit,
@@ -90,6 +90,9 @@ const SurveyPage: React.FC<RatingProps> = ({
 
   const [isModalOpen, setModalOpen] = React.useState(false); // State for modal visibility
   const [modalContent, setModalContent] = React.useState<string[]>([]);
+  const stringifiedQuestions = questions.map(
+    (proQuestion) => proQuestion.question,
+  );
 
   const handleRatingChange = (index: number, rating: number) => {
     const updatedRatings = [...ratings];
@@ -98,7 +101,9 @@ const SurveyPage: React.FC<RatingProps> = ({
   };
 
   const handleSubmit = () => {
-    const unanswered = questions.filter((_, index) => isNaN(ratings[index]));
+    const unanswered = stringifiedQuestions.filter((_, index) =>
+      isNaN(ratings[index]),
+    );
 
     if (unanswered.length > 0) {
       setModalContent(unanswered);
@@ -107,7 +112,7 @@ const SurveyPage: React.FC<RatingProps> = ({
     }
 
     const responses: [string, number][] = questions.map((q, i) => [
-      q, // question as a string
+      q.question, // question as a string
       Math.round(Number(ratings[i])),
     ]);
 
@@ -118,63 +123,71 @@ const SurveyPage: React.FC<RatingProps> = ({
     setModalOpen(false);
   };
 
+  // todo: consider having multiple different types of "category labels"
+  // todo: for each category.
   return (
     <div className={`survey-page ${className}`}>
-      {questions.map((item, index) => (
+      {questions.map((item, index, arr) => (
         <div key={index} className="survey-question">
+          {(index === 0 || arr.at(index - 1)?.category !== item.category) && (
+            <h4>In the past 2 weeks, how often did you feel...</h4>
+          )}
           <h4>
-            <p> {index + 1}. </p>
-            {item}
+            <p>{index + 1}. </p>
+            {item.question}
           </h4>
-          <div className="rating-options">
-            {[...Array(count)].map((_, i) => {
-              const isSelected = i === ratings[index] - 1;
-              return (
-                <div
-                  key={i}
-                  style={{ cursor: "pointer" }}
-                  onClick={() => handleRatingChange(index, i)}
-                >
-                  {isSelected ? (
-                    <FullCircle size={size} number={i + 1} />
-                  ) : (
-                    <EmptyCircle size={size} number={i + 1} />
-                  )}
-                </div>
-              );
-            })}
+          <div className="rating-wrapper">
+            <p className="rating-label">{item.lowest_label}</p>
+            <div className="rating-options">
+              {[...Array(item.highest_ranking)].map((_, i) => {
+                const isSelected = i === ratings[index] - 1;
+                return (
+                  <div
+                    key={i}
+                    style={{ cursor: "pointer" }}
+                    onClick={() => handleRatingChange(index, i)}
+                  >
+                    {isSelected ? (
+                      <FullCircle size={size} number={i + 1} />
+                    ) : (
+                      <EmptyCircle size={size} number={i + 1} />
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+            <p className="rating-label text-align-right">
+              {item.highest_label}
+            </p>
           </div>
         </div>
       ))}
       <Button type="PRIMARY" label="Submit Survey" onClick={handleSubmit} />
       {isModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h1>Unanswered Questions</h1>
-            <h3>Please answer all questions below</h3>
-            <ul>
-              {modalContent.map((question, index) => (
-                <div key={index} className="container-4">
-                  <p>
-                    <strong style={{ marginRight: "5px" }}>
-                      {questions.indexOf(question) + 1}.
-                    </strong>
-                    {question}
-                  </p>
-                </div>
-              ))}
-            </ul>
+        <Dialog
+          title="Unanswered Questions"
+          content="Please answer all questions below"
+        >
+          <ul className="modal-content">
+            {modalContent.map((question, index) => (
+              <div key={index} className="container-4">
+                <p>
+                  <strong style={{ marginRight: "5px" }}>
+                    {stringifiedQuestions.indexOf(question) + 1}.
+                  </strong>
+                  {question}
+                </p>
+              </div>
+            ))}
+          </ul>
+          <div className="container-sidebyside">
+            <Button
+              type="PRIMARY"
+              label="Continue Survey"
+              onClick={handleGoBack}
+            />
           </div>
-          <div className="modal-content-2">
-            <div className="container-sidebyside">
-              <Button
-                type="PRIMARY"
-                label="Continue Survey"
-                onClick={handleGoBack}
-              />
-            </div>
-          </div>
-        </div>
+        </Dialog>
       )}
     </div>
   );

@@ -3,13 +3,19 @@
   flex-direction: row;
 
   background-color: #cbd5e0;
-  width: 90%;
-  max-width: 650px;
+  width: 650px;
 
   border-radius: 10px;
   padding: 5px 20px;
 
   margin: 20px;
+  animation: fadeIn 0.5s ease-in-out forwards;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.resource_container:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 15px rgba(160, 160, 160, 0.3);
 }
 
 .category_label {
@@ -39,4 +45,13 @@
 .shorten_line_height {
   margin: 5px;
   padding: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0%;
+  }
+  to {
+    opacity: 100%;
+  }
 }

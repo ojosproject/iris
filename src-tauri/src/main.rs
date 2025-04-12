@@ -5,12 +5,15 @@ mod core;
 mod medications;
 mod pro;
 mod resources;
+mod contacts;
 use core::config;
 use std::{env, process};
 use tauri::Manager;
 
 fn main() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_dialog::init())
+        .plugin(tauri_plugin_os::init())
         .plugin(tauri_plugin_fs::init())
         .invoke_handler(tauri::generate_handler![
             medications::commands::create_medication,
@@ -23,6 +26,7 @@ fn main() {
             core::commands::get_patient_info,
             core::commands::get_config,
             core::commands::set_config,
+            core::commands::import_data_pack,
             core::commands::complete_onboarding,
             core::commands::get_nurse_info,
             core::commands::create_user,
@@ -31,16 +35,20 @@ fn main() {
             care_instructions::commands::get_single_care_instruction,
             care_instructions::commands::update_care_instructions,
             care_instructions::commands::care_instructions_previous_next_ids,
+            care_instructions::commands::delete_care_instructions,
             pro::commands::add_pros,
             pro::commands::get_all_pros,
-            pro::commands::add_pro_question,
             pro::commands::get_pro_questions,
             resources::commands::get_resources,
-            call::commands::open_recordings_folder
+            call::commands::open_recordings_folder,
+            contacts::commands::get_all_contacts,
+            contacts::commands::get_single_contact,
+            contacts::commands::create_contact,
+            contacts::commands::update_contact,
+            contacts::commands::delete_contact,
         ])
         .setup(|app| {
-            app.set_menu(core::menu::menu(app.app_handle().clone()))
-                .unwrap();
+            app.set_menu(core::menu::menu(&app.app_handle())).unwrap();
 
             app.on_menu_event(move |app, event| {
                 let copy = app.clone();
@@ -76,6 +84,17 @@ fn main() {
                     println!("Recreating iris.db...");
                     core::onboarding::setup_onboarding(app.app_handle());
                     println!("Done!");
+                } else if event.id() == "open-recordings" {
+                    process::Command::new(command)
+                        .args(
+                            app.path()
+                                .app_data_dir()
+                                .unwrap()
+                                .join("recordings")
+                                .to_str(),
+                        )
+                        .output()
+                        .unwrap();
                 }
             });
 

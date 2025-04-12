@@ -1,14 +1,23 @@
 // call/helper.ts
 // Ojos Project
 import { BaseDirectory, exists, writeFile, mkdir } from "@tauri-apps/plugin-fs";
+import { platform } from "@tauri-apps/plugin-os";
+
+function properPath(): string {
+  if (platform() === "windows") {
+    return "recordings\\";
+  } else {
+    return "recordings/";
+  }
+}
 
 async function ensureRecordingsFolderExists() {
-  const folderExists = await exists("recordings/", {
+  const folderExists = await exists(properPath(), {
     baseDir: BaseDirectory.AppData,
   });
 
   if (!folderExists) {
-    mkdir("recordings/", { baseDir: BaseDirectory.AppData });
+    mkdir(properPath(), { baseDir: BaseDirectory.AppData });
   }
 }
 
@@ -19,8 +28,8 @@ export async function saveVideo(blob: Blob) {
   await ensureRecordingsFolderExists();
 
   blob.arrayBuffer().then((buffer) => {
-    writeFile(`recordings/${fileName}`, new Uint8Array(buffer), {
-      baseDir: BaseDirectory.AppLocalData,
+    writeFile(`${properPath()}${fileName}`, new Uint8Array(buffer), {
+      baseDir: BaseDirectory.AppData,
     });
   });
 }
