@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS medication_log (
     medication_id TEXT NOT NULL,
     strength REAL NOT NULL,
     units TEXT NOT NULL,
-    comments TEXT,
+    comments TEXT
 ) STRICT;
 
 CREATE TABLE IF NOT EXISTS medication (
@@ -25,6 +25,6 @@ CREATE TABLE IF NOT EXISTS medication (
     end_date REAL,
     expiration_date REAL,
     frequency TEXT,
-    notes TEXT,
+    notes TEXT
 ) STRICT;
 "#;

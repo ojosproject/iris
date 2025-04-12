@@ -123,7 +123,7 @@ pub fn get_medications(app: AppHandle, id: Option<String>) -> Vec<Medication> {
     } else {
         let mut stmt = conn.prepare("SELECT * FROM medication").unwrap();
         let wrapped_medications = stmt
-            .query_map(named_params! {":id": id}, |row| {
+            .query_map([], |row| {
                 Ok(Medication {
                     id: row.get(0)?,
                     name: row.get(1)?,
