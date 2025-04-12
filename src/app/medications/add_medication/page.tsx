@@ -104,7 +104,7 @@ const MedicationForm: React.FC<MedicationFormProps> = ({
             <div className={styles.pageContent}>
                 <h2>Add New Medication</h2>
                 <p className={styles.textStructure}>
-                    Medication Name
+                    Medication Name{" "}<span style={{ color: "red" }}>*</span>
                 </p>
                 <input
                     className={styles.input}
@@ -124,7 +124,7 @@ const MedicationForm: React.FC<MedicationFormProps> = ({
                     onChange={(e) => handleInputChange("medicationGenericName", e.target.value)}
                 />
                 <p className={styles.textStructure}>
-                    Dosage</p>
+                    Dosage{" "}<span style={{ color: "red" }}>*</span></p>
                 <div className={styles.dosageInputContainer}>
                     <input
                         className={styles.input}
@@ -184,7 +184,7 @@ const MedicationForm: React.FC<MedicationFormProps> = ({
                     </div>
                 </div>
                 <div>
-                    <p className={styles.textStructure}>Quantity:</p>
+                    <p className={styles.textStructure}>Quantity:{" "}<span style={{ color: "red" }}>*</span></p>
                     <div className={styles.quantityBox}>
                         <input
                             type="number"
