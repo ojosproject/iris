@@ -72,18 +72,16 @@ const MedicineView = () => {
   const [visibleLogs, setVisibleLogs] = useState<MedicationLog[]>([]);
   const [logsToShow, setLogsToShow] = useState(5);
   const [medication, setMedication] = useState<Medication>({
-    name: "Loading...",
-    brand: "Loading...",
-    dosage: 0,
-    first_added: 0,
-    frequency: 0,
-    measurement: "Loading...",
-    nurse_id: "0",
-    supply: 0,
-    total_prescribed: 0,
+    id: "",
+    name: "",
+    dosage_type: "",
+    strength: 0,
+    units: "",
+    quantity: 0,
+    created_at: 0,
+    updated_at: 0
   });
-  const pillsPercentage =
-    100 * (medication.supply / medication.total_prescribed); // we'll fix later
+  const pillsPercentage = 100; // we'll fix later
   const [prescriptionNurse, setPrescriptionNurse] = useState<User>({
     full_name: "Loading...",
     phone_number: 9999999999,
@@ -92,29 +90,23 @@ const MedicineView = () => {
     type_of: "NURSE",
   });
   const logContainerRef = useRef(null);
-  const medicationName = useSearchParams().get("name");
+  const medicationId = useSearchParams().get("id");
   const router = useRouter();
-  
+
   useKeyPress("Escape", () => {
     router.back();
   });
   {
     useEffect(() => {
       invoke("get_medication_logs", {
-        medication: medicationName,
+        medication: medicationId,
       }).then((medication_log) => {
         setVisibleLogs(medication_log as MedicationLog[]);
       });
 
-      invoke("get_medication", { medication: medicationName }).then((m) => {
+      invoke("get_medications", { id: medicationId }).then((m) => {
         setMedication((m as Medication[])[0]);
       });
-
-      invoke("get_nurse_info", { nurse_id: medication.nurse_id }).then(
-        (nurse) => {
-          setPrescriptionNurse(nurse as User);
-        },
-      );
     }, [logsToShow, prescriptionNurse]);
   }
 
@@ -142,7 +134,7 @@ const MedicineView = () => {
     <>
       <BackButton />
       <div className={styles.medicineContainer}>
-        <Header name={medication.name} brand={medication.brand} />
+        <Header name={medication.name} brand={medication.generic_name ? medication.generic_name : ""} />
         <div className={styles.content}>
           <LeftPanel
             prescribedBy={prescriptionNurse.full_name}
@@ -152,25 +144,15 @@ const MedicineView = () => {
                 : "N/A"
             } // phone number could be empty, make optional field
             email={prescriptionNurse.email ? prescriptionNurse.email : "N/A"} // email could be empty, make optional field
-            addedOn={timestampToString(medication.first_added)}
+            addedOn={timestampToString(medication.created_at)}
           />
 
           <div className={styles.rightPanel}>
             <h3>Details</h3>
             <div className={styles.detailsContainer}>
-              {medication.supply ? ( // Check if supply is available
-                <DetailBox
-                  label="Remaining"
-                  value={`${medication.supply}${medication.measurement}`}
-                  isPillsRemaining
-                  pillsPercentage={pillsPercentage}
-                />
-              ) : (
-                <div>No data available.</div> // Handle case when supply is not available (e.g., injections)
-              )}
               <DetailBox
                 label="Dosage"
-                value={`${medication.dosage}${medication.measurement}`}
+                value={`${medication.strength}${medication.units}`}
               />
               <DetailBox
                 label="Last taken"
@@ -197,8 +179,9 @@ const MedicineView = () => {
             <table>
               <thead className={styles.logHeader}>
                 <tr>
-                  <th>Taken on</th>
-                  <th>Dose</th>
+                  <th style={{ width: 100 }}>Date</th>
+                  <th style={{ width: 75 }}>Time</th>
+                  <th style={{ width: 50 }}>Dose</th>
                   <th>Comments</th>
                 </tr>
               </thead>
@@ -206,11 +189,10 @@ const MedicineView = () => {
                 {visibleLogs.length ? (
                   visibleLogs.map((entry, index) => (
                     <tr key={index}>
-                      <td>
-                        {`${timestampToString(entry.timestamp)}, ${timestampToString(entry.timestamp, "hh:mm a")}`}
-                      </td>
-                      <td>{`${entry.given_dose}${entry.measurement}`}</td>
-                      <td>{entry.comment ? entry.comment : "None"}</td>
+                      <td>{`${timestampToString(entry.timestamp)}`}</td>
+                      <td>{`${timestampToString(entry.timestamp, "HH:MM XX")}`}</td>
+                      <td>{`${entry.strength}${entry.units}`}</td>
+                      <td>{entry.comments ? entry.comments : "None"}</td>
                     </tr>
                   ))
                 ) : (

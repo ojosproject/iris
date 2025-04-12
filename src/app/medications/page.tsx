@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import styles from "./page.module.css";
-import { Medication } from "./types";
+import { Medication, MedicationLog } from "./types";
 import { invoke } from "@tauri-apps/api/core";
 import BackButton from "../core/components/BackButton";
 import Button from "../core/components/Button";
@@ -21,6 +21,7 @@ const MedicationsView = () => {
   const handleLogClick = (medication: Medication) => {
     setSelectedMedication(medication);
     setIsConfirmLogModalOpen(true);
+    invoke("update_medication", { id: medication.id, quantity: medication.quantity - medication.strength });
   };
   const [isNewMedFormOpen, setIsNewMedFormOpen] = useState(false);
   const [isConfirmLogModalOpen, setIsConfirmLogModalOpen] = useState(false);
@@ -76,18 +77,24 @@ const MedicationsView = () => {
 
     setMedications((prevMedications) => [...prevMedications, newMedication]);
 
-    invoke("create_medication", {
+    invoke<Medication>("create_medication", {
       name: newMedication.name,
-      dosage: newMedication.strength,
+      generic_name: newMedication.generic_name ? newMedication.generic_name : null,
+      dosage_type: newMedication.dosage_type,
+      strength: newMedication.strength,
+      units: newMedication.units,
+      quantity: newMedication.quantity,
+      start_date: newMedication.start_date,
+      end_date: newMedication.end_date,
+      expiration_date: newMedication.expiration_date,
       frequency: newMedication.frequency,
-      supply: newMedication.quantity,
-      measurement: newMedication.units,
-      //nurse_id: newMedication.nurse_id,
+      notes: newMedication.notes
+    }).then(m => {
+      console.log(m);
+      setMedications([...medications, m])
     }).catch((err) => {
-      console.error("Error creating medication", err);
+      console.error(err);
     });
-
-    setMedications([...medications, newMedication]);
     handleNewMedModelClose();
   };
 
@@ -96,7 +103,9 @@ const MedicationsView = () => {
       console.log(`Comment for ${selectedMedication.name}: ${comment}`);
       // Send the medication and comment to your backend or perform the necessary action
       invoke("log_medication", {
-        medication: selectedMedication.name,
+        id: selectedMedication.id,
+        strength: selectedMedication.strength,
+        units: selectedMedication.units,
         comments: comment || null,
       }).then(() => {
         // After logging the medication, refresh the list of medications
@@ -146,6 +155,7 @@ const MedicationsView = () => {
           </div>
           <ConfirmLogModal
             isOpen={isConfirmLogModalOpen}
+            title={`Log ${selectedMedication ? `${selectedMedication.name}? (${selectedMedication.strength}${selectedMedication.units})` : "medication?"}`}
             onClose={() => setIsConfirmLogModalOpen(false)}
             medication={selectedMedication}
             onConfirm={handleCommentSubmit}
@@ -167,12 +177,9 @@ const MedicationsView = () => {
                     <div className={styles.logLastTake}>
                       <strong>Last taken</strong>
                       <br />
-                      {medication.start_date ? (
-                        <>{`${timestampToString(medication.start_date, "MMDDYYYY")} @ ${timestampToString(medication.start_date, "HH:MM XX")}`}</>
-                      ) : (
-                        <>Not yet taken.</>
-                      )}
-                      {/* Format timestamp */}
+                      <>{medication.last_taken ? `${timestampToString(medication.last_taken, "MMDDYYYY")} @ ${timestampToString(medication.last_taken, "HH:MM XX")}` : "Not yet taken."}</>
+
+
                     </div>
                     <div key={medication.name} className={styles.logButtons}>
                       <Button
@@ -186,7 +193,7 @@ const MedicationsView = () => {
                         link={{
                           pathname: "/medications/view/",
                           query: {
-                            name: medication.name,
+                            name: medication.id,
                           },
                         }}
                       />

@@ -1,5 +1,8 @@
 use serde::{Deserialize, Serialize};
 
+// Reminder:
+// Ensure SQL's `INTEGER` is set for i64, and `REAL` for f64.
+// ONLY USE THOSE VALUES.
 #[derive(Serialize, Deserialize)]
 pub struct Medication {
     pub id: String,
@@ -8,7 +11,7 @@ pub struct Medication {
     pub dosage_type: String,
     pub strength: f64,
     pub units: String,
-    pub quantity: i64,
+    pub quantity: f64,
     pub created_at: i64,
     pub updated_at: i64,
     pub start_date: Option<i64>,
@@ -16,6 +19,7 @@ pub struct Medication {
     pub expiration_date: Option<i64>,
     pub frequency: Option<String>,
     pub notes: Option<String>,
+    pub last_taken: Option<i64>,
 }
 
 #[derive(Serialize, Deserialize)]

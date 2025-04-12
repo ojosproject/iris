@@ -4,7 +4,7 @@
 pub static MEDICATIONS_SCHEMA: &str = r#"
 CREATE TABLE IF NOT EXISTS medication_log (
     id TEXT NOT NULL PRIMARY KEY,
-    timestamp REAL NOT NULL,
+    timestamp INTEGER NOT NULL,
     medication_id TEXT NOT NULL,
     strength REAL NOT NULL,
     units TEXT NOT NULL,
@@ -19,12 +19,13 @@ CREATE TABLE IF NOT EXISTS medication (
     strength REAL NOT NULL,
     units TEXT NOT NULL,
     quantity REAL NOT NULL,
-    created_at REAL NOT NULL,
-    updated_at REAL NOT NULL,
-    start_date REAL,
-    end_date REAL,
-    expiration_date REAL,
+    created_at INTEGER NOT NULL,
+    updated_at INTEGER NOT NULL,
+    start_date INTEGER,
+    end_date INTEGER,
+    expiration_date INTEGER,
     frequency TEXT,
-    notes TEXT
+    notes TEXT,
+    last_taken INTEGER
 ) STRICT;
 "#;

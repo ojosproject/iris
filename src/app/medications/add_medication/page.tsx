@@ -66,7 +66,6 @@ const MedicationForm: React.FC<MedicationFormProps> = ({
                 : undefined,
             frequency: medicationData.medicationFrequency || undefined,
             notes: medicationData.medicationNotes || undefined,
-            medium: medicationData.selectedMedium || undefined,
         };
 
         // Call onSubmit with newMedication

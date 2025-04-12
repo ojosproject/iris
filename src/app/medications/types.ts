@@ -13,7 +13,7 @@ export type Medication = {
   expiration_date?: number;
   frequency?: string;
   notes?: string;
-  medium?: string;
+  last_taken?: number;
 };
 
 export type MedicationLog = {
