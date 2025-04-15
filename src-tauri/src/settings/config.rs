@@ -1,10 +1,11 @@
 // config.rs
 // Ojos Project
 //
-// Works with storing data that isn't needed in the database. Think settings.
+// Various other projects, especially on Linux, use a config file that's
+// typically just a plaintext file.
 
 #![allow(dead_code)]
-use crate::core::structs::Config;
+use super::structs::Config;
 use std::{fs, io::ErrorKind};
 use tauri::{AppHandle, Manager};
 
@@ -26,7 +27,6 @@ pub fn get_config(app: &AppHandle) -> Config {
             ErrorKind::NotFound => {
                 let template_config = Config {
                     onboarding_completed: false,
-                    contacts: vec![],
                 };
                 if !app_data_dir.exists() {
                     fs::create_dir(&app_data_dir).unwrap();

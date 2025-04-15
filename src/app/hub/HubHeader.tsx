@@ -3,7 +3,7 @@ import { invoke } from "@tauri-apps/api/core";
 import classes from "./HubHeader.module.css";
 import { useEffect, useState } from "react";
 import Clock from "react-live-clock";
-import { User } from "@/app/core/types";
+import { Contact } from "@/app/contacts/types";
 
 function get_time_of_day(): "morning" | "afternoon" | "evening" {
   // Remember that Date.getHours() returns in 24-hour format
@@ -23,8 +23,10 @@ export default function HubHeader() {
   // todo: change formatting in Clock element to have multiple lines
 
   useEffect(() => {
-    invoke("get_patient_info").then((user) => {
-      setUserName((user as User).full_name.split(" ")[0]);
+    invoke<Contact>("get_patient_contact").then((contact) => {
+      if (contact.contact_type === "PATIENT") {
+        setUserName(contact.name.split(" ")[0]);
+      }
     });
 
     setTimeOfDay(get_time_of_day());

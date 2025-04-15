@@ -4,16 +4,18 @@
 // The main page when users open the Settings icon.
 "use client";
 import { ReactElement, useEffect, useState } from "react";
-import BackButton from "../core/components/BackButton";
+import BackButton from "../components/BackButton";
 import classes from "./page.module.css";
 import { Switch } from "@mui/material";
-import { Config } from "../core/types";
-import Button from "../core/components/Button";
-import { parse_phone_number } from "../core/helper";
-import Dialog from "../core/components/Dialog";
+import { Config } from "./types";
+import Button from "../components/Button";
+import { parse_phone_number } from "../helper";
+import Dialog from "../components/Dialog";
 import { invoke } from "@tauri-apps/api/core";
 import useKeyPress from "../accessibility/keyboard_nav";
 import { useRouter } from "next/navigation";
+import Contacts from "../contacts/page";
+import { Contact } from "../contacts/types";
 
 type SectionProps = {
   children: ReactElement;
@@ -56,21 +58,27 @@ export default function Settings() {
   });
   const [relayActivated, setRelayActivated] = useState(false);
   const [newNumber, setNewNumber] = useState("");
+  const [contacts, setContacts] = useState<Contact[]>([]);
   const router = useRouter();
 
   useEffect(() => {
-    invoke("get_config").then((c) => {
-      setConfig(c as Config);
-      if ((c as Config).contacts.length) {
-        setRelayActivated(true);
-      }
+    invoke<Config>("get_config").then((c) => {
+      setConfig(c);
     });
-  }, []);
+    invoke<Contact[]>("get_all_contacts")
+      .then((c) => {
+        setContacts(c);
 
-  function commitConfig(newConfig: Config) {
-    invoke("set_config", { config: newConfig });
-    setConfig(newConfig);
-  }
+        setRelayActivated(c.some((v) => v.enabled_relay));
+      })
+      .catch((e) =>
+        setDataPackDialog({
+          enabled: true,
+          title: "Sorry, something went wrong.",
+          content: e,
+        }),
+      );
+  }, []);
 
   useKeyPress("Escape", () => {
     if (displayDialog) {
@@ -82,22 +90,7 @@ export default function Settings() {
       router.back();
     }
   });
-
-  useKeyPress("Enter", () => {
-    if (displayNumberDialog && newNumber.length >= 10 && config) {
-      setDisplayNumberDialog(false);
-      if (!config.contacts.some((contact) => contact.value === newNumber)) {
-        commitConfig({
-          onboarding_completed: config.onboarding_completed,
-          resources_last_call: config.resources_last_call,
-          contacts: [...config.contacts, { method: "SMS", value: newNumber }],
-          pro_questions: config.pro_questions,
-        });
-      }
-      setNewNumber("");
-    }
-  });
-
+  /*
   function RelaySection() {
     return (
       config && (
@@ -115,39 +108,40 @@ export default function Settings() {
                   if (!relayActivated) {
                     setDisplayDialog(!displayDialog);
                   } else {
-                    commitConfig({
-                      contacts: [],
-                      onboarding_completed: config.onboarding_completed,
-                      resources_last_call: config.resources_last_call,
-                      pro_questions: config.pro_questions,
+                    invoke("disable_relay_for_contacts").catch((e) => {
+                      console.log(e);
                     });
                   }
                 }}
               ></Switch>
             </Row>
 
-            {relayActivated && config && config.contacts.length !== 0 && (
+            {relayActivated && config && contacts.length > 1 && (
               <div>
-                <h3>Push to these numbers...</h3>
-                {config.contacts.map((c) => {
+                <h3>Push to these people...</h3>
+                {contacts.map((c) => {
                   return (
-                    <div className={classes.number_button_row}>
-                      <p>{parse_phone_number(parseInt(c.value))}</p>
-                      <Button
-                        type="SECONDARY"
-                        label="Delete"
-                        onClick={() => {
-                          commitConfig({
-                            onboarding_completed: config.onboarding_completed,
-                            resources_last_call: config.resources_last_call,
-                            contacts: config.contacts.filter(
-                              (contact) => contact.value !== c.value,
-                            ),
-                            pro_questions: config.pro_questions,
-                          });
-                        }}
-                      />
-                    </div>
+                    c.phone_number &&
+                    c.enabled_relay && (
+                      <div className={classes.number_button_row}>
+                        <p>{parse_phone_number(parseInt(c.phone_number))}</p>
+                        <Button
+                          type="SECONDARY"
+                          label="Disable"
+                          onClick={() => {
+                            invoke<Contact>("update_contact", {
+                              id: c.id,
+                              name: c.name,
+                              phone_number: c.phone_number,
+                              company: c.company,
+                              email: c.email,
+                              contact_type: c.contact_type,
+                              enabled_relay: false,
+                            });
+                          }}
+                        />
+                      </div>
+                    )
                   );
                 })}
               </div>
@@ -169,7 +163,7 @@ export default function Settings() {
       )
     );
   }
-
+*/
   function ImportSection() {
     type Receipt = {
       resources_count?: number;
@@ -243,7 +237,7 @@ export default function Settings() {
       <div className={classes.container_settings}>
         <h1>Settings</h1>
         <div className={classes.column_of_settings}>
-          <RelaySection />
+          {/*<RelaySection />*/}
           <ImportSection />
         </div>
       </div>
@@ -279,7 +273,7 @@ export default function Settings() {
           </div>
         </Dialog>
       )}
-      {displayNumberDialog && config && (
+      {/*displayNumberDialog && config && (
         <Dialog
           title="Add Phone Number"
           content={
@@ -337,15 +331,6 @@ export default function Settings() {
                 ) {
                   console.log(config.contacts);
                   console.log(newNumber);
-                  commitConfig({
-                    onboarding_completed: config!.onboarding_completed,
-                    resources_last_call: config!.resources_last_call,
-                    contacts: [
-                      ...config!.contacts,
-                      { method: "SMS", value: newNumber },
-                    ],
-                    pro_questions: config!.pro_questions,
-                  });
                 }
                 setNewNumber("");
               }}
@@ -360,7 +345,7 @@ export default function Settings() {
             />
           </div>
         </Dialog>
-      )}
+      )*/}
       {dataPackDialog.enabled && config && (
         <Dialog title={dataPackDialog.title} content={dataPackDialog.content}>
           <Button

@@ -2,10 +2,10 @@
 // Ojos Project
 
 "use client";
-import BackButton from "@/app/core/components/BackButton";
+import BackButton from "@/app/components/BackButton";
 import { useRouter, useSearchParams } from "next/navigation";
 import classes from "./page.module.css";
-import Button from "@/app/core/components/Button";
+import Button from "@/app/components/Button";
 import { Suspense, useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { Contact } from "../types";
@@ -13,8 +13,8 @@ import {
   parse_phone_number,
   sanitizePhoneNumber,
   timestampToString,
-} from "@/app/core/helper";
-import ToastDialog from "@/app/core/components/ToastDialog";
+} from "@/app/helper";
+import ToastDialog from "@/app/components/ToastDialog";
 
 function EditContacts() {
   // If `id` is empty, you're creating a contact
@@ -26,6 +26,7 @@ function EditContacts() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [company, setCompany] = useState("");
   const [email, setEmail] = useState("");
+  const [enabledRelay, setEnabledRelay] = useState(false);
   const [lastUpdated, setLastUpdated] = useState(0);
   const [onEditMode, setOnEditMode] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -44,6 +45,7 @@ function EditContacts() {
         );
         setCompany(i.company ?? "");
         setEmail(i.email ?? "");
+        setEnabledRelay(i.enabled_relay);
         setLastUpdated(i.last_updated);
         setOnEditMode(!onEditMode);
       })
@@ -68,6 +70,8 @@ function EditContacts() {
       phone_number: phoneNumber,
       company: company,
       email: email,
+      contact_type: "CAREGIVER",
+      enabled_relay: enabledRelay,
     }).then((i) => {
       setOnEditMode(false);
       setId(i.id);
@@ -75,6 +79,7 @@ function EditContacts() {
       setPhoneNumber(i.phone_number ? parse_phone_number(i.phone_number) : "");
       setCompany(i.company ?? "");
       setEmail(i.email ?? "");
+      setEnabledRelay(i.enabled_relay);
 
       setJustSaved(true);
       setSaveMessage(true);

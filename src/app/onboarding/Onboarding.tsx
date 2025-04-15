@@ -1,8 +1,8 @@
 import { useState } from "react";
-import Button from "./components/Button";
-import classes from "../core/Onboarding.module.css";
+import Button from "../components/Button";
+import classes from "./Onboarding.module.css";
 import { invoke } from "@tauri-apps/api/core";
-import BackButton from "./components/BackButton";
+import BackButton from "../components/BackButton";
 
 export default function Onboarding(props: {
   handleCompletedOnboarding: Function;
@@ -72,7 +72,11 @@ export default function Onboarding(props: {
           type="PRIMARY"
           label="Finish"
           onClick={() => {
-            invoke("create_user", { name: patientName, user_type: "PATIENT" });
+            invoke("create_contact", {
+              name: patientName,
+              contact_type: "PATIENT",
+              enabled_relay: false,
+            });
             props.handleCompletedOnboarding();
           }}
         />

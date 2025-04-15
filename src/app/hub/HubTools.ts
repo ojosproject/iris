@@ -1,4 +1,4 @@
-import { HubToolProps } from "./hub/HubTool";
+import { HubToolProps } from "./HubTool";
 
 export const HubTools: HubToolProps[] = [
   {
@@ -37,7 +37,7 @@ export const HubTools: HubToolProps[] = [
     link: "./contacts",
     name: "Contacts",
     icon: "/images/icon_contacts.png",
-  }
+  },
 ].sort((a, b) => {
   // Sorts list by HubAppProps.name
   return a.name.localeCompare(b.name);

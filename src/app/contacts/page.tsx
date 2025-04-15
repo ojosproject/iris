@@ -6,14 +6,15 @@
 import { Contact } from "./types";
 import { invoke } from "@tauri-apps/api/core";
 import { useEffect, useState } from "react";
-import BackButton from "../core/components/BackButton";
+import BackButton from "../components/BackButton";
 import classes from "./page.module.css";
-import Button from "../core/components/Button";
-import Dialog from "@/app/core/components/Dialog";
-import { parse_phone_number } from "../core/helper";
+import Button from "../components/Button";
+import Dialog from "@/app/components/Dialog";
+import { parse_phone_number } from "../helper";
 
 export default function Contacts() {
   const [contacts, setContacts] = useState([] as Contact[]);
+  const [patientId, setPatientId] = useState("");
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedContactIds, setSelectedContactIds] = useState<Set<number>>(
@@ -21,8 +22,14 @@ export default function Contacts() {
   );
 
   useEffect(() => {
-    invoke("get_all_contacts").then((i) => {
-      setContacts(i as Contact[]);
+    invoke<Contact[]>("get_all_contacts").then((i) => {
+      setContacts(i);
+      let foundPatient = i.find(
+        (contact) => contact.contact_type === "PATIENT",
+      );
+      if (foundPatient) {
+        setPatientId(foundPatient.id);
+      }
     });
   }, []);
 
@@ -118,6 +125,7 @@ export default function Contacts() {
                     onClick={() => {
                       setModalOpen(true);
                     }}
+                    disabled={selectedContact.contact_type === "PATIENT"}
                   />
                   <Button
                     type="PRIMARY"
@@ -142,8 +150,13 @@ export default function Contacts() {
         <div className={classes.delete_selected_container}>
           <Button
             type="DANGER-PRIMARY"
-            label={`Delete Selected (${selectedContactIds.size})`}
+            label={
+              selectedContactIds.has(patientId as any)
+                ? "Cannot Delete Patient"
+                : `Delete Selected (${selectedContactIds.size})`
+            }
             onClick={() => setModalOpen(true)}
+            disabled={selectedContactIds.has(patientId as any)}
           />
         </div>
       )}

@@ -2,7 +2,7 @@ import { Resource } from "./types";
 import CategoryMenu from "./components/CategoryMenu";
 import classes from "./page.module.css";
 import ResourcesList from "./components/ResourcesList";
-import BackButton from "../core/components/BackButton";
+import BackButton from "../components/BackButton";
 import { useEffect, useState } from "react";
 
 export default function ResourcesView(props: {
@@ -37,7 +37,7 @@ export default function ResourcesView(props: {
             setResources={props.setResources}
           />
         </div>
-        
+
         <ResourcesList
           resources={props.resources}
           setResources={props.setResources}

@@ -2,12 +2,12 @@
 import { useState, useEffect, useRef, Suspense } from "react";
 import styles from "./page.module.css";
 import { Medication, MedicationLog } from "../types";
-import { User } from "@/app/core/types";
+import { User } from "@/app/settings/types";
 import { invoke } from "@tauri-apps/api/core";
 import moment from "moment";
 import { useSearchParams } from "next/navigation";
-import { parse_phone_number, timestampToString } from "@/app/core/helper";
-import BackButton from "@/app/core/components/BackButton";
+import { parse_phone_number, timestampToString } from "@/app/helper";
+import BackButton from "@/app/components/BackButton";
 import useKeyPress from "@/app/accessibility/keyboard_nav";
 import { useRouter } from "next/navigation";
 
@@ -79,7 +79,7 @@ const MedicineView = () => {
     units: "",
     quantity: 0,
     created_at: 0,
-    updated_at: 0
+    updated_at: 0,
   });
   const pillsPercentage = 100; // we'll fix later
   const [prescriptionNurse, setPrescriptionNurse] = useState<User>({
@@ -134,7 +134,10 @@ const MedicineView = () => {
     <>
       <BackButton />
       <div className={styles.medicineContainer}>
-        <Header name={medication.name} brand={medication.generic_name ? medication.generic_name : ""} />
+        <Header
+          name={medication.name}
+          brand={medication.generic_name ? medication.generic_name : ""}
+        />
         <div className={styles.content}>
           <LeftPanel
             prescribedBy={prescriptionNurse.full_name}

@@ -14,6 +14,8 @@ pub struct ContactDataPack {
     pub phone_number: Option<String>,
     pub company: Option<String>,
     pub email: Option<String>,
+    pub contact_type: Option<String>,
+    pub enabled_relay: Option<bool>,
     pub last_updated: Option<i64>,
 }
 
@@ -47,22 +49,6 @@ pub struct DataPackReceipt {
 }
 
 #[derive(Serialize, Deserialize)]
-pub struct User {
-    pub id: String,
-    pub full_name: String,
-    pub type_of: String,
-    pub phone_number: Option<i64>,
-    pub email: Option<String>,
-}
-
-#[derive(Serialize, Deserialize)]
-pub struct ConfigContact {
-    pub method: String,
-    pub value: String,
-}
-
-#[derive(Serialize, Deserialize)]
 pub struct Config {
     pub onboarding_completed: bool,
-    pub contacts: Vec<ConfigContact>,
 }

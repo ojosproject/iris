@@ -1,8 +1,6 @@
 use std::fs;
-use crate::core::config;
-use crate::core::structs::Config;
-use crate::core::structs::User;
-use crate::core::user;
+use super::config;
+use super::structs::Config;
 use chrono::Utc;
 use rusqlite::Connection;
 use tauri::AppHandle;
@@ -45,44 +43,6 @@ pub fn set_config(app: AppHandle, config: Config) {
 #[tauri::command(rename_all = "snake_case")]
 pub fn complete_onboarding(app: AppHandle) {
     config::set_onboarding_completed(app, true);
-}
-
-/// # `create_user` Command
-///
-/// Creates a user for the program.
-///
-/// ## TypeScript Usage
-///
-/// ```typescript
-/// invoke("create_user", {name: "", user_type: ""});
-/// ```
-///
-#[tauri::command(rename_all = "snake_case")]
-pub fn create_user(app: AppHandle, name: String, user_type: String) {
-    User::create(app, name, user_type);
-}
-
-#[tauri::command]
-pub fn get_patient_info(app: AppHandle) -> User {
-    user::get_patient(app)
-}
-
-/// # `get_nurse_info` Command
-/// Gets a nurse's information and returns it as a `User`.
-///
-/// Parameters:
-/// - `nurse_id`: the User ID
-///
-/// ## TypeScript Usage
-/// ```typescript
-/// invoke('get_nurse_info', {nurse_id: ''}).then(n => {
-///     setNurseId(n as User);
-/// });
-/// ```
-///
-#[tauri::command]
-pub fn get_nurse_info(app: AppHandle, nurse_id: String) -> User {
-    user::get_user(app, nurse_id)
 }
 
 /// # `import_data_pack` Command
@@ -180,8 +140,8 @@ pub async fn import_data_pack(app: AppHandle) -> Result<DataPackReceipt, String>
 
     if data_pack.contacts.is_some() {
         for contact in data_pack.contacts.unwrap() {
-            match conn.execute("INSERT INTO contacts(id, name, phone_number, company, email, last_updated)
-            SELECT ?1, ?2, ?3, ?4, ?5, ?6
+            match conn.execute("INSERT INTO contacts(id, name, phone_number, company, email, contact_type, enabled_relay, last_updated)
+            SELECT ?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8
             WHERE NOT EXISTS (
                 SELECT 1 FROM contacts WHERE id = ?1 OR name = ?2 OR phone_number = ?3 OR email = ?4
             );",
@@ -191,6 +151,8 @@ pub async fn import_data_pack(app: AppHandle) -> Result<DataPackReceipt, String>
             contact.phone_number,
             contact.company,
             contact.email,
+            if contact.contact_type.is_some() {contact.contact_type.unwrap()} else { "CAREGIVER".to_string() },
+            if contact.enabled_relay.is_some() { contact.enabled_relay.unwrap() } else { false },
             if contact.last_updated.is_some() { contact.last_updated.unwrap() } else { Utc::now().timestamp() as i64 }
         )) {
             Ok(count) => {

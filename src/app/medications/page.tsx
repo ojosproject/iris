@@ -3,10 +3,10 @@ import React, { useState, useEffect } from "react";
 import styles from "./page.module.css";
 import { Medication, MedicationLog } from "./types";
 import { invoke } from "@tauri-apps/api/core";
-import BackButton from "../core/components/BackButton";
-import Button from "../core/components/Button";
+import BackButton from "../components/BackButton";
+import Button from "../components/Button";
 import ConfirmLogModal from "./components/ConfirmLogModal";
-import { timestampToString } from "../core/helper";
+import { timestampToString } from "../helper";
 import useKeyPress from "../accessibility/keyboard_nav";
 import { useRouter } from "next/navigation";
 import MedicationForm from "./add_medication/page";
@@ -21,7 +21,10 @@ const MedicationsView = () => {
   const handleLogClick = (medication: Medication) => {
     setSelectedMedication(medication);
     setIsConfirmLogModalOpen(true);
-    invoke("update_medication", { id: medication.id, quantity: medication.quantity - medication.strength });
+    invoke("update_medication", {
+      id: medication.id,
+      quantity: medication.quantity - medication.strength,
+    });
   };
   const [isNewMedFormOpen, setIsNewMedFormOpen] = useState(false);
   const [isConfirmLogModalOpen, setIsConfirmLogModalOpen] = useState(false);
@@ -79,7 +82,9 @@ const MedicationsView = () => {
 
     invoke<Medication>("create_medication", {
       name: newMedication.name,
-      generic_name: newMedication.generic_name ? newMedication.generic_name : null,
+      generic_name: newMedication.generic_name
+        ? newMedication.generic_name
+        : null,
       dosage_type: newMedication.dosage_type,
       strength: newMedication.strength,
       units: newMedication.units,
@@ -88,13 +93,15 @@ const MedicationsView = () => {
       end_date: newMedication.end_date,
       expiration_date: newMedication.expiration_date,
       frequency: newMedication.frequency,
-      notes: newMedication.notes
-    }).then(m => {
-      console.log(m);
-      setMedications([...medications, m])
-    }).catch((err) => {
-      console.error(err);
-    });
+      notes: newMedication.notes,
+    })
+      .then((m) => {
+        console.log(m);
+        setMedications([...medications, m]);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
     handleNewMedModelClose();
   };
 
@@ -123,7 +130,6 @@ const MedicationsView = () => {
       setIsConfirmLogModalOpen(false); // Close the modal after submission
     }
   };
-
 
   return (
     <>
@@ -177,9 +183,11 @@ const MedicationsView = () => {
                     <div className={styles.logLastTake}>
                       <strong>Last taken</strong>
                       <br />
-                      <>{medication.last_taken ? `${timestampToString(medication.last_taken, "MMDDYYYY")} @ ${timestampToString(medication.last_taken, "HH:MM XX")}` : "Not yet taken."}</>
-
-
+                      <>
+                        {medication.last_taken
+                          ? `${timestampToString(medication.last_taken, "MMDDYYYY")} @ ${timestampToString(medication.last_taken, "HH:MM XX")}`
+                          : "Not yet taken."}
+                      </>
                     </div>
                     <div key={medication.name} className={styles.logButtons}>
                       <Button

@@ -14,7 +14,16 @@ pub fn add_contact(
     phone_number: Option<String>,
     company: Option<String>,
     email: Option<String>,
+    contact_type: String,
+    enabled_relay: bool,
 ) -> Result<Contact, String> {
+    if !["PATIENT", "CAREGIVER"].contains(&contact_type.as_str()) {
+        return Err(format!(
+            "`contact_type` value `{}` is not valid.",
+            contact_type
+        ));
+    }
+
     let app_data_dir = app.path().app_data_dir().unwrap();
     let conn = match Connection::open(app_data_dir.join("iris.db")) {
         Ok(c) => c,
@@ -29,6 +38,8 @@ pub fn add_contact(
         phone_number,
         company,
         email,
+        contact_type,
+        enabled_relay,
         last_updated: ts,
     };
 
@@ -39,14 +50,18 @@ pub fn add_contact(
             phone_number, 
             company, 
             email, 
+            contact_type,
+            enabled_relay,
             last_updated
-        ) VALUES ( ?1, ?2, ?3, ?4, ?5, ?6)",
+        ) VALUES ( ?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)",
         (
             &contact.id,
             &contact.name,
             &contact.phone_number,
             &contact.company,
             &contact.email,
+            &contact.contact_type,
+            &contact.enabled_relay,
             &contact.last_updated,
         ),
     ) {
@@ -62,7 +77,16 @@ pub fn update_contacts(
     phone_number: Option<String>,
     company: Option<String>,
     email: Option<String>,
+    contact_type: String,
+    enabled_relay: bool,
 ) -> Result<Contact, String> {
+    if !["PATIENT", "CAREGIVER"].contains(&contact_type.as_str()) {
+        return Err(format!(
+            "`contact_type` value `{}` is not valid.",
+            contact_type
+        ));
+    }
+
     let app_data_dir = app.path().app_data_dir().unwrap();
     let conn = match Connection::open(app_data_dir.join("iris.db")) {
         Ok(c) => c,
@@ -76,17 +100,21 @@ pub fn update_contacts(
         phone_number,
         company,
         email,
+        contact_type,
+        enabled_relay,
         last_updated: ts,
     };
 
     match conn.execute(
-        "UPDATE contacts SET name=:name, phone_number=:phone_number, company=:company, email=:email, last_updated=:last_updated WHERE id=:id",
+        "UPDATE contacts SET name=:name, phone_number=:phone_number, company=:company, email=:email, contact_type=:contact_type, enabled_relay=:enabled_relay, last_updated=:last_updated WHERE id=:id",
         named_params! {
             ":id": &contact.id,
             ":name": &contact.name,
             ":phone_number": &contact.phone_number,
             ":company": &contact.company,
             ":email": &contact.email,
+            ":contact_type": &contact.contact_type,
+            ":enabled_relay": &contact.enabled_relay,
             ":last_updated": &contact.last_updated
         },
     ) {
@@ -113,7 +141,9 @@ pub fn get_all_contacts(app: &AppHandle) -> Result<Vec<Contact>, String> {
             phone_number: row.get(2)?,
             company: row.get(3)?,
             email: row.get(4)?,
-            last_updated: row.get(5)?,
+            contact_type: row.get(5)?,
+            enabled_relay: row.get(6)?,
+            last_updated: row.get(7)?,
         })
     }) {
         Ok(m) => m,
@@ -139,7 +169,7 @@ pub fn delete_contact(app: &AppHandle, id: String) -> Result<(), String> {
     };
 
     match conn.execute(
-        "DELETE FROM contacts WHERE id=:id",
+        "DELETE FROM contacts WHERE id=:id AND contact_type != 'PATIENT'",
         named_params! {":id": id},
     ) {
         Ok(_) => return Ok(()),
