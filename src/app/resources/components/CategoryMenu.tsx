@@ -4,7 +4,7 @@ import { useState } from "react";
 import classes from "./CategoryMenu.module.css";
 import { Resource } from "../types";
 import { invoke } from "@tauri-apps/api/core";
-import Button from "@/app/core/components/Button";
+import Button from "@/app/components/Button";
 
 export default function CategoryMenu(props: {
   labels: string[];

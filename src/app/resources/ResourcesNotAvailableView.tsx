@@ -1,4 +1,4 @@
-import BackButton from "../core/components/BackButton";
+import BackButton from "../components/BackButton";
 import classes from "./page.module.css";
 import Image from "next/image";
 
@@ -19,9 +19,11 @@ export default function ResourcesNotAvailableView() {
           height={100}
         />
         <p className={classes.not_found_text}>
-          Sorry, the resources could not be loaded at this time.
+          Sorry, no resources were found.
         </p>
-        <p className={classes.not_found_text}>Please try again later.</p>
+        <p className={classes.not_found_text}>
+          You can import resources in Settings.
+        </p>
       </div>
     </>
   );

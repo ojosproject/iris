@@ -88,8 +88,21 @@
     transform: scale(0);
     opacity: 0;
   }
+
   100% {
     transform: scale(1);
     opacity: 1;
   }
+}
+
+.commentBox {
+  margin: 12px 0;
+  padding: 10px;
+  max-height: 100px;
+  resize: none;
+  overflow-y: auto;
+  border-radius: 5px;
+  border: 1px solid #094595;
+  font: 14px;
+  font-family: Arial, sans-serif;
 }

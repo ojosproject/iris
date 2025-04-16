@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./survey.css";
-import Button from "@/app/core/components/Button";
-import Dialog from "@/app/core/components/Dialog";
+import Button from "@/app/components/Button";
+import Dialog from "@/app/components/Dialog";
 import { ProQuestion } from "../types";
 
 interface RatingProps {

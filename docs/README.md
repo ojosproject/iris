@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Iris is the at-home hospice management system designed by the Ojos Project.
+Iris is the care management system designed by the Ojos Project.
 These documents provide extensive details about the software requirements,
 design, and code for the Iris software. It is developed by the developers at the
 Ojos Project.

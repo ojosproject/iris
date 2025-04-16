@@ -34,7 +34,7 @@
 First and foremost, thank you for wanting to contribute to Iris.
 
 The Ojos Project is a research project started at the [University of California,
-Irvine](https://uci.edu/) with the goal of making the hospice experience less
+Irvine](https://uci.edu/) with the goal of making the caregiving experience less
 complicated. [Carlos Valdez](https://github.com/calejvaldez/)'s grandmother was
 in hospice, and he witnessed firsthand some of the difficulties that can arise
 in hospice care.

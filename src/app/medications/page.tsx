@@ -1,15 +1,15 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import styles from "./page.module.css";
-import NewMedicationModal from "./components/NewMedicationModal";
-import { Medication } from "./types";
+import { Medication, MedicationLog } from "./types";
 import { invoke } from "@tauri-apps/api/core";
-import BackButton from "../core/components/BackButton";
-import Button from "../core/components/Button";
+import BackButton from "../components/BackButton";
+import Button from "../components/Button";
 import ConfirmLogModal from "./components/ConfirmLogModal";
-import { timestampToString } from "../core/helper";
+import { timestampToString } from "../helper";
 import useKeyPress from "../accessibility/keyboard_nav";
 import { useRouter } from "next/navigation";
+import MedicationForm from "./add_medication/page";
 
 const MedicationsView = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -21,16 +21,20 @@ const MedicationsView = () => {
   const handleLogClick = (medication: Medication) => {
     setSelectedMedication(medication);
     setIsConfirmLogModalOpen(true);
+    invoke("update_medication", {
+      id: medication.id,
+      quantity: medication.quantity - medication.strength,
+    });
   };
-  const [isNewMedModalOpen, setIsNewMedModelOpen] = useState(false);
+  const [isNewMedFormOpen, setIsNewMedFormOpen] = useState(false);
   const [isConfirmLogModalOpen, setIsConfirmLogModalOpen] = useState(false);
   const [medications, setMedications] = useState<Medication[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useKeyPress("Escape", () => {
-    if (isNewMedModalOpen) {
-      setIsNewMedModelOpen(false);
+    if (isNewMedFormOpen) {
+      setIsNewMedFormOpen(false);
     } else if (isConfirmLogModalOpen) {
       setIsConfirmLogModalOpen(false);
     } else {
@@ -38,11 +42,11 @@ const MedicationsView = () => {
     }
   });
 
-  const handleAddMedicationClick = () => {
-    setIsNewMedModelOpen(true);
+  const handleOpenForm = () => {
+    setIsNewMedFormOpen(true);
   };
   const handleNewMedModelClose = () => {
-    setIsNewMedModelOpen(false);
+    setIsNewMedFormOpen(false);
   };
   const filteredMedications = medications.filter((medication) =>
     medication.name.toLowerCase().includes(searchQuery.toLowerCase()),
@@ -67,123 +71,148 @@ const MedicationsView = () => {
   // Function to handle the submission of new medication
   const handleNewMedModelSubmit = async (newMedication: Medication) => {
     const exists = medications.some(
-      (log) => log.name.toLowerCase() === newMedication.name.toLowerCase(),
+      (med) => med.name.toLowerCase() === newMedication.name.toLowerCase(),
     );
 
     if (exists) {
       return;
     }
 
-    invoke("create_medication", {
-      name: newMedication.name,
-      dosage: newMedication.dosage,
-      frequency: newMedication.frequency,
-      supply: newMedication.supply,
-      measurement: newMedication.measurement,
-      nurse_id: newMedication.nurse_id,
-    });
+    setMedications((prevMedications) => [...prevMedications, newMedication]);
 
-    setMedications([...medications, newMedication]);
-    setIsNewMedModelOpen(false);
+    invoke<Medication>("create_medication", {
+      name: newMedication.name,
+      generic_name: newMedication.generic_name
+        ? newMedication.generic_name
+        : null,
+      dosage_type: newMedication.dosage_type,
+      strength: newMedication.strength,
+      units: newMedication.units,
+      quantity: newMedication.quantity,
+      start_date: newMedication.start_date,
+      end_date: newMedication.end_date,
+      expiration_date: newMedication.expiration_date,
+      frequency: newMedication.frequency,
+      notes: newMedication.notes,
+    })
+      .then((m) => {
+        console.log(m);
+        setMedications([...medications, m]);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    handleNewMedModelClose();
   };
 
+  const handleCommentSubmit = (comment: string) => {
+    if (selectedMedication) {
+      console.log(`Comment for ${selectedMedication.name}: ${comment}`);
+      // Send the medication and comment to your backend or perform the necessary action
+      invoke("log_medication", {
+        id: selectedMedication.id,
+        strength: selectedMedication.strength,
+        units: selectedMedication.units,
+        comments: comment || null,
+      }).then(() => {
+        // After logging the medication, refresh the list of medications
+        invoke("get_medications")
+          .then((medications) => {
+            setMedications(medications as Medication[]);
+            setLoading(false);
+          })
+          .catch((err) => {
+            console.error("Error fetching medications", err);
+            setLoading(false);
+          });
+      });
+
+      setIsConfirmLogModalOpen(false); // Close the modal after submission
+    }
+  };
 
   return (
     <>
       <BackButton />
-      <div className={styles.container}>
-        <h1>Your Medications</h1>
-        <div className={styles.searchBarContainer}>
-          <input
-            type="text"
-            placeholder="Search Medication..."
-            value={searchQuery}
-            onChange={handleSearchChange}
-            className={styles.searchInput}
-          />
-          <Button
-            type="PRIMARY"
-            label="Add Medication"
-            onClick={handleAddMedicationClick}
+      {isNewMedFormOpen ? (
+        <div className={styles.medicationFormPage}>
+          <MedicationForm
+            isOpen={isNewMedFormOpen}
+            onClose={handleNewMedModelClose}
+            onSubmit={handleNewMedModelSubmit}
           />
         </div>
-        <NewMedicationModal
-          isOpen={isNewMedModalOpen}
-          onClose={handleNewMedModelClose}
-          onSubmit={handleNewMedModelSubmit}
-        />
-        <ConfirmLogModal
-          isOpen={isConfirmLogModalOpen}
-          onClose={() => setIsConfirmLogModalOpen(false)}
-          medication={selectedMedication}
-          onConfirm={() => {
-            invoke("log_medication", {
-              medication: selectedMedication?.name,
-              comments: null,
-            }).then((ts) => {
-              invoke("get_medications")
-                .then((m) => {
-                  setMedications(m as Medication[]);
-                  setLoading(false);
-                })
-                .catch((err) => {
-                  console.error("Error fetching medications", err);
-                  setLoading(false);
-                });
-            });
-
-            setIsConfirmLogModalOpen(false);
-          }}
-        />
-        <div className={styles.medsWrap}>
-          <div className={styles.logsContainer}>
-            {filteredMedications.length === 0 ? (
-              <div className={styles.emptyMessage}>No medications found.</div>
-            ) : (
-              filteredMedications.map((medication, index) => (
-                <div key={index} className={styles.logMeds}>
-                  <div className={styles.logName}>
-                    <strong>{medication.name}</strong>
+      ) : (
+        <div className={styles.container}>
+          <h1>Your Medications</h1>
+          <div className={styles.searchBarContainer}>
+            <input
+              type="text"
+              placeholder="Search Medication..."
+              value={searchQuery}
+              onChange={handleSearchChange}
+              className={styles.searchInput}
+            />
+            <Button
+              type="PRIMARY"
+              label="Add Medication"
+              onClick={handleOpenForm}
+            />
+          </div>
+          <ConfirmLogModal
+            isOpen={isConfirmLogModalOpen}
+            title={`Log ${selectedMedication ? `${selectedMedication.name}? (${selectedMedication.strength}${selectedMedication.units})` : "medication?"}`}
+            onClose={() => setIsConfirmLogModalOpen(false)}
+            medication={selectedMedication}
+            onConfirm={handleCommentSubmit}
+          />
+          <div className={styles.medsWrap}>
+            <div className={styles.logsContainer}>
+              {filteredMedications.length === 0 ? (
+                <div className={styles.emptyMessage}>No medications found.</div>
+              ) : (
+                filteredMedications.map((medication, index) => (
+                  <div key={index} className={styles.logMeds}>
+                    <div className={styles.logName}>
+                      <strong>{medication.name}</strong>
+                    </div>
+                    <div className={styles.circle}></div> {/* Circle */}
+                    <div className={styles.logDosage}>
+                      {medication.strength.toString() + " " + medication.units}
+                    </div>
+                    <div className={styles.logLastTake}>
+                      <strong>Last taken</strong>
+                      <br />
+                      <>
+                        {medication.last_taken
+                          ? `${timestampToString(medication.last_taken, "MMDDYYYY")} @ ${timestampToString(medication.last_taken, "HH:MM XX")}`
+                          : "Not yet taken."}
+                      </>
+                    </div>
+                    <div key={medication.name} className={styles.logButtons}>
+                      <Button
+                        type="PRIMARY"
+                        label="Log"
+                        onClick={() => handleLogClick(medication)}
+                      />
+                      <Button
+                        type="SECONDARY"
+                        label="View"
+                        link={{
+                          pathname: "/medications/view/",
+                          query: {
+                            name: medication.id,
+                          },
+                        }}
+                      />
+                    </div>
                   </div>
-                  <div className={styles.circle}></div> {/* Circle */}
-                  <div className={styles.logDosage}>
-                    {medication.dosage.toString() +
-                      " " +
-                      medication.measurement}
-                  </div>
-                  <div className={styles.logLastTake}>
-                    <strong>Last taken</strong>
-                    <br />
-                    {medication.last_taken ? (
-                      <>{`${timestampToString(medication.last_taken, "MMDDYYYY")} @ ${timestampToString(medication.last_taken, "HH:MM XX")}`}</>
-                    ) : (
-                      <>Not yet taken.</>
-                    )}
-                    {/* Format timestamp */}
-                  </div>
-                  <div key={medication.name} className={styles.logButtons}>
-                    <Button
-                      type="PRIMARY"
-                      label="Log"
-                      onClick={() => handleLogClick(medication)}
-                    />
-                    <Button
-                      type="SECONDARY"
-                      label="View"
-                      link={{
-                        pathname: "/medications/view/",
-                        query: {
-                          name: medication.name,
-                        },
-                      }}
-                    />
-                  </div>
-                </div>
-              ))
-            )}
+                ))
+              )}
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 };

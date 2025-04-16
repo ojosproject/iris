@@ -1,17 +1,16 @@
 // care_instructions/view/page.tsx
 // Ojos Project
 "use client";
-import BackButton from "@/app/core/components/BackButton";
+import BackButton from "@/app/components/BackButton";
 import { useRouter, useSearchParams } from "next/navigation";
 import classes from "./page.module.css";
-import Button from "@/app/core/components/Button";
+import Button from "@/app/components/Button";
 import { Suspense, useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { CareInstruction } from "../types";
-import { timestampToString } from "@/app/core/helper";
-import Dialog from "@/app/core/components/Dialog";
+import { timestampToString } from "@/app/helper";
+import Dialog from "@/app/components/Dialog";
 import useKeyPress from "@/app/accessibility/keyboard_nav";
-
 
 function EditInstructions() {
   // Params get passed from AllCareInstructions.tsx
@@ -43,14 +42,12 @@ function EditInstructions() {
       router.back();
     }
   });
-  
 
   useKeyPress("Enter", () => {
     if (onEditMode && title.trim() !== "" && content.trim() !== "") {
       handleOnSaveClick();
     }
-  });  
-  
+  });
 
   function fetchInformation(fetch_id: string) {
     invoke("get_single_care_instruction", { id: fetch_id })
