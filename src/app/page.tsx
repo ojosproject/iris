@@ -1,20 +1,29 @@
 "use client";
 import classes from "./page.module.css";
 import HubHeader from "./hub/HubHeader";
-import HubTool from "./hub/HubTool";
+import HubTool, { HubToolProps } from "./hub/HubTool";
 import { HubTools } from "./hub/HubTools";
 import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { Config } from "@/app/settings/types";
 import Onboarding from "./onboarding/Onboarding";
+import { platform } from "@tauri-apps/plugin-os";
 
 export default function Home() {
   const [onboardingCompleted, setOnboardingCompleted] = useState(false);
+  const [availableTools, setAvailableTools] =
+    useState<HubToolProps[]>(HubTools);
 
   useEffect(() => {
     invoke("get_config").then((c) => {
       setOnboardingCompleted((c as Config).onboarding_completed);
     });
+
+    const PLATFORM = platform();
+
+    if (!["windows", "macos"].includes(PLATFORM)) {
+      setAvailableTools(HubTools.filter((hubTool) => hubTool.name !== "Video"));
+    }
   }, []);
 
   function handleCompletedOnboarding() {
@@ -29,7 +38,7 @@ export default function Home() {
         <section className={classes.side1}>
           <h2> Your Tools </h2>
           <ul className={classes.appList}>
-            {HubTools.map((hubTool) => (
+            {availableTools.map((hubTool) => (
               <HubTool
                 key={hubTool.name}
                 link={hubTool.link}
