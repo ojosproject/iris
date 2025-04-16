@@ -23,8 +23,8 @@ export default function Survey() {
   });
 
   useEffect(() => {
-    invoke("get_pro_questions").then((questions) => {
-      setQuestions(questions as ProQuestion[]);
+    invoke<ProQuestion[]>("get_pro_questions").then((questions) => {
+      setQuestions(questions);
     });
   }, []);
 

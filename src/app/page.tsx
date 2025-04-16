@@ -15,8 +15,8 @@ export default function Home() {
     useState<HubToolProps[]>(HubTools);
 
   useEffect(() => {
-    invoke("get_config").then((c) => {
-      setOnboardingCompleted((c as Config).onboarding_completed);
+    invoke<Config>("get_config").then((c) => {
+      setOnboardingCompleted(c.onboarding_completed);
     });
 
     const PLATFORM = platform();

@@ -53,9 +53,9 @@ const MedicationsView = () => {
   );
 
   useEffect(() => {
-    invoke("get_medications")
+    invoke<Medication[]>("get_medications")
       .then((m) => {
-        setMedications(m as Medication[]);
+        setMedications(m);
         setLoading(false);
       })
       .catch((err) => {
@@ -116,9 +116,9 @@ const MedicationsView = () => {
         comments: comment || null,
       }).then(() => {
         // After logging the medication, refresh the list of medications
-        invoke("get_medications")
+        invoke<Medication[]>("get_medications")
           .then((medications) => {
-            setMedications(medications as Medication[]);
+            setMedications(medications);
             setLoading(false);
           })
           .catch((err) => {

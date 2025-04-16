@@ -9,16 +9,16 @@ import useKeyPress from "../accessibility/keyboard_nav";
 import { useRouter } from "next/navigation";
 
 export default function Resources() {
-  const [resources, setResources] = useState([] as Resource[]);
+  const [resources, setResources] = useState<Resource[]>([]);
   const router = useRouter();
 
   useKeyPress("Escape", () => {
     router.back();
   });
-  
+
   useEffect(() => {
-    invoke("get_resources").then((r) => {
-      setResources(r as Resource[]);
+    invoke<Resource[]>("get_resources").then((r) => {
+      setResources(r);
     });
   }, []);
 

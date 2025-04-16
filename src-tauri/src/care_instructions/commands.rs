@@ -9,8 +9,8 @@ use tauri::AppHandle;
 /// ## TypeScript Usage
 ///
 /// ```typescript
-/// invoke('get_all_care_instructions').then(ci => {
-///     setCareInstructions(ci as CareInstruction[]);
+/// invoke<CareInstruction[]>('get_all_care_instructions').then(ci => {
+///     setCareInstructions(ci);
 /// });
 /// ```
 #[tauri::command]
@@ -25,9 +25,9 @@ pub fn get_all_care_instructions(app: AppHandle) -> Vec<CareInstruction> {
 /// ## TypeScript
 ///
 /// ```typescript
-/// invoke('get_single_care_instruction', {id: ''}).then(ci => {
+/// invoke<CareInstruction>('get_single_care_instruction', {id: ''}).then(ci => {
 ///     if (ci) { // this COULD return a null, check!
-///         setCareInstruction(ci as CareInstruction);
+///         setCareInstruction(ci);
 ///     }
 ///     
 /// });
@@ -49,13 +49,13 @@ pub fn get_single_care_instruction(app: AppHandle, id: String) -> Option<CareIns
 /// ## TypeScript Usage
 ///
 /// ```typescript
-/// invoke('create_care_instructions', {
+/// invoke<CareInstruction>('create_care_instructions', {
 ///         title: 'Move Patient',
 ///         content: 'Please help her move once in a while.',
 ///         frequency: 'Once daily',
 ///         added_by: 'nurse_id'
 ///     }).then(ci => {
-///     setCareInstructions(ci as CareInstruction);
+///     setCareInstructions(ci);
 /// })
 /// ```
 #[tauri::command(rename_all = "snake_case")]
@@ -76,14 +76,14 @@ pub fn create_care_instructions(
 /// ## TypeScript
 ///
 /// ```typescript
-/// invoke('update_care_instructions', {
+/// invoke<CareInstruction>('update_care_instructions', {
 ///         id: 'uuid',
 ///         title: 'Move Patient (Edited)',
 ///         content: 'Please help her move once in a while.',
 ///         frequency: 'Once daily',
 ///         added_by: 'nurse_id'
 ///     }).then(ci => {
-///     setCareInstructions(ci as CareInstruction);
+///     setCareInstructions(ci);
 /// })
 /// ```
 #[tauri::command(rename_all = "snake_case")]

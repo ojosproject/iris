@@ -98,15 +98,17 @@ const MedicineView = () => {
   });
   {
     useEffect(() => {
-      invoke("get_medication_logs", {
+      invoke<MedicationLog[]>("get_medication_logs", {
         medication: medicationId,
       }).then((medication_log) => {
-        setVisibleLogs(medication_log as MedicationLog[]);
+        setVisibleLogs(medication_log);
       });
 
-      invoke("get_medications", { id: medicationId }).then((m) => {
-        setMedication((m as Medication[])[0]);
-      });
+      invoke<Medication[]>("get_medications", { id: medicationId }).then(
+        (m) => {
+          setMedication(m[0]);
+        },
+      );
     }, [logsToShow, prescriptionNurse]);
   }
 

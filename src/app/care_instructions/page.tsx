@@ -14,7 +14,7 @@ import useKeyPress from "../accessibility/keyboard_nav";
 import { useRouter } from "next/navigation";
 
 export default function CareInstructions() {
-  const [instructions, setInstructions] = useState([] as CareInstruction[]);
+  const [instructions, setInstructions] = useState<CareInstruction[]>([]);
   const router = useRouter();
 
   useKeyPress("Escape", () => {
@@ -22,8 +22,8 @@ export default function CareInstructions() {
   });
 
   useEffect(() => {
-    invoke("get_all_care_instructions").then((i) => {
-      setInstructions(i as CareInstruction[]);
+    invoke<CareInstruction[]>("get_all_care_instructions").then((i) => {
+      setInstructions(i);
     });
   }, []);
 
