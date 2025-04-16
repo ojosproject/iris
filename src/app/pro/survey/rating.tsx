@@ -18,7 +18,7 @@ const FullCircle = ({
   size?: number;
   number?: number;
 }) => (
-  <svg height={size} viewBox="0 0 24 24">
+  <svg height={size} viewBox="0 0 48 48">
     <circle
       cx="24"
       cy="24"
@@ -47,7 +47,7 @@ const EmptyCircle = ({
   size?: number;
   number?: number;
 }) => (
-  <svg height={size} viewBox="0 0 24 24">
+  <svg height={size} viewBox="0 0 48 48">
     <circle
       cx="24"
       cy="24"
@@ -138,13 +138,22 @@ const SurveyPage: React.FC<RatingProps> = ({
   // todo: consider having multiple different types of "category labels"
   // todo: for each category.
   return (
+    <>
     <div className={`survey-page ${className}`}>
       {questions.slice(start, end).map((item, index) => (
+        <>
         <div key={index + start} className="survey-question">
-          <h4>
-            <p>{pageNumber}. </p>
+            {item.question_type == "rating" ? (
+              <>
+                <h3> {pageNumber}. In the last two weeks, how often did you feel...</h3>
+              </>
+            ) : (
+              <h4> hi</h4>
+            )}
+          <h1>
             {item.question}
-          </h4>
+          </h1>
+        </div>
           <div className="rating-wrapper">
             <p className="rating-label">{item.lowest_label}</p>
             <div className="rating-options">
@@ -157,9 +166,9 @@ const SurveyPage: React.FC<RatingProps> = ({
                     onClick={() => handleRatingChange(index+start, i)}
                   >
                     {isSelected ? (
-                      <FullCircle size={40} number={i + 1} />
+                      <FullCircle size={100} number={i + 1} />
                     ) : (
-                      <EmptyCircle size={40} number={i + 1} />
+                      <EmptyCircle size={100} number={i + 1} />
                     )}
                   </div>
                 );
@@ -169,7 +178,7 @@ const SurveyPage: React.FC<RatingProps> = ({
               {item.highest_label}
             </p>
           </div>
-        </div>
+        </>
       ))}
       <div className="container-space-between">
       <div className="button-content-prev">
@@ -179,9 +188,9 @@ const SurveyPage: React.FC<RatingProps> = ({
       </div>
       <div className="button-content-next">
         {end < questions.length ? (
-          <Button type="SECONDARY" label="Next Question" onClick={handleNext} />
+          <Button type="SECONDARY" label="Next Question" onClick={handleNext} disabled={isNaN(ratings[pageNumber - 1])} />
         ) : (
-          <Button type="PRIMARY" label="Submit Survey" onClick={handleSubmit} />
+          <Button type="PRIMARY" label="Submit Survey" onClick={handleSubmit} disabled={isNaN(ratings[pageNumber - 1])}/>
         )}
       </div>
 
@@ -213,6 +222,7 @@ const SurveyPage: React.FC<RatingProps> = ({
         </Dialog>
       )}
     </div>
+    </>
   );
 };
 

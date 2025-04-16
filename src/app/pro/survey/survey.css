@@ -58,11 +58,10 @@
 }
 .rating-wrapper {
   display: flex;
+  margin: auto;
+  gap: 20px;
   align-items: center;
   justify-content: space-between;
-  padding: 10px;
-  margin: auto;
-  width: 100%;
 }
 
 .rating-label {
@@ -126,8 +125,11 @@
 .survey-question {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  margin-bottom: 20px;
+  align-items: center;
+  margin-bottom: 30px;
+  margin-top: 30px;
+  margin-right: 10%;
+  margin-left: 10%;
 }
 
 .survey-question h4 {
@@ -138,6 +140,7 @@
 
 .rating-options {
   display: flex;
-  justify-content: space-around;
-  width: 100%;
+  justify-content: space-between;
+  gap: 10px;
+  width: 60%;
 }
