@@ -42,7 +42,14 @@
   "productName": "Iris",
   "version": "0.1.0",
   "identifier": "org.ojosproject.Iris",
-  "plugins": {},
+  "plugins": {
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEZFMDgxNTY0QTVDN0I1QzEKUldUQnRjZWxaQlVJL2o5ZnZ4aDNma1I4SnFLWE80Y1c5OWRBMDJJaWlFb0xXRXVIN1ZxaHI1dDcK",
+      "endpoints": [
+        "https://github.com/ojosproject/iris/releases/latest/download/latest.json"
+      ]
+    }
+  },
   "app": {
     "windows": [
       {

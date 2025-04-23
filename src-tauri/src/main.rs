@@ -9,6 +9,7 @@ mod onboarding;
 mod pro;
 mod resources;
 mod settings;
+mod updater;
 use menu::menu;
 use onboarding::helpers::setup_onboarding;
 use std::{env, process};
@@ -16,6 +17,7 @@ use tauri::Manager;
 
 fn main() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_os::init())
         .plugin(tauri_plugin_fs::init())
@@ -86,6 +88,7 @@ fn main() {
                 }
             });
             setup_onboarding(app.app_handle());
+            
 
             Ok(())
         })
