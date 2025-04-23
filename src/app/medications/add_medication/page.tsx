@@ -205,6 +205,7 @@ const MedicationForm: React.FC<MedicationFormProps> = ({
                     value={medicationData.medicationExpirationDate}
                     onChange={(e) => handleInputChange("medicationExpirationDate", e.target.value)}
                 />
+                {/*
                 <p className={styles.textStructure}>Would you like to add scheduling for this medication?</p>
                 <div className={styles.yesNoButtons}>
                     <button
@@ -281,6 +282,7 @@ const MedicationForm: React.FC<MedicationFormProps> = ({
                         + Add Another Time
                     </button>
                 </div>
+                */}
                 <div className={styles.modalActions}>
                     <button className={styles.cancelButton} onClick={onClose}>
                         Previous

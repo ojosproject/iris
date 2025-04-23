@@ -96,7 +96,6 @@ const MedicationsView = () => {
       notes: newMedication.notes,
     })
       .then((m) => {
-        console.log(m);
         setMedications([...medications, m]);
       })
       .catch((err) => {
@@ -107,7 +106,6 @@ const MedicationsView = () => {
 
   const handleCommentSubmit = (comment: string) => {
     if (selectedMedication) {
-      console.log(`Comment for ${selectedMedication.name}: ${comment}`);
       // Send the medication and comment to your backend or perform the necessary action
       invoke("log_medication", {
         id: selectedMedication.id,
