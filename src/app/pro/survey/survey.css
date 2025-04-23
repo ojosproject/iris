@@ -32,25 +32,17 @@
 .container-space-between {
   justify-content: space-between;
   display: flex;
+  margin-right: 20%;
+  margin-left: 20%;
 }
 
 .button-content-next {
-  position: fixed;
-  bottom: 50px; 
-  left: 70%;
-  transform: translateX(-50%);
-  display: flex;
   gap: 10px;
   padding: 12px 16px;
   border-radius: 8px;
   z-index: 1000;
 }
 .button-content-prev {
-  position: fixed;
-  bottom: 50px;
-  transform: translateX(-50%);
-  right: 55%;
-  display: flex;
   gap: 10px;
   padding: 12px 16px;
   border-radius: 8px;
@@ -119,7 +111,6 @@
   display: flex;
   flex-direction: column;
   padding: 16px;
-  box-sizing: border-box;
 }
 
 .survey-question {

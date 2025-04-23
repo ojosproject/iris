@@ -139,7 +139,7 @@ const SurveyPage: React.FC<RatingProps> = ({
   // todo: for each category.
   return (
     <>
-    <div className={`survey-page ${className}`}>
+    <div className={`survey-page`}>
       {questions.slice(start, end).map((item, index) => (
         <>
         <div key={index + start} className="survey-question">
@@ -180,7 +180,7 @@ const SurveyPage: React.FC<RatingProps> = ({
           </div>
         </>
       ))}
-      <div className="container-space-between">
+      {/* <div className="container-space-between">
       <div className="button-content-prev">
         <Button
         type="SECONDARY" label="Prev Question" onClick={handlePrev} disabled={pageNumber <= 1}
@@ -194,7 +194,7 @@ const SurveyPage: React.FC<RatingProps> = ({
         )}
       </div>
 
-      </div>
+      </div> */}
       {isModalOpen && (
         <Dialog
           title="Unanswered Questions"
@@ -221,6 +221,20 @@ const SurveyPage: React.FC<RatingProps> = ({
           </div>
         </Dialog>
       )}
+      <div className="container-space-between">
+      <div className="button-content-prev">
+        <Button
+        type="SECONDARY" label="Prev Question" onClick={handlePrev} disabled={pageNumber <= 1}
+        />
+      </div>
+      <div className="button-content-next">
+        {end < questions.length ? (
+          <Button type="SECONDARY" label="Next Question" onClick={handleNext} disabled={isNaN(ratings[pageNumber - 1])} />
+        ) : (
+          <Button type="PRIMARY" label="Submit Survey" onClick={handleSubmit} disabled={isNaN(ratings[pageNumber - 1])}/>
+        )}
+      </div>
+    </div>
     </div>
     </>
   );
