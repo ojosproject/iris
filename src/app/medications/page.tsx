@@ -167,49 +167,47 @@ const MedicationsView = () => {
             onConfirm={handleCommentSubmit}
           />
           <div className={styles.medsWrap}>
-            <div className={styles.logsContainer}>
-              {filteredMedications.length === 0 ? (
-                <div className={styles.emptyMessage}>No medications found.</div>
-              ) : (
-                filteredMedications.map((medication, index) => (
-                  <div key={index} className={styles.logMeds}>
-                    <div className={styles.logName}>
-                      <strong>{medication.name}</strong>
-                    </div>
-                    <div className={styles.circle}></div> {/* Circle */}
-                    <div className={styles.logDosage}>
-                      {medication.strength.toString() + " " + medication.units}
-                    </div>
-                    <div className={styles.logLastTake}>
-                      <strong>Last taken</strong>
-                      <br />
-                      <>
-                        {medication.last_taken
-                          ? `${timestampToString(medication.last_taken, "MMDDYYYY")} @ ${timestampToString(medication.last_taken, "HH:MM XX")}`
-                          : "Not yet taken."}
-                      </>
-                    </div>
-                    <div key={medication.name} className={styles.logButtons}>
-                      <Button
-                        type="PRIMARY"
-                        label="Log"
-                        onClick={() => handleLogClick(medication)}
-                      />
-                      <Button
-                        type="SECONDARY"
-                        label="View"
-                        link={{
-                          pathname: "/medications/view/",
-                          query: {
-                            name: medication.id,
-                          },
-                        }}
-                      />
-                    </div>
+            {filteredMedications.length === 0 ? (
+              <div className={styles.emptyMessage}>No medications found.</div>
+            ) : (
+              filteredMedications.map((medication, index) => (
+                <div key={index} className={styles.logMeds}>
+                  <div className={styles.logName}>
+                    <strong>{medication.name}</strong>
                   </div>
-                ))
-              )}
-            </div>
+                  <div className={styles.circle}></div> {/* Circle */}
+                  <div className={styles.logDosage}>
+                    {medication.strength.toString() + " " + medication.units}
+                  </div>
+                  <div className={styles.logLastTake}>
+                    <strong>Last taken</strong>
+                    <br />
+                    <>
+                      {medication.last_taken
+                        ? `${timestampToString(medication.last_taken, "MMDDYYYY")} @ ${timestampToString(medication.last_taken, "HH:MM XX")}`
+                        : "Not yet taken."}
+                    </>
+                  </div>
+                  <div key={medication.name} className={styles.logButtons}>
+                    <Button
+                      type="PRIMARY"
+                      label="Log"
+                      onClick={() => handleLogClick(medication)}
+                    />
+                    <Button
+                      type="SECONDARY"
+                      label="View"
+                      link={{
+                        pathname: "/medications/view/",
+                        query: {
+                          name: medication.id,
+                        },
+                      }}
+                    />
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
       )}
