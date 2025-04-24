@@ -33,7 +33,6 @@ const ConfirmLogModal: React.FC<ConfirmLogModalProps> = ({
     onClose();
   };
 
-
   if (!isOpen || !medication) return null;
 
   return (
