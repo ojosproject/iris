@@ -1,271 +1,272 @@
 .input {
-    width: 48%;
-    border-radius: 4px;
-    padding: 8px;
-    border-radius: 4px;
+  width: 48%;
+  border-radius: 4px;
+  padding: 8px;
+  border-radius: 4px;
 }
 
 .pageContainer {
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    box-sizing: border-box;
-    overflow-y: auto;
-    overflow-x: hidden;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .pageContent {
-    padding: 10px;
-    font-family: Arial, sans-serif;
+  padding: 10px;
+  font-family: Arial, sans-serif;
 }
 
 .pageContent h2 {
-    text-align: center;
-    font-size: 30px;
-    font-weight: bold;
-    margin-bottom: 15px;
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 15px;
 }
 
 .pageContent input,
 .pageContent select {
-    width: 45%;
-    box-sizing: border-box;
-    padding: 10px;
-    border-radius: 6px;
-    border: 2px solid #094595;
-    margin-bottom: 15px;
-    font-size: 16px;
-    outline: none;
+  width: 45%;
+  box-sizing: border-box;
+  padding: 10px;
+  border-radius: 6px;
+  border: 2px solid #094595;
+  margin-bottom: 15px;
+  font-size: 16px;
+  outline: none;
 }
 
 .dosageInputContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .unitOptions {
-    display: flex;
-    align-items: center;
-    flex-wrap: nowrap;
-    border: 2px solid #094595;
-    border-radius: 6px;
-    padding: 4px;
-    font-size: 14px;
-    white-space: nowrap;
-    max-width: 100%;
-    transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  border: 2px solid #094595;
+  border-radius: 6px;
+  padding: 4px;
+  font-size: 14px;
+  white-space: nowrap;
+  max-width: 100%;
+  transition: all 0.3s ease;
 }
 
 .unitRow {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .unitButton {
-    padding: 8px 12px;
-    background: white;
-    color: #094595;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 16px;
-    border: 1px solid #094595;
-    transition: all 0.3s ease;
-    margin-right: 6px;
+  padding: 8px 12px;
+  background: white;
+  color: #094595;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+  border: 1px solid #094595;
+  transition: all 0.3s ease;
+  margin-right: 6px;
 }
 
 .unitButton:hover {
-    background: #094595 !important;
-    color: white !important;
+  background: #094595 !important;
+  color: white !important;
 }
 
 .unitButton.selected {
-    background: #094595;
-    color: white;
+  background: #094595;
+  color: white;
 }
 
 .unitButton:not(.selected) {
-    background: white;
-    color: #094595;
+  background: white;
+  color: #094595;
 }
 
 .quantityBox {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    margin-right: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-right: 5px;
 }
 
 .pageContent button {
-    padding: 10px 20px;
-    border-radius: 5px;
-    border: none;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    margin-right: 10px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
+  margin-right: 10px;
 }
 
 .pageContent .submitButton {
-    background-color: #094595;
-    color: white;
+  background-color: #094595;
+  color: white;
 }
 
 .pageContent .submitButton:hover {
-    background-color: #062c5f;
+  background-color: #062c5f;
 }
 
 .yesNoButtons {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 .textStructure {
-    padding: 5px;
-    font-weight: bold;
+  padding: 5px;
+  font-weight: bold;
 }
 
 .yesNoButtons button,
 .daySelection button {
-    padding: 10px 15px;
-    border-radius: 5px;
-    border: 2px solid #094595;
-    background: white;
-    color: #094595;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: 2px solid #094595;
+  background: white;
+  color: #094595;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .yesNoButtons button.selected,
 .daySelection button.selected {
-    background: #094595;
-    color: white;
+  background: #094595;
+  color: white;
 }
 
 .daySelection button {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: transparent;
-    border: 2px solid #094595;
-    font-size: 14px;
-    color: #094595;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-right: 5px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 2px solid #094595;
+  font-size: 14px;
+  color: #094595;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-right: 5px;
 }
 
 .daySelection button:hover {
-    background-color: #a9a9a9;
+  background-color: #a9a9a9;
 }
 
 .addTimeButton {
-    padding: 8px 12px;
-    background: #094595;
-    color: white;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 16px;
-    transition: all 0.3s ease;
+  padding: 8px 12px;
+  background: #094595;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: all 0.3s ease;
 }
 
 .addTimeButton:hover {
-    background: #062c5f;
-    color: white;
+  background: #062c5f;
+  color: white;
 }
 
 .removeTimeButton {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: #094595;
-    border: 2px solid #094595;
-    font-size: 14px;
-    color: white;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-left: 10px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #094595;
+  border: 2px solid #094595;
+  font-size: 14px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: 10px;
 }
 
 .removeTimeButton:hover {
-    background: #094595;
-    color: white;
+  background: #094595;
+  color: white;
 }
 
 .scheduleDetails {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding-right: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-right: 10px;
 }
 
 .daySelection {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .timeSelection {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 15px;
 }
 
 .timeSelection input,
 .timeSelection select {
-    width: 70px;
-    padding: 5px;
-    text-align: center;
-    border: 2px solid #094595;
-    border-radius: 6px;
-    font-size: 16px;
+  width: 70px;
+  padding: 5px;
+  text-align: center;
+  border: 2px solid #094595;
+  border-radius: 6px;
+  font-size: 16px;
 }
 
 .modalActions {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 15px;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 15px;
 }
 
 .modalActions button {
-    padding: 10px 15px;
-    border-radius: 5px;
-    border: 2px solid #094595;
-    background: white;
-    color: #094595;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: 2px solid #094595;
+  background: white;
+  color: #094595;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .modalActions button:hover {
-    background: #094595;
-    color: white;
+  background: #094595;
+  color: white;
 }
 
 .disabled {
-    pointer-events: none;
-    opacity: 0.5;
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 .disabledButton {
-    background-color: #a9a9a9;
-    color: #d3d3d3;
-    border-color: #a9a9a9;
-    cursor: not-allowed;
+  background-color: #a9a9a9;
+  color: #d3d3d3;
+  border-color: #a9a9a9;
+  cursor: not-allowed;
 }

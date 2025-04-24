@@ -19,6 +19,7 @@ pub fn create_medication(
     expiration_date: Option<i64>,
     frequency: Option<String>,
     notes: Option<String>,
+    icon: String,
 ) -> Result<Medication, String> {
     let conn = match Connection::open(app.path().app_data_dir().unwrap().join("iris.db")) {
         Ok(c) => c,
@@ -26,8 +27,8 @@ pub fn create_medication(
     };
     let (timestamp, uuid) = stamp();
 
-    match conn.execute("INSERT INTO medication (id, name, generic_name, dosage_type, strength, units, quantity, created_at, updated_at, start_date, end_date, expiration_date, frequency, notes) VALUES (:id, :name, :generic_name, :dosage_type, :strength, :units, :quantity, :created_at, :updated_at, :start_date, :end_date, :expiration_date, :frequency, :notes)",
-        named_params! {":id": uuid, ":name": name, ":generic_name": generic_name, ":dosage_type": dosage_type, ":strength": strength, ":units": units, ":quantity": quantity, ":created_at": timestamp, ":updated_at": timestamp, ":start_date": start_date, ":end_date": end_date, ":expiration_date": expiration_date, ":frequency": frequency, ":notes": notes}) {
+    match conn.execute("INSERT INTO medication (id, name, generic_name, dosage_type, strength, units, quantity, created_at, updated_at, start_date, end_date, expiration_date, frequency, notes, icon) VALUES (:id, :name, :generic_name, :dosage_type, :strength, :units, :quantity, :created_at, :updated_at, :start_date, :end_date, :expiration_date, :frequency, :notes, :icon)",
+        named_params! {":id": uuid, ":name": name, ":generic_name": generic_name, ":dosage_type": dosage_type, ":strength": strength, ":units": units, ":quantity": quantity, ":created_at": timestamp, ":updated_at": timestamp, ":start_date": start_date, ":end_date": end_date, ":expiration_date": expiration_date, ":frequency": frequency, ":notes": notes, ":icon": icon}) {
             Ok(_) => {
                 return Ok(Medication {
                     id: uuid,
@@ -44,7 +45,8 @@ pub fn create_medication(
                     expiration_date,
                     frequency,
                     notes,
-                    last_taken: None
+                    last_taken: None,
+                    icon
                 })
             },
             Err(e) => return Err(format!("SQLite error: {:?}", e)),
@@ -81,6 +83,7 @@ pub fn search_medications(app: AppHandle, medication_name: String) -> Vec<Medica
                 frequency: row.get(12)?,
                 notes: row.get(13)?,
                 last_taken: row.get(14)?,
+                icon: row.get(15)?,
             })
         })
         .unwrap();
@@ -120,6 +123,7 @@ pub fn get_medications(app: AppHandle, id: Option<String>) -> Vec<Medication> {
                     frequency: row.get(12)?,
                     notes: row.get(13)?,
                     last_taken: row.get(14)?,
+                    icon: row.get(15)?,
                 })
             })
             .unwrap();
@@ -148,6 +152,7 @@ pub fn get_medications(app: AppHandle, id: Option<String>) -> Vec<Medication> {
                     frequency: row.get(12)?,
                     notes: row.get(13)?,
                     last_taken: row.get(14)?,
+                    icon: row.get(15)?,
                 })
             })
             .unwrap();
@@ -178,6 +183,7 @@ pub fn update_medication(
     expiration_date: Option<i64>,
     frequency: Option<String>,
     notes: Option<String>,
+    icon: Option<String>,
 ) {
     let conn = db_connect(&app);
     let timestamp = unix_timestamp();
@@ -244,6 +250,14 @@ pub fn update_medication(
             named_params! {":id": id, ":notes": notes, ":updated_at": timestamp},
         )
         .expect("Updating medication.notes failed.");
+    }
+
+    if icon.is_some() {
+        conn.execute(
+            "UPDATE medication SET icon=:icon, updated_at=:updated_at WHERE id=:id",
+            named_params! {":icon": icon, ":updated_at": timestamp, ":id": id},
+        )
+        .expect("Updating medication.icon failed.");
     }
 }
 

@@ -10,6 +10,9 @@ import { timestampToString } from "../helper";
 import useKeyPress from "../accessibility/keyboard_nav";
 import { useRouter } from "next/navigation";
 import MedicationForm from "./add_medication/page";
+import Image from "next/image";
+import Dialog from "../components/Dialog";
+import MedicationIconPicker from "./components/MedicationIconPicker";
 
 const MedicationsView = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -30,6 +33,7 @@ const MedicationsView = () => {
   const [isConfirmLogModalOpen, setIsConfirmLogModalOpen] = useState(false);
   const [medications, setMedications] = useState<Medication[]>([]);
   const [loading, setLoading] = useState(true);
+  const [iconDialogOpen, setIconDialogOpen] = useState(false);
   const router = useRouter();
 
   useKeyPress("Escape", () => {
@@ -37,6 +41,8 @@ const MedicationsView = () => {
       setIsNewMedFormOpen(false);
     } else if (isConfirmLogModalOpen) {
       setIsConfirmLogModalOpen(false);
+    } else if (iconDialogOpen) {
+      setIconDialogOpen(false);
     } else {
       router.back();
     }
@@ -94,6 +100,7 @@ const MedicationsView = () => {
       expiration_date: newMedication.expiration_date,
       frequency: newMedication.frequency,
       notes: newMedication.notes,
+      icon: newMedication.icon,
     })
       .then((m) => {
         setMedications([...medications, m]);
@@ -173,7 +180,25 @@ const MedicationsView = () => {
                   <div className={styles.logName}>
                     <strong>{medication.name}</strong>
                   </div>
-                  <div className={styles.circle}></div> {/* Circle */}
+                  {["tablet", "injection"].includes(medication.dosage_type) ? (
+                    <button
+                      style={{ backgroundColor: "transparent", border: "none" }}
+                      onClick={() => {
+                        setSelectedMedication(medication);
+                        setIconDialogOpen(true);
+                      }}
+                    >
+                      <Image
+                        src={`/images/${medication.icon}`}
+                        alt={`Icon for ${medication.name}.`}
+                        height={80}
+                        width={80}
+                      />
+                    </button>
+                  ) : (
+                    <div className={styles.circle}></div> /* Circle */
+                  )}
+
                   <div className={styles.logDosage}>
                     {medication.strength.toString() + " " + medication.units}
                   </div>
@@ -198,7 +223,7 @@ const MedicationsView = () => {
                       link={{
                         pathname: "/medications/view/",
                         query: {
-                          name: medication.id,
+                          id: medication.id,
                         },
                       }}
                     />
@@ -208,6 +233,33 @@ const MedicationsView = () => {
             )}
           </div>
         </div>
+      )}
+      {iconDialogOpen && selectedMedication && (
+        <Dialog
+          title={`Edit Icon for ${selectedMedication.name}`}
+          content="Select an icon below."
+        >
+          <MedicationIconPicker
+            medium={selectedMedication.dosage_type}
+            selectedIcon={selectedMedication.icon}
+            onSelect={(newIcon: string) => {
+              setIconDialogOpen(false);
+              invoke("update_medication", {
+                id: selectedMedication.id,
+                icon: newIcon,
+              }).then(() => {
+                invoke<Medication[]>("get_medications").then((meds) => {
+                  setMedications(meds);
+                });
+              });
+            }}
+          />
+          <Button
+            type="SECONDARY"
+            label="Cancel"
+            onClick={() => setIconDialogOpen(false)}
+          />
+        </Dialog>
       )}
     </>
   );

@@ -14,6 +14,7 @@ export type Medication = {
   frequency?: string;
   notes?: string;
   last_taken?: number;
+  icon: string;
 };
 
 export type MedicationLog = {
