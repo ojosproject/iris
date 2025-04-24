@@ -11,6 +11,8 @@ interface RatingProps {
   questions: ProQuestion[];
 }
 
+
+
 const FullCircle = ({
   size = 40,
   number = 1,
@@ -135,35 +137,59 @@ const SurveyPage: React.FC<RatingProps> = ({
     setPageNumber(pageNumber - 1);
   }
 
+  const ProgressBar = () => {
+    const totalQuestions = questions.length;
+    const questionsComplete = ratings.filter((r: number) => !isNaN(r)).length;
+    const percentage = ( (questionsComplete-1)/ totalQuestions) * 100;
+    const newPercentage = (questionsComplete / totalQuestions) * 100;
+  
+    const [animatedWidth, setAnimatedWidth] = useState(percentage);
+  
+    useEffect(() => {
+      // Trigger animation on question update
+      setAnimatedWidth(newPercentage);
+    }, []);
+  
+    return (
+      <div className="progressBar">
+        <div className="myBar" style={{ width: `${animatedWidth}%` }}>
+          <div className="barLabel">
+            {questionsComplete} / {totalQuestions} completed
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   // todo: consider having multiple different types of "category labels"
   // todo: for each category.
   return (
-    <>
-    <div className={`survey-page`}>
+    <div className="survey-layout">
+    <div className="progress-bar-container">
+      <ProgressBar />
+    </div>
+  
+    <div className="survey-content">
+      {/* All the questions go here */}
       {questions.slice(start, end).map((item, index) => (
-        <>
         <div key={index + start} className="survey-question">
-            {item.question_type == "rating" ? (
-              <>
-                <h3> {pageNumber}. In the last two weeks, how often did you feel...</h3>
-              </>
-            ) : (
-              <h4> hi</h4>
-            )}
-          <h1>
-            {item.question}
-          </h1>
-        </div>
-          <div className="rating-wrapper">
-            <p className="rating-label">{item.lowest_label}</p>
+          {item.question_type === "rating" ? (
+            <h3>{pageNumber}. In the last two weeks, how often did you feel...</h3>
+          ) : (
+            <h4>hi</h4>
+          )}
+          <h1>{item.question}</h1>
+  
+          <div className="rating-section">
+            <span className="label left-label">{item.lowest_label}</span>
             <div className="rating-options">
               {[...Array(item.highest_ranking)].map((_, i) => {
-                const isSelected = i === ratings[index+start] - 1;
+                const isSelected = i === ratings[index + start] - 1;
                 return (
                   <div
                     key={i}
                     style={{ cursor: "pointer" }}
-                    onClick={() => handleRatingChange(index+start, i)}
+                    onClick={() => handleRatingChange(index + start, i)}
                   >
                     {isSelected ? (
                       <FullCircle size={100} number={i + 1} />
@@ -174,70 +200,40 @@ const SurveyPage: React.FC<RatingProps> = ({
                 );
               })}
             </div>
-            <p className="rating-label text-align-right">
-              {item.highest_label}
-            </p>
+            <span className="label right-label">{item.highest_label}</span>
           </div>
-        </>
+
+        </div>
       ))}
-      {/* <div className="container-space-between">
-      <div className="button-content-prev">
+    </div>
+  
+    <div className="fixed-button-container">
+      <div>
         <Button
-        type="SECONDARY" label="Prev Question" onClick={handlePrev} disabled={pageNumber <= 1}
+          type="SECONDARY"
+          label="Prev Question"
+          onClick={handlePrev}
+          disabled={pageNumber <= 1}
         />
       </div>
-      <div className="button-content-next">
+      <div>
         {end < questions.length ? (
-          <Button type="SECONDARY" label="Next Question" onClick={handleNext} disabled={isNaN(ratings[pageNumber - 1])} />
+          <Button
+            type="SECONDARY"
+            label="Next Question"
+            onClick={handleNext}
+            disabled={isNaN(ratings[pageNumber - 1])}
+          />
         ) : (
-          <Button type="PRIMARY" label="Submit Survey" onClick={handleSubmit} disabled={isNaN(ratings[pageNumber - 1])}/>
-        )}
-      </div>
-
-      </div> */}
-      {isModalOpen && (
-        <Dialog
-          title="Unanswered Questions"
-          content="Please answer all questions below"
-        >
-          <ul className="modal-content">
-            {modalContent.map((question, index) => (
-              <div key={index} className="container-4">
-                <p>
-                  <strong style={{ marginRight: "5px" }}>
-                    {stringifiedQuestions.indexOf(question) + 1}.
-                  </strong>
-                  {question}
-                </p>
-              </div>
-            ))}
-          </ul>
-          <div className="container-sidebyside">
-            <Button
-              type="PRIMARY"
-              label="Continue Survey"
-              onClick={handleGoBack}
-            />
-          </div>
-        </Dialog>
-      )}
-      <div className="container-space-between">
-      <div className="button-content-prev">
-        <Button
-        type="SECONDARY" label="Prev Question" onClick={handlePrev} disabled={pageNumber <= 1}
-        />
-      </div>
-      <div className="button-content-next">
-        {end < questions.length ? (
-          <Button type="SECONDARY" label="Next Question" onClick={handleNext} disabled={isNaN(ratings[pageNumber - 1])} />
-        ) : (
-          <Button type="PRIMARY" label="Submit Survey" onClick={handleSubmit} disabled={isNaN(ratings[pageNumber - 1])}/>
+          <Button
+            type="PRIMARY"
+            label="Submit Survey"
+            onClick={handleSubmit}
+            disabled={isNaN(ratings[pageNumber - 1])}
+          />
         )}
       </div>
     </div>
-    </div>
-    </>
-  );
-};
-
+  </div>
+)}
 export default SurveyPage;
