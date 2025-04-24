@@ -1,13 +1,13 @@
-use std::fs;
 use super::config;
 use super::structs::Config;
+use super::structs::DataPack;
+use super::structs::DataPackReceipt;
 use chrono::Utc;
 use rusqlite::Connection;
+use std::fs;
 use tauri::AppHandle;
 use tauri::Manager;
 use tauri_plugin_dialog::DialogExt;
-use super::structs::DataPack;
-use super::structs::DataPackReceipt;
 
 /// # `get_config` Command
 ///
@@ -48,7 +48,7 @@ pub fn complete_onboarding(app: AppHandle) {
 /// # `import_data_pack` Command
 /// Opens a file picker and imports a Data Pack JSON file. Results a Result of
 /// either a `DataPackReceipt` or a string error.
-/// 
+///
 /// ## TypeScript Usage
 /// ```typescript
 /// invoke<DataPackReceipt>('import_data_pack').then(r => {
@@ -66,15 +66,21 @@ pub async fn import_data_pack(app: AppHandle) -> Result<DataPackReceipt, String>
         .blocking_pick_file();
 
     if file_path.is_none() {
-        return Err("No JSON file was selected, so no data was imported. Select a JSON file to try again.".to_string());
+        return Err(
+            "No JSON file was selected, so no data was imported. Select a JSON file to try again."
+                .to_string(),
+        );
     }
 
     let file_contents = fs::read_to_string(file_path.unwrap().to_string()).unwrap();
     let conn = Connection::open(app.path().app_data_dir().unwrap().join("iris.db")).unwrap();
 
-    let mut receipt = DataPackReceipt { resources_count: None, pro_count: None, contacts_count: None };
-    let data_pack_result =
-        serde_json::from_str(&file_contents);
+    let mut receipt = DataPackReceipt {
+        resources_count: None,
+        pro_count: None,
+        contacts_count: None,
+    };
+    let data_pack_result = serde_json::from_str(&file_contents);
 
     if data_pack_result.is_err() {
         return Err("The JSON object was malformed. Consult the docs for help on creating well-formatted objects.".to_string());
@@ -90,7 +96,7 @@ pub async fn import_data_pack(app: AppHandle) -> Result<DataPackReceipt, String>
                 WHERE NOT EXISTS (
                     SELECT 1 FROM pro_question WHERE question = ?3 AND category = ?2
                 );",
-                (   
+                (
                     if question.id.is_some() { question.id.unwrap() } else { uuid::Uuid::new_v4().to_string() },
                     question.category,
                     question.question,
@@ -108,7 +114,11 @@ pub async fn import_data_pack(app: AppHandle) -> Result<DataPackReceipt, String>
 
             let receipt_count = result.unwrap();
             if receipt_count > 0 {
-                receipt.pro_count = if receipt.pro_count.is_some() {Some(receipt.pro_count.unwrap() + receipt_count)} else {Some(receipt_count)};
+                receipt.pro_count = if receipt.pro_count.is_some() {
+                    Some(receipt.pro_count.unwrap() + receipt_count)
+                } else {
+                    Some(receipt_count)
+                };
             }
         }
     }
@@ -133,7 +143,11 @@ pub async fn import_data_pack(app: AppHandle) -> Result<DataPackReceipt, String>
 
             let receipt_count = result.unwrap();
             if receipt_count > 0 {
-                receipt.resources_count = if receipt.resources_count.is_some() {Some(receipt.resources_count.unwrap() + receipt_count)} else {Some(receipt_count)};
+                receipt.resources_count = if receipt.resources_count.is_some() {
+                    Some(receipt.resources_count.unwrap() + receipt_count)
+                } else {
+                    Some(receipt_count)
+                };
             }
         }
     }
