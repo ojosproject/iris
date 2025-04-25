@@ -9,7 +9,7 @@ import ConfirmLogModal from "./components/ConfirmLogModal";
 import { timestampToString } from "../helper";
 import useKeyPress from "../accessibility/keyboard_nav";
 import { useRouter } from "next/navigation";
-import MedicationForm from "./add_medication/page";
+import MedicationForm from "./components/MedicationForm";
 import Image from "next/image";
 import Dialog from "../components/Dialog";
 import MedicationIconPicker from "./components/MedicationIconPicker";

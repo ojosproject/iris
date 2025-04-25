@@ -1,6 +1,7 @@
+"use client";
 import { useState } from "react";
 import { Medication } from "../types";
-import styles from "./page.module.css";
+import styles from "./MedicationForm.module.css";
 import MedicationIconPicker from "../components/MedicationIconPicker";
 
 interface MedicationFormProps {
