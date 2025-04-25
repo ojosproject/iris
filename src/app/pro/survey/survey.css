@@ -19,7 +19,7 @@
 .survey-layout {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 70vh;
   width: 80%;
 }
 
@@ -44,7 +44,6 @@
   position: sticky;
   bottom: 0;
   z-index: 10;
-  background: white;
   display: flex;
   justify-content: space-between;
   padding: 16px;
@@ -76,4 +75,3 @@
   flex-shrink: 1;
   flex-grow: 1;
 }
-
