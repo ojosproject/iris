@@ -1,6 +1,7 @@
 use tauri::AppHandle;
 use tauri_plugin_updater::UpdaterExt;
 
+#[tauri::command]
 pub fn check_update(app: AppHandle, install: bool) -> Result<(), String> {
     tauri::async_runtime::spawn(async move {
         if let Some(update) = app.updater().unwrap().check().await.unwrap() {

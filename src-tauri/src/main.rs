@@ -51,6 +51,7 @@ fn main() {
             contacts::commands::delete_contact,
             contacts::commands::get_patient_contact,
             contacts::commands::disable_relay_for_contacts,
+            updater::commands::check_update,
         ])
         .setup(|app| {
             app.set_menu(menu(&app.app_handle())).unwrap();
