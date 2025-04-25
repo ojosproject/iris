@@ -1,118 +1,77 @@
-.pro_button_1 {
-  border-radius: 50px;
-  padding: 20px;
-  width: 4.5%;
-  background-color: #ffffff;
-  border-color: #1d7ff0;
-  color: #1d7ff0;
+.progressBar {
+  width: 100%;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 25px;
+  margin: 10px 0;
 }
 
-.text-align-center {
-  text-align: center;
-}
-.container {
-  justify-content: center;
-}
-
-.container-2 {
-  justify-content: center;
-  margin: auto;
-  max-height: 100px;
+.myBar {
   height: 100%;
-}
-
-.container-3 {
-  justify-content: left;
-}
-
-.container-4 {
-  text-align: left;
-}
-
-.rating-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px;
-  margin: auto;
-  width: 100%;
-}
-
-.rating-label {
-  flex: 0 0 auto;
-  font-size: 14px;
-  margin: 0 10px;
-}
-
-.text-align-right {
-  text-align: right;
-}
-
-.container-sidebyside {
-  display: inline-block;
-}
-
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.modal-content {
-  padding: 3%;
-  border-radius: 8px;
-  height: 60dvh;
-  width: 100%;
-  overflow-y: scroll;
-}
-
-.modal-content button {
-  margin: 30px;
-  padding: 10px;
-  border-color: #1d7ff0;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.3s;
-  color: #1d7ff0;
-  width: 200px;
-  background-color: #ffffff;
-}
-
-.modal-content button:hover {
   background-color: #1d7ff0;
-  color: #ffffff;
+  text-align: center;
+  line-height: 25px;
+  color: white;
+  font-weight: bold;
+  transition: width 0.3s ease-in-out;
 }
-
-.survey-page {
+.survey-layout {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  margin-right: 25%;
-  margin-left: 25%;
-  padding-bottom: 30px;
+  height: 70vh;
+  width: 80%;
+}
+
+.progress-bar-container {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: white;
+}
+
+.survey-content {
+  flex: 1;
+  padding: 10px;
 }
 
 .survey-question {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin-bottom: 20px;
+  margin: auto;
+  text-align: center;
 }
 
-.survey-question h4 {
+.fixed-button-container {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.rating-section {
   display: flex;
   align-items: center;
-  gap: 20px;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.label {
+  white-space: nowrap;
+  max-width: 150px;
+  font-size: 14px;
+  text-align: center;
+  flex-shrink: 0;
 }
 
 .rating-options {
   display: flex;
   justify-content: space-around;
-  width: 100%;
+  gap: 10px;
+  flex-shrink: 1;
+  flex-grow: 1;
 }
