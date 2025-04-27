@@ -2,10 +2,9 @@
 
 import Dialog from "@/app/components/Dialog";
 import Button from "../components/Button";
-import classes from "./page.module.css";
 import { invoke } from "@tauri-apps/api/core";
-import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const ConfirmUpdateDialog = () => {
   const [step, setStep] = useState(0); // 0 = initial, 1 = confirm clear
@@ -23,13 +22,9 @@ const ConfirmUpdateDialog = () => {
       setStep(1);
     } else {
       // Final step: perform the action
-      console.log("Update in Progress.");
-
-      //TODO delete data dir
-      //TODO invoke update
-      //   invoke("check_update").then((i) => {
-      //     console.log(i);
-      //   });
+      invoke("delete_iris_data").then((i) => {
+        console.log(`After deleting data: ${i}`);
+      });
     }
   };
 
