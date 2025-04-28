@@ -1,6 +1,7 @@
 "use client";
 
 import Dialog from "@/app/components/Dialog";
+import ToastDialog from "../components/ToastDialog";
 import Button from "../components/Button";
 import { invoke } from "@tauri-apps/api/core";
 import { useState } from "react";
@@ -22,9 +23,19 @@ const ConfirmUpdateDialog = () => {
       setStep(1);
     } else {
       // Final step: perform the action
-      invoke("delete_iris_data").then((i) => {
-        console.log(`After deleting data: ${i}`);
-      });
+
+      invoke("delete_iris_data")
+        .then((i) => {
+          console.log(`After deleting data: ${i}`);
+        })
+        .catch((error) => {
+          setStep(0);
+          router.back();
+
+          <ToastDialog title="Sorry!" content={error}>
+            <></>
+          </ToastDialog>;
+        });
     }
   };
 

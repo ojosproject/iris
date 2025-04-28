@@ -1,38 +1,9 @@
-use std::process::Command;
-
+use dirs::data_dir;
 use tauri::AppHandle;
 use tauri_plugin_updater::UpdaterExt;
-use dirs::data_dir;
 
 #[tauri::command]
-pub fn check_update(app: AppHandle, install: bool) -> Result<(), String> {
-    tauri::async_runtime::spawn(async move {
-        if let Some(update) = app.updater().unwrap().check().await.unwrap() {
-            if install {
-                let mut downloaded = 0;
-                update
-                    .download_and_install(
-                        |chunk_length, content_length| {
-                            downloaded += chunk_length;
-                            println!("downloaded {downloaded} from {content_length:?}");
-                        },
-                        || {
-                            println!("download finished");
-                        },
-                    )
-                    .await
-                    .unwrap();
-            }
-            return Ok(());
-        } else {
-            return Err(String::from("No updates available"));
-        }
-    });
-    Ok(())
-}
-
-#[tauri::command]
-pub fn delete_iris_data() -> Result<(), String> {
+pub fn delete_iris_data(app: AppHandle) -> Result<(), String> {
     let os = std::env::consts::OS;
 
     match os {
@@ -61,26 +32,41 @@ pub fn delete_iris_data() -> Result<(), String> {
         _ => return Err("Unsupported OS".to_string()),
     }
 
-    //TODO fix restart app not working
-    //restart_app()?;
+    match check_update(app, true) {
+        Ok(_) => {
+            //TODO fix restart app not working in dev, works fine with msi in cargo tauri build
+            //app.restart();
 
-
-    Ok(())
-
-
-    // std::process::exit(0);
-
+            //TODO placeholder, remove after fixing restart app not working in dev
+            Ok(())
+        }
+        Err(e) => Err(e.to_string()),
+    }
 }
 
 #[tauri::command]
-pub fn restart_app() -> Result<(), String> {
-    let current_exe = std::env::current_exe().map_err(|e| e.to_string())?;
-
-    // Spawn a new instance of the app
-    Command::new(current_exe)
-        .spawn()
-        .map_err(|e| format!("Failed to restart app: {}", e))?;
-
-    // Exit the current process
-    std::process::exit(0);
+pub fn check_update(app: AppHandle, install: bool) -> Result<(), String> {
+    tauri::async_runtime::spawn(async move {
+        if let Some(update) = app.updater().unwrap().check().await.unwrap() {
+            if install {
+                let mut downloaded = 0;
+                update
+                    .download_and_install(
+                        |chunk_length, content_length| {
+                            downloaded += chunk_length;
+                            println!("downloaded {downloaded} from {content_length:?}");
+                        },
+                        || {
+                            println!("download finished");
+                        },
+                    )
+                    .await
+                    .unwrap();
+            }
+            return Ok(());
+        } else {
+            return Err(String::from("No updates available"));
+        }
+    });
+    Ok(())
 }
