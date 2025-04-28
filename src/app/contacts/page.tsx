@@ -13,7 +13,7 @@ import Dialog from "@/app/components/Dialog";
 import { parse_phone_number } from "../helper";
 
 export default function Contacts() {
-  const [contacts, setContacts] = useState([] as Contact[]);
+  const [contacts, setContacts] = useState<Contact[]>([]);
   const [patientId, setPatientId] = useState("");
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
   const [modalOpen, setModalOpen] = useState(false);

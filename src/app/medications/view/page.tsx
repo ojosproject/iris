@@ -2,7 +2,6 @@
 import { useState, useEffect, useRef, Suspense } from "react";
 import styles from "./page.module.css";
 import { Medication, MedicationLog } from "../types";
-import { User } from "@/app/settings/types";
 import { invoke } from "@tauri-apps/api/core";
 import moment from "moment";
 import { useSearchParams } from "next/navigation";
@@ -80,9 +79,10 @@ const MedicineView = () => {
     quantity: 0,
     created_at: 0,
     updated_at: 0,
+    icon: "",
   });
   const pillsPercentage = 100; // we'll fix later
-  const [prescriptionNurse, setPrescriptionNurse] = useState<User>({
+  const [prescriptionNurse, setPrescriptionNurse] = useState({
     full_name: "Loading...",
     phone_number: 9999999999,
     email: "Loading...",
@@ -98,15 +98,17 @@ const MedicineView = () => {
   });
   {
     useEffect(() => {
-      invoke("get_medication_logs", {
-        medication: medicationId,
+      invoke<MedicationLog[]>("get_medication_logs", {
+        medication_id: medicationId,
       }).then((medication_log) => {
-        setVisibleLogs(medication_log as MedicationLog[]);
+        setVisibleLogs(medication_log);
       });
 
-      invoke("get_medications", { id: medicationId }).then((m) => {
-        setMedication((m as Medication[])[0]);
-      });
+      invoke<Medication[]>("get_medications", { id: medicationId }).then(
+        (m) => {
+          setMedication(m[0]);
+        },
+      );
     }, [logsToShow, prescriptionNurse]);
   }
 

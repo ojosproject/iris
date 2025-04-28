@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS medication (
     expiration_date INTEGER,
     frequency TEXT,
     notes TEXT,
-    last_taken INTEGER
+    last_taken INTEGER,
+    icon TEXT
 ) STRICT;
 "#;

@@ -10,7 +10,12 @@ interface BackButtonProps {
   color?: "BLACK" | "WHITE";
 }
 
-const BackButton = ({ onClick, disabled, style, color = "BLACK" }: BackButtonProps) => {
+const BackButton = ({
+  onClick,
+  disabled,
+  style,
+  color = "BLACK",
+}: BackButtonProps) => {
   const router = useRouter();
 
   const handleClick = () => {
@@ -18,15 +23,16 @@ const BackButton = ({ onClick, disabled, style, color = "BLACK" }: BackButtonPro
     onClick ? onClick() : router.back();
   };
 
-  const iconSrc = color === "WHITE"
-    ? "/images/chevron-back-outline-white.svg"
-    : "/images/chevron-back-outline.svg";
+  const iconSrc =
+    color === "WHITE"
+      ? "/images/chevron-back-outline-white.svg"
+      : "/images/chevron-back-outline.svg";
 
-    const buttonStyle: CSSProperties = {
-      ...style,
-      opacity: disabled ? 0.5 : 1,
-      cursor: disabled ? "not-allowed" : "pointer",
-    };
+  const buttonStyle: CSSProperties = {
+    ...style,
+    opacity: disabled ? 0.5 : 1,
+    cursor: disabled ? "not-allowed" : "pointer",
+  };
 
   return (
     <img

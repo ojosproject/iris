@@ -1,8 +1,0 @@
-.med {
-  border: 2px solid var(--dark-gray);
-  border-radius: 8px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0px 16px;
-}

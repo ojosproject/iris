@@ -9,7 +9,10 @@ import ConfirmLogModal from "./components/ConfirmLogModal";
 import { timestampToString } from "../helper";
 import useKeyPress from "../accessibility/keyboard_nav";
 import { useRouter } from "next/navigation";
-import MedicationForm from "./add_medication/page";
+import MedicationForm from "./components/MedicationForm";
+import Image from "next/image";
+import Dialog from "../components/Dialog";
+import MedicationIconPicker from "./components/MedicationIconPicker";
 
 const MedicationsView = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -30,6 +33,7 @@ const MedicationsView = () => {
   const [isConfirmLogModalOpen, setIsConfirmLogModalOpen] = useState(false);
   const [medications, setMedications] = useState<Medication[]>([]);
   const [loading, setLoading] = useState(true);
+  const [iconDialogOpen, setIconDialogOpen] = useState(false);
   const router = useRouter();
 
   useKeyPress("Escape", () => {
@@ -37,6 +41,8 @@ const MedicationsView = () => {
       setIsNewMedFormOpen(false);
     } else if (isConfirmLogModalOpen) {
       setIsConfirmLogModalOpen(false);
+    } else if (iconDialogOpen) {
+      setIconDialogOpen(false);
     } else {
       router.back();
     }
@@ -53,9 +59,9 @@ const MedicationsView = () => {
   );
 
   useEffect(() => {
-    invoke("get_medications")
+    invoke<Medication[]>("get_medications")
       .then((m) => {
-        setMedications(m as Medication[]);
+        setMedications(m);
         setLoading(false);
       })
       .catch((err) => {
@@ -94,9 +100,9 @@ const MedicationsView = () => {
       expiration_date: newMedication.expiration_date,
       frequency: newMedication.frequency,
       notes: newMedication.notes,
+      icon: newMedication.icon,
     })
       .then((m) => {
-        console.log(m);
         setMedications([...medications, m]);
       })
       .catch((err) => {
@@ -107,7 +113,6 @@ const MedicationsView = () => {
 
   const handleCommentSubmit = (comment: string) => {
     if (selectedMedication) {
-      console.log(`Comment for ${selectedMedication.name}: ${comment}`);
       // Send the medication and comment to your backend or perform the necessary action
       invoke("log_medication", {
         id: selectedMedication.id,
@@ -116,9 +121,9 @@ const MedicationsView = () => {
         comments: comment || null,
       }).then(() => {
         // After logging the medication, refresh the list of medications
-        invoke("get_medications")
+        invoke<Medication[]>("get_medications")
           .then((medications) => {
-            setMedications(medications as Medication[]);
+            setMedications(medications);
             setLoading(false);
           })
           .catch((err) => {
@@ -167,51 +172,94 @@ const MedicationsView = () => {
             onConfirm={handleCommentSubmit}
           />
           <div className={styles.medsWrap}>
-            <div className={styles.logsContainer}>
-              {filteredMedications.length === 0 ? (
-                <div className={styles.emptyMessage}>No medications found.</div>
-              ) : (
-                filteredMedications.map((medication, index) => (
-                  <div key={index} className={styles.logMeds}>
-                    <div className={styles.logName}>
-                      <strong>{medication.name}</strong>
-                    </div>
-                    <div className={styles.circle}></div> {/* Circle */}
-                    <div className={styles.logDosage}>
-                      {medication.strength.toString() + " " + medication.units}
-                    </div>
-                    <div className={styles.logLastTake}>
-                      <strong>Last taken</strong>
-                      <br />
-                      <>
-                        {medication.last_taken
-                          ? `${timestampToString(medication.last_taken, "MMDDYYYY")} @ ${timestampToString(medication.last_taken, "HH:MM XX")}`
-                          : "Not yet taken."}
-                      </>
-                    </div>
-                    <div key={medication.name} className={styles.logButtons}>
-                      <Button
-                        type="PRIMARY"
-                        label="Log"
-                        onClick={() => handleLogClick(medication)}
-                      />
-                      <Button
-                        type="SECONDARY"
-                        label="View"
-                        link={{
-                          pathname: "/medications/view/",
-                          query: {
-                            name: medication.id,
-                          },
-                        }}
-                      />
-                    </div>
+            {filteredMedications.length === 0 ? (
+              <div className={styles.emptyMessage}>No medications found.</div>
+            ) : (
+              filteredMedications.map((medication, index) => (
+                <div key={index} className={styles.logMeds}>
+                  <div className={styles.logName}>
+                    <strong>{medication.name}</strong>
                   </div>
-                ))
-              )}
-            </div>
+                  {["tablet", "injection"].includes(medication.dosage_type) ? (
+                    <button
+                      style={{ backgroundColor: "transparent", border: "none" }}
+                      onClick={() => {
+                        setSelectedMedication(medication);
+                        setIconDialogOpen(true);
+                      }}
+                    >
+                      <Image
+                        src={`/images/${medication.icon}`}
+                        alt={`Icon for ${medication.name}.`}
+                        height={80}
+                        width={80}
+                      />
+                    </button>
+                  ) : (
+                    <div className={styles.circle}></div> /* Circle */
+                  )}
+
+                  <div className={styles.logDosage}>
+                    {medication.strength.toString() + " " + medication.units}
+                  </div>
+                  <div className={styles.logLastTake}>
+                    <strong>Last taken</strong>
+                    <br />
+                    <>
+                      {medication.last_taken
+                        ? `${timestampToString(medication.last_taken, "MMDDYYYY")} @ ${timestampToString(medication.last_taken, "HH:MM XX")}`
+                        : "Not yet taken."}
+                    </>
+                  </div>
+                  <div key={medication.name} className={styles.logButtons}>
+                    <Button
+                      type="PRIMARY"
+                      label="Log"
+                      onClick={() => handleLogClick(medication)}
+                    />
+                    <Button
+                      type="SECONDARY"
+                      label="View"
+                      link={{
+                        pathname: "/medications/view/",
+                        query: {
+                          id: medication.id,
+                        },
+                      }}
+                    />
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
+      )}
+      {iconDialogOpen && selectedMedication && (
+        <Dialog
+          title={`Edit Icon for ${selectedMedication.name}`}
+          content="Select an icon below."
+        >
+          <MedicationIconPicker
+            medium={selectedMedication.dosage_type}
+            selectedIcon={selectedMedication.icon}
+            onSelect={(newIcon: string) => {
+              setIconDialogOpen(false);
+              invoke("update_medication", {
+                id: selectedMedication.id,
+                icon: newIcon,
+              }).then(() => {
+                invoke<Medication[]>("get_medications").then((meds) => {
+                  setMedications(meds);
+                });
+              });
+            }}
+          />
+          <Button
+            type="SECONDARY"
+            label="Cancel"
+            onClick={() => setIconDialogOpen(false)}
+          />
+        </Dialog>
       )}
     </>
   );

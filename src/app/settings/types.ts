@@ -7,3 +7,9 @@
 export type Config = {
   onboarding_completed: boolean;
 };
+
+export type DataPackReceipt = {
+  resources_count?: number;
+  pro_count?: number;
+  contacts_count?: number;
+};

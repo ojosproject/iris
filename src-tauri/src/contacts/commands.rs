@@ -10,8 +10,8 @@ use tauri::{AppHandle, Manager};
 /// ## TypeScript Usage
 ///
 /// ```typescript
-/// invoke('get_all_contacts').then(c => {
-///     setContact(c as Contact[]);
+/// invoke<Contact[]>('get_all_contacts').then(c => {
+///     setContact(c);
 /// });
 /// ```
 
@@ -27,9 +27,9 @@ pub fn get_all_contacts(app: AppHandle) -> Result<Vec<Contact>, String> {
 /// ## TypeScript
 ///
 /// ```typescript
-/// invoke('get_single_contact', {id: ''}).then(c => {
+/// invoke<Contact>('get_single_contact', {id: ''}).then(c => {
 ///     if (c) { // this COULD return a null, check!
-///         setContact(c as Contact);
+///         setContact(c);
 ///     }
 ///     
 /// });
@@ -124,13 +124,13 @@ pub fn get_patient_contact(app: AppHandle) -> Result<Contact, String> {
 /// ## TypeScript Usage
 ///
 /// ```typescript
-/// invoke('create_contact', {
+/// invoke<Contact>('create_contact', {
 ///         name: 'Peter Anteater',
 ///         phone_number: '123-456-7890',
 ///         company: 'UC Irvine',
 ///         email: 'panteater@uci.edu'
 ///     }).then(c => {
-///     setContact(c as Contact);
+///     setContact(c);
 /// })
 /// ```
 #[tauri::command(rename_all = "snake_case")]
@@ -161,14 +161,14 @@ pub fn create_contact(
 /// ## TypeScript
 ///
 /// ```typescript
-/// invoke('update_contact', {
+/// invoke<Contact>('update_contact', {
 ///         id: 'uuid',
 ///         name: 'John Smith',
 ///         phone_number: '098-765-4321',
 ///         company: 'The Irvine Company',
 ///         email: 'john.smith@gmail.com'
 ///     }).then(c => {
-///     setContact(c as Contact);
+///     setContact(c);
 /// })
 /// ```
 #[tauri::command(rename_all = "snake_case")]

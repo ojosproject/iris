@@ -4,9 +4,7 @@ import { Contact } from "../types";
 import classes from "./ContactButton.module.css";
 import Link from "next/link";
 
-export default function ContactButton(props: {
-  contact: Contact;
-}) {
+export default function ContactButton(props: { contact: Contact }) {
   return (
     <Link
       style={{ color: "black", textDecoration: "none" }}

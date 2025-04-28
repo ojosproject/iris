@@ -20,6 +20,7 @@ pub struct Medication {
     pub frequency: Option<String>,
     pub notes: Option<String>,
     pub last_taken: Option<i64>,
+    pub icon: String,
 }
 
 #[derive(Serialize, Deserialize)]

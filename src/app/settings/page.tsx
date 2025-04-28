@@ -7,7 +7,7 @@ import { ReactElement, useEffect, useState } from "react";
 import BackButton from "../components/BackButton";
 import classes from "./page.module.css";
 import { Switch } from "@mui/material";
-import { Config } from "./types";
+import { Config, DataPackReceipt } from "./types";
 import Button from "../components/Button";
 import { parse_phone_number } from "../helper";
 import Dialog from "../components/Dialog";
@@ -165,12 +165,6 @@ export default function Settings() {
   }
 */
   function ImportSection() {
-    type Receipt = {
-      resources_count?: number;
-      pro_count?: number;
-      contacts_count?: number;
-    };
-
     return (
       config && (
         <Section
@@ -183,7 +177,7 @@ export default function Settings() {
                 type="PRIMARY"
                 label="Select..."
                 onClick={() => {
-                  invoke<Receipt>("import_data_pack")
+                  invoke<DataPackReceipt>("import_data_pack")
                     .then((receipt) => {
                       let title = "Sorry, something went wrong.";
                       let message =

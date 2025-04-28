@@ -16,13 +16,11 @@ export default function CategoryMenu(props: {
   function handleMenuClick(label: string) {
     setSelectedLabel(label);
 
-    invoke("get_resources").then((r) => {
+    invoke<Resource[]>("get_resources").then((r) => {
       props.setResources(
         label === "all"
           ? r
-          : (r as Resource[]).filter(
-              (resource) => resource.category.toLowerCase() === label,
-            ),
+          : r.filter((resource) => resource.category.toLowerCase() === label),
       );
     });
   }

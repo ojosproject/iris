@@ -6,17 +6,22 @@ import { HubTools } from "./hub/HubTools";
 import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { Config } from "@/app/settings/types";
-import Onboarding from "./onboarding/Onboarding";
 import { platform } from "@tauri-apps/plugin-os";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [onboardingCompleted, setOnboardingCompleted] = useState(false);
   const [availableTools, setAvailableTools] =
     useState<HubToolProps[]>(HubTools);
+  const router = useRouter();
 
   useEffect(() => {
-    invoke("get_config").then((c) => {
-      setOnboardingCompleted((c as Config).onboarding_completed);
+    invoke<Config>("get_config").then((c) => {
+      setOnboardingCompleted(c.onboarding_completed);
+
+      if (!c.onboarding_completed) {
+        router.push("/onboarding");
+      }
     });
 
     const PLATFORM = platform();
@@ -26,31 +31,26 @@ export default function Home() {
     }
   }, []);
 
-  function handleCompletedOnboarding() {
-    setOnboardingCompleted(true);
-    invoke("complete_onboarding");
-  }
-
-  return onboardingCompleted ? (
-    <>
-      <HubHeader></HubHeader>
-      <main className={classes.flex}>
-        <section className={classes.side1}>
-          <h2> Your Tools </h2>
-          <ul className={classes.appList}>
-            {availableTools.map((hubTool) => (
-              <HubTool
-                key={hubTool.name}
-                link={hubTool.link}
-                icon={hubTool.icon}
-                name={hubTool.name}
-              />
-            ))}
-          </ul>
-        </section>
-      </main>
-    </>
-  ) : (
-    <Onboarding handleCompletedOnboarding={handleCompletedOnboarding} />
+  return (
+    onboardingCompleted && (
+      <>
+        <HubHeader></HubHeader>
+        <main className={classes.flex}>
+          <section className={classes.side1}>
+            <h2> Your Tools </h2>
+            <ul className={classes.appList}>
+              {availableTools.map((hubTool) => (
+                <HubTool
+                  key={hubTool.name}
+                  link={hubTool.link}
+                  icon={hubTool.icon}
+                  name={hubTool.name}
+                />
+              ))}
+            </ul>
+          </section>
+        </main>
+      </>
+    )
   );
 }

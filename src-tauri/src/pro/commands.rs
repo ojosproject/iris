@@ -25,8 +25,8 @@ pub fn add_pros(app: AppHandle, pros: Vec<(String, i32)>) {
 /// ## TypeScript Usage
 ///
 /// ```typescript
-/// invoke('get_all_pros').then(all_pros => {
-///     setPros(all_pros as PatientReportedOutcome[])
+/// invoke<PatientReportedOutcome[]>('get_all_pros').then(all_pros => {
+///     setPros(all_pros)
 /// });
 /// ```
 #[tauri::command(rename_all = "snake_case")]

@@ -17,8 +17,8 @@ use tauri_plugin_dialog::DialogExt;
 /// ## TypeScript Usage
 ///
 /// ```typescript
-/// invoke('get_config').then(c => {
-///     console.log((c as Config).resources_last_call);
+/// invoke<Config>('get_config').then(c => {
+///     console.log((c).resources_last_call);
 /// });
 /// ```
 #[tauri::command(rename_all = "snake_case")]

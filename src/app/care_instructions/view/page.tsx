@@ -50,13 +50,13 @@ function EditInstructions() {
   });
 
   function fetchInformation(fetch_id: string) {
-    invoke("get_single_care_instruction", { id: fetch_id })
+    invoke<CareInstruction>("get_single_care_instruction", { id: fetch_id })
       .then((i) => {
-        setId((i as CareInstruction).id);
-        setTitle((i as CareInstruction).title);
-        setContent((i as CareInstruction).content);
-        setAddedBy((i as CareInstruction).added_by);
-        setLastUpdated((i as CareInstruction).last_updated);
+        setId(i.id);
+        setTitle(i.title);
+        setContent(i.content);
+        setAddedBy(i.added_by);
+        setLastUpdated(i.last_updated);
 
         invoke("care_instructions_previous_next_ids", {
           id: fetch_id,
@@ -90,7 +90,7 @@ function EditInstructions() {
   function handleOnSaveClick() {
     // If last_updated is 0, it means that this is a newly created instruction
 
-    invoke(
+    invoke<CareInstruction>(
       lastUpdated === 0
         ? "create_care_instructions"
         : "update_care_instructions",
@@ -103,11 +103,11 @@ function EditInstructions() {
       },
     ).then((i) => {
       setOnEditMode(false);
-      setId((i as CareInstruction).id);
-      setTitle((i as CareInstruction).title);
-      setContent((i as CareInstruction).content);
-      setAddedBy((i as CareInstruction).added_by);
-      setLastUpdated((i as CareInstruction).last_updated);
+      setId(i.id);
+      setTitle(i.title);
+      setContent(i.content);
+      setAddedBy(i.added_by);
+      setLastUpdated(i.last_updated);
 
       router.replace(`/care_instructions/view/?id=${id}`);
 
