@@ -156,7 +156,11 @@ const MedicationsView = () => {
           <div className={styles.searchBarContainer}>
             <input
               type="text"
-              placeholder="Search Medication..."
+              placeholder={medications.length > 0 ? (
+                "Search Medications"
+              ) : (
+                "No Medications"
+              )}
               value={searchQuery}
               onChange={handleSearchChange}
               className={styles.searchInput}
