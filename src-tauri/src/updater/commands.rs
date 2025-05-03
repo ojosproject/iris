@@ -1,72 +1,61 @@
-use dirs::data_dir;
-use tauri::AppHandle;
+use tauri::{AppHandle, Manager};
 use tauri_plugin_updater::UpdaterExt;
 
-#[tauri::command]
 pub fn delete_iris_data(app: AppHandle) -> Result<(), String> {
-    let os = std::env::consts::OS;
-
-    match os {
-        "windows" => {
-            let path = data_dir().unwrap().join("org.ojosproject.Iris");
-            if path.exists() {
-                std::fs::remove_dir_all(&path).map_err(|e| e.to_string())?;
-            }
-        }
-        // "macos" => {
-        //     let path = home.join("Library").join("Application Support").join("org.ojosproject.Iris");
-        //     if path.exists() {
-        //         std::fs::remove_dir_all(&path).map_err(|e| e.to_string())?;
-        //     }
-        // }
-        // "linux" => {
-        //     let path1 = home.join(".local").join("share").join("org.ojosproject.Iris");
-        //     let path2 = home.join(".config").join("org.ojosproject.Iris");
-        //     if path1.exists() {
-        //         std::fs::remove_dir_all(&path1).map_err(|e| e.to_string())?;
-        //     }
-        //     if path2.exists() {
-        //         std::fs::remove_dir_all(&path2).map_err(|e| e.to_string())?;
-        //     }
-        // }
-        _ => return Err("Unsupported OS".to_string()),
-    }
-
-    match check_update(app, true) {
-        Ok(_) => {
-            //TODO fix restart app not working in dev, works fine with msi in cargo tauri build
-            //app.restart();
-
-            //TODO placeholder, remove after fixing restart app not working in dev
-            Ok(())
-        }
-        Err(e) => Err(e.to_string()),
+    let app_data_dir_path = app.path().app_data_dir().unwrap();
+    if app_data_dir_path.exists() {
+        std::fs::remove_dir_all(&app_data_dir_path).map_err(|e| e.to_string())?;
+        Ok(())
+    } else {
+        Err(String::from("App Data Dir does not exist."))
     }
 }
 
 #[tauri::command]
-pub fn check_update(app: AppHandle, install: bool) -> Result<(), String> {
-    tauri::async_runtime::spawn(async move {
-        if let Some(update) = app.updater().unwrap().check().await.unwrap() {
-            if install {
-                let mut downloaded = 0;
-                update
-                    .download_and_install(
-                        |chunk_length, content_length| {
-                            downloaded += chunk_length;
-                            println!("downloaded {downloaded} from {content_length:?}");
-                        },
-                        || {
-                            println!("download finished");
-                        },
-                    )
-                    .await
-                    .unwrap();
-            }
-            return Ok(());
-        } else {
-            return Err(String::from("No updates available"));
+pub async fn check_update(app: AppHandle) -> Result<(), String> {
+
+    //TODO uncomment this when testing
+    //return Ok(());
+    
+
+    //TODO comment the rest of this out when testing
+    let updater = app.updater().map_err(|e| e.to_string())?;
+
+    match updater.check().await {
+        Ok(Some(_update)) => Ok(()),
+        Ok(None) => Err("There are no updates to install!".to_string()),
+        Err(e) => Err(format!("Failed to check for updates: {}", e)),
+    }
+}
+
+#[tauri::command]
+pub async fn install_update(app: AppHandle) -> Result<(), String> {
+    let updater = app.updater().map_err(|e| e.to_string())?;
+
+    match updater.check().await {
+        Ok(Some(update)) => {
+            delete_iris_data(app.clone())?; // delete Iris if success path reached
+            let mut downloaded = 0;
+            update
+                .download_and_install(
+                    |chunk_length, content_length| {
+                        downloaded += chunk_length;
+                        println!("Downloaded {downloaded} / {content_length:?}");
+                    },
+                    || {
+                        println!("Download finished");
+                    },
+                )
+                .await
+                .map_err(|e| format!("Failed to install update: {}", e))?;
+            Ok(())
         }
-    });
-    Ok(())
+        Ok(None) => Err("There's no update to install".to_string()),
+        Err(e) => Err(format!("Failed to check for updates: {}", e)),
+    }
+}
+
+#[tauri::command]
+pub fn restart_app(app: AppHandle) {
+    app.restart();
 }

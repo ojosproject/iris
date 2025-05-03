@@ -52,7 +52,8 @@ fn main() {
             contacts::commands::get_patient_contact,
             contacts::commands::disable_relay_for_contacts,
             updater::commands::check_update,
-            updater::commands::delete_iris_data,
+            updater::commands::install_update,
+            updater::commands::restart_app
         ])
         .setup(|app| {
             app.set_menu(menu(&app.app_handle())).unwrap();
