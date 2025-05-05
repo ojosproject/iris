@@ -88,7 +88,7 @@ function EditContacts() {
       setTimeout(() => {
         setSaveMessage(false);
         setJustSaved(false);
-        router.back();
+        router.push("/contacts");
       }, 1500);
     });
   }

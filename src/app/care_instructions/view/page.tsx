@@ -123,7 +123,7 @@ function EditInstructions() {
   return (
     <div className={classes.care_instructions_container}>
       <div className={classes.back_button}>
-        <BackButton />
+        <BackButton onClick={() => router.push("/care_instructions")} />
       </div>
 
       <h1 className={classes.care_title}>Care Instructions</h1>

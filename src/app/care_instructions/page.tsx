@@ -18,7 +18,7 @@ export default function CareInstructions() {
   const router = useRouter();
 
   useKeyPress("Escape", () => {
-    router.back();
+    router.push("/");
   });
 
   useEffect(() => {
@@ -30,7 +30,11 @@ export default function CareInstructions() {
   return (
     <div className={classes.all_instructions_layout}>
       <div className={classes.back_button}>
-        <BackButton />
+        <BackButton
+          onClick={() => {
+            router.push("/");
+          }}
+        />
       </div>
 
       <h1>Care Instructions</h1>
