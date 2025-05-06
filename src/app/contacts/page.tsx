@@ -11,6 +11,7 @@ import classes from "./page.module.css";
 import Button from "../components/Button";
 import Dialog from "@/app/components/Dialog";
 import { parse_phone_number } from "../helper";
+import { useRouter } from "next/navigation";
 
 export default function Contacts() {
   const [contacts, setContacts] = useState<Contact[]>([]);
@@ -20,6 +21,7 @@ export default function Contacts() {
   const [selectedContactIds, setSelectedContactIds] = useState<Set<number>>(
     new Set(),
   );
+  const router = useRouter();
 
   useEffect(() => {
     invoke<Contact[]>("get_all_contacts").then((i) => {
@@ -68,7 +70,7 @@ export default function Contacts() {
   return (
     <div className={classes.all_contacts_layout}>
       <div className={classes.back_button}>
-        <BackButton />
+        <BackButton onClick={() => router.push("/")} />
       </div>
 
       <h1>Contacts</h1>

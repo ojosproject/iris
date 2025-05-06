@@ -95,7 +95,14 @@ function EditContacts() {
   return (
     <div className={classes.contacts_container}>
       <div className={classes.back_button}>
-        <BackButton disabled={justSaved} />
+        <BackButton
+          disabled={justSaved}
+          onClick={() => {
+            if (!justSaved) {
+              router.push("/contacts");
+            }
+          }}
+        />
       </div>
 
       {saveMessage && (
