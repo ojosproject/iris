@@ -16,6 +16,7 @@ import useKeyPress from "../accessibility/keyboard_nav";
 import { useRouter } from "next/navigation";
 import Contacts from "../contacts/page";
 import { Contact } from "../contacts/types";
+import ConfirmUpdateDialog from "../updater/page";
 
 type SectionProps = {
   children: ReactElement;
@@ -59,6 +60,9 @@ export default function Settings() {
   const [relayActivated, setRelayActivated] = useState(false);
   const [newNumber, setNewNumber] = useState("");
   const [contacts, setContacts] = useState<Contact[]>([]);
+  const [displayUpdater, setDisplayUpdater] = useState(false);
+  const [updateButtonLabel, setUpdateButtonLabel] = useState("Request");
+  const [updateButtonDisabled, setUpdateButtonDisabled] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -164,6 +168,29 @@ export default function Settings() {
     );
   }
 */
+  function UpdaterSection() {
+    return (
+      config && (
+        <Section
+          title="Updates"
+          description="Request software updates and automatically install them."
+        >
+          <Row label="Request Updates">
+            <Button
+              type="PRIMARY"
+              label={updateButtonLabel}
+              disabled={updateButtonDisabled}
+              onClick={() => {
+                if (!updateButtonDisabled) {
+                  setDisplayUpdater(true);
+                }
+              }}
+            ></Button>
+          </Row>
+        </Section>
+      )
+    );
+  }
   function ImportSection() {
     return (
       config && (
@@ -227,12 +254,22 @@ export default function Settings() {
 
   return (
     <div>
+      {displayUpdater && (
+        <ConfirmUpdateDialog
+          onRequest={() => {
+            setUpdateButtonDisabled(true);
+            setUpdateButtonLabel("Requested");
+          }}
+          closeModel={() => setDisplayUpdater(false)}
+        />
+      )}
       <BackButton />
       <div className={classes.container_settings}>
         <h1>Settings</h1>
         <div className={classes.column_of_settings}>
           {/*<RelaySection />*/}
           <ImportSection />
+          <UpdaterSection />
         </div>
       </div>
       {displayDialog && (

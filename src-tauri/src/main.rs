@@ -9,6 +9,7 @@ mod onboarding;
 mod pro;
 mod resources;
 mod settings;
+mod updater;
 use menu::menu;
 use onboarding::helpers::setup_onboarding;
 use std::{env, process};
@@ -16,6 +17,7 @@ use tauri::Manager;
 
 fn main() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_os::init())
         .plugin(tauri_plugin_fs::init())
@@ -49,6 +51,8 @@ fn main() {
             contacts::commands::delete_contact,
             contacts::commands::get_patient_contact,
             contacts::commands::disable_relay_for_contacts,
+            updater::commands::check_update,
+            // updater::commands::delete_iris_data, we'll bring this back in a later iteration
         ])
         .setup(|app| {
             app.set_menu(menu(&app.app_handle())).unwrap();
