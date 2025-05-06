@@ -26,6 +26,9 @@ function EditContacts() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [company, setCompany] = useState("");
   const [email, setEmail] = useState("");
+  const [contactType, setContactType] = useState<"CAREGIVER" | "PATIENT">(
+    "CAREGIVER",
+  );
   const [enabledRelay, setEnabledRelay] = useState(false);
   const [lastUpdated, setLastUpdated] = useState(0);
   const [onEditMode, setOnEditMode] = useState(false);
@@ -45,6 +48,7 @@ function EditContacts() {
         );
         setCompany(i.company ?? "");
         setEmail(i.email ?? "");
+        setContactType(i.contact_type ?? "CAREGIVER");
         setEnabledRelay(i.enabled_relay);
         setLastUpdated(i.last_updated);
         setOnEditMode(!onEditMode);
@@ -70,7 +74,7 @@ function EditContacts() {
       phone_number: phoneNumber,
       company: company,
       email: email,
-      contact_type: "CAREGIVER",
+      contact_type: contactType,
       enabled_relay: enabledRelay,
     }).then((i) => {
       setOnEditMode(false);
@@ -79,6 +83,7 @@ function EditContacts() {
       setPhoneNumber(i.phone_number ? parse_phone_number(i.phone_number) : "");
       setCompany(i.company ?? "");
       setEmail(i.email ?? "");
+      setContactType(i.contact_type ?? "CAREGIVER");
       setEnabledRelay(i.enabled_relay);
 
       setJustSaved(true);
