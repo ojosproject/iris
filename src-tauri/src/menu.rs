@@ -29,7 +29,6 @@ fn submenu_file(app: &AppHandle) -> Submenu<Wry> {
         .item(
             &MenuItemBuilder::new("Open Recordings...")
                 .id("open-recordings")
-                .accelerator("Ctrl+R")
                 .build(app)
                 .unwrap(),
         )
