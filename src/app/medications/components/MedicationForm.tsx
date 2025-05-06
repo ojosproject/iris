@@ -26,13 +26,12 @@ const MedicationForm: React.FC<MedicationFormProps> = ({
     medicationStrength: 0,
     medicationSupply: 0,
     selectedDosageType: "tablet", // default to pills so that the icons are displayed
-    selectedUnits: "",
     medicationFrequency: "",
     medicationStartDate: undefined as string | undefined,
     medicationEndDate: undefined as string | undefined,
     medicationExpirationDate: undefined as string | undefined,
     medicationNotes: "",
-    selectedUnit: "custom",
+    selectedUnit: "mg",
     customUnit: "",
     customMedium: "",
     icon: "",
@@ -56,7 +55,7 @@ const MedicationForm: React.FC<MedicationFormProps> = ({
         medicationData.customMedium ||
         "tablet",
       strength: medicationData.medicationStrength || 0,
-      units: medicationData.selectedUnits || medicationData.customUnit || "mg",
+      units: medicationData.selectedUnit || medicationData.customUnit || "mg",
       quantity: medicationData.medicationSupply,
       created_at: Date.now(),
       updated_at: Date.now(),
