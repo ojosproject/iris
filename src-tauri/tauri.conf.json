@@ -6,10 +6,14 @@
     "devUrl": "http://localhost:3000"
   },
   "bundle": {
+    "publisher": "Ojos Project",
+    "shortDescription": "Your care management system.",
     "active": true,
-    "category": "DeveloperTool",
-    "copyright": "",
-    "targets": "all",
+    "category": "HealthcareAndFitness",
+    "copyright": "© 2025 Ojos Project and contributors. Licensed under the GNU GPLv3.",
+    "homepage": "https://ojosproject.org/iris/",
+    "license": "GPL-3.0-only",
+    "targets": ["deb", "dmg", "msi"],
     "externalBin": [],
     "icon": [
       "icons/32x32.png",
@@ -32,7 +36,6 @@
       "signingIdentity": null
     },
     "resources": [],
-    "shortDescription": "",
     "linux": {
       "deb": {
         "depends": []
