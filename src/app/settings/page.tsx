@@ -16,7 +16,7 @@ import useKeyPress from "../accessibility/keyboard_nav";
 import { useRouter } from "next/navigation";
 import Contacts from "../contacts/page";
 import { Contact } from "../contacts/types";
-import ConfirmUpdateDialog from "../updater/page";
+import ConfirmUpdateDialog from "../updater/ConfirmUpdateDialog";
 
 type SectionProps = {
   children: ReactElement;
