@@ -1,7 +1,8 @@
-use dirs::data_dir;
-use tauri::AppHandle;
+use std::fs;
+use tauri::{AppHandle, Manager};
 use tauri_plugin_updater::UpdaterExt;
 
+/*
 #[tauri::command]
 pub fn delete_iris_data(app: AppHandle) -> Result<(), String> {
     let os = std::env::consts::OS;
@@ -43,30 +44,36 @@ pub fn delete_iris_data(app: AppHandle) -> Result<(), String> {
         Err(e) => Err(e.to_string()),
     }
 }
+*/
+// we'll bring this back in a later iteration
 
 #[tauri::command]
-pub fn check_update(app: AppHandle, install: bool) -> Result<(), String> {
+pub fn check_update(app: AppHandle) {
     tauri::async_runtime::spawn(async move {
         if let Some(update) = app.updater().unwrap().check().await.unwrap() {
-            if install {
-                let mut downloaded = 0;
-                update
-                    .download_and_install(
-                        |chunk_length, content_length| {
-                            downloaded += chunk_length;
-                            println!("downloaded {downloaded} from {content_length:?}");
-                        },
-                        || {
-                            println!("download finished");
-                        },
-                    )
-                    .await
-                    .unwrap();
+            println!("Some() entered.");
+
+            let mut downloaded = 0;
+            update
+                .download_and_install(
+                    |chunk_length, content_length| {
+                        downloaded += chunk_length;
+                        println!("downloaded {downloaded} from {content_length:?}");
+                    },
+                    || {
+                        println!("download finished");
+                    },
+                )
+                .await
+                .unwrap();
+            let app_data_dir = app.path().app_data_dir().unwrap();
+            match fs::remove_dir(app_data_dir) {
+                Ok(_) => {
+                    println!("Deleted app_data_dir().")
+                }
+                Err(e) => println!("Failed to delete: \"{:?}\"", e),
             }
-            return Ok(());
-        } else {
-            return Err(String::from("No updates available"));
+            app.restart();
         }
     });
-    Ok(())
 }
