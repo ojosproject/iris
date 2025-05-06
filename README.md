@@ -1,63 +1,54 @@
 # Iris: The Care Management System
 
-> [!CAUTION]
-> This project is still in active development with no stable version ready.
-> **Do not compile and use this as it is not yet ready.**
-
-![Ojos Project header](https://ojosproject.org/images/header.png)
+![Iris v0 summary](https://ojosproject.org/images/iris-v0-summary.png)
 
 ## Table of Contents
 
 - [Iris: The Care Management System](#iris-the-care-management-system)
   - [Table of Contents](#table-of-contents)
   - [Description](#description)
-  - [Contributing](#contributing)
-  - [Acknowledgements](#acknowledgements)
+    - [Features](#features)
+    - [Background](#background)
+  - [Installation](#installation)
   - [Support](#support)
     - [GitHub Issues](#github-issues)
     - [Contact Us](#contact-us)
+  - [Roadmap](#roadmap)
+  - [Acknowledgements](#acknowledgements)
   - [License](#license)
-
-<!-- todo: Add sections for "Installation", "Usage" once we're in beta. -->
-<!-- todo: Use as a guide: https://www.makeareadme.com/ -->
 
 ## Description
 
-> [!IMPORTANT]
-> Iris is not yet ready to be used as we're still working on the code. If you'd
-> like to help, please visit the [`CONTRIBUTING`](./CONTRIBUTING.md) document.
-> Thanks!
->
-> To be updated on the status of this project, please
-> [visit our website](https://ojosproject.org/news/).
+Iris is an all-in-one caregiver tool developed by Ojos Project. It makes your
+device into a full-fledged care management system.
 
-Iris is a free and open source care management system. It helps you
-and your family care for your loved one by ensuring everybody is in sync with
-your loved one's care.
+### Features
 
-## Contributing
+- 💊 Medication management - A simple to navigate interface to manage and log
+  taken medication
+- 📈 Patient Reported Outcome tracking - A questionnaire for patients to keep
+  track of their quality of care
+- 📝 Care instructions documentation - Leave notes for all caregivers to stay on
+  the same page
+- 📹️ Video monitoring - Record your patient while you're away to ensure they're
+  getting the best possible quality (Windows/macOS only)
+- 👥 Contacts - A list of contacts for nurses and caregivers to keep in contact
 
-Any and all contributions are welcomed! Please read our
-[`CONTRIBUTING` guide](./CONTRIBUTING.md) for more in-depth instructions to get
-started.
+### Background
 
-Don't forget to follow the
-[Ojos Project git policies](https://ojosproject.org/docs/policies/git/).
+Many of us in Ojos Project have experienced needing to care for a family member
+with a serious illness. We saw first-hand the limits of technology in the
+hospice space. We came together to build modern tools not just for the hospice
+space, but for the palliative care space as a whole. 🩵
 
-## Acknowledgements
+## Installation
 
-[Carlos Valdez](https://github.com/calejvaldez/) is the maintainer of the Iris
-repository. Iris is being developed by the Ojos Project team at the University
-of California, Irvine.
+> [!NOTE]
+> Iris v0 may be incompatible with future versions as its still in early
+> development.
 
-A massive thank you to everyone who's helped make this project possible.
-Notably...
-
-- [Professor Mark S. Baldwin](https://markbaldw.in/)
-- The [University of California, Irvine](https://uci.edu)'s [Undergraduate
-  Research Opportunities Program](https://urop.uci.edu/)
-- The [entirety of the Ojos Project members](https://ojosproject.org/docs/members/),
-  both current and former
+You can download the latest release of Iris
+[here](https://github.com/ojosproject/iris/releases/latest/).
 
 ## Support
 
@@ -75,6 +66,21 @@ If nobody's had the same issue,
 To contact the team, you can join our
 [Discord server](https://discord.gg/qZyQadbuMG) or email us at
 <developers@ojosproject.org>.
+
+## Roadmap
+
+The Iris developers keep their sprint tasks documented
+[in the repository](./docs/maintenance/sprint.md).
+
+## Acknowledgements
+
+Iris was built with the support from many amazing people!
+
+- [Dr. Mark S. Baldwin](https://markbaldw.in/)
+- [Dr. Alberto Krone-Martins](https://www.albertokronemartins.com/)
+- [Dr. Gillian Hayes](https://www.gillianhayes.com/)
+- UC Irvine's [Undergraduate Research Opportunities Program](https://urop.uci.edu/)
+- Our interviewees & contributors
 
 ## License
 
