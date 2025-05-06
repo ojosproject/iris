@@ -13,7 +13,7 @@
     "copyright": "© 2025 Ojos Project and contributors. Licensed under the GNU GPLv3.",
     "homepage": "https://ojosproject.org/iris/",
     "license": "GPL-3.0-only",
-    "targets": ["deb", "dmg", "msi"],
+    "targets": "all",
     "createUpdaterArtifacts": true,
     "externalBin": [],
     "icon": [
