@@ -136,12 +136,21 @@ const MedicationForm: React.FC<MedicationFormProps> = ({
         <div className={styles.dosageInputContainer}>
           <input
             className={styles.input}
-            type="number"
-            placeholder="0"
-            value={medicationData.medicationStrength}
-            onChange={(e) =>
-              handleInputChange("medicationStrength", Number(e.target.value))
-            }
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            value={medicationData.medicationStrength === null ? '' : medicationData.medicationStrength}
+            onChange={(e) => {
+              const value = e.target.value;
+              
+              if (/^\d*$/.test(value)) {
+                const sanitized = value.replace(/^0+(?=\d)/, '');
+                handleInputChange(
+                  "medicationStrength",
+                  sanitized === '' ? 0 : Number(sanitized)
+                );
+              }
+            }}
           />
 
           <div className={styles.unitRow}>
@@ -218,13 +227,22 @@ const MedicationForm: React.FC<MedicationFormProps> = ({
           </p>
           <div className={styles.quantityBox}>
             <input
-              type="number"
-              placeholder="0"
-              value={medicationData.medicationSupply}
-              onChange={(e) =>
-                handleInputChange("medicationSupply", Number(e.target.value))
-              }
               className={styles.input}
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              value={medicationData.medicationSupply === null ? '' : medicationData.medicationSupply}
+              onChange={(e) => {
+                const value = e.target.value;
+                
+                if (/^\d*$/.test(value)) {
+                  const sanitized = value.replace(/^0+(?=\d)/, '');
+                  handleInputChange(
+                    "medicationSupply",
+                    sanitized === '' ? 0 : Number(sanitized)
+                  );
+                }
+              }}
             />
             <span>
               {medicationData.selectedUnit === "Custom"
