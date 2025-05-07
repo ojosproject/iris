@@ -22,6 +22,28 @@ general Windows, macOS, and Linux device. They'll likely need be configured
 branch will have this content preloaded, removing the need to configure settings
 before using the software.
 
+## Compiling from source
+
 > [!WARNING]
 > Palliaview devices should not be using the GitHub releases of Iris software.
 > Instead, they should compile the source code from the `palliaview` branch.
+
+To compile from source, you must setup the project according to the
+[contributing guide](../../CONTRIBUTING.md). Then, you can run the following
+commands:
+
+```shell
+git clone https://github.com/ojosproject/iris/
+cd iris
+git pull origin main # update local main
+git switch palliaview
+git pull origin palliaview # update local palliaview
+# git merge main # only do this if you want to test pre-release stuff
+
+nvm use
+npm i
+cargo tauri build
+```
+
+This will build an executable. We recommend using the Debian output. These
+executables will not have auto-updates enabled.
