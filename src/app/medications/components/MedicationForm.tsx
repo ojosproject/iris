@@ -29,7 +29,7 @@ const MedicationForm: React.FC<MedicationFormProps> = ({
     medicationFrequency: "",
     medicationStartDate: undefined as string | undefined,
     medicationEndDate: undefined as string | undefined,
-    medicationExpirationDate: undefined as string | undefined,
+    medicationExpirationDate: "",
     medicationNotes: "",
     selectedUnit: "mg",
     customUnit: "",
@@ -65,7 +65,7 @@ const MedicationForm: React.FC<MedicationFormProps> = ({
       end_date: medicationData.medicationEndDate
         ? Date.parse(medicationData.medicationEndDate)
         : undefined,
-      expiration_date: medicationData.medicationExpirationDate
+      expiration_date: medicationData.medicationExpirationDate.length
         ? Date.parse(medicationData.medicationExpirationDate)
         : undefined,
       frequency: medicationData.medicationFrequency || undefined,
@@ -256,7 +256,7 @@ const MedicationForm: React.FC<MedicationFormProps> = ({
           className={styles.input}
           type="date"
           placeholder="Expiration Date in MM/DD/YYYY"
-          value={medicationData.medicationExpirationDate}
+          value={medicationData.medicationExpirationDate} // should never be undefined
           onChange={(e) =>
             handleInputChange("medicationExpirationDate", e.target.value)
           }
