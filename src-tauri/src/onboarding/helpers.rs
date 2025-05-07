@@ -14,6 +14,11 @@ fn combine_schemas() -> String {
     combined_schemas
 }
 
+fn preload_content(conn: &Connection) {
+    conn.execute_batch(
+        r#"INSERT INTO resource (label, description, url, organization, category, last_updated) VALUES ("Support Email", "Have an issue with your device? Email contact@ojosproject.org for support! Ojos Project is the group behind Palliaview and the Iris software. We're here to help.", "mailto:contact@ojosproject.org", "Ojos Project", "DEVICE", 1746601200);"#).unwrap();
+}
+
 pub fn setup_onboarding(app: &AppHandle) {
     let app_data_dir = app.path().app_data_dir().unwrap();
 
@@ -24,5 +29,6 @@ pub fn setup_onboarding(app: &AppHandle) {
         let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
 
         conn.execute_batch(&combine_schemas()).unwrap();
+        preload_content(&conn);
     }
 }
