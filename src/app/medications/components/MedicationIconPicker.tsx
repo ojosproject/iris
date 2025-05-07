@@ -43,6 +43,7 @@ export default function MedicationPicker({
               alt={`Icon for ${medium} with a ${color} background.`}
               width={80}
               height={80}
+              draggable={false}
             />
           </button>
         );

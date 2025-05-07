@@ -35,6 +35,7 @@ export default function ForwardButton(props: {
       className={classes.ForwardButton}
       style={buttonStyle}
       alt="Forward"
+      draggable={false}
     />
   );
 }

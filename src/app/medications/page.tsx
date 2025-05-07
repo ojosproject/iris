@@ -201,6 +201,7 @@ const MedicationsView = () => {
                         alt={`Icon for ${medication.name}.`}
                         height={80}
                         width={80}
+                        draggable={false}
                       />
                     </button>
                   ) : (
