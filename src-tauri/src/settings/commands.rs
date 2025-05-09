@@ -18,7 +18,7 @@ use tauri_plugin_dialog::DialogExt;
 ///
 /// ```typescript
 /// invoke<Config>('get_config').then(c => {
-///     console.log((c).resources_last_call);
+///     setConfig(c);
 /// });
 /// ```
 #[tauri::command(rename_all = "snake_case")]
@@ -53,8 +53,6 @@ pub fn complete_onboarding(app: AppHandle) {
 /// ```typescript
 /// invoke<DataPackReceipt>('import_data_pack').then(r => {
 ///     setDataPackReceipt(r);
-/// }).catch(e => {
-///     console.log(e);
 /// });
 /// ```
 #[tauri::command]

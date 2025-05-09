@@ -11,9 +11,7 @@ use tauri::{AppHandle, Manager};
 /// ```typescript
 /// invoke<Resource[]>('get_resources').then(r => {
 ///     setResources(r)
-/// }).catch(e => {
-///     console.log(e);
-/// })
+/// });
 /// ```
 #[tauri::command(rename_all = "snake_case")]
 pub fn get_resources(app: AppHandle) -> Result<Vec<Resource>, String> {

@@ -62,7 +62,6 @@ const MedicationsView = () => {
   useEffect(() => {
     invoke<Medication[]>("get_medications")
       .then((m) => {
-        console.log("medicine: ", m)
         setMedications(m);
         setLoading(false);
       })

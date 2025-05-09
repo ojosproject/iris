@@ -12,7 +12,9 @@ export default function ForwardButton(props: {
     if (props.disabled) {
       return;
     }
-    props.onClick ? props.onClick() : console.log("nothing happened");
+    if (props.onClick) {
+      props.onClick();
+    }
   };
 
   const buttonStyle: CSSProperties = {
