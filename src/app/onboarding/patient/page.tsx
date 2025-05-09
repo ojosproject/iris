@@ -40,13 +40,9 @@ export default function OnboardingPatient() {
               name: patientName,
               contact_type: "PATIENT",
               enabled_relay: false,
-            })
-              .then(() => {
-                router.push("/onboarding/caregiver/");
-              })
-              .catch((err) => {
-                console.log(err);
-              });
+            }).then(() => {
+              router.push("/onboarding/caregiver/");
+            });
           }}
         />
       </div>

@@ -40,13 +40,9 @@ export default function OnboardingCaregiver() {
               name: caregiverName,
               contact_type: "CAREGIVER",
               enabled_relay: false,
-            })
-              .then(() => {
-                router.push("/onboarding/complete");
-              })
-              .catch((err) => {
-                console.log(err);
-              });
+            }).then(() => {
+              router.push("/onboarding/complete");
+            });
           }}
         />
       </div>

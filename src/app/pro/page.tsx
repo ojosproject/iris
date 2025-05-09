@@ -8,7 +8,6 @@ import { sortChartData } from "./helper";
 import Button from "../components/Button";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import BackButton from "../components/BackButton";
-import ForwardButton from "../components/ForwardButton";
 import { PatientReportedOutcome } from "./types";
 import useKeyPress from "../accessibility/keyboard_nav";
 
@@ -39,7 +38,6 @@ const ProChart = () => {
       .then((allPros) => {
         const sortedData = sortChartData(allPros);
         setPros(sortedData);
-        console.log("sorted data: ", sortedData);
       })
       .catch((error) => {
         console.error("Error fetching PROs data: ", error);
@@ -108,7 +106,6 @@ const ProChart = () => {
     if (!currentQuestion) return [];
 
     const weekDates = getWeekDates();
-    console.log("week: ", weekDates);
 
     return weekDates.map((date) => {
       const data = pros[currentQuestion]?.find(([_, recordedDate]) => {
@@ -121,8 +118,6 @@ const ProChart = () => {
       return data ? data[0] : null;
     });
   }, [pros, currentQuestionIndex, getWeekDates]);
-
-  console.log("DATAFOR CURENT WEEK: ", dataForCurrentWeek);
 
   useEffect(() => {
     const canvas = document.getElementById(

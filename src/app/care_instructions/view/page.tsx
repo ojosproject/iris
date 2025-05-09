@@ -50,26 +50,25 @@ function EditInstructions() {
   });
 
   function fetchInformation(fetch_id: string) {
-    invoke<CareInstruction>("get_single_care_instruction", { id: fetch_id })
-      .then((i) => {
-        setId(i.id);
-        setTitle(i.title);
-        setContent(i.content);
-        setAddedBy(i.added_by);
-        setLastUpdated(i.last_updated);
+    invoke<CareInstruction>("get_single_care_instruction", {
+      id: fetch_id,
+    }).then((i) => {
+      setId(i.id);
+      setTitle(i.title);
+      setContent(i.content);
+      setAddedBy(i.added_by);
+      setLastUpdated(i.last_updated);
 
-        invoke("care_instructions_previous_next_ids", {
-          id: fetch_id,
-        }).then((previousNext) => {
-          setPreviousTopic((previousNext as string[])[0]);
-          setNextTopic((previousNext as string[])[1]);
-        });
-      })
-      .catch((e) => console.log(e));
+      invoke("care_instructions_previous_next_ids", {
+        id: fetch_id,
+      }).then((previousNext) => {
+        setPreviousTopic((previousNext as string[])[0]);
+        setNextTopic((previousNext as string[])[1]);
+      });
+    });
   }
 
   function isModalOpen(valueForModal: boolean) {
-    console.log("CLICKED DELETE");
     if (valueForModal === false) {
       document.body.style.overflow = "";
     } else {

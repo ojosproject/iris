@@ -43,6 +43,7 @@ const BackButton = ({
       style={buttonStyle}
       onClick={handleClick}
       alt="Back"
+      draggable={false}
     />
   );
 };

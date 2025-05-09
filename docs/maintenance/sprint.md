@@ -1,27 +1,28 @@
 Sprint Details
 ==============
 
-| Event                       | Date                   |
-| --------------------------- | ---------------------- |
-| Sprint Start                | April 7, 2025          |
-| Sprint End                  | April 25, 2025         |
-| Sprint Review/Retrospective | Week of April 28, 2025 |
-
-This sprint sets up a distributable (beta) application, while also providing
-some useful features to add before deploying.
+| Event                       | Date                 |
+| --------------------------- | -------------------- |
+| Sprint Start                | April 30, 2025       |
+| Sprint End                  | May 18, 2025         |
+| Sprint Review/Retrospective | Week of May 19, 2025 |
 
 Sprint Backlog
 --------------
 
-| Activity                              | Type     | Tool                | Assignee(s)                 | GitHub |
-| ------------------------------------- | -------- | ------------------- | --------------------------- | ------ |
-| An "import data" function             | Feature  | Settings            | Carlos Valdez               | N/A    |
-| Separate schedule creator             | Refactor | Medications         | Mai Luong                   | N/A    |
-| Change flow of new medication dialogs | Refactor | Medications         | Carlos Valdez               | N/A    |
-| Have only 1 question be displayed     | Refactor | Survey              | Helen Chau                  | N/A    |
-| Implement an "activate Relay" button  | Feature  | Contacts            | Ayush Jain                  | N/A    |
-| Implement proper Rust error handling  | Refactor | N/A - Entire system | Jason Martin                | N/A    |
-| Set up distribution                   | CI       | N/A                 | Carlos Valdez, Jason Martin | N/A    |
+| Activity                                 | Type        | Tool        | Assignee(s)               |
+| ---------------------------------------- | ----------- | ----------- | ------------------------- |
+| Make Hub icons smaller                   | Improvement | Hub         | Carlos Valdez             |
+| Consistent branding in Survey            | Refactor    | Survey      | Carlos Valdez             |
+| Change name/icon of Survey               | Refactor    | Survey      | Carlos valdez             |
+| Number questions in graph                | Improvement | Survey      | Helen Chau                |
+| Add `max-width` for questions in chart   | Bug fix     | Survey      | Helen Chau                |
+| Center questionnaire                     | Bug fix     | Survey      | Helen Chau                |
+| Open contact when user selects checkbox  | Improvement | Contacts    | Ayush Jain                |
+| Prevent images from being "grabbed"      | Bug fix     | System-wide | Carlos Valdez             |
+| Fix datetime issue in frontend           | Bug fix     | Medications | Carlos Valdez             |
+| Enable camera support on Linux           | Feature     | Video       | Carlos Valdez, Ayush Jain |
+| Create backend for medication scheduling | Feature     | Medications | Jason Martin              |
 
 Our Workflow
 ------------

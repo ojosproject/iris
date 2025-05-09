@@ -39,21 +39,17 @@ function EditContacts() {
   const router = useRouter();
 
   function fetchInformation(fetch_id: string) {
-    invoke<Contact>("get_single_contact", { id: fetch_id })
-      .then((i) => {
-        setId(i.id);
-        setName(i.name);
-        setPhoneNumber(
-          i.phone_number ? parse_phone_number(i.phone_number) : "",
-        );
-        setCompany(i.company ?? "");
-        setEmail(i.email ?? "");
-        setContactType(i.contact_type ?? "CAREGIVER");
-        setEnabledRelay(i.enabled_relay);
-        setLastUpdated(i.last_updated);
-        setOnEditMode(!onEditMode);
-      })
-      .catch((e) => console.log(e));
+    invoke<Contact>("get_single_contact", { id: fetch_id }).then((i) => {
+      setId(i.id);
+      setName(i.name);
+      setPhoneNumber(i.phone_number ? parse_phone_number(i.phone_number) : "");
+      setCompany(i.company ?? "");
+      setEmail(i.email ?? "");
+      setContactType(i.contact_type ?? "CAREGIVER");
+      setEnabledRelay(i.enabled_relay);
+      setLastUpdated(i.last_updated);
+      setOnEditMode(!onEditMode);
+    });
   }
 
   useEffect(() => {

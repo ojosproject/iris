@@ -21,13 +21,9 @@ export default function OnboardingComplete() {
           type="PRIMARY"
           label="Finish"
           onClick={() => {
-            invoke("complete_onboarding")
-              .then(() => {
-                router.push("/");
-              })
-              .catch((err) => {
-                console.log(err);
-              });
+            invoke("complete_onboarding").then(() => {
+              router.push("/");
+            });
           }}
         />
       </div>

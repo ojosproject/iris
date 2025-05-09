@@ -34,6 +34,7 @@ const MedicationsView = () => {
   const [medications, setMedications] = useState<Medication[]>([]);
   const [loading, setLoading] = useState(true);
   const [iconDialogOpen, setIconDialogOpen] = useState(false);
+  const [anyMedications, setAnyMedications] = useState(false);
   const router = useRouter();
 
   useKeyPress("Escape", () => {
@@ -69,6 +70,7 @@ const MedicationsView = () => {
         setLoading(false);
       });
   }, []);
+
 
   if (loading) {
     return <div>Loading...</div>;
@@ -153,10 +155,15 @@ const MedicationsView = () => {
           <div className={styles.searchBarContainer}>
             <input
               type="text"
-              placeholder="Search Medication..."
+              placeholder={medications.length > 0 ? (
+                "Search Medications"
+              ) : (
+                "No Medications"
+              )}
               value={searchQuery}
               onChange={handleSearchChange}
               className={styles.searchInput}
+              disabled={medications.length === 0}
             />
             <Button
               type="PRIMARY"
@@ -193,6 +200,7 @@ const MedicationsView = () => {
                         alt={`Icon for ${medication.name}.`}
                         height={80}
                         width={80}
+                        draggable={false}
                       />
                     </button>
                   ) : (

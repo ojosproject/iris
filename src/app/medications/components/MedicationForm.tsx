@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Medication } from "../types";
 import styles from "./MedicationForm.module.css";
 import MedicationIconPicker from "../components/MedicationIconPicker";
+import { platform } from "@tauri-apps/plugin-os";
 
 interface MedicationFormProps {
   isOpen: boolean;
@@ -29,7 +30,7 @@ const MedicationForm: React.FC<MedicationFormProps> = ({
     medicationFrequency: "",
     medicationStartDate: undefined as string | undefined,
     medicationEndDate: undefined as string | undefined,
-    medicationExpirationDate: undefined as string | undefined,
+    medicationExpirationDate: "",
     medicationNotes: "",
     selectedUnit: "mg",
     customUnit: "",
@@ -65,7 +66,7 @@ const MedicationForm: React.FC<MedicationFormProps> = ({
       end_date: medicationData.medicationEndDate
         ? Date.parse(medicationData.medicationEndDate)
         : undefined,
-      expiration_date: medicationData.medicationExpirationDate
+      expiration_date: medicationData.medicationExpirationDate.length
         ? Date.parse(medicationData.medicationExpirationDate)
         : undefined,
       frequency: medicationData.medicationFrequency || undefined,
@@ -136,12 +137,21 @@ const MedicationForm: React.FC<MedicationFormProps> = ({
         <div className={styles.dosageInputContainer}>
           <input
             className={styles.input}
-            type="number"
-            placeholder="0"
-            value={medicationData.medicationStrength}
-            onChange={(e) =>
-              handleInputChange("medicationStrength", Number(e.target.value))
-            }
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            value={medicationData.medicationStrength === null ? '' : medicationData.medicationStrength}
+            onChange={(e) => {
+              const value = e.target.value;
+              
+              if (/^\d*$/.test(value)) {
+                const sanitized = value.replace(/^0+(?=\d)/, '');
+                handleInputChange(
+                  "medicationStrength",
+                  sanitized === '' ? 0 : Number(sanitized)
+                );
+              }
+            }}
           />
 
           <div className={styles.unitRow}>
@@ -218,13 +228,22 @@ const MedicationForm: React.FC<MedicationFormProps> = ({
           </p>
           <div className={styles.quantityBox}>
             <input
-              type="number"
-              placeholder="0"
-              value={medicationData.medicationSupply}
-              onChange={(e) =>
-                handleInputChange("medicationSupply", Number(e.target.value))
-              }
               className={styles.input}
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              value={medicationData.medicationSupply === null ? '' : medicationData.medicationSupply}
+              onChange={(e) => {
+                const value = e.target.value;
+                
+                if (/^\d*$/.test(value)) {
+                  const sanitized = value.replace(/^0+(?=\d)/, '');
+                  handleInputChange(
+                    "medicationSupply",
+                    sanitized === '' ? 0 : Number(sanitized)
+                  );
+                }
+              }}
             />
             <span>
               {medicationData.selectedUnit === "Custom"
@@ -233,16 +252,23 @@ const MedicationForm: React.FC<MedicationFormProps> = ({
             </span>
           </div>
         </div>
-        <p className={styles.textStructure}>Expiration Date</p>
-        <input
-          className={styles.input}
-          type="date"
-          placeholder="Expiration Date in MM/DD/YYYY"
-          value={medicationData.medicationExpirationDate}
-          onChange={(e) =>
-            handleInputChange("medicationExpirationDate", e.target.value)
-          }
-        />
+        {platform() !== "linux" && (
+          // There's an issue on Linux where opening the date picker freezes
+          // the entire app. Unless we design a custom one ourselves, the
+          // Expiration Date feature will not be available on Linux.
+          <>
+            <p className={styles.textStructure}>Expiration Date</p>
+            <input
+              className={styles.input}
+              type="date"
+              placeholder="Expiration Date in MM/DD/YYYY"
+              value={medicationData.medicationExpirationDate} // should never be undefined
+              onChange={(e) =>
+                handleInputChange("medicationExpirationDate", e.target.value)
+              }
+            />
+          </>
+        )}
         {/*
                 <p className={styles.textStructure}>Would you like to add scheduling for this medication?</p>
                 <div className={styles.yesNoButtons}>
