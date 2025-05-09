@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Medication } from "../types";
 import styles from "./MedicationForm.module.css";
 import MedicationIconPicker from "../components/MedicationIconPicker";
+import { platform } from "@tauri-apps/plugin-os";
 
 interface MedicationFormProps {
   isOpen: boolean;
@@ -251,16 +252,23 @@ const MedicationForm: React.FC<MedicationFormProps> = ({
             </span>
           </div>
         </div>
-        <p className={styles.textStructure}>Expiration Date</p>
-        <input
-          className={styles.input}
-          type="date"
-          placeholder="Expiration Date in MM/DD/YYYY"
-          value={medicationData.medicationExpirationDate} // should never be undefined
-          onChange={(e) =>
-            handleInputChange("medicationExpirationDate", e.target.value)
-          }
-        />
+        {platform() !== "linux" && (
+          // There's an issue on Linux where opening the date picker freezes
+          // the entire app. Unless we design a custom one ourselves, the
+          // Expiration Date feature will not be available on Linux.
+          <>
+            <p className={styles.textStructure}>Expiration Date</p>
+            <input
+              className={styles.input}
+              type="date"
+              placeholder="Expiration Date in MM/DD/YYYY"
+              value={medicationData.medicationExpirationDate} // should never be undefined
+              onChange={(e) =>
+                handleInputChange("medicationExpirationDate", e.target.value)
+              }
+            />
+          </>
+        )}
         {/*
                 <p className={styles.textStructure}>Would you like to add scheduling for this medication?</p>
                 <div className={styles.yesNoButtons}>
