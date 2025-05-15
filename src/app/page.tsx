@@ -7,8 +7,9 @@
 "use client";
 import styles from "./page.module.css";
 import HubHeader from "./hub/HubHeader";
-import HubTool, { HubToolProps } from "./hub/HubTool";
-import { HubTools } from "./hub/HubTools";
+import HubToolButton from "./hub/HubToolButton";
+import { HubTool } from "./_types/hub";
+import { hubTools } from "./_utils/hub";
 import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { Config } from "@/app/settings/types";
@@ -17,8 +18,7 @@ import { useRouter } from "next/navigation";
 
 export default function Hub() {
   const [onboardingCompleted, setOnboardingCompleted] = useState(false);
-  const [availableTools, setAvailableTools] =
-    useState<HubToolProps[]>(HubTools);
+  const [availableTools, setAvailableTools] = useState<HubTool[]>(hubTools);
   const router = useRouter();
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export default function Hub() {
     });
 
     if (!["windows", "macos"].includes(platform())) {
-      setAvailableTools(HubTools.filter((hubTool) => hubTool.name !== "Video"));
+      setAvailableTools(hubTools.filter((hubTool) => hubTool.name !== "Video"));
     }
   }, []);
 
@@ -43,7 +43,7 @@ export default function Hub() {
           <h2> Your Tools </h2>
           <ul className={styles.toolList}>
             {availableTools.map((hubTool) => (
-              <HubTool
+              <HubToolButton
                 key={hubTool.name}
                 link={hubTool.link}
                 icon={hubTool.icon}

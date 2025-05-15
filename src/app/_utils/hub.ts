@@ -1,13 +1,11 @@
-import { HubToolProps } from "./HubTool";
+import { HubTool } from "../_types/hub";
 
-export const HubTools: HubToolProps[] = [
+export const hubTools: HubTool[] = [
   {
     link: "./resources",
     name: "Resources",
     icon: "/images/icon_resources.png",
   },
-
-  // Extra care instructions provided by the caregivers for the nurses.
   {
     link: "./care_instructions",
     name: "Care Instructions",
@@ -39,6 +37,6 @@ export const HubTools: HubToolProps[] = [
     icon: "/images/icon_contacts.png",
   },
 ].sort((a, b) => {
-  // Sorts list by HubAppProps.name
+  // Sorts list by HubTool.name
   return a.name.localeCompare(b.name);
 });

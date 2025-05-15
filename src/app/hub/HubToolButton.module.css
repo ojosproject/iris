@@ -1,0 +1,44 @@
+/* ==========================================================================
+   File:     HubToolButton.module.css
+   Purpose:  Styles a tool button.
+   Authors:  Ojos Project & Iris contributors
+   License:  GNU General Public License v3.0
+   ========================================================================== */
+.tool {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.tool:hover {
+  transform: translateY(-10px);
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.link:visited {
+  color: inherit;
+}
+
+.iconPlaceholder {
+  background-color: var(--light-blue);
+  width: 200px;
+  height: 200px;
+  border-radius: 12px;
+}
+
+@keyframes slideDownAnimation {
+  from {
+    transform: translateY(-50%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}

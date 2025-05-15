@@ -1,26 +1,20 @@
+/**
+ * File:     HubHeader.tsx
+ * Purpose:  Header for the Hub. Includes the patient name and current time.
+ * Authors:  Ojos Project & Iris contributors
+ * License:  GNU General Public License v3.0
+ */
 "use client";
 import { invoke } from "@tauri-apps/api/core";
-import classes from "./HubHeader.module.css";
+import styles from "./HubHeader.module.css";
+import { getTimeOfDay } from "../_utils/parsing";
 import { useEffect, useState } from "react";
 import Clock from "react-live-clock";
 import { Contact } from "@/app/contacts/types";
 
-function get_time_of_day(): "morning" | "afternoon" | "evening" {
-  // Remember that Date.getHours() returns in 24-hour format
-  let hour = new Date().getHours();
-
-  if (hour >= 17) {
-    return "evening";
-  } else if (hour >= 12 && hour < 17) {
-    return "afternoon";
-  }
-  return "morning";
-}
-
 export default function HubHeader() {
   const [userName, setUserName] = useState("Name");
   const [timeOfDay, setTimeOfDay] = useState("morning");
-  // todo: change formatting in Clock element to have multiple lines
 
   useEffect(() => {
     invoke<Contact>("get_patient_contact").then((contact) => {
@@ -29,24 +23,24 @@ export default function HubHeader() {
       }
     });
 
-    setTimeOfDay(get_time_of_day());
+    setTimeOfDay(getTimeOfDay());
   }, [userName]);
 
   return (
-    <header className={classes.head}>
-      <div className={classes.iris}>
+    <header className={styles.head}>
+      <div className={styles.iris}>
         <p>iris</p>
       </div>
-      <div className={classes.greeting}>
+      <div className={styles.greeting}>
         <h1>
           Good {timeOfDay}, {userName}
         </h1>
       </div>
-      <div className={classes.time}>
+      <div className={styles.time}>
         {/* <p>insert current time</p> */}
-        <Clock format={"h:mm A"} ticking className={classes.hourMin} />
-        <Clock format={"MMM D, YYYY"} ticking className={classes.date} />
-        <Clock format={"dddd"} ticking className={classes.date} />
+        <Clock format={"h:mm A"} ticking className={styles.hourMin} />
+        <Clock format={"MMM D, YYYY"} ticking className={styles.date} />
+        <Clock format={"dddd"} ticking className={styles.date} />
       </div>
     </header>
   );

@@ -4,7 +4,6 @@
  * Authors:  Ojos Project & Iris contributors
  * License:  GNU General Public License v3.0
  */
-"use client";
 export const months = [
   "January",
   "February",
@@ -72,4 +71,16 @@ export function sanitizePhoneNumber(digits: number | string): string {
     return "";
   }
   return cleanedNumber;
+}
+
+export function getTimeOfDay(): "morning" | "afternoon" | "evening" {
+  // Remember that Date.getHours() returns in 24-hour format
+  let hour = new Date().getHours();
+
+  if (hour >= 17) {
+    return "evening";
+  } else if (hour >= 12 && hour < 17) {
+    return "afternoon";
+  }
+  return "morning";
 }
