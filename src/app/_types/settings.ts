@@ -1,9 +1,9 @@
-// types.ts
-// Ojos Project
-//
-// Rust structs converted into TypeScript types.
-// Original structs can be found in src-tauri/src/structs.rs.
-
+/**
+ * File:     settings.ts
+ * Purpose:  Types for the Settings tool.
+ * Authors:  Ojos Project & Iris contributors
+ * License:  GNU General Public License v3.0
+ */
 export type Config = {
   onboarding_completed: boolean;
 };

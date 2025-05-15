@@ -1,4 +1,10 @@
-.container_settings {
+/* ==========================================================================
+   File:     settings/page.module.css
+   Purpose:  Styles the primary Settings page.
+   Authors:  Ojos Project & Iris contributors
+   License:  GNU General Public License v3.0
+   ========================================================================== */
+.containerSettings {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -10,30 +16,13 @@
   margin: 20px;
 }
 
-.column_of_settings {
+.columnOfContainers {
   display: flex;
 }
 
-.label_row {
+.labelRow {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-}
-
-.number_button_row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.add_number_button {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.section_column {
-  display: flex;
-  flex-direction: column;
 }
