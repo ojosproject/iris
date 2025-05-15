@@ -3,7 +3,7 @@
 import { Resource } from "../types";
 import classes from "./ResourcesList.module.css";
 import QRCode from "react-qr-code";
-import { timestampToString } from "@/app/helper";
+import { timestampToString } from "@/app/_utils/parsing";
 
 export default function ResourcesList(props: {
   resources: Resource[];

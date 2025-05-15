@@ -8,7 +8,7 @@ import Button from "@/app/components/Button";
 import { Suspense, useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { CareInstruction } from "../types";
-import { timestampToString } from "@/app/helper";
+import { timestampToString } from "@/app/_utils/parsing";
 import Dialog from "@/app/components/Dialog";
 import useKeyPress from "@/app/accessibility/keyboard_nav";
 

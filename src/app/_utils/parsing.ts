@@ -1,4 +1,11 @@
-export const MONTHS = [
+/**
+ * File:     parsing.ts (_utils)
+ * Purpose:  Basic functions/commands for parsing dates, times, and numbers.
+ * Authors:  Ojos Project & Iris contributors
+ * License:  GNU General Public License v3.0
+ */
+"use client";
+export const months = [
   "January",
   "February",
   "March",
@@ -20,7 +27,7 @@ export function timestampToString(
   let d = new Date(timestamp * 1000);
 
   if (!format || format === "READ") {
-    return `${MONTHS[d.getMonth()].slice(0, 3)} ${d.getDate()}, ${d.getFullYear()}`;
+    return `${months[d.getMonth()].slice(0, 3)} ${d.getDate()}, ${d.getFullYear()}`;
   } else if (format === "MMDDYYYY") {
     return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
   } else if (format === "HH:MM XX") {
@@ -35,7 +42,7 @@ export function timestampToString(
   return ``;
 }
 
-export function parse_phone_number(digits: number | string): string {
+export function parsePhoneNumber(digits: number | string): string {
   let parsed = sanitizePhoneNumber(digits);
   if (4 > parsed.length) {
     return parsed;

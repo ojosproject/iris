@@ -10,7 +10,7 @@ import BackButton from "../components/BackButton";
 import classes from "./page.module.css";
 import Button from "../components/Button";
 import Dialog from "@/app/components/Dialog";
-import { parse_phone_number } from "../helper";
+import { parsePhoneNumber } from "@/app/_utils/parsing";
 import { useRouter } from "next/navigation";
 
 export default function Contacts() {
@@ -111,7 +111,7 @@ export default function Contacts() {
                 <p>
                   <strong>Phone Number:</strong>{" "}
                   {selectedContact.phone_number
-                    ? parse_phone_number(selectedContact.phone_number)
+                    ? parsePhoneNumber(selectedContact.phone_number)
                     : "N/A"}
                 </p>
                 <p>

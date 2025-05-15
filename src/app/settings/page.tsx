@@ -9,7 +9,7 @@ import classes from "./page.module.css";
 import { Switch } from "@mui/material";
 import { Config, DataPackReceipt } from "./types";
 import Button from "../components/Button";
-import { parse_phone_number } from "../helper";
+import { parsePhoneNumber } from "@/app/_utils/parsing";
 import Dialog from "../components/Dialog";
 import { invoke } from "@tauri-apps/api/core";
 import useKeyPress from "../accessibility/keyboard_nav";
@@ -128,7 +128,7 @@ export default function Settings() {
                     c.phone_number &&
                     c.enabled_relay && (
                       <div className={classes.number_button_row}>
-                        <p>{parse_phone_number(parseInt(c.phone_number))}</p>
+                        <p>{parsePhoneNumber(parseInt(c.phone_number))}</p>
                         <Button
                           type="SECONDARY"
                           label="Disable"
@@ -323,7 +323,7 @@ export default function Settings() {
               textAlign: "center",
             }}
             type="text"
-            value={parse_phone_number(newNumber)}
+            value={parsePhoneNumber(newNumber)}
             onChange={(e) => {
               let cleanedNumber = "";
               e.target.value.split("").forEach((char) => {

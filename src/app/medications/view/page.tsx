@@ -5,7 +5,7 @@ import { Medication, MedicationLog } from "../types";
 import { invoke } from "@tauri-apps/api/core";
 import moment from "moment";
 import { useSearchParams } from "next/navigation";
-import { parse_phone_number, timestampToString } from "@/app/helper";
+import { parsePhoneNumber, timestampToString } from "@/app/_utils/parsing";
 import BackButton from "@/app/components/BackButton";
 import useKeyPress from "@/app/accessibility/keyboard_nav";
 import { useRouter } from "next/navigation";
@@ -145,7 +145,7 @@ const MedicineView = () => {
             prescribedBy={prescriptionNurse.full_name}
             phone={
               prescriptionNurse.phone_number
-                ? parse_phone_number(prescriptionNurse.phone_number)
+                ? parsePhoneNumber(prescriptionNurse.phone_number)
                 : "N/A"
             } // phone number could be empty, make optional field
             email={prescriptionNurse.email ? prescriptionNurse.email : "N/A"} // email could be empty, make optional field

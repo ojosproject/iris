@@ -10,10 +10,10 @@ import { Suspense, useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { Contact } from "../types";
 import {
-  parse_phone_number,
+  parsePhoneNumber,
   sanitizePhoneNumber,
   timestampToString,
-} from "@/app/helper";
+} from "@/app/_utils/parsing";
 import ToastDialog from "@/app/components/ToastDialog";
 
 function EditContacts() {
@@ -42,7 +42,7 @@ function EditContacts() {
     invoke<Contact>("get_single_contact", { id: fetch_id }).then((i) => {
       setId(i.id);
       setName(i.name);
-      setPhoneNumber(i.phone_number ? parse_phone_number(i.phone_number) : "");
+      setPhoneNumber(i.phone_number ? parsePhoneNumber(i.phone_number) : "");
       setCompany(i.company ?? "");
       setEmail(i.email ?? "");
       setContactType(i.contact_type ?? "CAREGIVER");
@@ -76,7 +76,7 @@ function EditContacts() {
       setOnEditMode(false);
       setId(i.id);
       setName(i.name);
-      setPhoneNumber(i.phone_number ? parse_phone_number(i.phone_number) : "");
+      setPhoneNumber(i.phone_number ? parsePhoneNumber(i.phone_number) : "");
       setCompany(i.company ?? "");
       setEmail(i.email ?? "");
       setContactType(i.contact_type ?? "CAREGIVER");
@@ -132,7 +132,7 @@ function EditContacts() {
             <div className={classes.input_group}>
               <label>Phone Number</label>
               <input
-                value={parse_phone_number(phoneNumber)}
+                value={parsePhoneNumber(phoneNumber)}
                 onChange={(e) => {
                   let cleanedNumber = sanitizePhoneNumber(e.target.value);
                   setPhoneNumber(cleanedNumber === "" ? "" : cleanedNumber);

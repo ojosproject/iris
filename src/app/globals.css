@@ -1,11 +1,20 @@
+/* ==========================================================================
+   File:     globals.css
+   Purpose:  Styles the entire Iris frontend and defines global variables.
+   Authors:  Ojos Project & Iris contributors
+   License:  GNU General Public License v3.0
+   ========================================================================== */
 :root {
-  font-family: "Noto Sans", "Inter", "sans-serif";
-  --dark-blue: #094595;
-  --blue: #0063d7;
-  --light-blue: #83b3f3;
-  --white: #fcfcfc;
-  --dark-gray: #3e454d;
   --black: #1c1c1c;
+  --blue: #0063d7;
+  --dark-blue: #094595;
+  --light-blue: #83b3f3;
+  --gray: grey;
+  --dark-gray: #3e454d;
+  --red: #b10b08;
+  --light-red: #dc0f0b;
+  --white: #fcfcfc;
+
   color: var(--black);
 }
 

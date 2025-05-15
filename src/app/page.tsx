@@ -1,5 +1,11 @@
+/**
+ * File:     page.tsx (Root)
+ * Purpose:  Iris Hub. Displays a list of available tools.
+ * Authors:  Ojos Project & Iris contributors
+ * License:  GNU General Public License v3.0
+ */
 "use client";
-import classes from "./page.module.css";
+import styles from "./page.module.css";
 import HubHeader from "./hub/HubHeader";
 import HubTool, { HubToolProps } from "./hub/HubTool";
 import { HubTools } from "./hub/HubTools";
@@ -9,7 +15,7 @@ import { Config } from "@/app/settings/types";
 import { platform } from "@tauri-apps/plugin-os";
 import { useRouter } from "next/navigation";
 
-export default function Home() {
+export default function Hub() {
   const [onboardingCompleted, setOnboardingCompleted] = useState(false);
   const [availableTools, setAvailableTools] =
     useState<HubToolProps[]>(HubTools);
@@ -24,9 +30,7 @@ export default function Home() {
       }
     });
 
-    const PLATFORM = platform();
-
-    if (!["windows", "macos"].includes(PLATFORM)) {
+    if (!["windows", "macos"].includes(platform())) {
       setAvailableTools(HubTools.filter((hubTool) => hubTool.name !== "Video"));
     }
   }, []);
@@ -35,21 +39,19 @@ export default function Home() {
     onboardingCompleted && (
       <>
         <HubHeader></HubHeader>
-        <main className={classes.flex}>
-          <section className={classes.side1}>
-            <h2> Your Tools </h2>
-            <ul className={classes.appList}>
-              {availableTools.map((hubTool) => (
-                <HubTool
-                  key={hubTool.name}
-                  link={hubTool.link}
-                  icon={hubTool.icon}
-                  name={hubTool.name}
-                />
-              ))}
-            </ul>
-          </section>
-        </main>
+        <section className={styles.sectionTools}>
+          <h2> Your Tools </h2>
+          <ul className={styles.toolList}>
+            {availableTools.map((hubTool) => (
+              <HubTool
+                key={hubTool.name}
+                link={hubTool.link}
+                icon={hubTool.icon}
+                name={hubTool.name}
+              />
+            ))}
+          </ul>
+        </section>
       </>
     )
   );

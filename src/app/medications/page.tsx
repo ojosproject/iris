@@ -6,7 +6,7 @@ import { invoke } from "@tauri-apps/api/core";
 import BackButton from "../components/BackButton";
 import Button from "../components/Button";
 import ConfirmLogModal from "./components/ConfirmLogModal";
-import { timestampToString } from "../helper";
+import { timestampToString } from "@/app/_utils/parsing";
 import useKeyPress from "../accessibility/keyboard_nav";
 import { useRouter } from "next/navigation";
 import MedicationForm from "./components/MedicationForm";
@@ -70,7 +70,6 @@ const MedicationsView = () => {
         setLoading(false);
       });
   }, []);
-
 
   if (loading) {
     return <div>Loading...</div>;
@@ -155,11 +154,9 @@ const MedicationsView = () => {
           <div className={styles.searchBarContainer}>
             <input
               type="text"
-              placeholder={medications.length > 0 ? (
-                "Search Medications"
-              ) : (
-                "No Medications"
-              )}
+              placeholder={
+                medications.length > 0 ? "Search Medications" : "No Medications"
+              }
               value={searchQuery}
               onChange={handleSearchChange}
               className={styles.searchInput}
