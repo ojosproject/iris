@@ -2,7 +2,7 @@
 
 1. Frontend (React/NextJS/`src/app/*`)
    1. Every file must have a [comment header](#comment-headers)
-   2. Use camelCase for variable/function names, not underscore_case.
+   2. Use camelCase for variable/function/style names, not underscore_case.
    3. Use UpperCase for component names
    4. We're using the [app router](https://nextjs.org/docs/14/app/building-your-application/routing#the-app-router)
    5. Use [`<Image>`](https://nextjs.org/docs/14/app/api-reference/components/image) for images
@@ -13,7 +13,7 @@
       1. [Prefix files with `_`](https://nextjs.org/docs/14/app/building-your-application/routing/colocation#private-folders) if they're not part of the route. Examples:
          * `_components`
          * `_helper.ts`
-      2. If a file/folder includes multiple words, use `-` as a separator
+      2. Use kebab-case
    10. Styling
       1. Global styling must be kept in `globals.css`
       2. Any other styling is done with [CSS Modules](https://nextjs.org/docs/14/app/building-your-application/styling/css-modules)
