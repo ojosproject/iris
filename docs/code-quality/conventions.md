@@ -1,5 +1,7 @@
 # Conventions
 
+<!-- markdownlint-disable MD005 MD029 -->
+
 1. Frontend (React/NextJS/`src/app/*`)
    1. Every file must have a [comment header](#comment-headers)
    2. Use camelCase for variable/function/style names, not underscore_case.
