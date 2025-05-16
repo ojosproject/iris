@@ -8,9 +8,8 @@ export type HubToolProps = {
 };
 
 export default function HubTool({ name, link, icon }: HubToolProps) {
-  // todo: add use of icon link for the application icon
   return (
-    <Link href={link} className={classes.link}>
+    <Link href={link} className={classes.link} draggable={false}>
       <div className={classes.app}>
         {icon ? (
           <img
@@ -18,6 +17,8 @@ export default function HubTool({ name, link, icon }: HubToolProps) {
             height={200}
             width={200}
             style={{ borderRadius: "12px" }}
+            alt={name}
+            draggable={false}
           />
         ) : (
           <div className={classes.iconPL} />

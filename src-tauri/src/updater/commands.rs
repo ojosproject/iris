@@ -67,12 +67,9 @@ pub fn check_update(app: AppHandle) {
                 .await
                 .unwrap();
             let app_data_dir = app.path().app_data_dir().unwrap();
-            match fs::remove_dir(app_data_dir) {
-                Ok(_) => {
-                    println!("Deleted app_data_dir().")
-                }
-                Err(e) => println!("Failed to delete: \"{:?}\"", e),
-            }
+            fs::remove_dir_all(app_data_dir).unwrap_or_else(|error| {
+                println!("Failed to remove app_data_dir: `{:?}`", error);
+            });
             app.restart();
         }
     });

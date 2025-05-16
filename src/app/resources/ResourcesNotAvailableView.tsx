@@ -17,6 +17,7 @@ export default function ResourcesNotAvailableView() {
           alt="Alert icon"
           width={100}
           height={100}
+          draggable={false}
         />
         <p className={classes.not_found_text}>
           Sorry, no resources were found.
