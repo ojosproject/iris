@@ -6,11 +6,11 @@
 import { Contact } from "./types";
 import { invoke } from "@tauri-apps/api/core";
 import { useEffect, useState } from "react";
-import BackButton from "../components/BackButton";
+import BackButton from "../../components/BackButton";
 import classes from "./page.module.css";
-import Button from "../components/Button";
-import Dialog from "@/app/components/Dialog";
-import { parsePhoneNumber } from "@/app/_utils/parsing";
+import Button from "../../components/Button";
+import Dialog from "@/components/Dialog";
+import { parsePhoneNumber } from "@/utils/parsing";
 import { useRouter } from "next/navigation";
 
 export default function Contacts() {

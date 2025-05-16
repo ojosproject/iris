@@ -3,15 +3,15 @@ import React, { useState, useEffect } from "react";
 import styles from "./page.module.css";
 import { Medication, MedicationLog } from "./types";
 import { invoke } from "@tauri-apps/api/core";
-import BackButton from "../components/BackButton";
-import Button from "../components/Button";
+import BackButton from "@/components/BackButton";
+import Button from "@/components/Button";
 import ConfirmLogModal from "./components/ConfirmLogModal";
-import { timestampToString } from "@/app/_utils/parsing";
+import { timestampToString } from "@/utils/parsing";
 import useKeyPress from "../accessibility/keyboard_nav";
 import { useRouter } from "next/navigation";
 import MedicationForm from "./components/MedicationForm";
 import Image from "next/image";
-import Dialog from "../components/Dialog";
+import Dialog from "@/components/Dialog";
 import MedicationIconPicker from "./components/MedicationIconPicker";
 
 const MedicationsView = () => {

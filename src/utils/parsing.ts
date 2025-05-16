@@ -1,5 +1,5 @@
 /**
- * File:     parsing.ts (_utils)
+ * File:     utils/parsing.ts
  * Purpose:  Basic functions/commands for parsing dates, times, and numbers.
  * Authors:  Ojos Project & Iris contributors
  * License:  GNU General Public License v3.0

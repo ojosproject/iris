@@ -1,11 +1,11 @@
 "use client";
 import classes from "./Onboarding.module.css";
-import Button from "../components/Button";
+import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
-import Dialog from "../components/Dialog";
+import Dialog from "../../components/Dialog";
 import { useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
-import { DataPackReceipt } from "../settings/types";
+import { DataPackReceipt } from "@/types/settings";
 
 export default function Onboarding() {
   const router = useRouter();

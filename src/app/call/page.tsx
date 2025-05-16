@@ -2,7 +2,7 @@
 // Ojos Project
 "use client";
 import classes from "./page.module.css";
-import Button from "../components/Button";
+import Button from "../../components/Button";
 import { invoke } from "@tauri-apps/api/core";
 import WebcamRecorder from "./components/controls";
 import useKeyPress from "../accessibility/keyboard_nav";

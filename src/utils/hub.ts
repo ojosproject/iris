@@ -1,4 +1,10 @@
-import { HubTool } from "../_types/hub";
+/**
+ * File:     utils/hub.ts
+ * Purpose:  Utilities for the Iris hub.
+ * Authors:  Ojos Project & Iris contributors
+ * License:  GNU General Public License v3.0
+ */
+import { HubTool } from "@/types/hub";
 
 export const hubTools: HubTool[] = [
   {

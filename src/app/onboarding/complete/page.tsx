@@ -1,8 +1,8 @@
 "use client";
 import classes from "../Onboarding.module.css";
-import Button from "../../components/Button";
+import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
-import BackButton from "../../components/BackButton";
+import BackButton from "@/components/BackButton";
 import { invoke } from "@tauri-apps/api/core";
 
 export default function OnboardingComplete() {

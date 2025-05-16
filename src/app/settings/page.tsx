@@ -6,11 +6,11 @@
  */
 "use client";
 import { ReactElement, useEffect, useState } from "react";
-import BackButton from "../components/BackButton";
+import BackButton from "@/components/BackButton";
 import styles from "./page.module.css";
-import { Config, DataPackReceipt } from "@/app/_types/settings";
-import Button from "../components/Button";
-import Dialog from "../components/Dialog";
+import { Config, DataPackReceipt } from "@/types/settings";
+import Button from "@/components/Button";
+import Dialog from "@/components/Dialog";
 import { invoke } from "@tauri-apps/api/core";
 import useKeyPress from "../accessibility/keyboard_nav";
 import { useRouter } from "next/navigation";

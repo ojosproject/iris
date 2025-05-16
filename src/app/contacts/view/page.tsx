@@ -2,10 +2,10 @@
 // Ojos Project
 
 "use client";
-import BackButton from "@/app/components/BackButton";
+import BackButton from "@/components/BackButton";
 import { useRouter, useSearchParams } from "next/navigation";
 import classes from "./page.module.css";
-import Button from "@/app/components/Button";
+import Button from "@/components/Button";
 import { Suspense, useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { Contact } from "../types";
@@ -13,8 +13,8 @@ import {
   parsePhoneNumber,
   sanitizePhoneNumber,
   timestampToString,
-} from "@/app/_utils/parsing";
-import ToastDialog from "@/app/components/ToastDialog";
+} from "@/utils/parsing";
+import ToastDialog from "@/components/ToastDialog";
 
 function EditContacts() {
   // If `id` is empty, you're creating a contact

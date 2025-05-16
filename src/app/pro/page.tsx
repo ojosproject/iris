@@ -5,9 +5,9 @@ import "./pro.css";
 import Chart from "chart.js/auto";
 import { invoke } from "@tauri-apps/api/core";
 import { sortChartData } from "./helper";
-import Button from "../components/Button";
+import Button from "@/components/Button";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import BackButton from "../components/BackButton";
+import BackButton from "@/components/BackButton";
 import { PatientReportedOutcome } from "./types";
 import useKeyPress from "../accessibility/keyboard_nav";
 

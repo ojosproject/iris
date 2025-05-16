@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./survey.css";
-import Button from "@/app/components/Button";
-import Dialog from "@/app/components/Dialog";
+import Button from "@/components/Button";
 import { ProQuestion } from "../types";
 
 interface RatingProps {
@@ -10,8 +9,6 @@ interface RatingProps {
   onSubmit: (responses: (string | number)[][]) => void;
   questions: ProQuestion[];
 }
-
-
 
 const FullCircle = ({
   size = 40,
@@ -131,25 +128,25 @@ const SurveyPage: React.FC<RatingProps> = ({
 
   const handleNext = () => {
     setPageNumber(pageNumber + 1);
-  }
+  };
 
   const handlePrev = () => {
     setPageNumber(pageNumber - 1);
-  }
+  };
 
   const ProgressBar = () => {
     const totalQuestions = questions.length;
     const questionsComplete = ratings.filter((r: number) => !isNaN(r)).length;
-    const percentage = ( (questionsComplete-1)/ totalQuestions) * 100;
+    const percentage = ((questionsComplete - 1) / totalQuestions) * 100;
     const newPercentage = (questionsComplete / totalQuestions) * 100;
-  
+
     const [animatedWidth, setAnimatedWidth] = useState(percentage);
-  
+
     useEffect(() => {
       // Trigger animation on question update
       setAnimatedWidth(newPercentage);
     }, []);
-  
+
     return (
       <div className="progressBar">
         <div className="myBar" style={{ width: `${animatedWidth}%` }}>
@@ -165,75 +162,77 @@ const SurveyPage: React.FC<RatingProps> = ({
   // todo: for each category.
   return (
     <div className="survey-layout">
-    <div className="progress-bar-container">
-      <ProgressBar />
-    </div>
-  
-    <div className="survey-content">
-      {/* All the questions go here */}
-      {questions.slice(start, end).map((item, index) => (
-        <div key={index + start} className="survey-question">
-          {item.question_type === "rating" ? (
-            <h3>{pageNumber}. In the last two weeks, how often did you feel...</h3>
-          ) : (
-            <h4>hi</h4>
-          )}
-          <h1>{item.question}</h1>
-  
-          <div className="rating-section">
-            <span className="label left-label">{item.lowest_label}</span>
-            <div className="rating-options">
-              {[...Array(item.highest_ranking)].map((_, i) => {
-                const isSelected = i === ratings[index + start] - 1;
-                return (
-                  <div
-                    key={i}
-                    style={{ cursor: "pointer" }}
-                    onClick={() => handleRatingChange(index + start, i)}
-                  >
-                    {isSelected ? (
-                      <FullCircle size={100} number={i + 1} />
-                    ) : (
-                      <EmptyCircle size={100} number={i + 1} />
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-            <span className="label right-label">{item.highest_label}</span>
-          </div>
-
-        </div>
-      ))}
-    </div>
-  
-    <div className="fixed-button-container">
-      <div>
-        <Button
-          type="SECONDARY"
-          label="Prev Question"
-          onClick={handlePrev}
-          disabled={pageNumber <= 1}
-        />
+      <div className="progress-bar-container">
+        <ProgressBar />
       </div>
-      <div>
-        {end < questions.length ? (
+
+      <div className="survey-content">
+        {/* All the questions go here */}
+        {questions.slice(start, end).map((item, index) => (
+          <div key={index + start} className="survey-question">
+            {item.question_type === "rating" ? (
+              <h3>
+                {pageNumber}. In the last two weeks, how often did you feel...
+              </h3>
+            ) : (
+              <h4>hi</h4>
+            )}
+            <h1>{item.question}</h1>
+
+            <div className="rating-section">
+              <span className="label left-label">{item.lowest_label}</span>
+              <div className="rating-options">
+                {[...Array(item.highest_ranking)].map((_, i) => {
+                  const isSelected = i === ratings[index + start] - 1;
+                  return (
+                    <div
+                      key={i}
+                      style={{ cursor: "pointer" }}
+                      onClick={() => handleRatingChange(index + start, i)}
+                    >
+                      {isSelected ? (
+                        <FullCircle size={100} number={i + 1} />
+                      ) : (
+                        <EmptyCircle size={100} number={i + 1} />
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+              <span className="label right-label">{item.highest_label}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="fixed-button-container">
+        <div>
           <Button
             type="SECONDARY"
-            label="Next Question"
-            onClick={handleNext}
-            disabled={isNaN(ratings[pageNumber - 1])}
+            label="Prev Question"
+            onClick={handlePrev}
+            disabled={pageNumber <= 1}
           />
-        ) : (
-          <Button
-            type="PRIMARY"
-            label="Submit Survey"
-            onClick={handleSubmit}
-            disabled={isNaN(ratings[pageNumber - 1])}
-          />
-        )}
+        </div>
+        <div>
+          {end < questions.length ? (
+            <Button
+              type="SECONDARY"
+              label="Next Question"
+              onClick={handleNext}
+              disabled={isNaN(ratings[pageNumber - 1])}
+            />
+          ) : (
+            <Button
+              type="PRIMARY"
+              label="Submit Survey"
+              onClick={handleSubmit}
+              disabled={isNaN(ratings[pageNumber - 1])}
+            />
+          )}
+        </div>
       </div>
     </div>
-  </div>
-)}
+  );
+};
 export default SurveyPage;

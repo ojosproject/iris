@@ -5,8 +5,8 @@ import { Medication, MedicationLog } from "../types";
 import { invoke } from "@tauri-apps/api/core";
 import moment from "moment";
 import { useSearchParams } from "next/navigation";
-import { parsePhoneNumber, timestampToString } from "@/app/_utils/parsing";
-import BackButton from "@/app/components/BackButton";
+import { parsePhoneNumber, timestampToString } from "@/utils/parsing";
+import BackButton from "@/components/BackButton";
 import useKeyPress from "@/app/accessibility/keyboard_nav";
 import { useRouter } from "next/navigation";
 

@@ -8,11 +8,11 @@
 import styles from "./page.module.css";
 import HubHeader from "./hub/HubHeader";
 import HubToolButton from "./hub/HubToolButton";
-import { HubTool } from "./_types/hub";
-import { hubTools } from "./_utils/hub";
+import { HubTool } from "../types/hub";
+import { hubTools } from "@/utils/hub";
 import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
-import { Config } from "@/app/settings/types";
+import { Config } from "@/types/settings";
 import { platform } from "@tauri-apps/plugin-os";
 import { useRouter } from "next/navigation";
 

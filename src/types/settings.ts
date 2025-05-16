@@ -1,5 +1,5 @@
 /**
- * File:     settings.ts
+ * File:     types/settings.ts
  * Purpose:  Types for the Settings tool.
  * Authors:  Ojos Project & Iris contributors
  * License:  GNU General Public License v3.0

@@ -1,15 +1,15 @@
 // care_instructions/view/page.tsx
 // Ojos Project
 "use client";
-import BackButton from "@/app/components/BackButton";
+import BackButton from "@/components/BackButton";
 import { useRouter, useSearchParams } from "next/navigation";
 import classes from "./page.module.css";
-import Button from "@/app/components/Button";
+import Button from "@/components/Button";
 import { Suspense, useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { CareInstruction } from "../types";
-import { timestampToString } from "@/app/_utils/parsing";
-import Dialog from "@/app/components/Dialog";
+import { timestampToString } from "@/utils/parsing";
+import Dialog from "@/components/Dialog";
 import useKeyPress from "@/app/accessibility/keyboard_nav";
 
 function EditInstructions() {

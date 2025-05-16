@@ -5,7 +5,7 @@ import classes from "./controls.module.css";
 import { useRouter } from "next/navigation";
 import Dialog from "./confirmMessage";
 import { saveVideo } from "../helper";
-import Button from "@/app/components/Button";
+import Button from "@/components/Button";
 
 const WebcamRecorder: React.FC = () => {
   const router = useRouter();

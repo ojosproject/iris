@@ -6,9 +6,9 @@
 import { CareInstruction } from "./types";
 import { invoke } from "@tauri-apps/api/core";
 import { useEffect, useState } from "react";
-import BackButton from "../components/BackButton";
+import BackButton from "@/components/BackButton";
 import classes from "./page.module.css";
-import Button from "../components/Button";
+import Button from "@/components/Button";
 import CareInstructionsButton from "./components/CareInstructionButton";
 import useKeyPress from "../accessibility/keyboard_nav";
 import { useRouter } from "next/navigation";

@@ -7,7 +7,7 @@
 "use client";
 import { invoke } from "@tauri-apps/api/core";
 import styles from "./HubHeader.module.css";
-import { getTimeOfDay } from "../_utils/parsing";
+import { getTimeOfDay } from "@/utils/parsing";
 import { useEffect, useState } from "react";
 import Clock from "react-live-clock";
 import { Contact } from "@/app/contacts/types";

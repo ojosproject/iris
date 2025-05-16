@@ -3,10 +3,10 @@ import React, { useEffect, useState } from "react";
 import SurveyPage from "./rating";
 import { useRouter } from "next/navigation";
 import "./survey.css";
-import BackButton from "@/app/components/BackButton";
+import BackButton from "@/components/BackButton";
 import { invoke } from "@tauri-apps/api/core";
-import Button from "@/app/components/Button";
-import Dialog from "@/app/components/Dialog";
+import Button from "@/components/Button";
+import Dialog from "@/components/Dialog";
 import useKeyPress from "@/app/accessibility/keyboard_nav";
 import { ProQuestion } from "../types";
 
