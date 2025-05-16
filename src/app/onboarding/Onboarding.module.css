@@ -1,4 +1,10 @@
-.onboarding_center {
+/* ==========================================================================
+   File:     onboarding.module.css
+   Purpose:  Styles the entire onboarding experience.
+   Authors:  Ojos Project & Iris contributors
+   License:  GNU General Public License v3.0
+   ========================================================================== */
+.onboardingCenter {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -7,23 +13,23 @@
   height: 94dvh;
 }
 
-.onboarding_center h1 {
+.onboardingCenter h1 {
   font-size: 36px;
   margin: 0;
 }
 
-.onboarding_center h3 {
+.onboardingCenter h3 {
   font-size: 24px;
   margin: 0;
   font-weight: normal;
 }
 
-.button_on_bottom {
+.buttonOnBottom {
   position: fixed;
   bottom: 2%;
 }
 
-.text_input {
+.textInput {
   border: 1px solid black;
   border-radius: 5px;
   padding: 5px;

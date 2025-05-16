@@ -1,5 +1,11 @@
+/**
+ * File:     onboarding/patient/page.tsx
+ * Purpose:  Creates a patient during onboarding.
+ * Authors:  Ojos Project & Iris contributors
+ * License:  GNU General Public License v3.0
+ */
 "use client";
-import classes from "../Onboarding.module.css";
+import styles from "../Onboarding.module.css";
 import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
 import BackButton from "@/components/BackButton";
@@ -11,7 +17,7 @@ export default function OnboardingPatient() {
   const router = useRouter();
 
   return (
-    <div className={classes.onboarding_center}>
+    <div className={styles.onboardingCenter}>
       <BackButton
         onClick={() => {
           router.back();
@@ -22,11 +28,11 @@ export default function OnboardingPatient() {
       <input
         type="text"
         value={patientName}
-        className={classes.text_input}
+        className={styles.textInput}
         autoFocus={true} // auto focus when screen is active
         onChange={(e) => setPatientName(e.target.value)}
       />
-      <div className={classes.button_on_bottom}>
+      <div className={styles.buttonOnBottom}>
         <Button
           type="PRIMARY"
           label="Continue"

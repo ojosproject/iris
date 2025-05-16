@@ -1,8 +1,14 @@
+/**
+ * File:     onboarding/page.tsx
+ * Purpose:  Initializes the onboarding process in Iris.
+ * Authors:  Ojos Project & Iris contributors
+ * License:  GNU General Public License v3.0
+ */
 "use client";
-import classes from "./Onboarding.module.css";
+import styles from "./Onboarding.module.css";
 import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
-import Dialog from "../../components/Dialog";
+import Dialog from "@/components/Dialog";
 import { useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { DataPackReceipt } from "@/types/settings";
@@ -16,7 +22,7 @@ export default function Onboarding() {
     hideSelectButton: false,
   });
   return (
-    <div className={classes.onboarding_center}>
+    <div className={styles.onboardingCenter}>
       {dataPackDialog.enabled && (
         <Dialog title={dataPackDialog.title} content={dataPackDialog.content}>
           <Button
@@ -92,7 +98,7 @@ export default function Onboarding() {
       <h1>Welcome to Iris!</h1>
       <h3>Your care management system</h3>
 
-      <div className={classes.button_on_bottom}>
+      <div className={styles.buttonOnBottom}>
         <Button
           type="SECONDARY"
           label="Import Data Pack"
