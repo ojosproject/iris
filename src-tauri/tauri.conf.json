@@ -57,7 +57,7 @@
   "app": {
     "windows": [
       {
-        "fullscreen": false,
+        "maximized": true,
         "resizable": true,
         "title": "Iris",
         "minHeight": 600,
