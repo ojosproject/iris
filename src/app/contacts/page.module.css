@@ -87,3 +87,32 @@ Ojos Project
   margin: 1rem 0;
   text-align: center;
 }
+
+.delete_mode {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #fceaea;
+  border: 1px solid #e0b4b4;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.delete_mode:hover {
+  background-color: #f8d4d4;
+  cursor: pointer;
+}
+
+.delete_mode input[type="checkbox"] {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+.delete_mode p {
+  margin: 0;
+  font-weight: 500;
+  color: #b00020;
+  user-select: none;
+}

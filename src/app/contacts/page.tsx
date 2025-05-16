@@ -21,6 +21,8 @@ export default function Contacts() {
   const [selectedContactIds, setSelectedContactIds] = useState<Set<number>>(
     new Set(),
   );
+  const [deleteMode, setDeleteMode] = useState(false);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -79,6 +81,13 @@ export default function Contacts() {
       ) : (
         <div className={classes.contacts_container}>
           <div className={classes.contacts_list}>
+            <div
+              className={classes.delete_mode}
+              onClick={() => setDeleteMode(!deleteMode)}
+            >
+              <input type="checkbox" checked={deleteMode} />
+              <p>Delete Contacts</p>
+            </div>
             {Object.keys(groupedContacts)
               .sort()
               .map((letter) => (
@@ -86,11 +95,15 @@ export default function Contacts() {
                   <h2>{letter}</h2>
                   {groupedContacts[letter].map((contact) => (
                     <div key={contact.id} className={classes.contact_item}>
-                      <input
-                        type="checkbox"
-                        checked={selectedContactIds.has(contact.id as any)}
-                        onChange={() => toggleSelectContact(contact.id as any)}
-                      />
+                      {deleteMode && (
+                        <input
+                          type="checkbox"
+                          checked={selectedContactIds.has(contact.id as any)}
+                          onChange={() =>
+                            toggleSelectContact(contact.id as any)
+                          }
+                        />
+                      )}
                       <p
                         className={classes.contact_name}
                         onClick={() => {
