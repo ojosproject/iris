@@ -1,0 +1,65 @@
+/* ==========================================================================
+   File:     ResourcesList.module.css
+   Purpose:  Styles the list of resources in the Resources tool.
+   Authors:  Ojos Project & Iris contributors
+   License:  GNU General Public License v3.0
+   ========================================================================== */
+.resourceContainer {
+  display: flex;
+  flex-direction: row;
+
+  background-color: #cbd5e0;
+  width: 650px;
+
+  border-radius: 10px;
+  padding: 5px 20px;
+
+  margin: 20px;
+  animation: fadeIn 0.5s ease-in-out forwards;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.resourceContainer:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 15px rgba(160, 160, 160, 0.3);
+}
+
+.categoryLabel {
+  color: var(--gray);
+}
+
+.resourceTextContent {
+  flex: 4;
+}
+
+.QrCode {
+  width: 150px;
+  height: 150px;
+  background-color: var(--white);
+  padding: 8px;
+}
+
+.QrCodeContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: 5px;
+}
+
+.shortenLineText {
+  margin: 5px;
+  padding: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0%;
+  }
+  to {
+    opacity: 100%;
+  }
+}

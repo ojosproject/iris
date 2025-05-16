@@ -1,20 +1,31 @@
-import { Resource } from "./types";
-import CategoryMenu from "./components/CategoryMenu";
-import classes from "./page.module.css";
-import ResourcesList from "./components/ResourcesList";
-import BackButton from "../components/BackButton";
+/**
+ * File:     ResourcesView.tsx
+ * Purpose:  The actual resources page if the database includes any.
+ * Authors:  Ojos Project & Iris contributors
+ * License:  GNU General Public License v3.0
+ */
+import { Resource } from "@/types/resources";
+import CategoryMenu from "./_components/CategoryMenu";
+import styles from "./page.module.css";
+import ResourcesList from "./_components/ResourcesList";
+import BackButton from "@/components/BackButton";
 import { useEffect, useState } from "react";
 
-export default function ResourcesView(props: {
+type ResourcesViewProps = {
   resources: Resource[];
-  setResources: Function;
-}) {
+  setResources: (resources: Resource[]) => void;
+};
+
+export default function ResourcesView({
+  resources,
+  setResources,
+}: ResourcesViewProps) {
   const [categories, setCategories] = useState(["all"]);
 
   useEffect(() => {
     setCategories(
       categories.concat(
-        props.resources
+        resources
           .map((resource) => resource.category.toLowerCase())
           .filter((category, index, array) => array.indexOf(category) === index)
           .sort((a, b) => a.localeCompare(b)),
@@ -25,23 +36,16 @@ export default function ResourcesView(props: {
   return (
     <>
       <BackButton />
-      <header className={classes.header}>
+      <header className={styles.header}>
         <h1>Resources</h1>
       </header>
 
-      <div className={classes.menu_and_resources_container}>
-        <div className={classes.sticky}>
-          <CategoryMenu
-            labels={categories}
-            resources={props.resources}
-            setResources={props.setResources}
-          />
+      <div className={styles.menuAndResourcesContainer}>
+        <div className={styles.sticky}>
+          <CategoryMenu labels={categories} setResources={setResources} />
         </div>
 
-        <ResourcesList
-          resources={props.resources}
-          setResources={props.setResources}
-        />
+        <ResourcesList resources={resources} />
       </div>
     </>
   );

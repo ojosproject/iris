@@ -1,6 +1,11 @@
+/**
+ * File:     resources/page.tsx
+ * Purpose:  Forwards to ResourcesView or ResourcesNotAvailableView.
+ * Authors:  Ojos Project & Iris contributors
+ * License:  GNU General Public License v3.0
+ */
 "use client";
-
-import { Resource } from "./types";
+import { Resource } from "@/types/resources";
 import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import ResourcesView from "./ResourcesView";
@@ -13,7 +18,7 @@ export default function Resources() {
   const router = useRouter();
 
   useKeyPress("Escape", () => {
-    router.back();
+    router.push("/");
   });
 
   useEffect(() => {

@@ -1,12 +1,13 @@
+/* ==========================================================================
+   File:     resources/page.module.css
+   Purpose:  Styles the Resources pages.
+   Authors:  Ojos Project & Iris contributors
+   License:  GNU General Public License v3.0
+   ========================================================================== */
 .header {
   display: flex;
   flex-direction: row;
   justify-content: center;
-}
-
-.back_button {
-  justify-self: flex-start;
-  align-self: flex-start;
 }
 
 .sticky {
@@ -15,7 +16,7 @@
   z-index: 1000;
 }
 
-.menu_and_resources_container {
+.menuAndResourcesContainer {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -23,7 +24,7 @@
   margin: 0 20px;
 }
 
-.not_found {
+.notFound {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -32,13 +33,13 @@
   height: 50dvh;
 }
 
-.not_found_text {
+.notFoundText {
   font-size: 20px;
 
   margin: 0;
   padding: 0;
 }
 
-.not_found_icon {
+.notFoundIcon {
   margin: 20px;
 }

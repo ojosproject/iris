@@ -1,0 +1,11 @@
+/* ==========================================================================
+   File:     CategoryMenu.module.css
+   Purpose:  Styles the category menu for the Resources tool.
+   Authors:  Ojos Project & Iris contributors
+   License:  GNU General Public License v3.0
+   ========================================================================== */
+.resourceMenu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
