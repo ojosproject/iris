@@ -16,10 +16,10 @@
    11. Add a `ComponentProps` type for every `Component` with props
    12. `throw` errors. Do not use `console.log()` or `console.error()` for errors
    13. File/folder Naming
-      1. [Prefix files with `_`](https://nextjs.org/docs/14/app/building-your-application/routing/colocation#private-folders) if they're not part of the route in `src/app/*`. Examples:
-         * `_components`
-         * `_helper.ts`
-      2. Use kebab-case for file and folder names
+       1. [Prefix files with `_`](https://nextjs.org/docs/14/app/building-your-application/routing/colocation#private-folders) if they're not part of the route in `src/app/*`. Examples:
+          * `_components`
+          * `_helper.ts`
+       2. Use kebab-case for file and folder names
    14. Styling
        1. Global styling must be kept in `globals.css`
        2. Any other styling is done with [CSS Modules](https://nextjs.org/docs/14/app/building-your-application/styling/css-modules)
@@ -35,6 +35,7 @@
        1. Use [`<Link>`](https://nextjs.org/docs/14/app/building-your-application/routing/linking-and-navigating#link-component) instead of `<a>`
        2. Use [`useRouter()`](https://nextjs.org/docs/14/app/building-your-application/routing/linking-and-navigating#userouter-hook) instead of `window.location`
        3. Use [`router.push()`](https://nextjs.org/docs/14/app/api-reference/functions/use-router) instead of `router.back()`
+   16. Use [Module Path Aliases (`@/`)](https://nextjs.org/docs/14/app/building-your-application/configuring/absolute-imports-and-module-aliases) when importing `src/components/`, `src/utils/`, etc.
 
 ## Comment Headers
 
