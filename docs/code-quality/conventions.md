@@ -36,6 +36,7 @@
        2. Use [`useRouter()`](https://nextjs.org/docs/14/app/building-your-application/routing/linking-and-navigating#userouter-hook) instead of `window.location`
        3. Use [`router.push()`](https://nextjs.org/docs/14/app/api-reference/functions/use-router) instead of `router.back()`
    16. Use [Module Path Aliases (`@/`)](https://nextjs.org/docs/14/app/building-your-application/configuring/absolute-imports-and-module-aliases) when importing `src/components/`, `src/utils/`, etc.
+   17. Use `export default` in the function declaration instead of the EoF
 
 ## Comment Headers
 
