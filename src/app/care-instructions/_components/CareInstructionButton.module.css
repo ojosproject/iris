@@ -1,0 +1,30 @@
+/* ==========================================================================
+   File:     CareInstructionButton.module.css
+   Purpose:  Styles the clickable button.
+   Authors:  Ojos Project & Iris contributors
+   License:  GNU General Public License v3.0
+   ========================================================================== */
+.singleCareInstruction {
+  width: 65dvw;
+  margin: 20px 0;
+  overflow-wrap: anywhere;
+  padding: 10px;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin: 10px;
+  border-radius: 10px;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.singleCareInstruction:hover {
+  cursor: pointer;
+  transform: translateY(-10px);
+  box-shadow: 0 8px 15px rgba(111, 110, 110, 0.3);
+}
+
+.tapMessage {
+  font-size: 14px;
+  color: grey;
+}

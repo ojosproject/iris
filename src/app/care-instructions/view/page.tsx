@@ -1,13 +1,17 @@
-// care_instructions/view/page.tsx
-// Ojos Project
+/**
+ * File:     care-instructions/view/page.tsx
+ * Purpose:  View or edit a specific care instruction.
+ * Authors:  Ojos Project & Iris contributors
+ * License:  GNU General Public License v3.0
+ */
 "use client";
 import BackButton from "@/components/BackButton";
 import { useRouter, useSearchParams } from "next/navigation";
-import classes from "./page.module.css";
+import styles from "./page.module.css";
 import Button from "@/components/Button";
 import { Suspense, useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
-import { CareInstruction } from "../types";
+import { CareInstruction } from "@/types/care-instructions";
 import { timestampToString } from "@/utils/parsing";
 import Dialog from "@/components/Dialog";
 import useKeyPress from "@/app/accessibility/keyboard_nav";
@@ -108,7 +112,7 @@ function EditInstructions() {
       setAddedBy(i.added_by);
       setLastUpdated(i.last_updated);
 
-      router.replace(`/care_instructions/view/?id=${id}`);
+      router.replace(`/care-instructions/view/?id=${id}`);
 
       invoke("care_instructions_previous_next_ids", {
         id: id,
@@ -120,14 +124,14 @@ function EditInstructions() {
   }
 
   return (
-    <div className={classes.care_instructions_container}>
-      <div className={classes.back_button}>
-        <BackButton onClick={() => router.push("/care_instructions")} />
+    <div className={styles.careInstructionsContainer}>
+      <div className={styles.backButton}>
+        <BackButton onClick={() => router.push("/care-instructions")} />
       </div>
 
-      <h1 className={classes.care_title}>Care Instructions</h1>
+      <h1 className={styles.careTitle}>Care Instructions</h1>
 
-      <div className={classes.input_container}>
+      <div className={styles.inputContainer}>
         {onEditMode ? (
           <>
             <input
@@ -136,7 +140,7 @@ function EditInstructions() {
                 setTitle(e.target.value);
               }}
               placeholder="Short Title"
-              className={classes.input_care_title}
+              className={styles.inputCareTitle}
               type="text"
               spellCheck={true}
             />
@@ -147,13 +151,13 @@ function EditInstructions() {
               onChange={(e) => {
                 setContent(e.target.value);
               }}
-              className={classes.input_care_content}
+              className={styles.inputCareContent}
             />
           </>
         ) : (
           <>
             {!(id === previousTopic && id === nextTopic) ? (
-              <div className={classes.topics_button}>
+              <div className={styles.topicsButton}>
                 <Button
                   type="SECONDARY"
                   label="Previous Topic"
@@ -210,8 +214,8 @@ function EditInstructions() {
         )}
 
         {lastUpdated === 0 ? null : (
-          <div className={classes.last_updated}>
-            <div className={classes.last_updated_inner}>
+          <div className={styles.lastUpdated}>
+            <div className={styles.lastUpdatedInner}>
               <p>
                 Last updated on {timestampToString(lastUpdated, "MMDDYYYY")}
               </p>
@@ -221,8 +225,8 @@ function EditInstructions() {
         )}
       </div>
 
-      <div className={classes.button_save_instructions}>
-        <div className={classes.button_column}>
+      <div className={styles.buttonSaveInstructions}>
+        <div className={styles.buttonColumn}>
           {onEditMode ? (
             <Button
               type="PRIMARY"

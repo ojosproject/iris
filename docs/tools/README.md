@@ -23,7 +23,7 @@ If your tool is a frontend tool, there are more requirements:
 
 In the code, all of a tool's code will be kept in a folder named after the tool
 ID. Ojos Project's developers already maintain a few tools, such
-as `medications`, `call`, `care_instructions`, `ai`, `pro`, `resources`, and
+as `medications`, `call`, `care-instructions`, `ai`, `pro`, `resources`, and
 `settings`.
 
 Tool folders may be located in:

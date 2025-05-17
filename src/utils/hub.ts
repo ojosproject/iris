@@ -13,7 +13,7 @@ export const hubTools: HubTool[] = [
     icon: "/images/icon_resources.png",
   },
   {
-    link: "./care_instructions",
+    link: "./care-instructions",
     name: "Care Instructions",
     icon: "/images/icon_care_instructions.png",
   },

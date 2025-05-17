@@ -1,15 +1,17 @@
-// /care_instructions/page.tsx
-// Ojos Project
-//
-// Displays all of the care instructions.
+/**
+ * File:     care-instructions/page.tsx
+ * Purpose:  Displays all of the care instructions.
+ * Authors:  Ojos Project & Iris contributors
+ * License:  GNU General Public License v3.0
+ */
 "use client";
-import { CareInstruction } from "./types";
+import { CareInstruction } from "@/types/care-instructions";
 import { invoke } from "@tauri-apps/api/core";
 import { useEffect, useState } from "react";
 import BackButton from "@/components/BackButton";
-import classes from "./page.module.css";
+import styles from "./page.module.css";
 import Button from "@/components/Button";
-import CareInstructionsButton from "./components/CareInstructionButton";
+import CareInstructionsButton from "./_components/CareInstructionButton";
 import useKeyPress from "../accessibility/keyboard_nav";
 import { useRouter } from "next/navigation";
 
@@ -28,8 +30,8 @@ export default function CareInstructions() {
   }, []);
 
   return (
-    <div className={classes.all_instructions_layout}>
-      <div className={classes.back_button}>
+    <div className={styles.allInstructionsLayout}>
+      <div className={styles.backButton}>
         <BackButton
           onClick={() => {
             router.push("/");
@@ -51,13 +53,13 @@ export default function CareInstructions() {
         })
       )}
 
-      <div className={classes.button_menu_container}>
-        <div className={classes.button_menu}>
+      <div className={styles.backMenuContainer}>
+        <div className={styles.buttonMenu}>
           <Button
             type="PRIMARY"
             label="Add Instructions"
             link={{
-              pathname: "./care_instructions/view/",
+              pathname: "./care-instructions/view/",
             }}
           />
 

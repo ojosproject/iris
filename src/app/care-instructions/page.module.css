@@ -1,0 +1,30 @@
+/* ==========================================================================
+   File:     care-instructions/page.module.css
+   Purpose:  Styles the main Care Instructions page.
+   Authors:  Ojos Project & Iris contributors
+   License:  GNU General Public License v3.0
+   ========================================================================== */
+.allInstructionsLayout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.backButton {
+  position: fixed;
+  top: 2%;
+  left: 2%;
+}
+
+.backMenuContainer {
+  position: fixed;
+  bottom: 5%;
+  right: 5%;
+}
+
+.buttonMenu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}

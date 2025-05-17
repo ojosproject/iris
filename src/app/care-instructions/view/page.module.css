@@ -1,36 +1,38 @@
-/*
-care_instructions/view/page.module.css
-Ojos Project
-*/
-.care_instructions_container {
+/* ==========================================================================
+   File:     care-instructions/view/page.module.css
+   Purpose:  Styles a single view of a care instruction.
+   Authors:  Ojos Project & Iris contributors
+   License:  GNU General Public License v3.0
+   ========================================================================== */
+.careInstructionsContainer {
   display: flex;
   flex-direction: column;
   z-index: 0;
 }
 
-.button_column {
+.buttonColumn {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
 }
 
-.topics_button {
+.topicsButton {
   position: fixed;
   top: 100px;
   right: 20px;
 }
 
-.last_updated {
+.lastUpdated {
   position: fixed;
   top: 180px;
   right: 20px;
 
-  color: grey;
+  color: var(--gray);
   font-size: 15px;
 }
 
-.last_updated_inner {
+.lastUpdatedInner {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -38,29 +40,29 @@ Ojos Project
   line-height: 1px;
 }
 
-.input_container {
+.inputContainer {
   margin: 20px 0 0 50px;
   width: 60dvw;
   overflow-wrap: anywhere;
 }
 
-.back_button {
+.backButton {
   position: fixed;
   top: 2%;
   left: 2%;
 }
 
-.button_save_instructions {
+.buttonSaveInstructions {
   position: fixed;
   bottom: 10%;
   right: 2%;
 }
 
-.care_title {
+.careTitle {
   align-self: center;
 }
 
-.input_care_title {
+.inputCareTitle {
   width: 80%;
   height: 50px;
 
@@ -73,7 +75,7 @@ Ojos Project
   font-weight: bold;
 }
 
-.input_care_content {
+.inputCareContent {
   resize: none;
   width: 100%;
   min-height: 52dvh;
@@ -85,7 +87,7 @@ Ojos Project
   font-family: "Noto Sans", "Inter", "sans-serif", "Arial";
 }
 
-.modal-overlay {
+.modalOverlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -98,7 +100,7 @@ Ojos Project
   z-index: 1000; /* Ensure it's on top of other elements */
 }
 
-.modal-content {
+.modalContent {
   background: white;
   padding: 10px;
   border-radius: 8px;
