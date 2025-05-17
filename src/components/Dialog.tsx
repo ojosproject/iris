@@ -1,8 +1,11 @@
-// confirmMessage.tsx
-// Ojos Project
+/**
+ * File:     Dialog.tsx
+ * Purpose:  A universal dialog.
+ * Authors:  Ojos Project & Iris contributors
+ * License:  GNU General Public License v3.0
+ */
 import React from "react";
-import "./Dialog.css";
-import Button from "./Button";
+import styles from "./Dialog.module.css";
 
 interface DialogProps {
   title: string;
@@ -13,12 +16,12 @@ interface DialogProps {
 
 const Dialog: React.FC<DialogProps> = ({ title, content, children }) => {
   return (
-    <div className="dialog-overlay">
-      <div className="dialog-popup">
-        <div className="dialog-header">
+    <div className={styles.dialogOverlay}>
+      <div className={styles.dialogPopup}>
+        <div className={styles.dialogHeader}>
           <h3>{title}</h3>
         </div>
-        <div className="dialog-content">
+        <div className={styles.dialogContent}>
           <p>{content}</p>
         </div>
         {children}

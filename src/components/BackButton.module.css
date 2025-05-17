@@ -1,3 +1,9 @@
-.BackButton:hover {
+/* ==========================================================================
+   File:     BackButton.module.css
+   Purpose:  Point when button's hovered. Probably added since I can't do it w/ React.
+   Authors:  Ojos Project & Iris contributors
+   License:  GNU General Public License v3.0
+   ========================================================================== */
+.backButton:hover {
   cursor: pointer;
 }

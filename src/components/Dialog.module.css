@@ -1,8 +1,10 @@
-/*
-confirmMessage.css
-Ojos Project
-*/
-.dialog-overlay {
+/* ==========================================================================
+   File:     Dialog.module.css
+   Purpose:  Styles the dialog.
+   Authors:  Ojos Project & Iris contributors
+   License:  GNU General Public License v3.0
+   ========================================================================== */
+.dialogOverlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -15,7 +17,7 @@ Ojos Project
   z-index: 1000; /* Ensure it's above other elements */
 }
 
-.dialog-popup {
+.dialogPopup {
   background-color: white;
   padding: 25px;
   border-radius: 8px;
@@ -26,18 +28,18 @@ Ojos Project
   animation-fill-mode: forwards;
 }
 
-.dialog-header {
+.dialogHeader {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 10px;
 }
 
-.dialog-content {
+.dialogContent {
   margin-bottom: 20px;
 }
 
-.dialog-actions {
+.dialogActions {
   display: flex;
   justify-content: space-between;
 }

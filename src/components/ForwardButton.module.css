@@ -1,3 +1,9 @@
-.ForwardButton:hover {
-    cursor: pointer;
+/* ==========================================================================
+   File:     ForwardButton.module.css
+   Purpose:  Styles the forward button.
+   Authors:  Ojos Project & Iris contributors
+   License:  GNU General Public License v3.0
+   ========================================================================== */
+.forwardButton:hover {
+  cursor: pointer;
 }

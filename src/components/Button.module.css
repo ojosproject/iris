@@ -1,91 +1,97 @@
-.button_iris_primary {
+/* ==========================================================================
+   File:     Button.module.css
+   Purpose:  Styles the Button component.
+   Authors:  Ojos Project & Iris contributors
+   License:  GNU General Public License v3.0
+   ========================================================================== */
+.buttonIrisPrimary {
   font-weight: bold;
   padding: 10px 25px;
   min-width: 100px;
   border-radius: 10px;
   margin: 5px;
 
-  color: white;
-  background-color: #0063d7;
+  color: var(--white);
+  background-color: var(--blue);
   border: solid transparent 2px;
 }
 
-.button_iris_primary:hover {
+.buttonIrisPrimary:hover {
   text-decoration: none;
-  color: white;
-  background-color: #094595;
+  color: var(--white);
+  background-color: var(--dark-blue);
   cursor: pointer;
 }
 
-.button_iris_primary:disabled {
-  background-color: grey;
+.buttonIrisPrimary:disabled {
+  background-color: var(--gray);
 }
 
-.button_iris_primary:hover:disabled {
+.buttonIrisPrimary:hover:disabled {
   cursor: default;
-  background-color: grey;
+  background-color: var(--gray);
 }
 
-.button_iris_secondary {
+.buttonIrisSecondary {
   font-weight: bold;
   padding: 10px 25px;
   min-width: 100px;
   border-radius: 10px;
   margin: 5px;
 
-  color: #0063d7;
-  background-color: white;
-  border: solid #0063d7 2px;
+  color: var(--blue);
+  background-color: var(--white);
+  border: solid var(--blue) 2px;
 }
 
-.button_iris_secondary:hover {
+.buttonIrisSecondary:hover {
   text-decoration: none;
-  color: #0063d7;
+  color: var(--blue);
   cursor: pointer;
 }
 
-.button_iris_danger_primary {
+.buttonIrisDangerPrimary {
   font-weight: bold;
   padding: 10px 25px;
   min-width: 100px;
   border-radius: 10px;
   margin: 5px;
 
-  color: white;
-  background-color: #b10b08;
+  color: var(--white);
+  background-color: var(--red);
   border: solid transparent 2px;
 }
 
-.button_iris_danger_primary:hover {
+.buttonIrisDangerPrimary:hover {
   text-decoration: none;
-  color: white;
-  background-color: #dc0f0b;
+  color: var(--white);
+  background-color: var(--light-red);
   cursor: pointer;
 }
 
-.button_iris_danger_primary:disabled {
-  background-color: grey;
+.buttonIrisDangerPrimary:disabled {
+  background-color: var(--gray);
 }
 
-.button_iris_danger_primary:hover:disabled {
+.buttonIrisDangerPrimary:hover:disabled {
   cursor: default;
-  background-color: grey;
+  background-color: var(--gray);
 }
 
-.button_iris_danger_secondary {
+.buttonIrisDangerSecondary {
   font-weight: bold;
   padding: 10px 25px;
   min-width: 100px;
   border-radius: 10px;
   margin: 5px;
 
-  color: #b10b08;
-  background-color: white;
-  border: solid #b10b08 2px;
+  color: var(--red);
+  background-color: var(--white);
+  border: solid var(--red) 2px;
 }
 
-.button_iris_danger_secondary:hover {
+.buttonIrisDangerSecondary:hover {
   text-decoration: none;
-  color: #b10b08;
+  color: var(--red);
   cursor: pointer;
 }

@@ -1,56 +1,66 @@
-// Button.tsx
-// Ojos Project
-//
-// This is a Button component that is styled with the Iris Branding Guidelines.
-
+/**
+ * File:     Button.tsx
+ * Purpose:  This is a Button component that is styled with the Iris Branding Guidelines.
+ * Authors:  Ojos Project & Iris contributors
+ * License:  GNU General Public License v3.0
+ */
 import Link from "next/link";
-import classes from "./Button.module.css";
+import styles from "./Button.module.css";
 import { CSSProperties, MouseEventHandler } from "react";
 import { UrlObject } from "url";
 
-export default function Button(props: {
+type ButtonProps = {
   type: "PRIMARY" | "SECONDARY" | "DANGER-PRIMARY" | "DANGER-SECONDARY";
   label: string;
   onClick?: MouseEventHandler;
   link?: UrlObject | string;
   disabled?: boolean;
   style?: CSSProperties;
-}) {
+};
+
+export default function Button({
+  type,
+  label,
+  onClick,
+  link,
+  disabled,
+  style,
+}: ButtonProps) {
   const buttonStyle: CSSProperties = {
-    ...props.style,
-    opacity: props.disabled ? 0.5 : 1,
-    cursor: props.disabled ? "not-allowed" : "pointer",
+    ...style,
+    opacity: disabled ? 0.5 : 1,
+    cursor: disabled ? "not-allowed" : "pointer",
   };
 
   function buttonStyleSelection(): string {
-    if (props.type === "PRIMARY") {
-      return classes.button_iris_primary;
-    } else if (props.type === "SECONDARY") {
-      return classes.button_iris_secondary;
-    } else if (props.type === "DANGER-PRIMARY") {
-      return classes.button_iris_danger_primary;
+    if (type === "PRIMARY") {
+      return styles.buttonIrisPrimary;
+    } else if (type === "SECONDARY") {
+      return styles.buttonIrisSecondary;
+    } else if (type === "DANGER-PRIMARY") {
+      return styles.buttonIrisDangerPrimary;
     } else {
-      return classes.button_iris_danger_secondary;
+      return styles.buttonIrisDangerSecondary;
     }
   }
 
-  return props.onClick ? (
+  return onClick ? (
     <button
       className={buttonStyleSelection()}
-      disabled={props.disabled}
-      onClick={!props.disabled ? props.onClick : undefined}
+      disabled={disabled}
+      onClick={!disabled ? onClick : undefined}
       style={buttonStyle}
     >
-      {props.label}
+      {label}
     </button>
   ) : (
-    <Link href={props.disabled ? "#" : props.link!} passHref>
+    <Link href={disabled ? "#" : link!} passHref>
       <button
         className={buttonStyleSelection()}
         style={buttonStyle}
-        disabled={props.disabled}
+        disabled={disabled}
       >
-        {props.label}
+        {label}
       </button>
     </Link>
   );

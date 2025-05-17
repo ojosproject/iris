@@ -14,7 +14,7 @@ import {
   sanitizePhoneNumber,
   timestampToString,
 } from "@/utils/parsing";
-import ToastDialog from "@/components/ToastDialog";
+import Dialog from "@/components/Dialog";
 
 function EditContacts() {
   // If `id` is empty, you're creating a contact
@@ -107,9 +107,9 @@ function EditContacts() {
       </div>
 
       {saveMessage && (
-        <ToastDialog title="Contact saved successfully!" content="">
+        <Dialog title="Contact saved successfully!" content="">
           <></>
-        </ToastDialog>
+        </Dialog>
       )}
 
       <h1 className={classes.contact_name}>Add/Edit Contact</h1>

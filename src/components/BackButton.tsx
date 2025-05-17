@@ -1,6 +1,12 @@
+/**
+ * File:     BackButton.tsx
+ * Purpose:  A universal back button for Iris.
+ * Authors:  Ojos Project & Iris contributors
+ * License:  GNU General Public License v3.0
+ */
 "use client";
 import { CSSProperties } from "react";
-import classes from "./BackButton.module.css";
+import styles from "./BackButton.module.css";
 import { useRouter } from "next/navigation";
 
 interface BackButtonProps {
@@ -39,7 +45,7 @@ const BackButton = ({
       src={iconSrc}
       width={50}
       height={50}
-      className={classes.BackButton}
+      className={styles.backButton}
       style={buttonStyle}
       onClick={handleClick}
       alt="Back"

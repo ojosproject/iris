@@ -1,30 +1,43 @@
+/**
+ * File:     ForwardButton.tsx
+ * Purpose:  A universal forward button.
+ * Authors:  Ojos Project & Iris contributors
+ * License:  GNU General Public License v3.0
+ */
 "use client";
 import { CSSProperties } from "react";
-import classes from "./ForwardButton.module.css";
+import styles from "./ForwardButton.module.css";
 
-export default function ForwardButton(props: {
-  onClick?: Function;
+type ForwardButtonProps = {
+  onClick: () => void;
   style?: CSSProperties;
   disabled?: boolean;
   color?: "BLACK" | "WHITE";
-}) {
+};
+
+export default function ForwardButton({
+  onClick,
+  style,
+  disabled,
+  color,
+}: ForwardButtonProps) {
   const handleClick = () => {
-    if (props.disabled) {
+    if (disabled) {
       return;
     }
-    if (props.onClick) {
-      props.onClick();
+    if (onClick) {
+      onClick();
     }
   };
 
   const buttonStyle: CSSProperties = {
-    ...props.style,
-    opacity: props.disabled ? 0.5 : 1,
-    cursor: props.disabled ? "not-allowed" : "pointer",
+    ...style,
+    opacity: disabled ? 0.5 : 1,
+    cursor: disabled ? "not-allowed" : "pointer",
   };
 
   const iconSrc =
-    props.color === "WHITE"
+    color === "WHITE"
       ? "/images/chevron-forward-outline-white.svg"
       : "/images/chevron-forward-outline.svg";
 
@@ -34,7 +47,7 @@ export default function ForwardButton(props: {
       src={iconSrc}
       width={50}
       height={50}
-      className={classes.ForwardButton}
+      className={styles.forwardButton}
       style={buttonStyle}
       alt="Forward"
       draggable={false}
