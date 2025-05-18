@@ -1,4 +1,4 @@
-import { PatientReportedOutcome } from "./types";
+import { PatientReportedOutcome } from "@/types/pro";
 
 type ChartData = {
   [question: string]: [response: number, recorded_date: Date][];

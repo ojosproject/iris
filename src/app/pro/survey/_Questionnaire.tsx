@@ -1,14 +1,24 @@
-import React, { useState, useEffect } from "react";
-import "./survey.css";
-import Button from "@/components/Button";
-import { ProQuestion } from "../types";
+/**
+ * File:     _Questionnaire.tsx
+ * Purpose:  The questionnaire for PROs.
+ * Authors:  Ojos Project & Iris contributors
+ * License:  GNU General Public License v3.0
+ */
 
-interface RatingProps {
+// todo: Should be moved to a `pro/_components` folder.
+// todo: It hasn't been done, bc it uses `survey/page.module.css`.
+// todo: Split that CSS Module and create `_components/Questionnaire.module.css`
+import React, { useState, useEffect } from "react";
+import styles from "./page.module.css";
+import Button from "@/components/Button";
+import { ProQuestion } from "@/types/pro";
+
+type RatingProps = {
   className?: string;
   size: number;
   onSubmit: (responses: (string | number)[][]) => void;
   questions: ProQuestion[];
-}
+};
 
 const FullCircle = ({
   size = 40,
@@ -68,12 +78,12 @@ const EmptyCircle = ({
   </svg>
 );
 
-const SurveyPage: React.FC<RatingProps> = ({
+export default function Questionnaire({
   className,
   size,
   questions,
   onSubmit,
-}) => {
+}: RatingProps) {
   const [ratings, setRatings] = useState<number[]>(() => {
     const initialRatings: number[] = [];
     for (let i = 0; i < questions.length; i++) {
@@ -148,9 +158,9 @@ const SurveyPage: React.FC<RatingProps> = ({
     }, []);
 
     return (
-      <div className="progressBar">
-        <div className="myBar" style={{ width: `${animatedWidth}%` }}>
-          <div className="barLabel">
+      <div className={styles.progressBar}>
+        <div className={styles.myBar} style={{ width: `${animatedWidth}%` }}>
+          <div className={styles.barLabel}>
             {questionsComplete} / {totalQuestions} completed
           </div>
         </div>
@@ -161,15 +171,15 @@ const SurveyPage: React.FC<RatingProps> = ({
   // todo: consider having multiple different types of "category labels"
   // todo: for each category.
   return (
-    <div className="survey-layout">
-      <div className="progress-bar-container">
+    <div className={styles.surveyLayout}>
+      <div className={styles.progressBarContainer}>
         <ProgressBar />
       </div>
 
-      <div className="survey-content">
+      <div className={styles.surveyContent}>
         {/* All the questions go here */}
         {questions.slice(start, end).map((item, index) => (
-          <div key={index + start} className="survey-question">
+          <div key={index + start} className={styles.surveyQuestion}>
             {item.question_type === "rating" ? (
               <h3>
                 {pageNumber}. In the last two weeks, how often did you feel...
@@ -179,9 +189,11 @@ const SurveyPage: React.FC<RatingProps> = ({
             )}
             <h1>{item.question}</h1>
 
-            <div className="rating-section">
-              <span className="label left-label">{item.lowest_label}</span>
-              <div className="rating-options">
+            <div className={styles.ratingSection}>
+              <span className={`${styles.label} ${styles.leftLabel}`}>
+                {item.lowest_label}
+              </span>
+              <div className={styles.ratingOptions}>
                 {[...Array(item.highest_ranking)].map((_, i) => {
                   const isSelected = i === ratings[index + start] - 1;
                   return (
@@ -199,13 +211,15 @@ const SurveyPage: React.FC<RatingProps> = ({
                   );
                 })}
               </div>
-              <span className="label right-label">{item.highest_label}</span>
+              <span className={`${styles.label} ${styles.rightLabel}`}>
+                {item.highest_label}
+              </span>
             </div>
           </div>
         ))}
       </div>
 
-      <div className="fixed-button-container">
+      <div className={styles.fixedButtonContainer}>
         <div>
           <Button
             type="SECONDARY"
@@ -234,5 +248,4 @@ const SurveyPage: React.FC<RatingProps> = ({
       </div>
     </div>
   );
-};
-export default SurveyPage;
+}

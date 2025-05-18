@@ -1,14 +1,20 @@
+/**
+ * File:     pro/survey/page.tsx
+ * Purpose:  A page for the PRO, a wrapper for the SurveyPage component.
+ * Authors:  Ojos Project & Iris contributors
+ * License:  GNU General Public License v3.0
+ */
 "use client";
 import React, { useEffect, useState } from "react";
-import SurveyPage from "./rating";
+import Questionnaire from "./_Questionnaire";
 import { useRouter } from "next/navigation";
-import "./survey.css";
+import styles from "./page.module.css";
 import BackButton from "@/components/BackButton";
 import { invoke } from "@tauri-apps/api/core";
 import Button from "@/components/Button";
 import Dialog from "@/components/Dialog";
 import useKeyPress from "@/components/useKeyPress";
-import { ProQuestion } from "../types";
+import { ProQuestion } from "@/types/pro";
 
 export default function Survey() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -43,12 +49,12 @@ export default function Survey() {
   };
 
   return (
-    <div className="Survey">
+    <div className={styles.Survey}>
       <div>
         <BackButton />
-        <h1 className="text-align-center">Today's Survey</h1>
-        <div className="container">
-          <SurveyPage
+        <h1 style={{ textAlign: "center" }}>Today's Survey</h1>
+        <div className={styles.container}>
+          <Questionnaire
             size={40}
             questions={questions}
             onSubmit={handleSurveySubmit}

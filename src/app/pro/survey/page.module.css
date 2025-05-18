@@ -1,3 +1,16 @@
+/* ==========================================================================
+   File:     pro/survey/page.module.css
+   Purpose:  Styles the survey page.
+   Authors:  Ojos Project & Iris contributors
+   License:  GNU General Public License v3.0
+   ========================================================================== */
+.container {
+  display: flex;
+  justify-content: center;
+  margin-top: 5%;
+  margin: auto;
+}
+
 .progressBar {
   width: 100%;
   background-color: #e0e0e0;
@@ -16,31 +29,31 @@
   font-weight: bold;
   transition: width 0.3s ease-in-out;
 }
-.survey-layout {
+.surveyLayout {
   display: flex;
   flex-direction: column;
   height: 70vh;
   width: 80%;
 }
 
-.progress-bar-container {
+.progressBarContainer {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: white;
+  background: var(--white);
 }
 
-.survey-content {
+.surveyContent {
   flex: 1;
   padding: 10px;
 }
 
-.survey-question {
+.surveyQuestion {
   margin: auto;
   text-align: center;
 }
 
-.fixed-button-container {
+.fixedButtonContainer {
   position: sticky;
   bottom: 0;
   z-index: 10;
@@ -51,7 +64,7 @@
   gap: 10px;
 }
 
-.rating-section {
+.ratingSection {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -68,7 +81,7 @@
   flex-shrink: 0;
 }
 
-.rating-options {
+.ratingOptions {
   display: flex;
   justify-content: space-around;
   gap: 10px;

@@ -1,3 +1,9 @@
+/**
+ * File:     pro.ts
+ * Purpose:  Types for the Patient Reported Outcomes tool.
+ * Authors:  Ojos Project & Iris contributors
+ * License:  GNU General Public License v3.0
+ */
 export type PatientReportedOutcome = {
   id: string;
   recorded_date: number;

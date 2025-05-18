@@ -1,27 +1,33 @@
+/**
+ * File:     pro/page.tsx
+ * Purpose:  Chart page for the Patient Reported Outcomes tool.
+ * Authors:  Ojos Project & Iris contributors
+ * License:  GNU General Public License v3.0
+ */
 "use client";
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import "./pro.css";
+import styles from "./page.module.css";
 import Chart from "chart.js/auto";
 import { invoke } from "@tauri-apps/api/core";
-import { sortChartData } from "./helper";
+import { sortChartData } from "./_helper";
 import Button from "@/components/Button";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import BackButton from "@/components/BackButton";
-import { PatientReportedOutcome } from "./types";
+import { PatientReportedOutcome } from "@/types/pro";
 import useKeyPress from "@/components/useKeyPress";
 
 interface ChartData {
   [question: string]: [response: number, recorded_date: Date][];
 }
 
-const ProChart = () => {
+export default function ProChart() {
   const [pros, setPros] = useState<ChartData | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [currentWeek, setCurrentWeek] = useState(0);
   const router = useRouter();
   const [isSurveyTaken, setIsSurveyTaken] = useState<boolean>(false);
-  const MINIMUM_BUTTON_WIDTH = 225;
+  const minimumButtonWidth = 225;
 
   useKeyPress("Escape", () => {
     router.back();
@@ -220,17 +226,17 @@ const ProChart = () => {
   return (
     <>
       <BackButton />
-      <h1>Patient Reported Outcomes (PROs)</h1>
+      <h1 className={styles.h1}>Patient Reported Outcomes (PROs)</h1>
 
-      <div className="container-2">
+      <div className={styles.container2}>
         {/* Chart Section */}
-        <div className="chart-container">
-          <div className="box">
+        <div className={styles.chartContainer}>
+          <div className={styles.box}>
             {pros === null ? (
               <p>Loading data...</p>
             ) : (
               <>
-                <div className="container-2">
+                <div className={styles.container2}>
                   <p>{currentQuestion || "No Question Available"}</p>
                 </div>
               </>
@@ -243,42 +249,42 @@ const ProChart = () => {
         </div>
 
         {/* Button Sections Stacked Vertically */}
-        <div className="button-sections">
-          <div className="container-4">
+        <div className={styles.buttonSections}>
+          <div className={styles.container4}>
             <Button
               type="SECONDARY"
               label="Previous Week"
               onClick={handlePrevWeek}
               disabled={currentWeek <= getOldestWeek}
-              style={{ minWidth: MINIMUM_BUTTON_WIDTH }}
+              style={{ minWidth: minimumButtonWidth }}
             />
             <Button
               type="SECONDARY"
               label="Next Week"
               onClick={handleNextWeek}
               disabled={currentWeek >= 0}
-              style={{ minWidth: MINIMUM_BUTTON_WIDTH }}
+              style={{ minWidth: minimumButtonWidth }}
             />
           </div>
 
-          <div className="container-4">
+          <div className={styles.container4}>
             <Button
               type="SECONDARY"
               label="Previous Question"
               onClick={handlePrevQuestion}
               disabled={currentQuestionIndex === 0}
-              style={{ minWidth: MINIMUM_BUTTON_WIDTH }}
+              style={{ minWidth: minimumButtonWidth }}
             />
             <Button
               type="SECONDARY"
               label="Next Question"
               onClick={handleNextQuestion}
               disabled={currentQuestionIndex === questionKeys.length - 1}
-              style={{ minWidth: MINIMUM_BUTTON_WIDTH }}
+              style={{ minWidth: minimumButtonWidth }}
             />
           </div>
 
-          <div className="container-4">
+          <div className={styles.container4}>
             {isSurveyTaken ? (
               <p>The survey has already been taken today</p>
             ) : (
@@ -289,12 +295,11 @@ const ProChart = () => {
               label="Take Today's Survey"
               onClick={() => router.push("./pro/survey")}
               // disabled={isSurveyTaken}
-              style={{ minWidth: MINIMUM_BUTTON_WIDTH }}
+              style={{ minWidth: minimumButtonWidth }}
             />
           </div>
         </div>
       </div>
     </>
   );
-};
-export default ProChart;
+}
