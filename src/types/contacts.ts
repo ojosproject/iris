@@ -1,4 +1,9 @@
-// All contacts associated with the user.
+/**
+ * File:     types/contacts.ts
+ * Purpose:  The types for the Contact tool.
+ * Authors:  Ojos Project & Iris contributors
+ * License:  GNU General Public License v3.0
+ */
 export type Contact = {
   id: string;
   name: string;

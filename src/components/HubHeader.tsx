@@ -10,7 +10,7 @@ import styles from "./HubHeader.module.css";
 import { getTimeOfDay } from "@/utils/parsing";
 import { useEffect, useState } from "react";
 import Clock from "react-live-clock";
-import { Contact } from "@/app/contacts/types";
+import { Contact } from "@/types/contacts";
 
 export default function HubHeader() {
   const [userName, setUserName] = useState("Name");

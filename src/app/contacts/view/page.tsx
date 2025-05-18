@@ -1,14 +1,17 @@
-// contacts/view/page.tsx
-// Ojos Project
-
+/**
+ * File:     contacts/view/page.tsx
+ * Purpose:  A single component's view/edit page.
+ * Authors:  Ojos Project & Iris contributors
+ * License:  GNU General Public License v3.0
+ */
 "use client";
 import BackButton from "@/components/BackButton";
 import { useRouter, useSearchParams } from "next/navigation";
-import classes from "./page.module.css";
+import styles from "./page.module.css";
 import Button from "@/components/Button";
 import { Suspense, useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
-import { Contact } from "../types";
+import { Contact } from "@/types/contacts";
 import {
   parsePhoneNumber,
   sanitizePhoneNumber,
@@ -94,8 +97,8 @@ function EditContacts() {
     });
   }
   return (
-    <div className={classes.contacts_container}>
-      <div className={classes.back_button}>
+    <div className={styles.contactsContainer}>
+      <div className={styles.backButton}>
         <BackButton
           disabled={justSaved}
           onClick={() => {
@@ -112,24 +115,24 @@ function EditContacts() {
         </Dialog>
       )}
 
-      <h1 className={classes.contact_name}>Add/Edit Contact</h1>
+      <h1 className={styles.contactName}>Add/Edit Contact</h1>
 
-      <div className={classes.input_container}>
+      <div className={styles.inputContainer}>
         {onEditMode ? (
           <>
-            <div className={classes.input_group}>
+            <div className={styles.inputGroup}>
               <label>
-                Name<span className={classes.required}>*</span>
+                Name<span className={styles.required}>*</span>
               </label>
               <input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Name"
-                className={classes.input_fields}
+                className={styles.inputFields}
                 type="text"
               />
             </div>
-            <div className={classes.input_group}>
+            <div className={styles.inputGroup}>
               <label>Phone Number</label>
               <input
                 value={parsePhoneNumber(phoneNumber)}
@@ -138,32 +141,32 @@ function EditContacts() {
                   setPhoneNumber(cleanedNumber === "" ? "" : cleanedNumber);
                 }}
                 placeholder="(123)-456-7890 (optional)"
-                className={classes.input_fields}
+                className={styles.inputFields}
                 type="tel"
               />
             </div>
-            <div className={classes.input_group}>
+            <div className={styles.inputGroup}>
               <label>Email</label>
               <input
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="email@email.com (optional)"
-                className={classes.input_fields}
+                className={styles.inputFields}
                 type="email"
               />
             </div>
-            <div className={classes.input_group}>
+            <div className={styles.inputGroup}>
               <label>Company</label>
               <input
                 value={company}
                 onChange={(e) => setCompany(e.target.value)}
                 placeholder="Individual's employer (optional)"
-                className={classes.input_fields}
+                className={styles.inputFields}
                 type="text"
               />
             </div>
 
-            <div className={classes.button_row}>
+            <div className={styles.buttonRow}>
               <Button
                 type="SECONDARY"
                 label="Cancel"
@@ -181,8 +184,8 @@ function EditContacts() {
         ) : null}
 
         {lastUpdated === 0 ? null : (
-          <div className={classes.last_updated}>
-            <div className={classes.last_updated_inner}>
+          <div className={styles.lastUpdated}>
+            <div className={styles.last_updatedInner}>
               <p>
                 Last updated on {timestampToString(lastUpdated, "MMDDYYYY")}
               </p>
@@ -197,7 +200,7 @@ function EditContacts() {
 
 // Required to prevent
 // https://github.com/ojosproject/iris/issues/36
-export default function EditInstructionsWrapper() {
+export default function EditContactsWrapper() {
   return (
     <Suspense>
       <EditContacts />

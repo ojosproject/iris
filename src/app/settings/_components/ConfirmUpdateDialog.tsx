@@ -1,7 +1,12 @@
+/**
+ * File:     ConfirmUpdateDialog.tsx
+ * Purpose:  Updates the system with a popup dialog.
+ * Authors:  Ojos Project & Iris contributors
+ * License:  GNU General Public License v3.0
+ */
 "use client";
-
 import Dialog from "@/components/Dialog";
-import Button from "./Button";
+import Button from "@/components/Button";
 import { invoke } from "@tauri-apps/api/core";
 import { useState } from "react";
 

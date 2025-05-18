@@ -1,14 +1,16 @@
-// contacts/page.tsx
-// Ojos Project
-//
-// Displays all contacts associated with the user.
+/**
+ * File:     contacts/page.tsx
+ * Purpose:  Displays all contacts associated with the user.
+ * Authors:  Ojos Project & Iris contributors
+ * License:  GNU General Public License v3.0
+ */
 "use client";
-import { Contact } from "./types";
+import { Contact } from "@/types/contacts";
 import { invoke } from "@tauri-apps/api/core";
 import { useEffect, useState } from "react";
-import BackButton from "../../components/BackButton";
-import classes from "./page.module.css";
-import Button from "../../components/Button";
+import BackButton from "@/components/BackButton";
+import styles from "./page.module.css";
+import Button from "@/components/Button";
 import Dialog from "@/components/Dialog";
 import { parsePhoneNumber } from "@/utils/parsing";
 import { useRouter } from "next/navigation";
@@ -68,8 +70,8 @@ export default function Contacts() {
   }
 
   return (
-    <div className={classes.all_contacts_layout}>
-      <div className={classes.back_button}>
+    <div className={styles.allContactsLayout}>
+      <div className={styles.backButton}>
         <BackButton onClick={() => router.push("/")} />
       </div>
 
@@ -77,22 +79,22 @@ export default function Contacts() {
       {contacts.length === 0 ? (
         <p>No Existing Contacts</p>
       ) : (
-        <div className={classes.contacts_container}>
-          <div className={classes.contacts_list}>
+        <div className={styles.contactsContainer}>
+          <div className={styles.contactsList}>
             {Object.keys(groupedContacts)
               .sort()
               .map((letter) => (
                 <div key={letter}>
                   <h2>{letter}</h2>
                   {groupedContacts[letter].map((contact) => (
-                    <div key={contact.id} className={classes.contact_item}>
+                    <div key={contact.id} className={styles.contactItem}>
                       <input
                         type="checkbox"
                         checked={selectedContactIds.has(contact.id as any)}
                         onChange={() => toggleSelectContact(contact.id as any)}
                       />
                       <p
-                        className={classes.contact_name}
+                        className={styles.contactName}
                         onClick={() => {
                           setSelectedContact(contact);
                         }}
@@ -104,7 +106,7 @@ export default function Contacts() {
                 </div>
               ))}
           </div>
-          <div className={classes.contact_details}>
+          <div className={styles.contactDetails}>
             {selectedContact ? (
               <>
                 <h2>{selectedContact.name}</h2>
@@ -120,7 +122,7 @@ export default function Contacts() {
                 <p>
                   <strong>Company:</strong> {selectedContact.company || "N/A"}
                 </p>
-                <div className={classes.button_group}>
+                <div className={styles.buttonGroup}>
                   <Button
                     type="DANGER-SECONDARY"
                     label="Delete"
@@ -140,7 +142,7 @@ export default function Contacts() {
                 </div>
               </>
             ) : (
-              <div className={classes.placeholder}>
+              <div className={styles.placeholder}>
                 <p> Select a contact to view its details.</p>
               </div>
             )}
@@ -149,7 +151,7 @@ export default function Contacts() {
         </div>
       )}
       {selectedContactIds.size > 0 && (
-        <div className={classes.delete_selected_container}>
+        <div className={styles.deleteSelectedContainer}>
           <Button
             type="DANGER-PRIMARY"
             label={
@@ -211,8 +213,8 @@ export default function Contacts() {
         </Dialog>
       )}
 
-      <div className={classes.button_menu_container}>
-        <div className={classes.button_menu}>
+      <div className={styles.buttonMenuContainer}>
+        <div className={styles.buttonMenu}>
           <Button
             type="PRIMARY"
             label="Add Contacts"

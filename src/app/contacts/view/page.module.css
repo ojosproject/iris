@@ -1,6 +1,10 @@
-/* Updated CSS for Ojos Project - contacts/view/page.module.css */
-
-.contacts_container {
+/* ==========================================================================
+   File:     contacts/view/page.module.css
+   Purpose:  Styles the single view/edit page for a Contact.
+   Authors:  Ojos Project & Iris contributors
+   License:  GNU General Public License v3.0
+   ========================================================================== */
+.contactsContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -8,52 +12,52 @@
   z-index: 0;
 }
 
-.button_column {
+.buttonColumn {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
 }
 
-.topics_button {
+.topicsButton {
   position: fixed;
   top: 5rem;
   right: 1.5rem;
 }
 
-.last_updated {
+.lastUpdated {
   position: fixed;
   top: 11rem;
   right: 1.5rem;
-  color: grey;
+  color: var(--gray);
   font-size: 0.9rem;
 }
 
-.last_updated_inner {
+.lastUpdatedInner {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   line-height: 1.2;
 }
 
-.input_container {
+.inputContainer {
   margin: 2rem auto;
   width: 60vw;
   overflow-wrap: break-word;
 }
 
-.back_button {
+.backButton {
   position: fixed;
   top: 1.5rem;
   left: 1.5rem;
 }
 
-.save_message {
+.saveMessage {
   position: fixed;
   top: 20px;
   right: 20px;
   background-color: rgba(0, 128, 0, 0.9);
-  color: white;
+  color: var(--white);
   padding: 10px 20px;
   border-radius: 5px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -73,15 +77,13 @@
   }
 }
 
-
-
-.contact_name {
+.contactName {
   align-self: center;
   font-size: 1.5rem;
   font-weight: bold;
 }
 
-.input_fields {
+.inputFields {
   width: 100%;
   height: 3rem;
   margin-bottom: 2rem;
@@ -92,7 +94,7 @@
   font-weight: bold;
 }
 
-.modal-overlay {
+.modalOverlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -105,7 +107,7 @@
   z-index: 1000;
 }
 
-.modal-content {
+.modalContent {
   background: white;
   padding: 1rem;
   border-radius: 8px;
@@ -113,7 +115,7 @@
   max-width: 500px;
   z-index: 1001;
 }
-.button_row {
+.buttonRow {
   display: flex;
   justify-content: center;
   gap: 20px;
@@ -121,6 +123,6 @@
 }
 
 .required {
-  color: red;
+  color: var(--red);
   margin-left: 0.25rem;
 }
