@@ -14,7 +14,7 @@ import Dialog from "@/components/Dialog";
 import { invoke } from "@tauri-apps/api/core";
 import useKeyPress from "@/components/useKeyPress";
 import { useRouter } from "next/navigation";
-import ConfirmUpdateDialog from "../updater/ConfirmUpdateDialog";
+import ConfirmUpdateDialog from "./_components/ConfirmUpdateDialog";
 
 type RowProps = {
   children: ReactElement;

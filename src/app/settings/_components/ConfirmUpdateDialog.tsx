@@ -1,7 +1,7 @@
 "use client";
 
 import Dialog from "@/components/Dialog";
-import Button from "../../components/Button";
+import Button from "./Button";
 import { invoke } from "@tauri-apps/api/core";
 import { useState } from "react";
 
