@@ -11,47 +11,44 @@ import { useRouter } from "next/navigation";
 import BackButton from "@/components/BackButton";
 import { useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
+import Layout from "@/components/Layout";
 
 export default function OnboardingPatient() {
   const [patientName, setPatientName] = useState("");
   const router = useRouter();
 
   return (
-    <div className={styles.onboardingCenter}>
-      <BackButton
-        onClick={() => {
-          router.back();
-        }}
-        style={{ position: "fixed", top: 2, left: 2 }}
-      />
-      <h3>What is the patient's full name?</h3>
-      <input
-        type="text"
-        value={patientName}
-        className={styles.textInput}
-        autoFocus={true} // auto focus when screen is active
-        onChange={(e) => setPatientName(e.target.value)}
-      />
-      <div className={styles.buttonOnBottom}>
-        <Button
-          type="PRIMARY"
-          label="Continue"
-          disabled={patientName === ""}
-          onClick={() => {
-            if (patientName === "") {
-              return;
-            }
-
-            invoke("create_contact", {
-              name: patientName,
-              contact_type: "PATIENT",
-              enabled_relay: false,
-            }).then(() => {
-              router.push("/onboarding/caregiver/");
-            });
-          }}
+    <Layout title=" ">
+      <div className={styles.onboardingCenter}>
+        <h3>What is the patient's full name?</h3>
+        <input
+          type="text"
+          value={patientName}
+          className={styles.textInput}
+          autoFocus={true} // auto focus when screen is active
+          onChange={(e) => setPatientName(e.target.value)}
         />
+        <div className={styles.buttonOnBottom}>
+          <Button
+            type="PRIMARY"
+            label="Continue"
+            disabled={patientName === ""}
+            onClick={() => {
+              if (patientName === "") {
+                return;
+              }
+
+              invoke("create_contact", {
+                name: patientName,
+                contact_type: "PATIENT",
+                enabled_relay: false,
+              }).then(() => {
+                router.push("/onboarding/caregiver/");
+              });
+            }}
+          />
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 }
