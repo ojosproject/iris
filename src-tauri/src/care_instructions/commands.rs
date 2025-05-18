@@ -1,5 +1,10 @@
-use crate::care_instructions::helper;
+// File:     care_instructions/commands.rs
+// Purpose:  Extra care instructions provided by the caregivers for the nurses.
+// Authors:  Ojos Project & Iris contributors
+// License:  GNU General Public License v3.0
 use crate::care_instructions::structs::CareInstruction;
+use crate::helpers::{db_connect, stamp, unix_timestamp};
+use rusqlite::named_params;
 use tauri::AppHandle;
 
 /// # `get_all_care_instructions` Command
@@ -15,7 +20,30 @@ use tauri::AppHandle;
 /// ```
 #[tauri::command]
 pub fn get_all_care_instructions(app: AppHandle) -> Vec<CareInstruction> {
-    helper::get_all_care_instructions(&app)
+    let conn = db_connect(&app);
+
+    let mut stmt = conn
+        .prepare("SELECT * FROM care_instruction ORDER BY last_updated DESC")
+        .unwrap();
+    let matched_ci = stmt
+        .query_map([], |row| {
+            Ok(CareInstruction {
+                id: row.get(0)?,
+                title: row.get(1)?,
+                content: row.get(2)?,
+                frequency: row.get(3)?,
+                added_by: row.get(4)?,
+                last_updated: row.get(5)?,
+            })
+        })
+        .unwrap();
+
+    let mut vec_to_return: Vec<CareInstruction> = vec![];
+    for ci in matched_ci {
+        vec_to_return.push(ci.unwrap());
+    }
+
+    vec_to_return
 }
 
 /// # `get_single_care_instruction` command
@@ -34,7 +62,7 @@ pub fn get_all_care_instructions(app: AppHandle) -> Vec<CareInstruction> {
 /// ```
 #[tauri::command(rename_all = "snake_case")]
 pub fn get_single_care_instruction(app: AppHandle, id: String) -> Option<CareInstruction> {
-    for instruction in helper::get_all_care_instructions(&app) {
+    for instruction in get_all_care_instructions(app) {
         if instruction.id == id {
             return Some(instruction);
         }
@@ -66,7 +94,20 @@ pub fn create_care_instructions(
     frequency: Option<String>,
     added_by: String,
 ) -> CareInstruction {
-    helper::add_care_instruction(&app, title, content, frequency, added_by)
+    let conn = db_connect(&app);
+    let (timestamp, uuid) = stamp();
+
+    let ci = CareInstruction {
+        id: uuid,
+        title,
+        content,
+        frequency,
+        added_by,
+        last_updated: timestamp,
+    };
+
+    conn.execute("INSERT INTO care_instruction(id, title, content, frequency, added_by, last_updated) VALUES (?1, ?2, ?3, ?4, ?5, ?6)", (&ci.id, &ci.title, &ci.content, &ci.frequency, &ci.added_by, &ci.last_updated)).unwrap();
+    ci
 }
 
 /// # `update_care_instructions` Command
@@ -95,7 +136,32 @@ pub fn update_care_instructions(
     frequency: Option<String>,
     added_by: String,
 ) -> CareInstruction {
-    helper::update_care_instructions(&app, id, title, content, frequency, added_by)
+    let conn = db_connect(&app);
+    let ts = unix_timestamp();
+
+    let ci = CareInstruction {
+        id,
+        title,
+        content,
+        frequency,
+        added_by,
+        last_updated: ts,
+    };
+
+    conn.execute(
+        "UPDATE care_instruction SET title=:title, content=:content, frequency=:frequency, added_by=:added_by, last_updated=:last_updated WHERE id=:id",
+        named_params! {
+            ":id": &ci.id,
+            ":title": &ci.title,
+            ":content": &ci.content,
+            ":frequency": &ci.frequency,
+            ":added_by": &ci.added_by,
+            ":last_updated": &ci.last_updated
+        },
+    )
+    .unwrap();
+
+    ci
 }
 
 /// # `care_instructions_previous_next_ids` Command
@@ -114,7 +180,7 @@ pub fn update_care_instructions(
 /// ```
 #[tauri::command(rename=all = "snake_case")]
 pub fn care_instructions_previous_next_ids(app: AppHandle, id: String) -> Vec<String> {
-    let instructions = helper::get_all_care_instructions(&app);
+    let instructions = get_all_care_instructions(app);
     let mut previous = 0;
     let mut next = 0;
     for (index, instruction) in instructions.iter().enumerate() {
@@ -142,5 +208,11 @@ pub fn care_instructions_previous_next_ids(app: AppHandle, id: String) -> Vec<St
 
 #[tauri::command(rename_all = "snake_case")]
 pub fn delete_care_instructions(app: AppHandle, id: String) {
-    helper::delete_care_instructions(&app, id);
+    let conn = db_connect(&app);
+
+    conn.execute(
+        "DELETE FROM care_instruction WHERE id=:id",
+        named_params! {":id": id},
+    )
+    .unwrap();
 }

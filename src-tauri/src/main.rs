@@ -1,3 +1,7 @@
+// File:     main.rs
+// Purpose:  Entry point for Iris.
+// Authors:  Ojos Project & Iris contributors
+// License:  GNU General Public License v3.0
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 mod call;
 mod care_instructions;
@@ -10,6 +14,7 @@ mod pro;
 mod resources;
 mod settings;
 mod updater;
+use helpers::data_dir;
 use menu::menu;
 use onboarding::helpers::setup_onboarding;
 use std::{env, process};
@@ -78,13 +83,7 @@ fn main() {
                         .unwrap();
                 } else if event.id() == "open-recordings" {
                     process::Command::new(command)
-                        .args(
-                            app.path()
-                                .app_data_dir()
-                                .unwrap()
-                                .join("recordings")
-                                .to_str(),
-                        )
+                        .args(data_dir(&app).join("recordings").to_str())
                         .output()
                         .unwrap();
                 }

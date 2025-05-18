@@ -1,7 +1,12 @@
-use crate::contacts::helper;
+// File:     contacts/commands.rs
+// Purpose:  Commands for the Contacts tool.
+// Authors:  Ojos Project & Iris contributors
+// License:  GNU General Public License v3.0
 use crate::contacts::structs::Contact;
-use rusqlite::Connection;
-use tauri::{AppHandle, Manager};
+use crate::helpers::stamp;
+use crate::helpers::{db_connect, unix_timestamp};
+use rusqlite::named_params;
+use tauri::AppHandle;
 
 /// # `get_all_contacts` Command
 ///
@@ -17,7 +22,37 @@ use tauri::{AppHandle, Manager};
 
 #[tauri::command]
 pub fn get_all_contacts(app: AppHandle) -> Result<Vec<Contact>, String> {
-    helper::get_all_contacts(&app)
+    let conn = db_connect(&app);
+
+    let mut stmt = match conn.prepare("SELECT * FROM contacts ORDER BY name") {
+        Ok(s) => s,
+        Err(e) => return Err(format!("SQLite error: `{:?}`", e)),
+    };
+    let matched_c = match stmt.query_map([], |row| {
+        Ok(Contact {
+            id: row.get(0)?,
+            name: row.get(1)?,
+            phone_number: row.get(2)?,
+            company: row.get(3)?,
+            email: row.get(4)?,
+            contact_type: row.get(5)?,
+            enabled_relay: row.get(6)?,
+            last_updated: row.get(7)?,
+        })
+    }) {
+        Ok(m) => m,
+        Err(e) => return Err(format!("SQLite error: `{:?}`", e)),
+    };
+
+    let mut vec_to_return: Vec<Contact> = vec![];
+    for c in matched_c {
+        vec_to_return.push(match c {
+            Ok(mc) => mc,
+            Err(e) => return Err(format!("Failed to convert Result to Contact: `{:?}`", e)),
+        });
+    }
+
+    Ok(vec_to_return)
 }
 
 /// # `get_single_contact` command
@@ -36,7 +71,7 @@ pub fn get_all_contacts(app: AppHandle) -> Result<Vec<Contact>, String> {
 /// ```
 #[tauri::command(rename_all = "snake_case")]
 pub fn get_single_contact(app: AppHandle, id: String) -> Option<Contact> {
-    let contacts = match helper::get_all_contacts(&app) {
+    let contacts = match get_all_contacts(app) {
         Ok(c) => c,
         Err(_) => return None,
     };
@@ -51,11 +86,7 @@ pub fn get_single_contact(app: AppHandle, id: String) -> Option<Contact> {
 
 #[tauri::command]
 pub fn disable_relay_for_contacts(app: AppHandle) -> Result<(), String> {
-    let app_data_dir = app.path().app_data_dir().unwrap();
-    let conn = match Connection::open(app_data_dir.join("iris.db")) {
-        Ok(c) => c,
-        Err(e) => return Err(format!("SQLite error: `{:?}`", e)),
-    };
+    let conn = db_connect(&app);
 
     let result = conn.execute("UPDATE contacts SET enabled_relay=0", []);
     if result.is_err() {
@@ -67,11 +98,7 @@ pub fn disable_relay_for_contacts(app: AppHandle) -> Result<(), String> {
 
 #[tauri::command(rename_all = "snake_case")]
 pub fn get_patient_contact(app: AppHandle) -> Result<Contact, String> {
-    let app_data_dir = app.path().app_data_dir().unwrap();
-    let conn = match Connection::open(app_data_dir.join("iris.db")) {
-        Ok(c) => c,
-        Err(e) => return Err(format!("SQLite error: `{:?}`", e)),
-    };
+    let conn = db_connect(&app);
 
     let mut stmt = match conn.prepare("SELECT * FROM contacts WHERE contact_type = 'PATIENT'") {
         Ok(s) => s,
@@ -143,15 +170,52 @@ pub fn create_contact(
     contact_type: String,
     enabled_relay: bool,
 ) -> Result<Contact, String> {
-    helper::add_contact(
-        &app,
+    if !["PATIENT", "CAREGIVER"].contains(&contact_type.as_str()) {
+        return Err(format!(
+            "`contact_type` value `{}` is not valid.",
+            contact_type
+        ));
+    }
+
+    let conn = db_connect(&app);
+    let (timestamp, uuid) = stamp();
+
+    let contact = Contact {
+        id: uuid,
         name,
         phone_number,
         company,
         email,
         contact_type,
         enabled_relay,
-    )
+        last_updated: timestamp,
+    };
+
+    match conn.execute(
+        "INSERT INTO contacts(
+            id, 
+            name, 
+            phone_number, 
+            company, 
+            email, 
+            contact_type,
+            enabled_relay,
+            last_updated
+        ) VALUES ( ?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)",
+        (
+            &contact.id,
+            &contact.name,
+            &contact.phone_number,
+            &contact.company,
+            &contact.email,
+            &contact.contact_type,
+            &contact.enabled_relay,
+            &contact.last_updated,
+        ),
+    ) {
+        Ok(_) => return Ok(contact),
+        Err(e) => return Err(format!("SQLite error: `{:?}`", e)),
+    };
 }
 
 /// # `update_contact` Command
@@ -182,8 +246,17 @@ pub fn update_contact(
     contact_type: String,
     enabled_relay: bool,
 ) -> Result<Contact, String> {
-    helper::update_contacts(
-        &app,
+    if !["PATIENT", "CAREGIVER"].contains(&contact_type.as_str()) {
+        return Err(format!(
+            "`contact_type` value `{}` is not valid.",
+            contact_type
+        ));
+    }
+
+    let conn = db_connect(&app);
+    let ts = unix_timestamp();
+
+    let contact = Contact {
         id,
         name,
         phone_number,
@@ -191,10 +264,36 @@ pub fn update_contact(
         email,
         contact_type,
         enabled_relay,
-    )
+        last_updated: ts,
+    };
+
+    match conn.execute(
+        "UPDATE contacts SET name=:name, phone_number=:phone_number, company=:company, email=:email, contact_type=:contact_type, enabled_relay=:enabled_relay, last_updated=:last_updated WHERE id=:id",
+        named_params! {
+            ":id": &contact.id,
+            ":name": &contact.name,
+            ":phone_number": &contact.phone_number,
+            ":company": &contact.company,
+            ":email": &contact.email,
+            ":contact_type": &contact.contact_type,
+            ":enabled_relay": &contact.enabled_relay,
+            ":last_updated": &contact.last_updated
+        },
+    ) {
+        Ok(_) => return Ok(contact),
+        Err(e) => return Err(format!("Sqlite error: `{:?}`", e))
+    }
 }
 
 #[tauri::command(rename_all = "snake_case")]
 pub fn delete_contact(app: AppHandle, id: String) -> Result<(), String> {
-    helper::delete_contact(&app, id)
+    let conn = db_connect(&app);
+
+    match conn.execute(
+        "DELETE FROM contacts WHERE id=:id AND contact_type != 'PATIENT'",
+        named_params! {":id": id},
+    ) {
+        Ok(_) => return Ok(()),
+        Err(e) => return Err(format!("SQLite error: {:?}", e)),
+    };
 }

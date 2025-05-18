@@ -1,9 +1,13 @@
+// File:     medications/commands.rs
+// Purpose:  Commands for the Medications tool.
+// Authors:  Ojos Project & Iris contributors
+// License:  GNU General Public License v3.0
 use crate::{
     helpers::{db_connect, stamp, unix_timestamp},
     medications::structs::{Medication, MedicationLog},
 };
-use rusqlite::{named_params, Connection};
-use tauri::{AppHandle, Manager};
+use rusqlite::named_params;
+use tauri::AppHandle;
 
 #[tauri::command(rename_all = "snake_case")]
 pub fn create_medication(
@@ -21,10 +25,7 @@ pub fn create_medication(
     notes: Option<String>,
     icon: String,
 ) -> Result<Medication, String> {
-    let conn = match Connection::open(app.path().app_data_dir().unwrap().join("iris.db")) {
-        Ok(c) => c,
-        Err(e) => return Err(format!("SQLite error: {:?}", e)),
-    };
+    let conn = db_connect(&app);
     let (timestamp, uuid) = stamp();
 
     match conn.execute("INSERT INTO medication (id, name, generic_name, dosage_type, strength, units, quantity, created_at, updated_at, start_date, end_date, expiration_date, frequency, notes, icon) VALUES (:id, :name, :generic_name, :dosage_type, :strength, :units, :quantity, :created_at, :updated_at, :start_date, :end_date, :expiration_date, :frequency, :notes, :icon)",

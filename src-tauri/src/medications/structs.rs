@@ -1,3 +1,7 @@
+// File:     medications/structs.rs
+// Purpose:  Structs for the Medications tool.
+// Authors:  Ojos Project & Iris contributors
+// License:  GNU General Public License v3.0
 use serde::{Deserialize, Serialize};
 
 // Reminder:

@@ -1,3 +1,7 @@
+// File:     settings/structs.rs
+// Purpose:  Provides structs for the Settings tool.
+// Authors:  Ojos Project & Iris contributors
+// License:  GNU General Public License v3.0
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
@@ -26,7 +30,7 @@ pub struct ResourceDataPack {
     pub url: String,
     pub organization: String,
     pub category: String,
-    pub last_updated: Option<f32>,
+    pub last_updated: Option<i64>,
 }
 
 #[derive(Serialize, Deserialize)]

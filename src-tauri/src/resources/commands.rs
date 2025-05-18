@@ -1,6 +1,9 @@
-use crate::resources::structs::Resource;
-use rusqlite::Connection;
-use tauri::{AppHandle, Manager};
+// File:     resources/commands.rs
+// Purpose:  Commands for the Resources tool.
+// Authors:  Ojos Project & Iris contributors
+// License:  GNU General Public License v3.0
+use crate::{helpers::db_connect, resources::structs::Resource};
+use tauri::AppHandle;
 
 /// # `get_resources` Command
 ///
@@ -16,11 +19,7 @@ use tauri::{AppHandle, Manager};
 #[tauri::command(rename_all = "snake_case")]
 pub fn get_resources(app: AppHandle) -> Result<Vec<Resource>, String> {
     let mut resources: Vec<Resource> = vec![];
-    let app_data_dir = app.path().app_data_dir().unwrap().join("iris.db");
-    let conn = match Connection::open(app_data_dir) {
-        Ok(c) => c,
-        Err(e) => return Err(format!("SQLite error: `{:?}`", e)),
-    };
+    let conn = db_connect(&app);
 
     let mut statement = match conn.prepare("SELECT * FROM resource ORDER BY last_updated DESC") {
         Ok(s) => s,

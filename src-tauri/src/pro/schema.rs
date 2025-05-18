@@ -1,6 +1,7 @@
-// schema.rs
-// represents schema.sql as a rust string to be usable in executables
-
+// File:     pro/schema.rs
+// Purpose:  The SQL structure of the Patient Reported Outcomes tool.
+// Authors:  Ojos Project & Iris contributors
+// License:  GNU General Public License v3.0
 pub static PRO_SCHEMA: &str = r#"
 /*
 patient_recorded_outcome

@@ -1,6 +1,7 @@
-// schema.rs
-// represents schema.sql as a rust string to be usable in executables
-
+// File:     contacts/schema.rs
+// Purpose:  SQL schema for the Contacts tool.
+// Authors:  Ojos Project & Iris contributors
+// License:  GNU General Public License v3.0
 pub static CONTACTS_SCHEMA: &str = r#"
 /*
 contact

@@ -1,6 +1,7 @@
-// schema.rs
-// represents schema.sql as a rust string to be usable in executables
-
+// File:     care_instructions/schema.rs
+// Purpose:  SQL schema for the Care Instructions command.
+// Authors:  Ojos Project & Iris contributors
+// License:  GNU General Public License v3.0
 pub static CARE_INSTRUCTIONS_SCHEMA: &str = r#"
 /*
 care_instruction

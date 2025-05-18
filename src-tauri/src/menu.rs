@@ -1,6 +1,7 @@
-// menu.rs
-// The menu at the top of the app for desktop. Primarily being used for
-// development purposes for now.
+// File:     menu.rs
+// Purpose:  The menu at the top of the app for desktop.
+// Authors:  Ojos Project & Iris contributors
+// License:  GNU General Public License v3.0
 use tauri::{
     menu::{AboutMetadata, Menu, MenuBuilder, MenuItemBuilder, Submenu, SubmenuBuilder},
     AppHandle, Manager, Wry,

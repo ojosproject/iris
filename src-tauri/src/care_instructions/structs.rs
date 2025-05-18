@@ -1,3 +1,7 @@
+// File:     care_instructions/structs.rs
+// Purpose:  Structs for the Care Instructions tool.
+// Authors:  Ojos Project & Iris contributors
+// License:  GNU General Public License v3.0
 use serde::{Deserialize, Serialize};
 
 /// # `CareInstruction` struct

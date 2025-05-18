@@ -1,7 +1,10 @@
-// call/commands.rs
-// Ojos Project
+// File:     call/commands.rs
+// Purpose:  Commands for the Call tool.
+// Authors:  Ojos Project & Iris contributors
+// License:  GNU General Public License v3.0
+use crate::helpers::data_dir;
 use std::{env, process};
-use tauri::{AppHandle, Manager};
+use tauri::AppHandle;
 
 #[tauri::command]
 pub fn open_recordings_folder(app: AppHandle) {
@@ -13,7 +16,7 @@ pub fn open_recordings_folder(app: AppHandle) {
     };
 
     process::Command::new(command)
-        .args([app.path().app_data_dir().unwrap().join("recordings")])
+        .args([data_dir(&app).join("recordings")])
         .output()
         .unwrap();
 }

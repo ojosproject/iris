@@ -1,10 +1,14 @@
-use super::config;
+// File:     settings/commands.rs
+// Purpose:  Commands for the Settings tool.
+// Authors:  Ojos Project & Iris contributors
+// License:  GNU General Public License v3.0
 use super::structs::Config;
 use super::structs::DataPack;
 use super::structs::DataPackReceipt;
-use chrono::Utc;
-use rusqlite::Connection;
+use crate::helpers::db_connect;
+use crate::helpers::unix_timestamp;
 use std::fs;
+use std::io::ErrorKind;
 use tauri::AppHandle;
 use tauri::Manager;
 use tauri_plugin_dialog::DialogExt;
@@ -23,12 +27,36 @@ use tauri_plugin_dialog::DialogExt;
 /// ```
 #[tauri::command(rename_all = "snake_case")]
 pub fn get_config(app: AppHandle) -> Config {
-    config::get_config(&app)
+    let app_config_dir = app.path().app_config_dir().unwrap();
+
+    let content =
+        fs::read_to_string(app_config_dir.join("config.json")).unwrap_or_else(|error| match error
+            .kind()
+        {
+            ErrorKind::NotFound => {
+                let template_config = Config {
+                    onboarding_completed: false,
+                };
+                if !app_config_dir.exists() {
+                    fs::create_dir(&app_config_dir).unwrap();
+                }
+
+                let template_config_string = serde_json::to_string(&template_config).unwrap();
+                fs::write(app_config_dir.join("config.json"), &template_config_string).unwrap();
+                template_config_string
+            }
+            other_error => panic!("A different kind of error occurred: {other_error:?}"),
+        });
+
+    let config: Config = serde_json::from_str(&content).expect("Converting file to Config failed");
+    config
 }
 
 #[tauri::command(rename_all = "snake_case")]
 pub fn set_config(app: AppHandle, config: Config) {
-    config::set_config(&app, config);
+    let app_config_dir = app.path().app_config_dir().unwrap();
+    let config_string = serde_json::to_string(&config).unwrap();
+    fs::write(app_config_dir.join("config.json"), config_string).unwrap();
 }
 
 /// # `complete_onboarding` Command
@@ -42,7 +70,13 @@ pub fn set_config(app: AppHandle, config: Config) {
 /// ```
 #[tauri::command(rename_all = "snake_case")]
 pub fn complete_onboarding(app: AppHandle) {
-    config::set_onboarding_completed(app, true);
+    let app_config_dir = app.path().app_config_dir().unwrap();
+
+    let mut config = get_config(app);
+    config.onboarding_completed = true;
+    let config_string = serde_json::to_string(&config).unwrap();
+
+    fs::write(app_config_dir.join("config.json"), config_string).unwrap();
 }
 
 /// # `import_data_pack` Command
@@ -71,7 +105,7 @@ pub async fn import_data_pack(app: AppHandle) -> Result<DataPackReceipt, String>
     }
 
     let file_contents = fs::read_to_string(file_path.unwrap().to_string()).unwrap();
-    let conn = Connection::open(app.path().app_data_dir().unwrap().join("iris.db")).unwrap();
+    let conn = db_connect(&app);
 
     let mut receipt = DataPackReceipt {
         resources_count: None,
@@ -131,7 +165,7 @@ pub async fn import_data_pack(app: AppHandle) -> Result<DataPackReceipt, String>
                     resource.url,
                     resource.organization,
                     resource.category,
-                    if resource.last_updated.is_some() {resource.last_updated.unwrap()} else { Utc::now().timestamp() as f32 }
+                    if resource.last_updated.is_some() {resource.last_updated.unwrap()} else { unix_timestamp() }
                 )
             );
 
@@ -165,7 +199,7 @@ pub async fn import_data_pack(app: AppHandle) -> Result<DataPackReceipt, String>
             contact.email,
             if contact.contact_type.is_some() {contact.contact_type.unwrap()} else { "CAREGIVER".to_string() },
             if contact.enabled_relay.is_some() { contact.enabled_relay.unwrap() } else { false },
-            if contact.last_updated.is_some() { contact.last_updated.unwrap() } else { Utc::now().timestamp() as i64 }
+            if contact.last_updated.is_some() { contact.last_updated.unwrap() } else { unix_timestamp() }
         )) {
             Ok(count) => {
                 if count > 0 {

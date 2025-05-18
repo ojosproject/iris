@@ -37,6 +37,14 @@
        3. Use [`router.push()`](https://nextjs.org/docs/14/app/api-reference/functions/use-router) instead of `router.back()`
    16. Use [Module Path Aliases (`@/`)](https://nextjs.org/docs/14/app/building-your-application/configuring/absolute-imports-and-module-aliases) when importing `src/components/`, `src/utils/`, etc.
    17. Use `export default` in the function declaration instead of the EoF
+2. Backend (Rust/Tauri/`src-tauri/src/*`)
+   1. Every file must have a [comment header](#rust-rs)
+   2. Use snake_case for file names, folders, variables, and functions
+   3. Use UpperCase for structs
+   4. All shareable functions must be kept in the root `helpers.rs` file
+   5. Return a `Result<(), String>` with all commands, where `()` is up to you
+   6. Use `.expect()` over `.unwrap()`
+   7. Implement proper error handling
 
 ## Comment Headers
 
@@ -66,4 +74,13 @@ Below are some templates.
    Authors:  Ojos Project & Iris contributors
    License:  GNU General Public License v3.0
    ========================================================================== */
+```
+
+### Rust (`.rs`)
+
+```rust
+// File:     [filename].rs
+// Purpose:  [Brief description of the file's purpose.]
+// Authors:  Ojos Project & Iris contributors
+// License:  GNU General Public License v3.0
 ```

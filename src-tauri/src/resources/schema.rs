@@ -1,6 +1,7 @@
-// schema.rs
-// represents schema.sql as a rust string to be usable in executables
-
+// File:     resources/schema.rs
+// Purpose:  The SQL structure of the Resources tool.
+// Authors:  Ojos Project & Iris contributors
+// License:  GNU General Public License v3.0
 pub static RESOURCES_SCHEMA: &str = r#"
 /*
 resource
@@ -18,6 +19,6 @@ CREATE TABLE IF NOT EXISTS resource (
     url TEXT NOT NULL PRIMARY KEY,
     organization TEXT NOT NULL,
     category TEXT NOT NULL,
-    last_updated REAL NOT NULL
+    last_updated INTEGER NOT NULL
 ) STRICT;
 "#;

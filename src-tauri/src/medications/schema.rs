@@ -1,6 +1,7 @@
-// schema.rs
-// represents schema.sql as a rust string to be usable in executables
-
+// File:     medications/schema.rs
+// Purpose:  SQL schema for the Medications tool.
+// Authors:  Ojos Project & Iris contributors
+// License:  GNU General Public License v3.0
 pub static MEDICATIONS_SCHEMA: &str = r#"
 CREATE TABLE IF NOT EXISTS medication_log (
     id TEXT NOT NULL PRIMARY KEY,

@@ -1,9 +1,15 @@
+// File:     onboarding/helpers.rs
+// Purpose:  Helper functions for the onboarding process.
+// Authors:  Ojos Project & Iris contributors
+// License:  GNU General Public License v3.0
 use crate::{
-    care_instructions, contacts, medications, pro, resources, settings::config::get_config,
+    care_instructions, contacts,
+    helpers::{data_dir, db_connect},
+    medications, pro, resources,
+    settings::commands::get_config,
 };
-use rusqlite::Connection;
 use std::fs;
-use tauri::{AppHandle, Manager};
+use tauri::AppHandle;
 
 fn combine_schemas() -> String {
     let combined_schemas = care_instructions::schema::CARE_INSTRUCTIONS_SCHEMA.to_string()
@@ -15,13 +21,15 @@ fn combine_schemas() -> String {
 }
 
 pub fn setup_onboarding(app: &AppHandle) {
-    let app_data_dir = app.path().app_data_dir().unwrap();
+    let app_data_dir = data_dir(&app);
 
     if !app_data_dir.join("iris.db").exists() {
         fs::create_dir_all(app_data_dir.join("recordings/")).unwrap();
-        get_config(&app);
 
-        let conn = Connection::open(app_data_dir.join("iris.db")).unwrap();
+        // todo: figure out a different way. `.to_owned()` clones.
+        get_config(app.to_owned());
+
+        let conn = db_connect(&app);
 
         conn.execute_batch(&combine_schemas()).unwrap();
     }
