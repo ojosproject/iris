@@ -1,0 +1,26 @@
+/* ==========================================================================
+   File:     MedicationIconPicker.module.css
+   Purpose:  Styles the MedicationIconPicker component.
+   Authors:  Ojos Project & Iris contributors
+   License:  GNU General Public License v3.0
+   ========================================================================== */
+.iconGroup {
+  max-width: 565px;
+}
+
+.iconButton {
+  background-color: transparent;
+  border: none;
+
+  margin: 5px;
+  padding: 5px;
+}
+
+.iconButton:hover {
+  background-color: #83b3f3;
+}
+
+.iconButtonSelected {
+  background-color: #83b3f3;
+  border: none;
+}

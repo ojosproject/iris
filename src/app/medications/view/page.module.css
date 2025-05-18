@@ -1,3 +1,9 @@
+/* ==========================================================================
+   File:     medications/view/page.module.css
+   Purpose:  Styles a single med's page.
+   Authors:  Ojos Project & Iris contributors
+   License:  GNU General Public License v3.0
+   ========================================================================== */
 .medicineContainer {
   width: 100%;
   max-width: 800px;
@@ -49,8 +55,8 @@
   justify-content: center;
   width: 150px;
   height: 150px;
-  background-color: #fff;
-  border: 1px solid #ddd;
+  background-color: var(--white);
+  border: 1px solid var(--white);
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -60,42 +66,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   margin: 10px 0;
-  font-weight: bold;
-}
-
-.circleContainer {
-  position: relative;
-  width: 150px;
-  height: 150px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.progressCircle {
-  width: 100%;
-  height: 100%;
-}
-
-.circleBg {
-  fill: none;
-  stroke: #eee;
-  stroke-width: 3.8;
-}
-
-.circle {
-  fill: none;
-  stroke: yellow;
-  stroke-width: 3.8;
-  stroke-linecap: round;
-  transition: stroke-dasharray 0.5s ease;
-}
-
-.percentageText {
-  font-size: 5px;
-  text-anchor: middle;
-  fill: #000;
   font-weight: bold;
 }
 
@@ -118,8 +88,8 @@
 }
 
 .logHeader {
-  background-color: #f0f0f0;
-  color: #333;
+  background-color: var(--white);
+  color: var(--black);
   font-weight: bold;
 }
 
@@ -128,23 +98,6 @@
   padding: 10px;
   text-align: left;
   border: 1px solid #ddd;
-}
-
-/* Utility Classes */
-.borderBox {
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.textCenter {
-  text-align: center;
-}
-
-.flex {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .noLog {

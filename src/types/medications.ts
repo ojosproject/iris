@@ -1,3 +1,9 @@
+/**
+ * File:     types/medications.ts
+ * Purpose:  The types for the Medications tool.
+ * Authors:  Ojos Project & Iris contributors
+ * License:  GNU General Public License v3.0
+ */
 export type Medication = {
   id: string;
   name: string;

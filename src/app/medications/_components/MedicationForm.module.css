@@ -1,3 +1,9 @@
+/* ==========================================================================
+   File:     MedicationForm.module.css
+   Purpose:  Styles the page for creating a new med.
+   Authors:  Ojos Project & Iris contributors
+   License:  GNU General Public License v3.0
+   ========================================================================== */
 .input {
   width: 48%;
   border-radius: 4px;
@@ -6,7 +12,7 @@
 }
 
 .pageContainer {
-  background-color: white;
+  background-color: var(--white);
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -67,28 +73,28 @@
 .unitButton {
   padding: 8px 12px;
   background: white;
-  color: #094595;
+  color: var(--dark-blue);
   cursor: pointer;
   border-radius: 4px;
   font-size: 16px;
-  border: 1px solid #094595;
+  border: 1px solid var(--dark-blue);
   transition: all 0.3s ease;
   margin-right: 6px;
 }
 
 .unitButton:hover {
   background: #094595 !important;
-  color: white !important;
+  color: var(--white) !important;
 }
 
 .unitButton.selected {
-  background: #094595;
-  color: white;
+  background: var(--dark-blue);
+  color: var(--white);
 }
 
 .unitButton:not(.selected) {
-  background: white;
-  color: #094595;
+  background: var(--white);
+  color: var(--dark-blue);
 }
 
 .quantityBox {
@@ -102,7 +108,7 @@
   padding: 10px 20px;
   border-radius: 5px;
   border: none;
-  color: white;
+  color: var(--white);
   font-size: 16px;
   cursor: pointer;
   transition:
@@ -112,8 +118,8 @@
 }
 
 .pageContent .submitButton {
-  background-color: #094595;
-  color: white;
+  background-color: var(--dark-blue);
+  color: var(--white);
 }
 
 .pageContent .submitButton:hover {
@@ -135,9 +141,9 @@
 .daySelection button {
   padding: 10px 15px;
   border-radius: 5px;
-  border: 2px solid #094595;
-  background: white;
-  color: #094595;
+  border: 2px solid var(--dark-blue);
+  background: var(--white);
+  color: var(--dark-blue);
   font-size: 16px;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -146,7 +152,7 @@
 .yesNoButtons button.selected,
 .daySelection button.selected {
   background: #094595;
-  color: white;
+  color: var(--white);
 }
 
 .daySelection button {
@@ -157,9 +163,9 @@
   height: 40px;
   border-radius: 50%;
   background-color: transparent;
-  border: 2px solid #094595;
+  border: 2px solid var(--dark-blue);
   font-size: 14px;
-  color: #094595;
+  color: var(--dark-blue);
   cursor: pointer;
   transition: all 0.3s ease;
   margin-right: 5px;
@@ -171,7 +177,7 @@
 
 .addTimeButton {
   padding: 8px 12px;
-  background: #094595;
+  background: var(--dark-blue);
   color: white;
   cursor: pointer;
   border-radius: 4px;
@@ -191,18 +197,18 @@
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background-color: #094595;
-  border: 2px solid #094595;
+  background-color: var(--dark-blue);
+  border: 2px solid var(--dark-blue);
   font-size: 14px;
-  color: white;
+  color: var(--white);
   cursor: pointer;
   transition: all 0.3s ease;
   margin-left: 10px;
 }
 
 .removeTimeButton:hover {
-  background: #094595;
-  color: white;
+  background: var(--dark-blue);
+  color: var(--white);
 }
 
 .scheduleDetails {
@@ -246,16 +252,16 @@
 .modalActions button {
   padding: 10px 15px;
   border-radius: 5px;
-  border: 2px solid #094595;
+  border: 2px solid var(--dark-blue);
   background: white;
-  color: #094595;
+  color: var(--dark-blue);
   font-size: 16px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .modalActions button:hover {
-  background: #094595;
+  background: var(--dark-blue);
   color: white;
 }
 

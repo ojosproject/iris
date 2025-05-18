@@ -1,26 +1,28 @@
-// ConfirmLogModal.tsx
-// Ojos Project
-//
-// Creates a popup to log a medication.
+/**
+ * File:     ConfirmLogModal.tsx
+ * Purpose:  Creates a popup to log a medication.
+ * Authors:  Ojos Project & Iris contributors
+ * License:  GNU General Public License v3.0
+ */
 import React, { useState } from "react";
 import styles from "./ConfirmLogModal.module.css";
-import { Medication, MedicationLog } from "../types";
+import { Medication } from "@/types/medications";
 
-interface ConfirmLogModalProps {
+type ConfirmLogModalProps = {
   isOpen: boolean;
   title: string;
   onClose: () => void;
   onConfirm: (comment: string) => void;
   medication: Medication | null;
-}
+};
 
-const ConfirmLogModal: React.FC<ConfirmLogModalProps> = ({
+export default function ConfirmLogModal({
   isOpen,
   title,
   onClose,
   onConfirm,
   medication,
-}) => {
+}: ConfirmLogModalProps) {
   const [comment, setComment] = useState("");
   const logSubmit = () => {
     onConfirm(comment);
@@ -56,6 +58,4 @@ const ConfirmLogModal: React.FC<ConfirmLogModalProps> = ({
       </div>
     </div>
   );
-};
-
-export default ConfirmLogModal;
+}

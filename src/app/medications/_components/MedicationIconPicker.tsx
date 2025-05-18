@@ -1,3 +1,9 @@
+/**
+ * File:     MedicationIconPicker.tsx
+ * Purpose:  Component to select an icon for a medication.
+ * Authors:  Ojos Project & Iris contributors
+ * License:  GNU General Public License v3.0
+ */
 import styles from "./MedicationIconPicker.module.css";
 import Image from "next/image";
 
@@ -13,7 +19,7 @@ export default function MedicationPicker({
   onSelect,
 }: MedicationPickerProps) {
   return (
-    <div className={styles.icon_group}>
+    <div className={styles.iconGroup}>
       {[
         "blue",
         "dgray",
@@ -31,8 +37,8 @@ export default function MedicationPicker({
             key={`${medium}-${color}-button`}
             className={
               selectedIcon === `${medium}-${color}.svg`
-                ? styles.icon_button_selected
-                : styles.icon_button
+                ? styles.iconButtonSelected
+                : styles.iconButton
             }
             onClick={() => {
               onSelect(`${medium}-${color}.svg`);

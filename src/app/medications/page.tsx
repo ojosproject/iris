@@ -1,20 +1,26 @@
+/**
+ * File:     medications/page.tsx
+ * Purpose:  The Medications page.
+ * Authors:  Ojos Project & Iris contributors
+ * License:  GNU General Public License v3.0
+ */
 "use client";
 import React, { useState, useEffect } from "react";
 import styles from "./page.module.css";
-import { Medication, MedicationLog } from "./types";
+import { Medication } from "@/types/medications";
 import { invoke } from "@tauri-apps/api/core";
 import BackButton from "@/components/BackButton";
 import Button from "@/components/Button";
-import ConfirmLogModal from "./components/ConfirmLogModal";
+import ConfirmLogModal from "./_components/ConfirmLogModal";
 import { timestampToString } from "@/utils/parsing";
 import useKeyPress from "@/components/useKeyPress";
 import { useRouter } from "next/navigation";
-import MedicationForm from "./components/MedicationForm";
+import MedicationForm from "./_components/MedicationForm";
 import Image from "next/image";
 import Dialog from "@/components/Dialog";
-import MedicationIconPicker from "./components/MedicationIconPicker";
+import MedicationIconPicker from "./_components/MedicationIconPicker";
 
-const MedicationsView = () => {
+export default function MedicationView() {
   const [searchQuery, setSearchQuery] = useState("");
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
@@ -34,7 +40,6 @@ const MedicationsView = () => {
   const [medications, setMedications] = useState<Medication[]>([]);
   const [loading, setLoading] = useState(true);
   const [iconDialogOpen, setIconDialogOpen] = useState(false);
-  const [anyMedications, setAnyMedications] = useState(false);
   const router = useRouter();
 
   useKeyPress("Escape", () => {
@@ -268,6 +273,4 @@ const MedicationsView = () => {
       )}
     </>
   );
-};
-
-export default MedicationsView;
+}

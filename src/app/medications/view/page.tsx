@@ -1,7 +1,13 @@
+/**
+ * File:     medications/view/page.tsx
+ * Purpose:  View a single medication.
+ * Authors:  Ojos Project & Iris contributors
+ * License:  GNU General Public License v3.0
+ */
 "use client";
 import { useState, useEffect, useRef, Suspense } from "react";
 import styles from "./page.module.css";
-import { Medication, MedicationLog } from "../types";
+import { Medication, MedicationLog } from "@/types/medications";
 import { invoke } from "@tauri-apps/api/core";
 import moment from "moment";
 import { useSearchParams } from "next/navigation";
@@ -67,7 +73,7 @@ const DetailBox = ({
   );
 };
 
-const MedicineView = () => {
+function MedicineView() {
   const [visibleLogs, setVisibleLogs] = useState<MedicationLog[]>([]);
   const [logsToShow, setLogsToShow] = useState(5);
   const [medication, setMedication] = useState<Medication>({
@@ -214,7 +220,7 @@ const MedicineView = () => {
       </div>
     </>
   );
-};
+}
 
 // Required to prevent
 // https://github.com/ojosproject/iris/issues/36

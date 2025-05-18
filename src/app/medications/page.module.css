@@ -1,56 +1,15 @@
-.flexCenter {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.flexColumn {
-  flex-direction: column;
-}
-
-.flexWrap {
-  flex-wrap: wrap;
-}
-
-.gap {
-  gap: 20px;
-}
-
-.boxShadow {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.boxShadowSmall {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.borderRadius {
-  border-radius: 5px;
-}
-
-.button {
-  padding: 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  color: white;
-  background-color: #0000ff;
-  transition: background-color 0.3s ease;
-}
-
-.button:hover {
-  background-color: #414141;
-}
-
+/* ==========================================================================
+   File:     medications/page.module.css
+   Purpose:  Styles the Medications page.
+   Authors:  Ojos Project & Iris contributors
+   License:  GNU General Public License v3.0
+   ========================================================================== */
 /* Container Styles */
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow: hidden;
-}
-
-.inputContainer {
-  padding-bottom: 200px;
 }
 
 .logButtons {
@@ -60,22 +19,6 @@
   padding: 10px;
 }
 
-.logItem {
-  flex: 1;
-  padding: 10px 20px;
-  border-radius: 5px;
-  background-color: #0000ff;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.logItem:hover {
-  background-color: #414141;
-}
-
 .logMeds {
   display: flex;
   flex-direction: column;
@@ -83,20 +26,12 @@
   width: calc(33.333% - 20px);
   min-width: 250px;
   margin: 15px;
-  border: 4px solid #094595;
+  border: 4px solid var(--dark-blue);
   border-radius: 6px;
-  background-color: #ffffff;
+  background-color: var(--white);
   align-items: center;
   min-height: 200px;
   padding: 10px;
-}
-
-.circle {
-  width: 78px;
-  height: 78px;
-  background-color: #acacac;
-  border-radius: 50%;
-  margin: 10px auto;
 }
 
 .logMeds .logName,
@@ -105,24 +40,6 @@
 .logMeds .logLastTake {
   margin: 5px 0;
   text-align: center;
-}
-
-.medicationLog {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.medicationCard {
-  width: 48%;
-  margin: 1%;
-  padding: 15px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-}
-
-.medicationCard div {
-  margin-bottom: 5px;
 }
 
 .medsWrap {
@@ -138,11 +55,6 @@
   background-color: #f9f9f9;
 }
 
-.buttonGroup {
-  display: flex;
-  justify-content: center;
-}
-
 .searchBarContainer {
   display: flex;
   width: 100%;
@@ -154,8 +66,8 @@
 
 .searchInput {
   flex: 2;
-  background-color: #f9f9f9;
-  color: #000000;
+  background-color: var(--white);
+  color: var(--black);
   padding: 15px;
   width: 100%;
   height: 20px;

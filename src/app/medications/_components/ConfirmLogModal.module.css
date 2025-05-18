@@ -1,3 +1,9 @@
+/* ==========================================================================
+   File:     ConfirmLogModal.module.css
+   Purpose:  Styles a popup for logging medications.
+   Authors:  Ojos Project & Iris contributors
+   License:  GNU General Public License v3.0
+   ========================================================================== */
 .modalOverlay {
   position: fixed;
   top: 0;
@@ -12,9 +18,9 @@
 
 .modalContent {
   padding: 20px;
-  color: #000000;
-  border: 2px solid #000000;
-  background-color: #fff;
+  color: var(--black);
+  border: 2px solid var(--black);
+  background-color: var(--white);
   border-radius: 10px;
   width: 400px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -24,26 +30,6 @@
   align-items: center;
   animation: scale 0.25s ease-out;
   animation-fill-mode: forwards;
-}
-
-.medicationDetails {
-  margin-bottom: 20px;
-  width: 100%;
-}
-
-.notificationSection {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-.phoneNumberInput {
-  margin-left: 10px;
-  padding: 5px;
-  width: 60%;
 }
 
 .buttonGroup {
@@ -65,7 +51,7 @@
 
 .buttonGroup button:first-child {
   background-color: #4caf50;
-  color: white;
+  color: var(--white);
 }
 
 .buttonGroup button:first-child:hover {
@@ -75,7 +61,7 @@
 
 .buttonGroup button:last-child {
   background-color: #f44336;
-  color: white;
+  color: var(--white);
 }
 
 .buttonGroup button:last-child:hover {
@@ -102,7 +88,7 @@
   resize: none;
   overflow-y: auto;
   border-radius: 5px;
-  border: 1px solid #094595;
+  border: 1px solid var(--dark-blue);
   font: 14px;
   font-family: Arial, sans-serif;
 }
