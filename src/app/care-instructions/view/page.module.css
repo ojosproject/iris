@@ -46,20 +46,10 @@
   overflow-wrap: anywhere;
 }
 
-.backButton {
-  position: fixed;
-  top: 2%;
-  left: 2%;
-}
-
 .buttonSaveInstructions {
   position: fixed;
   bottom: 10%;
   right: 2%;
-}
-
-.careTitle {
-  align-self: center;
 }
 
 .inputCareTitle {

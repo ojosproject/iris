@@ -15,6 +15,7 @@ import { CareInstruction } from "@/types/care-instructions";
 import { timestampToString } from "@/utils/parsing";
 import Dialog from "@/components/Dialog";
 import useKeyPress from "@/components/useKeyPress";
+import Layout from "@/components/Layout";
 
 function EditInstructions() {
   // Params get passed from AllCareInstructions.tsx
@@ -124,138 +125,137 @@ function EditInstructions() {
   }
 
   return (
-    <div className={styles.careInstructionsContainer}>
-      <div className={styles.backButton}>
-        <BackButton onClick={() => router.push("/care-instructions")} />
-      </div>
-
-      <h1 className={styles.careTitle}>Care Instructions</h1>
-
-      <div className={styles.inputContainer}>
-        {onEditMode ? (
-          <>
-            <input
-              value={title}
-              onChange={(e) => {
-                setTitle(e.target.value);
-              }}
-              placeholder="Short Title"
-              className={styles.inputCareTitle}
-              type="text"
-              spellCheck={true}
-            />
-            <textarea
-              value={content}
-              placeholder="Enter a detailed description of how to care for your loved one."
-              spellCheck={true}
-              onChange={(e) => {
-                setContent(e.target.value);
-              }}
-              className={styles.inputCareContent}
-            />
-          </>
-        ) : (
-          <>
-            {!(id === previousTopic && id === nextTopic) ? (
-              <div className={styles.topicsButton}>
+    <Layout
+      title="Care Instructions"
+      handleBackClick={() => router.push("/care-instructions")}
+    >
+      <div className={styles.careInstructionsContainer}>
+        <div className={styles.inputContainer}>
+          {onEditMode ? (
+            <>
+              <input
+                value={title}
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                }}
+                placeholder="Short Title"
+                className={styles.inputCareTitle}
+                type="text"
+                spellCheck={true}
+              />
+              <textarea
+                value={content}
+                placeholder="Enter a detailed description of how to care for your loved one."
+                spellCheck={true}
+                onChange={(e) => {
+                  setContent(e.target.value);
+                }}
+                className={styles.inputCareContent}
+              />
+            </>
+          ) : (
+            <>
+              {!(id === previousTopic && id === nextTopic) ? (
+                <div className={styles.topicsButton}>
+                  <Button
+                    type="SECONDARY"
+                    label="Previous Topic"
+                    onClick={() => {
+                      fetchInformation(previousTopic);
+                    }}
+                  />
+                  <Button
+                    type="SECONDARY"
+                    label="Next Topic"
+                    onClick={() => {
+                      fetchInformation(nextTopic);
+                    }}
+                  />
+                </div>
+              ) : null}
+              <h2>{title}</h2>
+              {content.split("\n").map((line) => {
+                return <p key={line}>{line}</p>;
+              })}
+            </>
+          )}
+          {modalOpen && (
+            <Dialog
+              title="Are you sure?"
+              content={"Deleted care instructions cannot be recovered."}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignContent: "center",
+                }}
+              >
                 <Button
-                  type="SECONDARY"
-                  label="Previous Topic"
+                  type="DANGER-PRIMARY"
+                  label="Delete"
                   onClick={() => {
-                    fetchInformation(previousTopic);
+                    isModalOpen(false);
+                    invoke("delete_care_instructions", { id: id });
+                    router.back();
                   }}
                 />
                 <Button
                   type="SECONDARY"
-                  label="Next Topic"
+                  label="Never mind"
                   onClick={() => {
-                    fetchInformation(nextTopic);
+                    isModalOpen(false);
                   }}
                 />
               </div>
-            ) : null}
-            <h2>{title}</h2>
-            {content.split("\n").map((line) => {
-              return <p key={line}>{line}</p>;
-            })}
-          </>
-        )}
-        {modalOpen && (
-          <Dialog
-            title="Are you sure?"
-            content={"Deleted care instructions cannot be recovered."}
-          >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-                alignContent: "center",
-              }}
-            >
-              <Button
-                type="DANGER-PRIMARY"
-                label="Delete"
-                onClick={() => {
-                  isModalOpen(false);
-                  invoke("delete_care_instructions", { id: id });
-                  router.back();
-                }}
-              />
-              <Button
-                type="SECONDARY"
-                label="Never mind"
-                onClick={() => {
-                  isModalOpen(false);
-                }}
-              />
-            </div>
-          </Dialog>
-        )}
+            </Dialog>
+          )}
 
-        {lastUpdated === 0 ? null : (
-          <div className={styles.lastUpdated}>
-            <div className={styles.lastUpdatedInner}>
-              <p>
-                Last updated on {timestampToString(lastUpdated, "MMDDYYYY")}
-              </p>
-              <p>at {timestampToString(lastUpdated, "HH:MM XX")}</p>
+          {lastUpdated === 0 ? null : (
+            <div className={styles.lastUpdated}>
+              <div className={styles.lastUpdatedInner}>
+                <p>
+                  Last updated on {timestampToString(lastUpdated, "MMDDYYYY")}
+                </p>
+                <p>at {timestampToString(lastUpdated, "HH:MM XX")}</p>
+              </div>
             </div>
-          </div>
-        )}
-      </div>
-
-      <div className={styles.buttonSaveInstructions}>
-        <div className={styles.buttonColumn}>
-          {onEditMode ? (
-            <Button
-              type="PRIMARY"
-              label="Save Instructions"
-              onClick={handleOnSaveClick}
-              disabled={title === "" || content === ""}
-            />
-          ) : (
-            <>
-              <Button
-                type="PRIMARY"
-                label="Edit Instructions"
-                onClick={() => setOnEditMode(!onEditMode)}
-              />
-              <Button
-                type="DANGER-SECONDARY"
-                label="Delete Instructions"
-                onClick={() => isModalOpen(true)}
-              />
-              <Button
-                type="SECONDARY"
-                label="Resources"
-                onClick={() => router.push("/resources")}
-              />
-            </>
           )}
         </div>
+
+        <div className={styles.buttonSaveInstructions}>
+          <div className={styles.buttonColumn}>
+            {onEditMode ? (
+              <Button
+                type="PRIMARY"
+                label="Save Instructions"
+                onClick={handleOnSaveClick}
+                disabled={title === "" || content === ""}
+              />
+            ) : (
+              <>
+                <Button
+                  type="PRIMARY"
+                  label="Edit Instructions"
+                  onClick={() => setOnEditMode(!onEditMode)}
+                />
+                <Button
+                  type="DANGER-SECONDARY"
+                  label="Delete Instructions"
+                  onClick={() => isModalOpen(true)}
+                />
+                <Button
+                  type="SECONDARY"
+                  label="Resources"
+                  onClick={() => router.push("/resources")}
+                />
+              </>
+            )}
+          </div>
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 }
 

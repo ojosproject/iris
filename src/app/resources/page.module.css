@@ -4,12 +4,6 @@
    Authors:  Ojos Project & Iris contributors
    License:  GNU General Public License v3.0
    ========================================================================== */
-.header {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
 .sticky {
   position: sticky;
   top: 15px;

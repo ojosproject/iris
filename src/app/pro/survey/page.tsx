@@ -9,12 +9,12 @@ import React, { useEffect, useState } from "react";
 import Questionnaire from "./_Questionnaire";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
-import BackButton from "@/components/BackButton";
 import { invoke } from "@tauri-apps/api/core";
 import Button from "@/components/Button";
 import Dialog from "@/components/Dialog";
 import useKeyPress from "@/components/useKeyPress";
 import { ProQuestion } from "@/types/pro";
+import Layout from "@/components/Layout";
 
 export default function Survey() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -49,10 +49,8 @@ export default function Survey() {
   };
 
   return (
-    <div className={styles.Survey}>
+    <Layout title="Today's Survey">
       <div>
-        <BackButton />
-        <h1 style={{ textAlign: "center" }}>Today's Survey</h1>
         <div className={styles.container}>
           <Questionnaire
             size={40}
@@ -74,6 +72,6 @@ export default function Survey() {
           />
         </Dialog>
       )}
-    </div>
+    </Layout>
   );
 }

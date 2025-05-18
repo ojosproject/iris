@@ -9,7 +9,6 @@ import React, { useState, useEffect } from "react";
 import styles from "./page.module.css";
 import { Medication } from "@/types/medications";
 import { invoke } from "@tauri-apps/api/core";
-import BackButton from "@/components/BackButton";
 import Button from "@/components/Button";
 import ConfirmLogModal from "./_components/ConfirmLogModal";
 import { timestampToString } from "@/utils/parsing";
@@ -19,6 +18,7 @@ import MedicationForm from "./_components/MedicationForm";
 import Image from "next/image";
 import Dialog from "@/components/Dialog";
 import MedicationIconPicker from "./_components/MedicationIconPicker";
+import Layout from "@/components/Layout";
 
 export default function MedicationView() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -143,8 +143,16 @@ export default function MedicationView() {
   };
 
   return (
-    <>
-      <BackButton />
+    <Layout
+      title={isNewMedFormOpen ? "Add a Medication" : "Your Medications"}
+      handleBackClick={
+        isNewMedFormOpen
+          ? () => {
+              setIsNewMedFormOpen(false);
+            }
+          : undefined
+      }
+    >
       {isNewMedFormOpen ? (
         <div className={styles.medicationFormPage}>
           <MedicationForm
@@ -155,7 +163,6 @@ export default function MedicationView() {
         </div>
       ) : (
         <div className={styles.container}>
-          <h1>Your Medications</h1>
           <div className={styles.searchBarContainer}>
             <input
               type="text"
@@ -271,6 +278,6 @@ export default function MedicationView() {
           />
         </Dialog>
       )}
-    </>
+    </Layout>
   );
 }

@@ -5,7 +5,6 @@
  * License:  GNU General Public License v3.0
  */
 "use client";
-import BackButton from "@/components/BackButton";
 import { useRouter, useSearchParams } from "next/navigation";
 import styles from "./page.module.css";
 import Button from "@/components/Button";
@@ -18,6 +17,7 @@ import {
   timestampToString,
 } from "@/utils/parsing";
 import Dialog from "@/components/Dialog";
+import Layout from "@/components/Layout";
 
 function EditContacts() {
   // If `id` is empty, you're creating a contact
@@ -97,104 +97,106 @@ function EditContacts() {
     });
   }
   return (
-    <div className={styles.contactsContainer}>
-      <div className={styles.backButton}>
-        <BackButton
-          disabled={justSaved}
-          onClick={() => {
-            if (!justSaved) {
-              router.push("/contacts");
-            }
-          }}
-        />
-      </div>
-
-      {saveMessage && (
-        <Dialog title="Contact saved successfully!" content="">
-          <></>
-        </Dialog>
-      )}
-
-      <h1 className={styles.contactName}>Add/Edit Contact</h1>
-
-      <div className={styles.inputContainer}>
-        {onEditMode ? (
-          <>
-            <div className={styles.inputGroup}>
-              <label>
-                Name<span className={styles.required}>*</span>
-              </label>
-              <input
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Name"
-                className={styles.inputFields}
-                type="text"
-              />
-            </div>
-            <div className={styles.inputGroup}>
-              <label>Phone Number</label>
-              <input
-                value={parsePhoneNumber(phoneNumber)}
-                onChange={(e) => {
-                  let cleanedNumber = sanitizePhoneNumber(e.target.value);
-                  setPhoneNumber(cleanedNumber === "" ? "" : cleanedNumber);
-                }}
-                placeholder="(123)-456-7890 (optional)"
-                className={styles.inputFields}
-                type="tel"
-              />
-            </div>
-            <div className={styles.inputGroup}>
-              <label>Email</label>
-              <input
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="email@email.com (optional)"
-                className={styles.inputFields}
-                type="email"
-              />
-            </div>
-            <div className={styles.inputGroup}>
-              <label>Company</label>
-              <input
-                value={company}
-                onChange={(e) => setCompany(e.target.value)}
-                placeholder="Individual's employer (optional)"
-                className={styles.inputFields}
-                type="text"
-              />
-            </div>
-
-            <div className={styles.buttonRow}>
-              <Button
-                type="SECONDARY"
-                label="Cancel"
-                onClick={() => router.back()}
-                disabled={justSaved}
-              />
-              <Button
-                type="PRIMARY"
-                label="Save"
-                onClick={handleOnSaveClick}
-                disabled={name === "" || justSaved}
-              />
-            </div>
-          </>
-        ) : null}
-
-        {lastUpdated === 0 ? null : (
-          <div className={styles.lastUpdated}>
-            <div className={styles.last_updatedInner}>
-              <p>
-                Last updated on {timestampToString(lastUpdated, "MMDDYYYY")}
-              </p>
-              <p>at {timestampToString(lastUpdated, "HH:MM XX")}</p>
-            </div>
-          </div>
+    <Layout
+      title={
+        justSaved
+          ? ""
+          : id
+            ? `Edit ${name.split(" ")[0] || "a Contact"}`
+            : "Create a Contact"
+      }
+      disabledBackButton={justSaved}
+      handleBackClick={() => {
+        if (!justSaved) {
+          router.push("/contacts");
+        }
+      }}
+    >
+      <div className={styles.contactsContainer}>
+        {saveMessage && (
+          <Dialog title="Contact saved successfully!" content="">
+            <></>
+          </Dialog>
         )}
+        <div className={styles.inputContainer}>
+          {onEditMode ? (
+            <>
+              <div className={styles.inputGroup}>
+                <label>
+                  Name<span className={styles.required}>*</span>
+                </label>
+                <input
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Name"
+                  className={styles.inputFields}
+                  type="text"
+                />
+              </div>
+              <div className={styles.inputGroup}>
+                <label>Phone Number</label>
+                <input
+                  value={parsePhoneNumber(phoneNumber)}
+                  onChange={(e) => {
+                    let cleanedNumber = sanitizePhoneNumber(e.target.value);
+                    setPhoneNumber(cleanedNumber === "" ? "" : cleanedNumber);
+                  }}
+                  placeholder="(123)-456-7890 (optional)"
+                  className={styles.inputFields}
+                  type="tel"
+                />
+              </div>
+              <div className={styles.inputGroup}>
+                <label>Email</label>
+                <input
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="email@email.com (optional)"
+                  className={styles.inputFields}
+                  type="email"
+                />
+              </div>
+              <div className={styles.inputGroup}>
+                <label>Company</label>
+                <input
+                  value={company}
+                  onChange={(e) => setCompany(e.target.value)}
+                  placeholder="Individual's employer (optional)"
+                  className={styles.inputFields}
+                  type="text"
+                />
+              </div>
+
+              <div className={styles.buttonRow}>
+                <Button
+                  type="SECONDARY"
+                  label="Cancel"
+                  onClick={() => router.back()}
+                  disabled={justSaved}
+                />
+                <Button
+                  type="PRIMARY"
+                  label="Save"
+                  onClick={handleOnSaveClick}
+                  disabled={name === "" || justSaved}
+                />
+              </div>
+            </>
+          ) : null}
+
+          {lastUpdated === 0 || justSaved ? null : (
+            <div className={styles.lastUpdated}>
+              <div className={styles.last_updatedInner}>
+                <p>
+                  Last updated on {timestampToString(lastUpdated, "MMDDYYYY")}
+                </p>
+                <p>at {timestampToString(lastUpdated, "HH:MM XX")}</p>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 }
 

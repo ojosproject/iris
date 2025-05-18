@@ -4,11 +4,6 @@
    Authors:  Ojos Project & Iris contributors
    License:  GNU General Public License v3.0
    ========================================================================== */
-.h1 {
-  text-align: center;
-  size: 10px;
-}
-
 .container2 {
   display: flex;
   justify-content: center;

@@ -37,7 +37,7 @@ export default function Hub() {
 
   return (
     onboardingCompleted && (
-      <>
+      <main>
         <HubHeader></HubHeader>
         <section className={styles.sectionTools}>
           <h2> Your Tools </h2>
@@ -52,7 +52,7 @@ export default function Hub() {
             ))}
           </ul>
         </section>
-      </>
+      </main>
     )
   );
 }

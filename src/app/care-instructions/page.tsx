@@ -8,12 +8,12 @@
 import { CareInstruction } from "@/types/care-instructions";
 import { invoke } from "@tauri-apps/api/core";
 import { useEffect, useState } from "react";
-import BackButton from "@/components/BackButton";
 import styles from "./page.module.css";
 import Button from "@/components/Button";
 import CareInstructionsButton from "./_components/CareInstructionButton";
 import useKeyPress from "@/components/useKeyPress";
 import { useRouter } from "next/navigation";
+import Layout from "@/components/Layout";
 
 export default function CareInstructions() {
   const [instructions, setInstructions] = useState<CareInstruction[]>([]);
@@ -30,42 +30,40 @@ export default function CareInstructions() {
   }, []);
 
   return (
-    <div className={styles.allInstructionsLayout}>
-      <div className={styles.backButton}>
-        <BackButton
-          onClick={() => {
-            router.push("/");
-          }}
-        />
-      </div>
+    <Layout
+      title="Care Instructions"
+      handleBackClick={() => {
+        router.push("/");
+      }}
+    >
+      <div className={styles.allInstructionsLayout}>
+        {instructions.length === 0 ? (
+          <p>There are no care instructions recorded.</p>
+        ) : (
+          instructions.map((instruction) => {
+            return (
+              <CareInstructionsButton
+                key={instruction.id}
+                instruction={instruction}
+              />
+            );
+          })
+        )}
 
-      <h1>Care Instructions</h1>
-      {instructions.length === 0 ? (
-        <p>There are no care instructions recorded.</p>
-      ) : (
-        instructions.map((instruction) => {
-          return (
-            <CareInstructionsButton
-              key={instruction.id}
-              instruction={instruction}
+        <div className={styles.backMenuContainer}>
+          <div className={styles.buttonMenu}>
+            <Button
+              type="PRIMARY"
+              label="Add Instructions"
+              link={{
+                pathname: "./care-instructions/view/",
+              }}
             />
-          );
-        })
-      )}
 
-      <div className={styles.backMenuContainer}>
-        <div className={styles.buttonMenu}>
-          <Button
-            type="PRIMARY"
-            label="Add Instructions"
-            link={{
-              pathname: "./care-instructions/view/",
-            }}
-          />
-
-          <Button type="SECONDARY" label="Resources" link="/resources" />
+            <Button type="SECONDARY" label="Resources" link="/resources" />
+          </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }

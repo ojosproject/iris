@@ -1,0 +1,16 @@
+/* ==========================================================================
+   File:     Layout.module.css
+   Purpose:  Styles the Layout component.
+   Authors:  Ojos Project & Iris contributors
+   License:  GNU General Public License v3.0
+   ========================================================================== */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header div {
+  width: 100px;
+  min-width: 100px;
+}

@@ -18,9 +18,7 @@ type RootLayoutProps = {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" className={noto.className}>
-      <body>
-        <main>{children}</main>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

@@ -11,12 +11,6 @@
   width: 100%;
 }
 
-.backButton {
-  position: fixed;
-  top: 2%;
-  left: 2%;
-}
-
 .buttonMenuContainer {
   position: fixed;
   bottom: 5%;

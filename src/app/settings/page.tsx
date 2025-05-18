@@ -6,7 +6,6 @@
  */
 "use client";
 import { ReactElement, useEffect, useState } from "react";
-import BackButton from "@/components/BackButton";
 import styles from "./page.module.css";
 import { Config, DataPackReceipt } from "@/types/settings";
 import Button from "@/components/Button";
@@ -15,6 +14,7 @@ import { invoke } from "@tauri-apps/api/core";
 import useKeyPress from "@/components/useKeyPress";
 import { useRouter } from "next/navigation";
 import ConfirmUpdateDialog from "./_components/ConfirmUpdateDialog";
+import Layout from "@/components/Layout";
 
 type RowProps = {
   children: ReactElement;
@@ -161,7 +161,7 @@ export default function Settings() {
   }
 
   return (
-    <div>
+    <Layout title="Settings">
       {displayUpdater && (
         <ConfirmUpdateDialog
           onRequest={() => {
@@ -171,9 +171,7 @@ export default function Settings() {
           closeModel={() => setDisplayUpdater(false)}
         />
       )}
-      <BackButton />
       <div className={styles.containerSettings}>
-        <h1>Settings</h1>
         <div className={styles.columnOfContainers}>
           <ImportSection />
           <UpdaterSection />
@@ -224,6 +222,6 @@ export default function Settings() {
           />
         </Dialog>
       )}
-    </div>
+    </Layout>
   );
 }

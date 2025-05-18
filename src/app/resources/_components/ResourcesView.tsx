@@ -8,7 +8,6 @@ import { Resource } from "@/types/resources";
 import CategoryMenu from "./CategoryMenu";
 import styles from "../page.module.css";
 import ResourcesList from "./ResourcesList";
-import BackButton from "@/components/BackButton";
 import { useEffect, useState } from "react";
 
 type ResourcesViewProps = {
@@ -35,11 +34,6 @@ export default function ResourcesView({
 
   return (
     <>
-      <BackButton />
-      <header className={styles.header}>
-        <h1>Resources</h1>
-      </header>
-
       <div className={styles.menuAndResourcesContainer}>
         <div className={styles.sticky}>
           <CategoryMenu labels={categories} setResources={setResources} />

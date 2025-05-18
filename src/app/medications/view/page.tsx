@@ -12,18 +12,9 @@ import { invoke } from "@tauri-apps/api/core";
 import moment from "moment";
 import { useSearchParams } from "next/navigation";
 import { parsePhoneNumber, timestampToString } from "@/utils/parsing";
-import BackButton from "@/components/BackButton";
 import useKeyPress from "@/components/useKeyPress";
 import { useRouter } from "next/navigation";
-
-const Header = ({ name, brand }: { name: string; brand?: string }) => {
-  return (
-    <div className={styles.header}>
-      <h1>{name}</h1>
-      {brand ? <p>Brand: {brand}</p> : null}
-    </div>
-  );
-};
+import Layout from "@/components/Layout";
 
 const LeftPanel = ({
   prescribedBy,
@@ -139,13 +130,11 @@ function MedicineView() {
   }
 
   return (
-    <>
-      <BackButton />
+    <Layout title={medication.name}>
       <div className={styles.medicineContainer}>
-        <Header
-          name={medication.name}
-          brand={medication.generic_name ? medication.generic_name : ""}
-        />
+        {medication.generic_name ? (
+          <p>Brand: {medication.generic_name}</p>
+        ) : null}
         <div className={styles.content}>
           <LeftPanel
             prescribedBy={prescriptionNurse.full_name}
@@ -218,7 +207,7 @@ function MedicineView() {
           </div>
         </div>
       </div>
-    </>
+    </Layout>
   );
 }
 

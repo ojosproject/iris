@@ -46,12 +46,6 @@
   overflow-wrap: break-word;
 }
 
-.backButton {
-  position: fixed;
-  top: 1.5rem;
-  left: 1.5rem;
-}
-
 .saveMessage {
   position: fixed;
   top: 20px;
@@ -75,12 +69,6 @@
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-.contactName {
-  align-self: center;
-  font-size: 1.5rem;
-  font-weight: bold;
 }
 
 .inputFields {

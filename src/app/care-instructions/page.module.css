@@ -10,12 +10,6 @@
   align-items: center;
 }
 
-.backButton {
-  position: fixed;
-  top: 2%;
-  left: 2%;
-}
-
 .backMenuContainer {
   position: fixed;
   bottom: 5%;

@@ -113,7 +113,6 @@ export default function MedicationForm({
     isOpen && (
       <div className={styles.pageContainer}>
         <div className={styles.pageContent}>
-          <h2>Add New Medication</h2>
           <p className={styles.textStructure}>
             Medication Name <span style={{ color: "red" }}>*</span>
           </p>

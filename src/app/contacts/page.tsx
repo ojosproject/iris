@@ -8,12 +8,12 @@
 import { Contact } from "@/types/contacts";
 import { invoke } from "@tauri-apps/api/core";
 import { useEffect, useState } from "react";
-import BackButton from "@/components/BackButton";
 import styles from "./page.module.css";
 import Button from "@/components/Button";
 import Dialog from "@/components/Dialog";
 import { parsePhoneNumber } from "@/utils/parsing";
 import { useRouter } from "next/navigation";
+import Layout from "@/components/Layout";
 
 export default function Contacts() {
   const [contacts, setContacts] = useState<Contact[]>([]);
@@ -70,160 +70,161 @@ export default function Contacts() {
   }
 
   return (
-    <div className={styles.allContactsLayout}>
-      <div className={styles.backButton}>
-        <BackButton onClick={() => router.push("/")} />
-      </div>
-
-      <h1>Contacts</h1>
-      {contacts.length === 0 ? (
-        <p>No Existing Contacts</p>
-      ) : (
-        <div className={styles.contactsContainer}>
-          <div className={styles.contactsList}>
-            {Object.keys(groupedContacts)
-              .sort()
-              .map((letter) => (
-                <div key={letter}>
-                  <h2>{letter}</h2>
-                  {groupedContacts[letter].map((contact) => (
-                    <div key={contact.id} className={styles.contactItem}>
-                      <input
-                        type="checkbox"
-                        checked={selectedContactIds.has(contact.id as any)}
-                        onChange={() => toggleSelectContact(contact.id as any)}
-                      />
-                      <p
-                        className={styles.contactName}
-                        onClick={() => {
-                          setSelectedContact(contact);
-                        }}
-                      >
-                        <strong>{contact.name}</strong>
-                      </p>
-                    </div>
-                  ))}
+    <Layout title="Contacts" handleBackClick={() => router.push("/")}>
+      <div className={styles.allContactsLayout}>
+        {contacts.length === 0 ? (
+          <p>No Existing Contacts</p>
+        ) : (
+          <div className={styles.contactsContainer}>
+            <div className={styles.contactsList}>
+              {Object.keys(groupedContacts)
+                .sort()
+                .map((letter) => (
+                  <div key={letter}>
+                    <h2>{letter}</h2>
+                    {groupedContacts[letter].map((contact) => (
+                      <div key={contact.id} className={styles.contactItem}>
+                        <input
+                          type="checkbox"
+                          checked={selectedContactIds.has(contact.id as any)}
+                          onChange={() =>
+                            toggleSelectContact(contact.id as any)
+                          }
+                        />
+                        <p
+                          className={styles.contactName}
+                          onClick={() => {
+                            setSelectedContact(contact);
+                          }}
+                        >
+                          <strong>{contact.name}</strong>
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+            </div>
+            <div className={styles.contactDetails}>
+              {selectedContact ? (
+                <>
+                  <h2>{selectedContact.name}</h2>
+                  <p>
+                    <strong>Phone Number:</strong>{" "}
+                    {selectedContact.phone_number
+                      ? parsePhoneNumber(selectedContact.phone_number)
+                      : "N/A"}
+                  </p>
+                  <p>
+                    <strong>Email:</strong> {selectedContact.email || "N/A"}
+                  </p>
+                  <p>
+                    <strong>Company:</strong> {selectedContact.company || "N/A"}
+                  </p>
+                  <div className={styles.buttonGroup}>
+                    <Button
+                      type="DANGER-SECONDARY"
+                      label="Delete"
+                      onClick={() => {
+                        setModalOpen(true);
+                      }}
+                      disabled={selectedContact.contact_type === "PATIENT"}
+                    />
+                    <Button
+                      type="PRIMARY"
+                      label="Edit"
+                      link={{
+                        pathname: "./contacts/view/",
+                        query: { id: selectedContact.id },
+                      }}
+                    />
+                  </div>
+                </>
+              ) : (
+                <div className={styles.placeholder}>
+                  <p> Select a contact to view its details.</p>
                 </div>
-              ))}
+              )}
+            </div>
+            <div></div>
           </div>
-          <div className={styles.contactDetails}>
-            {selectedContact ? (
-              <>
-                <h2>{selectedContact.name}</h2>
-                <p>
-                  <strong>Phone Number:</strong>{" "}
-                  {selectedContact.phone_number
-                    ? parsePhoneNumber(selectedContact.phone_number)
-                    : "N/A"}
-                </p>
-                <p>
-                  <strong>Email:</strong> {selectedContact.email || "N/A"}
-                </p>
-                <p>
-                  <strong>Company:</strong> {selectedContact.company || "N/A"}
-                </p>
-                <div className={styles.buttonGroup}>
-                  <Button
-                    type="DANGER-SECONDARY"
-                    label="Delete"
-                    onClick={() => {
-                      setModalOpen(true);
-                    }}
-                    disabled={selectedContact.contact_type === "PATIENT"}
-                  />
-                  <Button
-                    type="PRIMARY"
-                    label="Edit"
-                    link={{
-                      pathname: "./contacts/view/",
-                      query: { id: selectedContact.id },
-                    }}
-                  />
-                </div>
-              </>
-            ) : (
-              <div className={styles.placeholder}>
-                <p> Select a contact to view its details.</p>
-              </div>
-            )}
-          </div>
-          <div></div>
-        </div>
-      )}
-      {selectedContactIds.size > 0 && (
-        <div className={styles.deleteSelectedContainer}>
-          <Button
-            type="DANGER-PRIMARY"
-            label={
-              selectedContactIds.has(patientId as any)
-                ? "Cannot Delete Patient"
-                : `Delete Selected (${selectedContactIds.size})`
-            }
-            onClick={() => setModalOpen(true)}
-            disabled={selectedContactIds.has(patientId as any)}
-          />
-        </div>
-      )}
-
-      {modalOpen && (
-        <Dialog
-          title="Are you sure?"
-          content={"Deleted contacts cannot be recovered."}
-        >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-              alignContent: "center",
-            }}
-          >
+        )}
+        {selectedContactIds.size > 0 && (
+          <div className={styles.deleteSelectedContainer}>
             <Button
               type="DANGER-PRIMARY"
-              label="Delete"
-              onClick={async () => {
-                isModalOpen(false);
-                const idsToDelete = Array.from(selectedContactIds);
-                if (idsToDelete.length > 0) {
-                  for (const id of idsToDelete) {
-                    await invoke("delete_contact", { id });
+              label={
+                selectedContactIds.has(patientId as any)
+                  ? "Cannot Delete Patient"
+                  : `Delete Selected (${selectedContactIds.size})`
+              }
+              onClick={() => setModalOpen(true)}
+              disabled={selectedContactIds.has(patientId as any)}
+            />
+          </div>
+        )}
+
+        {modalOpen && (
+          <Dialog
+            title="Are you sure?"
+            content={"Deleted contacts cannot be recovered."}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                alignContent: "center",
+              }}
+            >
+              <Button
+                type="DANGER-PRIMARY"
+                label="Delete"
+                onClick={async () => {
+                  isModalOpen(false);
+                  const idsToDelete = Array.from(selectedContactIds);
+                  if (idsToDelete.length > 0) {
+                    for (const id of idsToDelete) {
+                      await invoke("delete_contact", { id });
+                      setContacts((prev) =>
+                        prev.filter(
+                          (c) => !selectedContactIds.has(c.id as any),
+                        ),
+                      );
+                    }
+                  } else if (selectedContact && !idsToDelete.length) {
+                    await invoke("delete_contact", { id: selectedContact.id });
                     setContacts((prev) =>
-                      prev.filter((c) => !selectedContactIds.has(c.id as any)),
+                      prev.filter((c) => c.id !== selectedContact.id),
                     );
                   }
-                } else if (selectedContact && !idsToDelete.length) {
-                  await invoke("delete_contact", { id: selectedContact.id });
-                  setContacts((prev) =>
-                    prev.filter((c) => c.id !== selectedContact.id),
-                  );
-                }
 
-                setSelectedContactIds(new Set());
-                setSelectedContact(null);
-              }}
-            />
+                  setSelectedContactIds(new Set());
+                  setSelectedContact(null);
+                }}
+              />
+              <Button
+                type="SECONDARY"
+                label="Never mind"
+                onClick={() => {
+                  isModalOpen(false);
+                }}
+              />
+            </div>
+          </Dialog>
+        )}
+
+        <div className={styles.buttonMenuContainer}>
+          <div className={styles.buttonMenu}>
             <Button
-              type="SECONDARY"
-              label="Never mind"
-              onClick={() => {
-                isModalOpen(false);
+              type="PRIMARY"
+              label="Add Contacts"
+              link={{
+                pathname: "./contacts/view/",
               }}
             />
           </div>
-        </Dialog>
-      )}
-
-      <div className={styles.buttonMenuContainer}>
-        <div className={styles.buttonMenu}>
-          <Button
-            type="PRIMARY"
-            label="Add Contacts"
-            link={{
-              pathname: "./contacts/view/",
-            }}
-          />
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }

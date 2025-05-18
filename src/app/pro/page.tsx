@@ -13,9 +13,9 @@ import { invoke } from "@tauri-apps/api/core";
 import { sortChartData } from "./_helper";
 import Button from "@/components/Button";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import BackButton from "@/components/BackButton";
 import { PatientReportedOutcome } from "@/types/pro";
 import useKeyPress from "@/components/useKeyPress";
+import Layout from "@/components/Layout";
 
 interface ChartData {
   [question: string]: [response: number, recorded_date: Date][];
@@ -224,10 +224,7 @@ export default function ProChart() {
   };
 
   return (
-    <>
-      <BackButton />
-      <h1 className={styles.h1}>Patient Reported Outcomes (PROs)</h1>
-
+    <Layout title="Patient Reported Outcomes">
       <div className={styles.container2}>
         {/* Chart Section */}
         <div className={styles.chartContainer}>
@@ -300,6 +297,6 @@ export default function ProChart() {
           </div>
         </div>
       </div>
-    </>
+    </Layout>
   );
 }

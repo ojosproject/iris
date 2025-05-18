@@ -12,6 +12,7 @@ import ResourcesView from "./_components/ResourcesView";
 import ResourcesNotAvailableView from "./_components/ResourcesNotAvailableView";
 import useKeyPress from "@/components/useKeyPress";
 import { useRouter } from "next/navigation";
+import Layout from "@/components/Layout";
 
 export default function Resources() {
   const [resources, setResources] = useState<Resource[]>([]);
@@ -27,9 +28,13 @@ export default function Resources() {
     });
   }, []);
 
-  return resources.length ? (
-    <ResourcesView resources={resources} setResources={setResources} />
-  ) : (
-    <ResourcesNotAvailableView />
+  return (
+    <Layout title="Resources">
+      {resources.length ? (
+        <ResourcesView resources={resources} setResources={setResources} />
+      ) : (
+        <ResourcesNotAvailableView />
+      )}
+    </Layout>
   );
 }
