@@ -6,7 +6,7 @@
  */
 import Link from "next/link";
 import styles from "./HubToolButton.module.css";
-import { HubTool } from "../../types/hub";
+import { HubTool } from "../types/hub";
 
 export default function HubToolButton({ name, link, icon }: HubTool) {
   return (

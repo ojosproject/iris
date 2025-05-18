@@ -6,8 +6,8 @@
  */
 "use client";
 import styles from "./page.module.css";
-import HubHeader from "./hub/HubHeader";
-import HubToolButton from "./hub/HubToolButton";
+import HubHeader from "@/components/HubHeader";
+import HubToolButton from "@/components/HubToolButton";
 import { HubTool } from "../types/hub";
 import { hubTools } from "@/utils/hub";
 import { useEffect, useState } from "react";
