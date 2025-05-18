@@ -12,7 +12,7 @@ import BackButton from "@/components/BackButton";
 import styles from "./page.module.css";
 import Button from "@/components/Button";
 import CareInstructionsButton from "./_components/CareInstructionButton";
-import useKeyPress from "../accessibility/keyboard_nav";
+import useKeyPress from "@/components/useKeyPress";
 import { useRouter } from "next/navigation";
 
 export default function CareInstructions() {

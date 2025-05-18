@@ -12,7 +12,7 @@ import { Config, DataPackReceipt } from "@/types/settings";
 import Button from "@/components/Button";
 import Dialog from "@/components/Dialog";
 import { invoke } from "@tauri-apps/api/core";
-import useKeyPress from "../accessibility/keyboard_nav";
+import useKeyPress from "@/components/useKeyPress";
 import { useRouter } from "next/navigation";
 import ConfirmUpdateDialog from "../updater/ConfirmUpdateDialog";
 

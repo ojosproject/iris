@@ -9,7 +9,7 @@ import Button from "@/components/Button";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import BackButton from "@/components/BackButton";
 import { PatientReportedOutcome } from "./types";
-import useKeyPress from "../accessibility/keyboard_nav";
+import useKeyPress from "@/components/useKeyPress";
 
 interface ChartData {
   [question: string]: [response: number, recorded_date: Date][];

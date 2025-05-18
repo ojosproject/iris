@@ -14,7 +14,7 @@ import { invoke } from "@tauri-apps/api/core";
 import { CareInstruction } from "@/types/care-instructions";
 import { timestampToString } from "@/utils/parsing";
 import Dialog from "@/components/Dialog";
-import useKeyPress from "@/app/accessibility/keyboard_nav";
+import useKeyPress from "@/components/useKeyPress";
 
 function EditInstructions() {
   // Params get passed from AllCareInstructions.tsx

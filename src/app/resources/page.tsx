@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import ResourcesView from "./ResourcesView";
 import ResourcesNotAvailableView from "./ResourcesNotAvailableView";
-import useKeyPress from "../accessibility/keyboard_nav";
+import useKeyPress from "@/components/useKeyPress";
 import { useRouter } from "next/navigation";
 
 export default function Resources() {

@@ -7,7 +7,7 @@ import BackButton from "@/components/BackButton";
 import { invoke } from "@tauri-apps/api/core";
 import Button from "@/components/Button";
 import Dialog from "@/components/Dialog";
-import useKeyPress from "@/app/accessibility/keyboard_nav";
+import useKeyPress from "@/components/useKeyPress";
 import { ProQuestion } from "../types";
 
 export default function Survey() {

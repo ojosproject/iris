@@ -7,7 +7,7 @@ import BackButton from "@/components/BackButton";
 import Button from "@/components/Button";
 import ConfirmLogModal from "./components/ConfirmLogModal";
 import { timestampToString } from "@/utils/parsing";
-import useKeyPress from "../accessibility/keyboard_nav";
+import useKeyPress from "@/components/useKeyPress";
 import { useRouter } from "next/navigation";
 import MedicationForm from "./components/MedicationForm";
 import Image from "next/image";

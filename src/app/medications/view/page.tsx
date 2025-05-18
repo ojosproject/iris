@@ -7,7 +7,7 @@ import moment from "moment";
 import { useSearchParams } from "next/navigation";
 import { parsePhoneNumber, timestampToString } from "@/utils/parsing";
 import BackButton from "@/components/BackButton";
-import useKeyPress from "@/app/accessibility/keyboard_nav";
+import useKeyPress from "@/components/useKeyPress";
 import { useRouter } from "next/navigation";
 
 const Header = ({ name, brand }: { name: string; brand?: string }) => {

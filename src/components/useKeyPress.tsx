@@ -1,3 +1,9 @@
+/**
+ * File:     useKeyPress.tsx
+ * Purpose:  A hook(?) that listens for key presses and applies an event to it.
+ * Authors:  Ojos Project & Iris contributors
+ * License:  GNU General Public License v3.0
+ */
 import { useEffect } from "react";
 
 type KeyEventMap = {

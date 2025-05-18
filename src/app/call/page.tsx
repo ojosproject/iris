@@ -5,7 +5,7 @@ import classes from "./page.module.css";
 import Button from "../../components/Button";
 import { invoke } from "@tauri-apps/api/core";
 import WebcamRecorder from "./components/controls";
-import useKeyPress from "../accessibility/keyboard_nav";
+import useKeyPress from "@/components/useKeyPress";
 import { useRouter } from "next/navigation";
 
 export default function Call() {
