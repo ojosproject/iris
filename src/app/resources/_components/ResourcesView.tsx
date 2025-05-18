@@ -5,9 +5,9 @@
  * License:  GNU General Public License v3.0
  */
 import { Resource } from "@/types/resources";
-import CategoryMenu from "./_components/CategoryMenu";
-import styles from "./page.module.css";
-import ResourcesList from "./_components/ResourcesList";
+import CategoryMenu from "./CategoryMenu";
+import styles from "../page.module.css";
+import ResourcesList from "./ResourcesList";
 import BackButton from "@/components/BackButton";
 import { useEffect, useState } from "react";
 

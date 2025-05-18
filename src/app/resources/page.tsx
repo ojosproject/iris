@@ -8,8 +8,8 @@
 import { Resource } from "@/types/resources";
 import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
-import ResourcesView from "./ResourcesView";
-import ResourcesNotAvailableView from "./ResourcesNotAvailableView";
+import ResourcesView from "./_components/ResourcesView";
+import ResourcesNotAvailableView from "./_components/ResourcesNotAvailableView";
 import useKeyPress from "@/components/useKeyPress";
 import { useRouter } from "next/navigation";
 

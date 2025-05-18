@@ -5,7 +5,7 @@
  * License:  GNU General Public License v3.0
  */
 import BackButton from "@/components/BackButton";
-import styles from "./page.module.css";
+import styles from "../page.module.css";
 import Image from "next/image";
 
 export default function ResourcesNotAvailableView() {
