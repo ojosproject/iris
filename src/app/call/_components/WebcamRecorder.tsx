@@ -1,13 +1,17 @@
-// controls.tsx
-// Ojos Project
+/**
+ * File:     WebcamRecorder.tsx
+ * Purpose:  The webcam recorder.
+ * Authors:  Ojos Project & Iris contributors
+ * License:  GNU General Public License v3.0
+ */
 import React, { useEffect, useRef, useState } from "react";
-import classes from "./controls.module.css";
+import styles from "./WebcamRecorder.module.css";
 import { useRouter } from "next/navigation";
-import Dialog from "./confirmMessage";
-import { saveVideo } from "../helper";
+import Dialog from "@/components/Dialog";
+import { saveVideo } from "../_helper";
 import Button from "@/components/Button";
 
-const WebcamRecorder: React.FC = () => {
+export default function WebcamRecorder() {
   const router = useRouter();
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -120,7 +124,7 @@ const WebcamRecorder: React.FC = () => {
     <div>
       {/* Video element to display the webcam feed */}
       <video
-        className={classes.video_container}
+        className={styles.video_container}
         ref={videoRef}
         autoPlay
         playsInline
@@ -130,11 +134,16 @@ const WebcamRecorder: React.FC = () => {
         <Dialog
           title="You are still recording!"
           content="Recording will end if you leave the page. Leave the page?"
-          onClose={closeDialog}
-          onConfirm={confirmDialog}
-        />
+        >
+          <Button
+            type="DANGER-PRIMARY"
+            label="Leave page"
+            onClick={confirmDialog}
+          />
+          <Button type="PRIMARY" label="Stay" onClick={closeDialog} />
+        </Dialog>
       )}
-      <div className={classes.controls}>
+      <div className={styles.controls}>
         {/* Button to go back to the previous page */}
         <Button
           type={isRecording ? "SECONDARY" : "PRIMARY"}
@@ -160,6 +169,4 @@ const WebcamRecorder: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default WebcamRecorder;
+}

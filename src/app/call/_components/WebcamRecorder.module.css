@@ -1,0 +1,27 @@
+/* ==========================================================================
+   File:     WebcamRecorder.module.css
+   Purpose:  Styles the webcam recorder.
+   Authors:  Ojos Project & Iris contributors
+   License:  GNU General Public License v3.0
+   ========================================================================== */
+.controls {
+  display: flex;
+  gap: 32px;
+  justify-content: space-evenly;
+  width: 100%;
+  max-width: 900px;
+  position: fixed;
+  bottom: 5%;
+  /* https://stackoverflow.com/questions/3157372/css-horizontal-centering-of-a-fixed-div */
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.videoContainer {
+  height: 90dvh;
+  border: solid 2px var(--black);
+  border-radius: 20px;
+
+  min-width: 500px;
+  min-height: 500px;
+}

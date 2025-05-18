@@ -1,5 +1,9 @@
-// call/helper.ts
-// Ojos Project
+/**
+ * File:     call/_helper.ts
+ * Purpose:  Helper functions for the Call tool.
+ * Authors:  Ojos Project & Iris contributors
+ * License:  GNU General Public License v3.0
+ */
 import { BaseDirectory, exists, writeFile, mkdir } from "@tauri-apps/plugin-fs";
 import { platform } from "@tauri-apps/plugin-os";
 

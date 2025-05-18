@@ -1,7 +1,9 @@
-/*
-call/page.module.css
-Ojos Project
-*/
+/* ==========================================================================
+   File:     call/page.module.css
+   Purpose:  Styles the main calling page.
+   Authors:  Ojos Project & Iris contributors
+   License:  GNU General Public License v3.0
+   ========================================================================== */
 .header {
   display: flex;
   justify-content: right;
@@ -11,7 +13,7 @@ Ojos Project
   z-index: 3;
 }
 
-.video_main {
+.videoMain {
   display: flex;
   flex-direction: column;
   justify-content: center;
