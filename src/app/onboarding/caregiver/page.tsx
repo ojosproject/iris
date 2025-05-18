@@ -5,7 +5,7 @@
  * License:  GNU General Public License v3.0
  */
 "use client";
-import styles from "../Onboarding.module.css";
+import styles from "../page.module.css";
 import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

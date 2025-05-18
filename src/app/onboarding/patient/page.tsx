@@ -5,10 +5,9 @@
  * License:  GNU General Public License v3.0
  */
 "use client";
-import styles from "../Onboarding.module.css";
+import styles from "../page.module.css";
 import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
-import BackButton from "@/components/BackButton";
 import { useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import Layout from "@/components/Layout";
