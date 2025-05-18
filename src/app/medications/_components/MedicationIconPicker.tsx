@@ -45,7 +45,7 @@ export default function MedicationPicker({
             }}
           >
             <Image
-              src={`/images/${medium}-${color}.svg`}
+              src={`/images/medication-icons/${medium}-${color}.svg`}
               alt={`Icon for ${medium} with a ${color} background.`}
               width={80}
               height={80}

@@ -38,8 +38,8 @@ export default function ForwardButton({
 
   const iconSrc =
     color === "WHITE"
-      ? "/images/chevron-forward-outline-white.svg"
-      : "/images/chevron-forward-outline.svg";
+      ? "/images/ionic/chevron-forward-outline-white.svg"
+      : "/images/ionic/chevron-forward-outline.svg";
 
   return (
     <img

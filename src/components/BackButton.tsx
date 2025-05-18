@@ -31,8 +31,8 @@ const BackButton = ({
 
   const iconSrc =
     color === "WHITE"
-      ? "/images/chevron-back-outline-white.svg"
-      : "/images/chevron-back-outline.svg";
+      ? "/images/ionic/chevron-back-outline-white.svg"
+      : "/images/ionic/chevron-back-outline.svg";
 
   const buttonStyle: CSSProperties = {
     ...style,

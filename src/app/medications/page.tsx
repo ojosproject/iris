@@ -198,7 +198,7 @@ export default function MedicationView() {
                       }}
                     >
                       <Image
-                        src={`/images/${medication.icon}`}
+                        src={`/images/medication-icons/${medication.icon}`}
                         alt={`Icon for ${medication.name}.`}
                         height={80}
                         width={80}

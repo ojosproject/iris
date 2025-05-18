@@ -19,7 +19,7 @@ export default function ResourcesNotAvailableView() {
       <div className={styles.notFound}>
         <Image
           className={styles.notFoundIcon}
-          src="/images/alert-circle-outline.svg"
+          src="/images/ionic/alert-circle-outline.svg"
           alt="Alert icon"
           width={100}
           height={100}
