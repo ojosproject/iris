@@ -1,4 +1,6 @@
 {
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
   "files.associations": {
     "LICENSE": "plaintext"
   },
@@ -6,15 +8,12 @@
     "editor.rulers": [80],
     "editor.wordWrap": "off",
     "editor.defaultFormatter": "yzhang.markdown-all-in-one",
-    "editor.formatOnSave": true
   },
   "[rust]": {
     "editor.defaultFormatter": "rust-lang.rust-analyzer",
-    "editor.formatOnSave": true
   },
-  "[typescriptreact][css][scss][typescript][javascript][javascriptreact]": {
+  "[javascript][typescript][javascriptreact][typescriptreact][json][css]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
   },
   "cSpell.words": [
     "choosealicense",
