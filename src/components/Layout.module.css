@@ -7,11 +7,15 @@
 .header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   min-height: 55px;
+  margin: 20px 10px 0 10px;
 }
 
 .header div {
   width: 100px;
   min-width: 100px;
+}
+
+.header h1 {
+  margin: 25px;
 }
