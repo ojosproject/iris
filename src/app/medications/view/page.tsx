@@ -133,7 +133,9 @@ function MedicineView() {
     <Layout title={medication.name}>
       <div className={styles.medicineContainer}>
         {medication.generic_name ? (
-          <p>Brand: {medication.generic_name}</p>
+          <div className={styles.brandHeader}>
+            <p>Brand: {medication.generic_name}</p>
+          </div>
         ) : null}
         <div className={styles.content}>
           <LeftPanel
