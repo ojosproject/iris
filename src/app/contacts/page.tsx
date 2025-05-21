@@ -57,7 +57,7 @@ export default function Contacts() {
     setModalOpen(valueForModal);
   }
 
-  function toggleSelectContact(id: number) {
+  function toggleSelectContact(id: number, contact: Contact) {
     setSelectedContactIds((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(id)) {
@@ -67,6 +67,7 @@ export default function Contacts() {
       }
       return newSet;
     });
+    setSelectedContact(contact);
   }
 
   return (
@@ -88,7 +89,7 @@ export default function Contacts() {
                           type="checkbox"
                           checked={selectedContactIds.has(contact.id as any)}
                           onChange={() =>
-                            toggleSelectContact(contact.id as any)
+                            toggleSelectContact(contact.id as any, contact)
                           }
                         />
                         <p

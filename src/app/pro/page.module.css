@@ -51,3 +51,7 @@
   transition: transform 0.3s;
   transform-origin: top left;
 }
+
+.question {
+  max-width: 90%;
+}
