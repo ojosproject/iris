@@ -50,6 +50,7 @@ export default function Settings() {
   const [config, setConfig] = useState<Config | null>(null);
   const [displayDialog, setDisplayDialog] = useState(false);
   const [displayNumberDialog, setDisplayNumberDialog] = useState(false);
+  const [displayResetDialog, setDisplayResetDialog] = useState(false);
   const [dataPackDialog, setDataPackDialog] = useState({
     enabled: false,
     title: "",
@@ -160,6 +161,25 @@ export default function Settings() {
     );
   }
 
+  function ClearDataSection() {
+    return (
+      config && (
+        <Section
+          title="Reset Software"
+          description="Delete all your data and reset the software. This is irreversible, so be careful!"
+        >
+          <Row label="Reset">
+            <Button
+              type="DANGER-PRIMARY"
+              label="Reset"
+              onClick={() => setDisplayResetDialog(true)}
+            />
+          </Row>
+        </Section>
+      )
+    );
+  }
+
   return (
     <Layout title="Settings">
       {displayUpdater && (
@@ -171,10 +191,40 @@ export default function Settings() {
           closeModel={() => setDisplayUpdater(false)}
         />
       )}
+      {displayResetDialog && (
+        <Dialog
+          title="Reset Software?"
+          content="You are about to delete all Iris data. This action is irreversible. Are you sure?"
+        >
+          <>
+            <Button
+              type="SECONDARY"
+              label="Cancel"
+              onClick={() => setDisplayResetDialog(false)}
+            />
+            <Button
+              type="DANGER-PRIMARY"
+              label="Yes"
+              onClick={() => {
+                invoke("delete_data")
+                  .then()
+                  .catch((error) => {
+                    throw new Error(error);
+                  });
+
+                setDisplayResetDialog(false);
+              }}
+            />
+          </>
+        </Dialog>
+      )}
       <div className={styles.containerSettings}>
         <div className={styles.columnOfContainers}>
           <ImportSection />
           <UpdaterSection />
+        </div>
+        <div className={styles.columnOfContainers}>
+          <ClearDataSection />
         </div>
       </div>
       {displayDialog && (

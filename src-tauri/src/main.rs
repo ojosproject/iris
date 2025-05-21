@@ -38,6 +38,7 @@ fn main() {
             settings::commands::set_config,
             settings::commands::import_data_pack,
             settings::commands::complete_onboarding,
+            settings::commands::delete_data,
             care_instructions::commands::get_all_care_instructions,
             care_instructions::commands::create_care_instructions,
             care_instructions::commands::get_single_care_instruction,

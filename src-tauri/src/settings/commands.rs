@@ -5,12 +5,10 @@
 use super::structs::Config;
 use super::structs::DataPack;
 use super::structs::DataPackReceipt;
-use crate::helpers::db_connect;
-use crate::helpers::unix_timestamp;
+use crate::helpers::{config_dir, data_dir, db_connect, unix_timestamp};
 use std::fs;
 use std::io::ErrorKind;
 use tauri::AppHandle;
-use tauri::Manager;
 use tauri_plugin_dialog::DialogExt;
 
 /// # `get_config` Command
@@ -27,7 +25,7 @@ use tauri_plugin_dialog::DialogExt;
 /// ```
 #[tauri::command(rename_all = "snake_case")]
 pub fn get_config(app: AppHandle) -> Config {
-    let app_config_dir = app.path().app_config_dir().unwrap();
+    let app_config_dir = config_dir(&app);
 
     let content =
         fs::read_to_string(app_config_dir.join("config.json")).unwrap_or_else(|error| match error
@@ -54,7 +52,7 @@ pub fn get_config(app: AppHandle) -> Config {
 
 #[tauri::command(rename_all = "snake_case")]
 pub fn set_config(app: AppHandle, config: Config) {
-    let app_config_dir = app.path().app_config_dir().unwrap();
+    let app_config_dir = config_dir(&app);
     let config_string = serde_json::to_string(&config).unwrap();
     fs::write(app_config_dir.join("config.json"), config_string).unwrap();
 }
@@ -70,7 +68,7 @@ pub fn set_config(app: AppHandle, config: Config) {
 /// ```
 #[tauri::command(rename_all = "snake_case")]
 pub fn complete_onboarding(app: AppHandle) {
-    let app_config_dir = app.path().app_config_dir().unwrap();
+    let app_config_dir = config_dir(&app);
 
     let mut config = get_config(app);
     config.onboarding_completed = true;
@@ -212,4 +210,36 @@ pub async fn import_data_pack(app: AppHandle) -> Result<DataPackReceipt, String>
     }
 
     Ok(receipt)
+}
+
+#[tauri::command]
+pub fn delete_data(app: AppHandle) -> Result<(), String> {
+    let data_dir = data_dir(&app);
+    let config_dir = config_dir(&app);
+
+    if data_dir.exists() {
+        match fs::remove_dir_all(data_dir) {
+            Ok(_) => {}
+            Err(error) => {
+                return Err(format!(
+                    "Failed to delete data folder. Error: `{:?}`",
+                    error
+                ));
+            }
+        }
+    }
+
+    if config_dir.exists() {
+        match fs::remove_dir_all(config_dir) {
+            Ok(_) => {}
+            Err(error) => {
+                return Err(format!(
+                    "Failed to delete config folder. Error: `{:?}`",
+                    error
+                ));
+            }
+        }
+    }
+
+    app.restart();
 }
