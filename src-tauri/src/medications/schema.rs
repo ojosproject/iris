@@ -29,4 +29,11 @@ CREATE TABLE IF NOT EXISTS medication (
     last_taken INTEGER,
     icon TEXT
 ) STRICT;
+
+ CREATE TABLE IF NOT EXISTS medication_schedule (
+    id TEXT NOT NULL PRIMARY KEY,
+    medication_id TEXT NOT NULL,
+    strength REAL NOT NULL,
+    next_time INTEGER NOT NULL
+) STRICT;
 "#;

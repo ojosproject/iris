@@ -1,7 +1,8 @@
 use crate::{
     helpers::{db_connect, stamp, unix_timestamp},
-    medications::structs::{Medication, MedicationLog},
+    medications::structs::{Medication, MedicationLog, Schedule},
 };
+use chrono::{Datelike, Duration, Local, TimeZone, Utc, Weekday};
 use rusqlite::{named_params, Connection};
 use tauri::{AppHandle, Manager};
 
@@ -341,4 +342,112 @@ pub fn get_medication_logs(app: AppHandle, medication_id: Option<String>) -> Vec
         }
         unwrapped_logs
     }
+}
+
+#[tauri::command]
+pub fn schedule_doses(
+    app: AppHandle,
+    medication_id: Option<String>,
+    strength: f64,
+    selected_days: Vec<String>,
+    selected_times: Vec<String>,
+) -> Result<String, String> {
+    // each day in selected_days is formatted like "Mon" or "Tue"
+    // each time in selected_times is formatted like "8:00 am" or "12:34 pm"
+    for time in selected_times {
+        let hour = time.parse()
+    }
+}
+
+#[tauri::command]
+pub fn schedule_next_dose(
+    app: AppHandle,
+    medication_id: Option<String>,
+    strength: f64,
+    selected_days: Vec<String>,
+    hour: i64,
+    minute: i64,
+    PM: bool,
+) -> Result<i64, String> {
+    // assumes that selected_days, hour, and minute will always be Some
+    // assumes days in selected days are in 3-letter abbreviations ("Mon", etc)
+
+    // we need to find the unix timestamp of the soonest time a medication needs
+    // to be taken after the current timestamp.
+    // we can do this by first finding the current day of the week,
+    // find the soonest dotw after today's dotw, and find what the unix
+    // timestamp on that day would be.
+
+    let today = Local::now().date_naive();
+    let next_time: i64;
+    let medication_id = medication_id.unwrap();
+    let (current_time, schedule_id) = stamp();
+    let mut hour = hour;
+    if PM {
+        hour += 12;
+    }
+
+    fn match_day(day: &str) -> Option<chrono::Weekday> {
+        match day {
+            "Mon" => Some(Weekday::Mon),
+            "Tue" => Some(Weekday::Tue),
+            "Wed" => Some(Weekday::Wed),
+            "Thu" => Some(Weekday::Thu),
+            "Fri" => Some(Weekday::Fri),
+            "Sat" => Some(Weekday::Sat),
+            "Sun" => Some(Weekday::Sun),
+            _ => Some(Weekday::Mon), // this case won't proc surely :)
+        }
+    }
+
+    let scheduled_later = |days_later| -> i64 {
+        let future = today + Duration::days(days_later);
+        let future_at_midnight = Local
+            .from_local_datetime(&future.and_hms_opt(0, 0, 0).unwrap())
+            .unwrap()
+            .timestamp();
+        return future_at_midnight + hour * 3600 + minute * 60;
+    };
+
+    let scheduled_today = || -> i64 {
+        let today_at_midnight = Local
+            .from_local_datetime(&today.and_hms_opt(0, 0, 0).unwrap())
+            .unwrap()
+            .timestamp();
+        let next_time_today = today_at_midnight + hour * 3600 + minute * 60;
+        if next_time_today < current_time {
+            return scheduled_later(1);
+        } else {
+            return next_time_today;
+        }
+    };
+
+    let weekday_days: Vec<Weekday> = selected_days
+        .iter()
+        .filter_map(|day| match_day(day.as_str()))
+        .collect();
+
+    let today_num = Local::now().weekday().num_days_from_monday() as i64;
+    let min_days = weekday_days
+        .iter()
+        .map(|day| {
+            let day_num = day.num_days_from_monday() as i64;
+            (day_num + 7 - today_num) % 7 // will wrap around back to monday when it hits sunday
+        })
+        .min()
+        .unwrap();
+
+    next_time = match min_days {
+        0 => scheduled_today(),
+        _ => scheduled_later(min_days),
+    };
+
+    // insert into medication_schedule
+    let conn = match Connection::open(app.path().app_data_dir().unwrap().join("iris.db")) {
+        Ok(c) => c,
+        Err(e) => return Err(format!("SQLite error: {:?}", e)),
+    };
+    conn.execute("INSERT INTO medication_schedule(id, medication_id, strength, next_time) VALUES (:id, :medication_id, :strength, :timestamp)", named_params! {":id": schedule_id, ":medication_id": medication_id, ":strength": strength, ":timestamp": next_time});
+
+    Ok(next_time)
 }

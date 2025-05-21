@@ -32,3 +32,11 @@ pub struct MedicationLog {
     pub units: String,
     pub comments: Option<String>,
 }
+
+#[derive(Serialize, Deserialize)]
+pub struct Schedule {
+    pub id: String,
+    pub medication_id: String,
+    pub dosage: f64,
+    pub time: i64
+}
