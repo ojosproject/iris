@@ -9,20 +9,20 @@
    4. All shareable components must be kept in `src/components/`
    5. All shareable functions must be kept in `src/utils/`
    6. All shareable types must be kept in `src/types/`
-   7. We're using the [app router](https://nextjs.org/docs/14/app/building-your-application/routing#the-app-router)
-   8. Use [`<Image>`](https://nextjs.org/docs/14/app/api-reference/components/image) for images
+   7. We're using the app router
+   8. Use [`<Image>`](https://nextjs.org/docs/app/api-reference/components/image) for images
    9. Set `draggable` to `false` in all images and links
    10. For components, use functional declarations over arrow function expressions
    11. Add a `ComponentProps` type for every `Component` with props
    12. `throw` errors. Do not use `console.log()` or `console.error()` for errors
    13. File/folder Naming
-       1. [Prefix files with `_`](https://nextjs.org/docs/14/app/building-your-application/routing/colocation#private-folders) if they're not part of the route in `src/app/*`. Examples:
+       1. [Prefix files with `_`](https://nextjs.org/docs/app/getting-started/project-structure#private-folders) if they're not part of the route in `src/app/*`. Examples:
           * `_components`
           * `_helper.ts`
        2. Use kebab-case for file and folder names
    14. Styling
        1. Global styling must be kept in `globals.css`
-       2. Any other styling is done with [CSS Modules](https://nextjs.org/docs/14/app/building-your-application/styling/css-modules)
+       2. Any other styling is done with [CSS Modules](https://nextjs.org/docs/app/getting-started/css#css-modules)
        3. Import CSS Modules as `styles`
        4. Use the color variables were appropriate:
           * `var(--dark-blue)`
@@ -32,10 +32,10 @@
           * `var(--dark-gray)`
           * `var(--black)`
    15. Navigation
-       1. Use [`<Link>`](https://nextjs.org/docs/14/app/building-your-application/routing/linking-and-navigating#link-component) instead of `<a>`
-       2. Use [`useRouter()`](https://nextjs.org/docs/14/app/building-your-application/routing/linking-and-navigating#userouter-hook) instead of `window.location`
-       3. Use [`router.push()`](https://nextjs.org/docs/14/app/api-reference/functions/use-router) instead of `router.back()`
-   16. Use [Module Path Aliases (`@/`)](https://nextjs.org/docs/14/app/building-your-application/configuring/absolute-imports-and-module-aliases) when importing `src/components/`, `src/utils/`, etc.
+       1. Use [`<Link>`](https://nextjs.org/docs/app/building-your-application/routing/linking-and-navigating#link-component) instead of `<a>`
+       2. Use [`useRouter()`](https://nextjs.org/docs/app/building-your-application/routing/linking-and-navigating#userouter-hook) instead of `window.location`
+       3. Use [`router.push()`](https://nextjs.org/docs/app/api-reference/functions/use-router) instead of `router.back()`
+   16. Use [Module Path Aliases (`@/`)](https://nextjs.org/docs/app/getting-started/installation#set-up-absolute-imports-and-module-path-aliases) when importing `src/components/`, `src/utils/`, etc.
    17. Use `export default` in the function declaration instead of the EoF
 2. Backend (Rust/Tauri/`src-tauri/src/*`)
    1. Every file must have a [comment header](#rust-rs)
