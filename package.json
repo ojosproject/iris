@@ -37,10 +37,10 @@
   "devDependencies": {
     "@tauri-apps/api": "^2.1.0",
     "@tauri-apps/cli": "^2.1.0",
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "prettier": "3.3.3",
+    "@types/node": "^22.15.21",
+    "@types/react": "^19.1.5",
+    "@types/react-dom": "^19.1.5",
+    "prettier": "^3.5.3",
     "typescript": "^5"
   }
 }
