@@ -36,7 +36,7 @@ npm i
 
 ```shell
 cargo tauri dev
-# npm run tauri dev   <-- also works!
+# npm run dev   <-- also works!
 ```
 
 ## Clearing Iris Data

@@ -20,9 +20,9 @@ use tauri::AppHandle;
 #[tauri::command(rename_all = "snake_case")]
 pub fn add_pros(app: AppHandle, pros: Vec<(String, i32)>) {
     let conn = db_connect(&app);
-    let (timestamp, uuid) = stamp();
 
     for pro_tuple in pros {
+        let (timestamp, uuid) = stamp();
         // INSERT OR IGNORE will skip an insertion if a primary or unique constraint
         // is failed.
         conn.execute(

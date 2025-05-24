@@ -234,7 +234,7 @@ export default function ProChart() {
             ) : (
               <>
                 <div className={styles.container2}>
-                  <p>{currentQuestion || "No Question Available"}</p>
+                  <p className={styles.question}>{currentQuestionIndex + 1}. {currentQuestion || "No Question Available"}</p>
                 </div>
               </>
             )}
