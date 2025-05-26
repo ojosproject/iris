@@ -2,19 +2,21 @@ name: Dependency Request
 description: ⚙️ I'd like to add a dependency to `package.json` or `Cargo.toml`.
 title: Add <PACKAGE>
 labels: ["proposal"]
+assignees: ["calejvaldez"]
 body:
-  - type: textarea
+  - type: input
     id: what
     attributes:
       label: Package
       description: What is the name of the package?
     validations:
       required: true
-  - type: textarea
+  - type: input
     id: version
     attributes:
       label: Version
-      description: What version of the package? ("latest", "0.1.5", etc.)
+      description: What version of the package? ("latest", "x.x.x", etc.)
+      value: latest
   - type: dropdown
     id: package_manager
     attributes:
