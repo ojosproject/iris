@@ -17,7 +17,7 @@
   "scripts": {
     "dev": "tauri dev",
     "build": "tauri build",
-    "prettier": "prettier --write **/*.js; prettier --write **/*.ts; prettier --write **/*.tsx;",
+    "prettier": "prettier --write \"**/*.{js,ts,tsx,json}\"",
     "nextDev": "next dev --turbopack",
     "nextBuild": "next build"
   },

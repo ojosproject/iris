@@ -7,13 +7,13 @@
   "[markdown][plaintext]": {
     "editor.rulers": [80],
     "editor.wordWrap": "off",
-    "editor.defaultFormatter": "yzhang.markdown-all-in-one",
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
   },
   "[rust]": {
-    "editor.defaultFormatter": "rust-lang.rust-analyzer",
+    "editor.defaultFormatter": "rust-lang.rust-analyzer"
   },
   "[javascript][typescript][javascriptreact][typescriptreact][json][css]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "cSpell.words": [
     "choosealicense",
@@ -31,5 +31,5 @@
     "structs",
     "Tauri",
     "webm"
-  ],
+  ]
 }
