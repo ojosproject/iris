@@ -1,0 +1,52 @@
+name: Dependency Request
+description: ⚙️ I'd like to add a dependency to `package.json` or `Cargo.toml`.
+title: Add <PACKAGE>
+labels: ["proposal"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: Package
+      description: What is the name of the package?
+    validations:
+      required: true
+  - type: textarea
+    id: version
+    attributes:
+      label: Version
+      description: What version of the package? ("latest", "0.1.5", etc.)
+  - type: dropdown
+    id: package_manager
+    attributes:
+      label: Package Manager
+      description: What file is this package for?
+      options:
+        - package.json
+        - Cargo.toml
+    validations:
+      required: true
+  - type: textarea
+    id: support
+    attributes:
+      label: Support Links
+      description: Provide documentation for this tool and two other to get help from, like Discord.
+      value: |
+        - [docs]
+        - [support link 1]
+        - [support link 2]
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Purpose
+      description: Summarize why you need this package. Be clear and descriptive.
+    validations:
+      required: true
+  - type: textarea
+    id: where
+    attributes:
+      label: Where will this package be used?
+      description: You can list files or general purpose use.
+    validations:
+      required: true
