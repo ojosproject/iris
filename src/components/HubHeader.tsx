@@ -7,14 +7,15 @@
 "use client";
 import { invoke } from "@tauri-apps/api/core";
 import styles from "./HubHeader.module.css";
-import { getTimeOfDay } from "@/utils/parsing";
+import { daysOfWeek, getTimeOfDay, timestampToString } from "@/utils/parsing";
 import { useEffect, useState } from "react";
-import Clock from "react-live-clock";
 import { Contact } from "@/types/contacts";
 
 export default function HubHeader() {
   const [userName, setUserName] = useState("Name");
   const [timeOfDay, setTimeOfDay] = useState("morning");
+  const date = new Date();
+  const epoch = date.getTime() / 1000;
 
   useEffect(() => {
     invoke<Contact>("get_patient_contact").then((contact) => {
@@ -37,10 +38,11 @@ export default function HubHeader() {
         </h1>
       </div>
       <div className={styles.time}>
-        {/* <p>insert current time</p> */}
-        <Clock format={"h:mm A"} ticking className={styles.hourMin} />
-        <Clock format={"MMM D, YYYY"} ticking className={styles.date} />
-        <Clock format={"dddd"} ticking className={styles.date} />
+        <span className={styles.hourMin}>
+          {timestampToString(epoch, "HH:MM XX")}
+        </span>
+        <span className={styles.date}>{timestampToString(epoch)}</span>
+        <span className={styles.date}>{daysOfWeek[date.getDay()]}</span>
       </div>
     </header>
   );
