@@ -14,8 +14,6 @@ Before you clone the repository, please:
 2. [Install Rust](https://www.rust-lang.org/tools/install)
 3. [Install system dependencies](https://tauri.app/start/prerequisites/#system-dependencies)
 4. [Install VSCode extensions](https://code.visualstudio.com/docs/configure/extensions/extension-marketplace#_recommended-extensions)
-5. Tauri CLI using Cargo (optional but recommended)
-   * `cargo install tauri-cli --version "^2.0.0" --locked`
 
 ```shell
 # Clone the repository with SSH (or HTTPS)
@@ -35,8 +33,7 @@ npm i
 ... then run this to run the full program:
 
 ```shell
-cargo tauri dev
-# npm run dev   <-- also works!
+npm run dev
 ```
 
 ## Clearing Iris Data

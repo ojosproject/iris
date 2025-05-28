@@ -42,7 +42,7 @@ git pull origin palliaview # update local palliaview
 
 nvm use
 npm i
-cargo tauri build
+npm run build
 ```
 
 This will build an executable. We recommend using the Debian output. These
