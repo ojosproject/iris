@@ -1,7 +1,7 @@
 {
   "build": {
-    "beforeBuildCommand": "npm run nextBuild",
-    "beforeDevCommand": "npm run nextDev",
+    "beforeBuildCommand": "pnpm run nextBuild",
+    "beforeDevCommand": "pnpm run nextDev",
     "frontendDist": "../out",
     "devUrl": "http://localhost:3000"
   },

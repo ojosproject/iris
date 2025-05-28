@@ -8,7 +8,7 @@ focusing on Quality Assurance. We will focus on **bug fixing** and improving the
 
 > [!IMPORTANT]
 > Ensure you've compiled the program for testing. **Do not use a developer
-> environment.** You can build the program with `npm run build`.
+> environment.** You can build the program with `pnpm run build`.
 
 Throughout our UCI academic careers, Ojos Project's developers have learned how
 to interview individuals for app-testing purposes. We will do something similar,

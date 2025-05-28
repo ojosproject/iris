@@ -10,7 +10,9 @@
 
 Before you clone the repository, please:
 
-1. [Install NodeJS using nvm](https://github.com/nvm-sh/nvm) or an equivalent tool
+1. [Install pnpm](https://pnpm.io/installation)
+   * Windows: `Invoke-WebRequest https://get.pnpm.io/install.ps1 -UseBasicParsing | Invoke-Expression`
+   * macOS/Linux: `curl -fsSL https://get.pnpm.io/install.sh | sh -`
 2. [Install Rust](https://www.rust-lang.org/tools/install)
 3. [Install system dependencies](https://tauri.app/start/prerequisites/#system-dependencies)
 4. [Install VSCode extensions](https://code.visualstudio.com/docs/configure/extensions/extension-marketplace#_recommended-extensions)
@@ -26,14 +28,14 @@ cd iris
 Please install the npm dependencies:
 
 ```shell
-nvm use
-npm i
+pnpm env use --global v22.16.0
+pnpm i
 ```
 
 ... then run this to run the full program:
 
 ```shell
-npm run dev
+pnpm run dev
 ```
 
 ## Clearing Iris Data
