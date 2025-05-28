@@ -9,7 +9,7 @@
 // todo: It hasn't been done, bc it uses `survey/page.module.css`.
 // todo: Split that CSS Module and create `_components/Questionnaire.module.css`
 import React, { useState, useEffect } from "react";
-import styles from "./page.module.css";
+import styles from "./_Questionnaire.module.css";
 import Button from "@/components/Button";
 import { ProQuestion } from "@/types/pro";
 
