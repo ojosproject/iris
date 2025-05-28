@@ -33,3 +33,4 @@ out
 
 .env
 .history
+next-env.d.ts
