@@ -40,9 +40,7 @@ git switch palliaview
 git pull origin palliaview # update local palliaview
 # git merge main # only do this if you want to test pre-release stuff
 
-nvm use
-npm i
-cargo tauri build
+pnpm run build
 ```
 
 This will build an executable. We recommend using the Debian output. These
