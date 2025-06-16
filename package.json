@@ -17,6 +17,8 @@
   "scripts": {
     "dev": "tauri dev",
     "build": "tauri build",
+    "clear": "node scripts/clear.js",
+    "reset": "node scripts/reset.js",
     "prettier": "prettier --write \"**/*.{js,ts,tsx,json}\"",
     "nextDev": "next dev --turbopack",
     "nextBuild": "next build"
