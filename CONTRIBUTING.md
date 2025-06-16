@@ -10,12 +10,12 @@
 
 Before you clone the repository, please:
 
-1. [Install NodeJS using nvm](https://github.com/nvm-sh/nvm) or an equivalent tool
+1. [Install pnpm](https://pnpm.io/installation)
+   * Windows: `Invoke-WebRequest https://get.pnpm.io/install.ps1 -UseBasicParsing | Invoke-Expression`
+   * macOS/Linux: `curl -fsSL https://get.pnpm.io/install.sh | sh -`
 2. [Install Rust](https://www.rust-lang.org/tools/install)
 3. [Install system dependencies](https://tauri.app/start/prerequisites/#system-dependencies)
 4. [Install VSCode extensions](https://code.visualstudio.com/docs/configure/extensions/extension-marketplace#_recommended-extensions)
-5. Tauri CLI using Cargo (optional but recommended)
-   * `cargo install tauri-cli --version "^2.0.0" --locked`
 
 ```shell
 # Clone the repository with SSH (or HTTPS)
@@ -28,22 +28,12 @@ cd iris
 Please install the npm dependencies:
 
 ```shell
-nvm use
-npm i
+pnpm env use --global v22.16.0
+pnpm i
 ```
 
 ... then run this to run the full program:
 
 ```shell
-cargo tauri dev
-# npm run tauri dev   <-- also works!
+pnpm run dev
 ```
-
-## Clearing Iris Data
-
-When developing, you may want to clear the data produced by Iris to get a fresh
-experience. To do so, you should run the following commands on the terminal:
-
-* **Windows**: `rm -r -fo ~/AppData/Roaming/org.ojosproject.Iris`
-* **macOS**: `rm -fr ~/Library/'Application Support'/org.ojosproject.Iris`
-* **Linux**: `rm -fr ~/.local/share/org.ojosproject.Iris; rm -fr ~/.config/org.ojosproject.Iris`

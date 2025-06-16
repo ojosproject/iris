@@ -2,9 +2,7 @@
   "identifier": "default",
   "description": "some permissions that were migrated from v1",
   "local": true,
-  "windows": [
-    "main"
-  ],
+  "windows": ["main"],
   "permissions": [
     "core:default",
     "fs:allow-app-write",

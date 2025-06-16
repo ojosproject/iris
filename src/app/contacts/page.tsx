@@ -20,7 +20,7 @@ export default function Contacts() {
   const [patientId, setPatientId] = useState("");
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedContactIds, setSelectedContactIds] = useState<Set<number>>(
+  const [selectedContactIds, setSelectedContactIds] = useState<Set<string>>(
     new Set(),
   );
   const router = useRouter();
@@ -57,7 +57,8 @@ export default function Contacts() {
     setModalOpen(valueForModal);
   }
 
-  function toggleSelectContact(id: number) {
+  function toggleSelectContact(contact: Contact) {
+    const id = contact.id;
     setSelectedContactIds((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(id)) {
@@ -67,7 +68,9 @@ export default function Contacts() {
       }
       return newSet;
     });
+    setSelectedContact(contact);
   }
+  
 
   return (
     <Layout title="Contacts" handleBackClick={() => router.push("/")}>
@@ -86,9 +89,9 @@ export default function Contacts() {
                       <div key={contact.id} className={styles.contactItem}>
                         <input
                           type="checkbox"
-                          checked={selectedContactIds.has(contact.id as any)}
+                          checked={selectedContactIds.has(contact.id)}
                           onChange={() =>
-                            toggleSelectContact(contact.id as any)
+                            toggleSelectContact(contact)
                           }
                         />
                         <p
