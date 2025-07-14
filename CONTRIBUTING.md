@@ -4,8 +4,6 @@
 > We're rewriting the contributing document. Some information may be missing,
 > but this will help you get started quickly.
 
-![Ojos Project header](https://ojosproject.org/images/iris-v0-summary.png)
-
 ## Setting up your coding environment
 
 Before you clone the repository, please:
@@ -18,8 +16,8 @@ Before you clone the repository, please:
 4. [Install VSCode extensions](https://code.visualstudio.com/docs/configure/extensions/extension-marketplace#_recommended-extensions)
 
 ```shell
-# Clone the repository with SSH (or HTTPS)
-git clone git@github.com:ojosproject/iris.git
+# Clone the repository with HTTPS (or SSH)
+git clone https://github.com/ojosproject/iris/
 cd iris
 ```
 

@@ -4,10 +4,14 @@
   "files.associations": {
     "LICENSE": "plaintext"
   },
-  "[markdown][plaintext]": {
+  "[markdown]": {
     "editor.rulers": [80],
     "editor.wordWrap": "off",
     "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+  },
+  "[plaintext]": {
+    "editor.rulers": [80],
+    "editor.wordWrap": "off"
   },
   "[rust]": {
     "editor.defaultFormatter": "rust-lang.rust-analyzer"

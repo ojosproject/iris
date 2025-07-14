@@ -8,19 +8,17 @@
   - [Table of Contents](#table-of-contents)
   - [Description](#description)
     - [Features](#features)
-    - [Background](#background)
+    - [Motivation](#motivation)
   - [Installation](#installation)
   - [Support](#support)
     - [GitHub Issues](#github-issues)
     - [Contact Us](#contact-us)
-  - [Roadmap](#roadmap)
-  - [Acknowledgements](#acknowledgements)
   - [License](#license)
 
 ## Description
 
-Iris is an all-in-one caregiver tool developed by Ojos Project. It makes your
-device into a full-fledged care management system.
+Iris is an all-in-one caregiver tool that makes your device into a full-fledged
+care management system.
 
 ### Features
 
@@ -34,7 +32,7 @@ device into a full-fledged care management system.
   getting the best possible quality (Windows/macOS only)
 - 👥 Contacts - A list of contacts for nurses and caregivers to keep in contact
 
-### Background
+### Motivation
 
 Many of us in Ojos Project have experienced needing to care for a family member
 with a serious illness. We saw first-hand the limits of technology in the
@@ -43,44 +41,20 @@ space, but for the palliative care space as a whole. 🩵
 
 ## Installation
 
-> [!NOTE]
-> Iris v0 may be incompatible with future versions as its still in early
-> development.
-
-You can download the latest release of Iris
-[here](https://github.com/ojosproject/iris/releases/latest/).
+You can download the latest release of Iris on
+[GitHub Releases](https://github.com/ojosproject/iris/releases/latest/).
 
 ## Support
 
 ### GitHub Issues
 
-Please check this
-[repositories' issues](https://github.com/ojosproject/iris/issues?q=is%3Aissue)
-to see if anybody else has had the same issue.
-
-If nobody's had the same issue,
-[please open an issue here](https://github.com/ojosproject/iris/issues/new/choose)!
+[Please open an issue](https://github.com/ojosproject/iris/issues/new/choose) if
+Iris is not working as expected.
 
 ### Contact Us
 
-To contact the team, you can join our
-[Discord server](https://discord.gg/qZyQadbuMG) or email us at
-<developers@ojosproject.org>.
-
-## Roadmap
-
-The Iris developers keep their sprint tasks documented
-[in the repository](./docs/maintenance/sprint.md).
-
-## Acknowledgements
-
-Iris was built with the support from many amazing people!
-
-- [Dr. Mark S. Baldwin](https://markbaldw.in/)
-- [Dr. Alberto Krone-Martins](https://www.albertokronemartins.com/)
-- [Dr. Gillian Hayes](https://www.gillianhayes.com/)
-- UC Irvine's [Undergraduate Research Opportunities Program](https://urop.uci.edu/)
-- Our interviewees & contributors
+- [Discord](https://discord.gg/qZyQadbuMG)
+- <developers@ojosproject.org>
 
 ## License
 
