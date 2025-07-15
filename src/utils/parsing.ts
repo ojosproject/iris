@@ -19,6 +19,16 @@ export const months = [
   "December",
 ];
 
+export const daysOfWeek = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+
 export function timestampToString(
   timestamp: number,
   format?: "READ" | "MMDDYYYY" | "HH:MM XX",

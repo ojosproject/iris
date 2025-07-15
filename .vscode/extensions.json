@@ -1,16 +1,16 @@
 {
   "recommendations": [
     "aaron-bond.better-comments", // Color codes comments
-    "streetsidesoftware.code-spell-checker", // Spell checks code
+    "streetsidesoftware.code-spell-checker", // Spell check
 
-    "yzhang.markdown-all-in-one", // Extra Markdown features
-    "DavidAnson.vscode-markdownlint", // Markdown linting,
+    "yzhang.markdown-all-in-one", // Markdown formatting
+    "DavidAnson.vscode-markdownlint", // Markdown linting
 
-    "rust-lang.rust-analyzer", // Rust code support for VS Code
-    "tamasfe.even-better-toml", // TOML support
+    "rust-lang.rust-analyzer", // Rust
+    "tamasfe.even-better-toml", // TOML
 
-    "alexcvzz.vscode-sqlite", // SqLite
-    "tauri-apps.tauri-vscode", // Tauri support
-    "esbenp.prettier-vscode" // code formatting for JS/TS
+    "alexcvzz.vscode-sqlite", // SQLite
+    "tauri-apps.tauri-vscode", // Tauri
+    "esbenp.prettier-vscode" // General code formatting
   ]
 }
