@@ -26,6 +26,9 @@ cd iris
 
 ### Run the program
 
+> [!IMPORTANT]
+> At least 5 GB of storage is recommended.
+
 Please install the npm dependencies:
 
 ```shell
