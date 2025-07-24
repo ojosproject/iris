@@ -20,10 +20,10 @@ export default function OnboardingComplete() {
         <div className={styles.buttonOnBottom}>
           <Button
             type="PRIMARY"
-            label="Finish"
+            label="Continue"
             onClick={() => {
               invoke("complete_onboarding").then(() => {
-                router.push("/");
+                router.push("/onboarding/donate/");
               });
             }}
           />

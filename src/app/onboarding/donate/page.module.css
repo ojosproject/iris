@@ -1,0 +1,32 @@
+/* ==========================================================================
+   File:     onboarding/donate/page.module.css
+   Authors:  Ojos Project & Iris contributors
+   License:  GNU General Public License v3.0
+   ========================================================================== */
+.donateContainer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 0 2rem;
+
+  min-height: 96dvh;
+}
+
+.textAndButtons {
+  max-width: 25rem;
+}
+
+.textAndButtons h3 {
+  font-size: 1.5rem;
+}
+
+.qrContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.qrContainer p {
+  color: var(--dark-gray);
+  font-size: 0.8rem;
+}
