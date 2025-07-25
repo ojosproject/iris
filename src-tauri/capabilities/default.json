@@ -19,6 +19,7 @@
       ]
     },
     "os:default",
-    "dialog:default"
+    "dialog:default",
+    "process:allow-restart"
   ]
 }

@@ -13,8 +13,9 @@ import Dialog from "@/components/Dialog";
 import { invoke } from "@tauri-apps/api/core";
 import useKeyPress from "@/components/useKeyPress";
 import { useRouter } from "next/navigation";
-import ConfirmUpdateDialog from "./_components/ConfirmUpdateDialog";
 import Layout from "@/components/Layout";
+import { check } from "@tauri-apps/plugin-updater";
+import { relaunch } from "@tauri-apps/plugin-process";
 
 type RowProps = {
   children: ReactElement;
@@ -46,6 +47,13 @@ function Section({ children, title, description }: SectionProps) {
   );
 }
 
+type UpdaterStatus =
+  | "Checking for updates..."
+  | "Downloading update..."
+  | "Restarting..."
+  | "Something went wrong."
+  | "You're up to date!";
+
 export default function Settings() {
   const [config, setConfig] = useState<Config | null>(null);
   const [displayDialog, setDisplayDialog] = useState(false);
@@ -60,6 +68,12 @@ export default function Settings() {
   const [updateButtonLabel, setUpdateButtonLabel] = useState("Request");
   const [updateButtonDisabled, setUpdateButtonDisabled] = useState(false);
   const router = useRouter();
+  const [updaterStatus, setUpdaterStatus] = useState<UpdaterStatus>(
+    "Checking for updates...",
+  );
+  const [updaterDescription, setUpdaterDescription] = useState(
+    "Please wait while we connect to GitHub.",
+  );
 
   useEffect(() => {
     invoke<Config>("get_config").then((c) => {
@@ -72,12 +86,68 @@ export default function Settings() {
       setDisplayDialog(false);
     } else if (displayNumberDialog) {
       setDisplayNumberDialog(false);
+    } else if (displayUpdater) {
+      setDisplayUpdater(false);
     } else {
       router.back();
     }
   });
 
   function UpdaterSection() {
+    function checkUpdate() {
+      setUpdaterStatus("Checking for updates...");
+      setUpdaterDescription("Please wait while we connect to GitHub.");
+      check({ timeout: 3000 })
+        .then((update) => {
+          if (update) {
+            let downloaded: number = 0;
+            let contentLength: number = 0;
+
+            update
+              .downloadAndInstall((event) => {
+                switch (event.event) {
+                  case "Started":
+                    setUpdaterStatus("Downloading update...");
+                    contentLength = event.data.contentLength!;
+                    setUpdaterDescription(`Downloading v${update.version}...`);
+                    break;
+                  case "Progress":
+                    downloaded += event.data.chunkLength;
+                    break;
+                  case "Finished":
+                    break;
+                }
+              })
+              .then(() => {
+                setUpdaterStatus("Restarting...");
+                setUpdaterDescription(
+                  "The update was successfully installed. The app will now restart.",
+                );
+                relaunch().then();
+              })
+              .catch((e) => {
+                throw e;
+              });
+          } else {
+            setUpdaterStatus("You're up to date!");
+            setUpdaterDescription("You're using the most up to date version.");
+          }
+        })
+        .catch((e) => {
+          if (e.includes("error sending request")) {
+            setUpdaterStatus("Something went wrong.");
+            setUpdaterDescription(
+              "Could not connect to GitHub. Is your device connected to the internet?",
+            );
+          } else {
+            setUpdaterStatus("Something went wrong.");
+            setUpdaterDescription("Please try again later.");
+          }
+
+          throw e;
+        });
+    }
+
     return (
       config && (
         <Section
@@ -92,6 +162,7 @@ export default function Settings() {
               onClick={() => {
                 if (!updateButtonDisabled) {
                   setDisplayUpdater(true);
+                  checkUpdate();
                 }
               }}
             ></Button>
@@ -183,13 +254,19 @@ export default function Settings() {
   return (
     <Layout title="Settings">
       {displayUpdater && (
-        <ConfirmUpdateDialog
-          onRequest={() => {
-            setUpdateButtonDisabled(true);
-            setUpdateButtonLabel("Requested");
-          }}
-          closeModel={() => setDisplayUpdater(false)}
-        />
+        <Dialog title={updaterStatus} content={updaterDescription}>
+          {(
+            ["Something went wrong", "You're up to date!"] as UpdaterStatus[]
+          ).includes(updaterStatus) && (
+            <>
+              <Button
+                type="SECONDARY"
+                label="Okay"
+                onClick={() => setDisplayUpdater(false)}
+              />
+            </>
+          )}
+        </Dialog>
       )}
       {displayResetDialog && (
         <Dialog
