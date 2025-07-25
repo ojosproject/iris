@@ -40,5 +40,6 @@ body:
         - Windows
         - macOS
         - Linux
+        - Platform agnostic
     validations:
       required: true
