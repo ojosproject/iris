@@ -5,21 +5,33 @@
    License:  GNU General Public License v3.0
    ========================================================================== */
 :root {
-  --black: #1c1c1c;
-  --blue: #0063d7;
-  --dark-blue: #094595;
-  --light-blue: #83b3f3;
-  --gray: grey;
-  --dark-gray: #3e454d;
-  --red: #b10b08;
-  --light-red: #dc0f0b;
-  --white: #fcfcfc;
+  /*light mode*/
+  --lm-black: #1c1c1c;
+  --lm-blue: #0063d7;
+  --lm-dark-blue: #094595;
+  --lm-light-blue: #83b3f3;
+  --lm-gray: grey;
+  --lm-dark-gray: #3e454d;
+  --lm-red: #b10b08;
+  --lm-light-red: #dc0f0b;
+  --lm-white: #fcfcfc;
 
-  color: var(--black);
+  /*dark mode*/
+  --dm-black: #0f0f0f;
+  --dm-blue: #3b7fff;
+  --dm-dark-blue: #4379ff;
+  --dm-light-blue: #99c5ff;
+  --dm-gray: grey;
+  --dm-dark-gray: #3e454d;
+  --dm-red: #ff3330;
+  --dm-dark-red: #dc0f0b;
+  --dm-white: #fcfcfc;
+
+  color: var(--lm-black);
 }
 
 body {
-  background-color: var(--white);
+  background-color: var(--lm-white);
 }
 
 h1 {
@@ -30,7 +42,7 @@ h1 {
 h2 {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--dark-blue);
+  color: var(--lm-dark-blue);
 }
 
 h3 {
@@ -41,4 +53,18 @@ h3 {
 button {
   font-size: 1rem;
   font-weight: 700;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: var(--dm-white);
+  }
+
+  body {
+    background-color: var(--dm-black);
+  }
+
+  h2 {
+    color: var(--dm-dark-blue);
+  }
 }

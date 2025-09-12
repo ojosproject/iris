@@ -11,25 +11,25 @@
   border-radius: 10px;
   margin: 5px;
 
-  color: var(--white);
-  background-color: var(--blue);
+  color: var(--lm-white);
+  background-color: var(--lm-blue);
   border: solid transparent 2px;
 }
 
 .buttonIrisPrimary:hover {
   text-decoration: none;
-  color: var(--white);
-  background-color: var(--dark-blue);
+  color: var(--lm-white);
+  background-color: var(--lm-dark-blue);
   cursor: pointer;
 }
 
 .buttonIrisPrimary:disabled {
-  background-color: var(--gray);
+  background-color: var(--lm-gray);
 }
 
 .buttonIrisPrimary:hover:disabled {
   cursor: default;
-  background-color: var(--gray);
+  background-color: var(--lm-gray);
 }
 
 .buttonIrisSecondary {
@@ -39,14 +39,14 @@
   border-radius: 10px;
   margin: 5px;
 
-  color: var(--blue);
-  background-color: var(--white);
-  border: solid var(--blue) 2px;
+  color: var(--lm-blue);
+  background-color: var(--lm-white);
+  border: solid var(--lm-blue) 2px;
 }
 
 .buttonIrisSecondary:hover {
   text-decoration: none;
-  color: var(--blue);
+  color: var(--lm-blue);
   cursor: pointer;
 }
 
@@ -57,25 +57,25 @@
   border-radius: 10px;
   margin: 5px;
 
-  color: var(--white);
-  background-color: var(--red);
+  color: var(--lm-white);
+  background-color: var(--lm-red);
   border: solid transparent 2px;
 }
 
 .buttonIrisDangerPrimary:hover {
   text-decoration: none;
-  color: var(--white);
-  background-color: var(--light-red);
+  color: var(--lm-white);
+  background-color: var(--lm-light-red);
   cursor: pointer;
 }
 
 .buttonIrisDangerPrimary:disabled {
-  background-color: var(--gray);
+  background-color: var(--lm-gray);
 }
 
 .buttonIrisDangerPrimary:hover:disabled {
   cursor: default;
-  background-color: var(--gray);
+  background-color: var(--lm-gray);
 }
 
 .buttonIrisDangerSecondary {
@@ -85,13 +85,23 @@
   border-radius: 10px;
   margin: 5px;
 
-  color: var(--red);
-  background-color: var(--white);
-  border: solid var(--red) 2px;
+  color: var(--lm-red);
+  background-color: var(--lm-white);
+  border: solid var(--lm-red) 2px;
 }
 
 .buttonIrisDangerSecondary:hover {
   text-decoration: none;
-  color: var(--red);
+  color: var(--lm-red);
   cursor: pointer;
+}
+
+@media (prefers-color-scheme: dark) {
+  .buttonIrisPrimary {
+    background-color: var(--dm-blue);
+  }
+
+  .buttonIrisPrimary:hover {
+    background-color: var(--dm-dark-blue);
+  }
 }

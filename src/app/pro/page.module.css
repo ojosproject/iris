@@ -16,7 +16,7 @@
 
 .box {
   padding: 10px;
-  border: 1mm solid var(--dark-blue);
+  border: 1mm solid var(--lm-dark-blue);
   box-sizing: border-box;
   overflow: auto;
 }

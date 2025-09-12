@@ -29,7 +29,7 @@
   position: fixed;
   top: 11rem;
   right: 1.5rem;
-  color: var(--gray);
+  color: var(--lm-gray);
   font-size: 0.9rem;
 }
 
@@ -51,7 +51,7 @@
   top: 20px;
   right: 20px;
   background-color: rgba(0, 128, 0, 0.9);
-  color: var(--white);
+  color: var(--lm-white);
   padding: 10px 20px;
   border-radius: 5px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -111,6 +111,16 @@
 }
 
 .required {
-  color: var(--red);
+  color: var(--lm-red);
   margin-left: 0.25rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .saveMessage {
+    color: var(--dm-black);
+  }
+
+  .required {
+    color: var(--dm-red);
+  }
 }

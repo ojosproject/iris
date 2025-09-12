@@ -4,88 +4,87 @@
   Authors:  Ojos Project & Iris contributors
   License:  GNU General Public License v3.0
    ========================================================================== */
-  .container {
-    display: flex;
-    justify-content: center;
-    margin-top: 5%;
-    margin: auto;
-  }
-  
-  .progressBar {
-    width: 100%;
-    background-color: #e0e0e0;
-    border-radius: 10px;
-    overflow: hidden;
-    height: 25px;
-    margin: 10px 0;
-  }
-  
-  .myBar {
-    height: 100%;
-    background-color: #1d7ff0;
-    text-align: center;
-    line-height: 25px;
-    color: white;
-    font-weight: bold;
-    transition: width 0.3s ease-in-out;
-  }
-  .surveyLayout {
-    display: flex;
-    flex-direction: column;
-    height: 70vh;
-    width: 80%;
-  }
-  
-  .progressBarContainer {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    background: var(--white);
-  }
-  
-  .surveyContent {
-    flex: 1;
-    padding: 10px;
-  }
-  
-  .surveyQuestion {
-    margin: auto;
-    text-align: center;
-  }
-  
-  .fixedButtonContainer {
-    position: sticky;
-    bottom: 0;
-    z-index: 10;
-    display: flex;
-    justify-content: space-between;
-    padding: 16px;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  
-  .ratingSection {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-  }
-  
-  .label {
-    white-space: nowrap;
-    max-width: 150px;
-    font-size: 14px;
-    text-align: center;
-    flex-shrink: 0;
-  }
-  
-  .ratingOptions {
-    display: flex;
-    justify-content: space-around;
-    gap: 10px;
-    flex-shrink: 1;
-    flex-grow: 1;
-  }
-  
+.container {
+  display: flex;
+  justify-content: center;
+  margin-top: 5%;
+  margin: auto;
+}
+
+.progressBar {
+  width: 100%;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 25px;
+  margin: 10px 0;
+}
+
+.myBar {
+  height: 100%;
+  background-color: #1d7ff0;
+  text-align: center;
+  line-height: 25px;
+  color: white;
+  font-weight: bold;
+  transition: width 0.3s ease-in-out;
+}
+.surveyLayout {
+  display: flex;
+  flex-direction: column;
+  height: 70vh;
+  width: 80%;
+}
+
+.progressBarContainer {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--lm-white);
+}
+
+.surveyContent {
+  flex: 1;
+  padding: 10px;
+}
+
+.surveyQuestion {
+  margin: auto;
+  text-align: center;
+}
+
+.fixedButtonContainer {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.ratingSection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.label {
+  white-space: nowrap;
+  max-width: 150px;
+  font-size: 14px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.ratingOptions {
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+  flex-shrink: 1;
+  flex-grow: 1;
+}

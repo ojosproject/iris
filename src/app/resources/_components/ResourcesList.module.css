@@ -27,7 +27,7 @@
 }
 
 .categoryLabel {
-  color: var(--gray);
+  color: var(--lm-gray);
 }
 
 .resourceTextContent {
@@ -37,7 +37,7 @@
 .QrCode {
   width: 150px;
   height: 150px;
-  background-color: var(--white);
+  background-color: var(--lm-white);
   padding: 8px;
 }
 
@@ -61,5 +61,11 @@
   }
   to {
     opacity: 100%;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .resourceContainer {
+    background-color: var(--dm-dark-gray);
   }
 }

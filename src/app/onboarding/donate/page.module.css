@@ -27,6 +27,6 @@
 }
 
 .qrContainer p {
-  color: var(--dark-gray);
+  color: var(--lm-dark-gray);
   font-size: 0.8rem;
 }

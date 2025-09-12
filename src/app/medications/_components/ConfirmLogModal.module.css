@@ -18,9 +18,9 @@
 
 .modalContent {
   padding: 20px;
-  color: var(--black);
-  border: 2px solid var(--black);
-  background-color: var(--white);
+  color: var(--lm-black);
+  border: 2px solid var(--lm-black);
+  background-color: var(--lm-white);
   border-radius: 10px;
   width: 400px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -51,7 +51,7 @@
 
 .buttonGroup button:first-child {
   background-color: #4caf50;
-  color: var(--white);
+  color: var(--lm-white);
 }
 
 .buttonGroup button:first-child:hover {
@@ -61,7 +61,7 @@
 
 .buttonGroup button:last-child {
   background-color: #f44336;
-  color: var(--white);
+  color: var(--lm-white);
 }
 
 .buttonGroup button:last-child:hover {
@@ -88,7 +88,24 @@
   resize: none;
   overflow-y: auto;
   border-radius: 5px;
-  border: 1px solid var(--dark-blue);
+  border: 1px solid var(--lm-dark-blue);
   font: 14px;
   font-family: Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  .modalContent {
+    color: var(--dm-white);
+    border: 2px solid var(--dm-white);
+    background-color: var(--dm-black);
+  }
+  .buttonGroup button:first-child {
+    color: var(--dm-black);
+  }
+  .buttonGroup button:last-child {
+    color: var(--dm-black);
+  }
+  .commentBox {
+    border: 1px solid var(--dm-dark-blue);
+  }
 }
