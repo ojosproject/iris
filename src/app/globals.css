@@ -19,7 +19,7 @@
   /*dark mode*/
   --dm-black: #0f0f0f;
   --dm-blue: #3b7fff;
-  --dm-dark-blue: #4379ff;
+  --dm-dark-blue: #094595;
   --dm-light-blue: #99c5ff;
   --dm-gray: grey;
   --dm-dark-gray: #3e454d;
@@ -65,6 +65,6 @@ button {
   }
 
   h2 {
-    color: var(--dm-dark-blue);
+    color: var(--dm-blue);
   }
 }
