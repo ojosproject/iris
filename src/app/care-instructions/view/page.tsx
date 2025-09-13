@@ -5,7 +5,6 @@
  * License:  GNU General Public License v3.0
  */
 "use client";
-import BackButton from "@/components/BackButton";
 import { useRouter, useSearchParams } from "next/navigation";
 import styles from "./page.module.css";
 import Button from "@/components/Button";
@@ -174,8 +173,8 @@ function EditInstructions() {
                 </div>
               ) : null}
               <h2>{title}</h2>
-              {content.split("\n").map((line) => {
-                return <p key={line}>{line}</p>;
+              {content.split("\n").map((line, index) => {
+                return <p key={index}>{line}</p>;
               })}
             </>
           )}
