@@ -14,7 +14,7 @@ export default function CareInstructionButton(props: {
 }) {
   const { id } = props.instruction;
   const title = truncateText(props.instruction.title, 100);
-  const content = truncateText(props.instruction.content, 250);
+  const content = truncateText(props.instruction.content.split("\n")[0], 250);
 
   return (
     <Link
