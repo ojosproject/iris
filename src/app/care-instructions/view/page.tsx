@@ -47,12 +47,6 @@ function EditInstructions() {
     }
   });
 
-  useKeyPress("Enter", () => {
-    if (onEditMode && title.trim() !== "" && content.trim() !== "") {
-      handleOnSaveClick();
-    }
-  });
-
   function fetchInformation(fetch_id: string) {
     invoke<CareInstruction>("get_single_care_instruction", {
       id: fetch_id,
