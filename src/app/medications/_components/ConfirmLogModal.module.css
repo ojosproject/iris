@@ -81,18 +81,6 @@
   }
 }
 
-.commentBox {
-  margin: 12px 0;
-  padding: 10px;
-  max-height: 100px;
-  resize: none;
-  overflow-y: auto;
-  border-radius: 5px;
-  border: 1px solid var(--lm-dark-blue);
-  font: 14px;
-  font-family: Arial, sans-serif;
-}
-
 @media (prefers-color-scheme: dark) {
   .modalContent {
     color: var(--dm-white);
@@ -104,8 +92,5 @@
   }
   .buttonGroup button:last-child {
     color: var(--dm-black);
-  }
-  .commentBox {
-    border: 1px solid var(--dm-dark-blue);
   }
 }

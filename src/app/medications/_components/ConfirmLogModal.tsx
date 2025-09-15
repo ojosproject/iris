@@ -44,11 +44,10 @@ export default function ConfirmLogModal({
         <label>
           Add a comment (optional)
           <textarea
-            className={styles.commentBox}
             placeholder="Example: Patient reacted well."
             value={comment}
             onChange={(e) => setComment(e.target.value)}
-            style={{ width: 250, fontSize: 14 }}
+            style={{ margin: "1.2rem" }}
           />
         </label>
         <div className={styles.buttonGroup}>

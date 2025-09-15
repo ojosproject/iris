@@ -74,28 +74,14 @@
 
 .searchInput {
   flex: 2;
-  background-color: var(--lm-white);
-  color: var(--lm-black);
-  padding: 15px;
   width: 100%;
-  height: 20px;
-  font-size: 15px;
-  outline: none;
-  /* Should be changed back at some point for accessibility. */
-  border: black 1px solid;
-  border-radius: 10px;
-  box-shadow: none;
+  height: 2rem;
 }
 
 @media (prefers-color-scheme: dark) {
   .logMeds {
     border: 4px solid var(--dm-dark-blue);
     background-color: var(--dm-black);
-  }
-
-  .searchInput {
-    background-color: var(--dm-white);
-    color: var(--dm-black);
   }
 
   .medsWrap {

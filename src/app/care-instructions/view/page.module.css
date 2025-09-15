@@ -52,29 +52,16 @@
   right: 2%;
 }
 
-.inputCareTitle {
+.inputCareTitle[type="text"] {
   width: 80%;
-  height: 50px;
-
+  font-size: 1.6rem;
   margin-bottom: 35px;
-  padding: 0 5px;
-
-  border: solid #094595 2px;
-  border-radius: 8px;
-  font-size: 30px;
-  font-weight: bold;
 }
 
 .inputCareContent {
-  resize: none;
   width: 100%;
   min-height: 52dvh;
-  padding: 5px;
-
-  border: solid #094595 2px;
-  border-radius: 10px;
-  font-size: 20px;
-  font-family: "Noto Sans", "Inter", "sans-serif", "Arial";
+  font-size: 1.2rem;
 }
 
 .modalOverlay {

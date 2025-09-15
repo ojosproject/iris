@@ -55,6 +55,36 @@ button {
   font-weight: 700;
 }
 
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"] {
+  resize: none;
+  color: var(--lm-black);
+  background-color: var(--lm-white);
+
+  border: solid var(--lm-black) 2px;
+  border-radius: 15px;
+
+  font-size: 1rem;
+  font-family: var(--font-noto-sans);
+
+  padding: 5px 10px;
+  min-width: 3rem;
+  min-height: 2rem;
+}
+
+textarea {
+  resize: none;
+  padding: 10px;
+  border-radius: 10px;
+  border: solid var(--lm-black) 2px;
+  font-size: 1rem;
+  font-family: var(--font-noto-sans);
+  min-height: 50px;
+  min-width: 300px;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     color: var(--dm-white);
@@ -66,5 +96,20 @@ button {
 
   h2 {
     color: var(--dm-blue);
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="date"] {
+    background-color: var(--dm-dark-gray);
+    color: var(--dm-white);
+    border-color: var(--dm-gray);
+  }
+
+  textarea {
+    background-color: var(--dm-dark-gray);
+    color: var(--dm-white);
+    border-color: var(--dm-gray);
   }
 }

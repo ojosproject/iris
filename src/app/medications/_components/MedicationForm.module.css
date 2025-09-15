@@ -6,9 +6,6 @@
    ========================================================================== */
 .input {
   width: 48%;
-  border-radius: 4px;
-  padding: 8px;
-  border-radius: 4px;
 }
 
 .pageContainer {
@@ -33,7 +30,10 @@
   margin-bottom: 15px;
 }
 
-.pageContent input,
+.pageContent input {
+  margin-bottom: 15px;
+}
+
 .pageContent select {
   width: 45%;
   box-sizing: border-box;
