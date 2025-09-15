@@ -11,7 +11,6 @@ import styles from "./page.module.css";
 import Chart from "chart.js/auto";
 import { invoke } from "@tauri-apps/api/core";
 import { sortChartData } from "./_helper";
-import Button from "@/components/Button";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { PatientReportedOutcome } from "@/types/pro";
 import useKeyPress from "@/components/useKeyPress";
@@ -251,37 +250,41 @@ export default function ProChart() {
         {/* Button Sections Stacked Vertically */}
         <div className={styles.buttonSections}>
           <div className={styles.container4}>
-            <Button
-              type="SECONDARY"
-              label="Previous Week"
+            <button
+              className="secondary"
               onClick={handlePrevWeek}
               disabled={currentWeek <= getOldestWeek}
               style={{ minWidth: minimumButtonWidth }}
-            />
-            <Button
-              type="SECONDARY"
-              label="Next Week"
+            >
+              Previous Week
+            </button>
+            <button
+              className="secondary"
               onClick={handleNextWeek}
               disabled={currentWeek >= 0}
               style={{ minWidth: minimumButtonWidth }}
-            />
+            >
+              Next Week
+            </button>
           </div>
 
           <div className={styles.container4}>
-            <Button
-              type="SECONDARY"
-              label="Previous Question"
+            <button
+              className="secondary"
               onClick={handlePrevQuestion}
               disabled={currentQuestionIndex === 0}
               style={{ minWidth: minimumButtonWidth }}
-            />
-            <Button
-              type="SECONDARY"
-              label="Next Question"
+            >
+              Previous Question
+            </button>
+            <button
+              className="secondary"
               onClick={handleNextQuestion}
               disabled={currentQuestionIndex === questionKeys.length - 1}
               style={{ minWidth: minimumButtonWidth }}
-            />
+            >
+              Next Question
+            </button>
           </div>
 
           <div className={styles.container4}>
@@ -290,13 +293,14 @@ export default function ProChart() {
             ) : (
               <p>Please take the survey for today</p>
             )}
-            <Button
-              type="PRIMARY"
-              label="Take Today's Survey"
+            <button
+              className="primary"
               onClick={() => router.push("./pro/survey")}
               // disabled={isSurveyTaken}
               style={{ minWidth: minimumButtonWidth }}
-            />
+            >
+              Take Today's Survey
+            </button>
           </div>
         </div>
       </div>

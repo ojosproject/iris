@@ -5,8 +5,8 @@
  * License:  GNU General Public License v3.0
  */
 "use client";
+import Link from "next/link";
 import styles from "./page.module.css";
-import Button from "@/components/Button";
 import QRCode from "react-qr-code";
 
 export default function Page() {
@@ -19,7 +19,10 @@ export default function Page() {
           donations helps us create open, affordable technology that serves
           communities everywhere.
         </p>
-        <Button type="PRIMARY" label="Done" link="/" />
+
+        <Link className="linkButton" href="/">
+          <button className="primary">Done</button>
+        </Link>
       </section>
       <section className={styles.qrContainer}>
         <QRCode value="https://ko-fi.com/ojosproject" />

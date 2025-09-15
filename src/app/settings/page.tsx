@@ -8,7 +8,6 @@
 import { ReactElement, useEffect, useState } from "react";
 import styles from "./page.module.css";
 import { Config, DataPackReceipt } from "@/types/settings";
-import Button from "@/components/Button";
 import Dialog from "@/components/Dialog";
 import { invoke } from "@tauri-apps/api/core";
 import useKeyPress from "@/components/useKeyPress";
@@ -155,9 +154,8 @@ export default function Settings() {
           description="Request software updates and automatically install them."
         >
           <Row label="Request Updates">
-            <Button
-              type="PRIMARY"
-              label={updateButtonLabel}
+            <button
+              className="primary"
               disabled={updateButtonDisabled}
               onClick={() => {
                 if (!updateButtonDisabled) {
@@ -165,7 +163,9 @@ export default function Settings() {
                   checkUpdate();
                 }
               }}
-            ></Button>
+            >
+              {updateButtonLabel}
+            </button>
           </Row>
         </Section>
       )
@@ -180,9 +180,8 @@ export default function Settings() {
         >
           <div>
             <Row label="Data Pack (JSON)">
-              <Button
-                type="PRIMARY"
-                label="Select..."
+              <button
+                className="primary"
                 onClick={() => {
                   invoke<DataPackReceipt>("import_data_pack")
                     .then((receipt) => {
@@ -224,7 +223,9 @@ export default function Settings() {
                       });
                     });
                 }}
-              />
+              >
+                Select...
+              </button>
             </Row>
           </div>
         </Section>
@@ -240,11 +241,12 @@ export default function Settings() {
           description="Delete all your data and reset the software. This is irreversible, so be careful!"
         >
           <Row label="Reset">
-            <Button
-              type="DANGER-PRIMARY"
-              label="Reset"
+            <button
+              className="dangerPrimary"
               onClick={() => setDisplayResetDialog(true)}
-            />
+            >
+              Reset
+            </button>
           </Row>
         </Section>
       )
@@ -259,11 +261,12 @@ export default function Settings() {
             ["Something went wrong", "You're up to date!"] as UpdaterStatus[]
           ).includes(updaterStatus) && (
             <>
-              <Button
-                type="SECONDARY"
-                label="Okay"
+              <button
+                className="secondary"
                 onClick={() => setDisplayUpdater(false)}
-              />
+              >
+                Okay
+              </button>
             </>
           )}
         </Dialog>
@@ -274,14 +277,14 @@ export default function Settings() {
           content="You are about to delete all Iris data. This action is irreversible. Are you sure?"
         >
           <>
-            <Button
-              type="SECONDARY"
-              label="Cancel"
+            <button
+              className="secondary"
               onClick={() => setDisplayResetDialog(false)}
-            />
-            <Button
-              type="DANGER-PRIMARY"
-              label="Yes"
+            >
+              Cancel
+            </button>
+            <button
+              className="dangerPrimary"
               onClick={() => {
                 invoke("delete_data")
                   .then()
@@ -291,7 +294,9 @@ export default function Settings() {
 
                 setDisplayResetDialog(false);
               }}
-            />
+            >
+              Yes
+            </button>
           </>
         </Dialog>
       )}
@@ -317,28 +322,29 @@ export default function Settings() {
               alignContent: "center",
             }}
           >
-            <Button
-              type="PRIMARY"
-              label="I consent"
+            <button
+              className="primary"
               onClick={() => {
                 setDisplayDialog(!displayDialog);
               }}
-            />
-            <Button
-              type="SECONDARY"
-              label="Never mind"
+            >
+              I consent
+            </button>
+            <button
+              className="secondary"
               onClick={() => {
                 setDisplayDialog(!displayDialog);
               }}
-            />
+            >
+              Never mind
+            </button>
           </div>
         </Dialog>
       )}
       {dataPackDialog.enabled && config && (
         <Dialog title={dataPackDialog.title} content={dataPackDialog.content}>
-          <Button
-            type="PRIMARY"
-            label="Continue"
+          <button
+            className="primary"
             onClick={() =>
               setDataPackDialog({
                 enabled: false,
@@ -346,7 +352,9 @@ export default function Settings() {
                 content: "",
               })
             }
-          />
+          >
+            Continue
+          </button>
         </Dialog>
       )}
     </Layout>

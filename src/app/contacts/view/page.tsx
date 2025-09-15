@@ -7,7 +7,6 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
 import styles from "./page.module.css";
-import Button from "@/components/Button";
 import { Suspense, useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { Contact } from "@/types/contacts";
@@ -168,18 +167,20 @@ function EditContacts() {
               </div>
 
               <div className={styles.buttonRow}>
-                <Button
-                  type="SECONDARY"
-                  label="Cancel"
+                <button
+                  className="secondary"
                   onClick={() => router.back()}
                   disabled={justSaved}
-                />
-                <Button
-                  type="PRIMARY"
-                  label="Save"
+                >
+                  Cancel
+                </button>
+                <button
+                  className="primary"
                   onClick={handleOnSaveClick}
                   disabled={name === "" || justSaved}
-                />
+                >
+                  Save
+                </button>
               </div>
             </>
           ) : null}

@@ -51,8 +51,12 @@ export default function ConfirmLogModal({
           />
         </label>
         <div className={styles.buttonGroup}>
-          <button onClick={logSubmit}>Yes</button>
-          <button onClick={handleClose}>No</button>
+          <button className="primary" onClick={logSubmit}>
+            Yes
+          </button>
+          <button className="secondary" onClick={handleClose}>
+            No
+          </button>
         </div>
       </div>
     </div>

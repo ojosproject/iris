@@ -72,7 +72,7 @@
 
 .unitButton {
   padding: 8px 12px;
-  background: white;
+  background: var(--lm-white);
   color: var(--lm-dark-blue);
   cursor: pointer;
   border-radius: 4px;
@@ -83,7 +83,7 @@
 }
 
 .unitButton:hover {
-  background: #094595 !important;
+  background: var(--lm-dark-blue) !important;
   color: var(--lm-white) !important;
 }
 
@@ -97,14 +97,7 @@
   color: var(--lm-dark-blue);
 }
 
-.quantityBox {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  margin-right: 5px;
-}
-
-.pageContent button {
+.unitOptions button {
   padding: 10px 20px;
   border-radius: 5px;
   border: none;
@@ -117,164 +110,15 @@
   margin-right: 10px;
 }
 
-.pageContent .submitButton {
-  background-color: var(--lm-dark-blue);
-  color: var(--lm-white);
-}
-
-.pageContent .submitButton:hover {
-  background-color: #062c5f;
-}
-
-.yesNoButtons {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
 .textStructure {
   padding: 5px;
   font-weight: bold;
-}
-
-.yesNoButtons button,
-.daySelection button {
-  padding: 10px 15px;
-  border-radius: 5px;
-  border: 2px solid var(--lm-dark-blue);
-  background: var(--lm-white);
-  color: var(--lm-dark-blue);
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.yesNoButtons button.selected,
-.daySelection button.selected {
-  background: #094595;
-  color: var(--lm-white);
-}
-
-.daySelection button {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: transparent;
-  border: 2px solid var(--lm-dark-blue);
-  font-size: 14px;
-  color: var(--lm-dark-blue);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-right: 5px;
-}
-
-.daySelection button:hover {
-  background-color: #a9a9a9;
-}
-
-.addTimeButton {
-  padding: 8px 12px;
-  background: var(--lm-dark-blue);
-  color: white;
-  cursor: pointer;
-  border-radius: 4px;
-  font-size: 16px;
-  transition: all 0.3s ease;
-}
-
-.addTimeButton:hover {
-  background: #062c5f;
-  color: white;
-}
-
-.removeTimeButton {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: var(--lm-dark-blue);
-  border: 2px solid var(--lm-dark-blue);
-  font-size: 14px;
-  color: var(--lm-white);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-left: 10px;
-}
-
-.removeTimeButton:hover {
-  background: var(--lm-dark-blue);
-  color: var(--lm-white);
-}
-
-.scheduleDetails {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding-right: 10px;
-}
-
-.daySelection {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.timeSelection {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 15px;
-}
-
-.timeSelection input,
-.timeSelection select {
-  width: 70px;
-  padding: 5px;
-  text-align: center;
-  border: 2px solid #094595;
-  border-radius: 6px;
-  font-size: 16px;
 }
 
 .modalActions {
   display: flex;
   justify-content: flex-end;
   margin-top: 15px;
-}
-
-.modalActions button {
-  padding: 10px 15px;
-  border-radius: 5px;
-  border: 2px solid var(--lm-dark-blue);
-  background: white;
-  color: var(--lm-dark-blue);
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.modalActions button:hover {
-  background: var(--lm-dark-blue);
-  color: white;
-}
-
-.disabled {
-  pointer-events: none;
-  opacity: 0.5;
-}
-
-.disabledButton {
-  background-color: #a9a9a9;
-  color: #d3d3d3;
-  border-color: #a9a9a9;
-  cursor: not-allowed;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -301,53 +145,7 @@
     color: var(--dm-dark-blue);
   }
 
-  .pageContent button {
+  .unitOptions button {
     color: var(--lm-black);
-  }
-
-  .pageContent .submitButton {
-    background-color: var(--dm-dark-blue);
-    color: var(--dm-white);
-  }
-
-  .yesNoButtons button,
-  .daySelection button {
-    border: 2px solid var(--dm-dark-blue);
-    background: var(--dm-black);
-    color: var(--dm-dark-blue);
-  }
-
-  .yesNoButtons button.selected,
-  .daySelection button.selected {
-    color: var(--dm-black);
-  }
-
-  .daySelection button {
-    border: 2px solid var(--dm-dark-blue);
-    color: var(--dm-dark-blue);
-  }
-
-  .addTimeButton {
-    background: var(--dm-dark-blue);
-  }
-
-  .removeTimeButton {
-    background-color: var(--dm-dark-blue);
-    border: 2px solid var(--dm-dark-blue);
-    color: var(--dm-black);
-  }
-
-  .removeTimeButton:hover {
-    background: var(--dm-dark-blue);
-    color: var(--dm-black);
-  }
-
-  .modalActions button {
-    border: 2px solid var(--dm-dark-blue);
-    color: var(--dm-dark-blue);
-  }
-
-  .modalActions button:hover {
-    background: var(--dm-dark-blue);
   }
 }

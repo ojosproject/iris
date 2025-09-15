@@ -5,7 +5,6 @@
  * License:  GNU General Public License v3.0
  */
 "use client";
-import Button from "@/components/Button";
 import Dialog from "@/components/Dialog";
 import Layout from "@/components/Layout";
 import useKeyPress from "@/components/useKeyPress";
@@ -65,11 +64,9 @@ export default function Survey() {
           title="Thank you!"
           content="You have completed your survey for today"
         >
-          <Button
-            type="PRIMARY"
-            label="Return to Pros"
-            onClick={handleGoBack}
-          />
+          <button className="primary" onClick={handleGoBack}>
+            Return to Pros
+          </button>
         </Dialog>
       )}
     </Layout>

@@ -5,10 +5,8 @@
  * License:  GNU General Public License v3.0
  */
 "use client";
-import BackButton from "@/components/BackButton";
 import { useRouter, useSearchParams } from "next/navigation";
 import styles from "./page.module.css";
-import Button from "@/components/Button";
 import { Suspense, useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { CareInstruction } from "@/types/care-instructions";
@@ -157,20 +155,22 @@ function EditInstructions() {
             <>
               {!(id === previousTopic && id === nextTopic) ? (
                 <div className={styles.topicsButton}>
-                  <Button
-                    type="SECONDARY"
-                    label="Previous Topic"
+                  <button
+                    className="secondary"
                     onClick={() => {
                       fetchInformation(previousTopic);
                     }}
-                  />
-                  <Button
-                    type="SECONDARY"
-                    label="Next Topic"
+                  >
+                    Previous Topic
+                  </button>
+                  <button
+                    className="secondary"
                     onClick={() => {
                       fetchInformation(nextTopic);
                     }}
-                  />
+                  >
+                    Next Topic
+                  </button>
                 </div>
               ) : null}
               <h2>{title}</h2>
@@ -192,22 +192,24 @@ function EditInstructions() {
                   alignContent: "center",
                 }}
               >
-                <Button
-                  type="DANGER-PRIMARY"
-                  label="Delete"
+                <button
+                  className="dangerPrimary"
                   onClick={() => {
                     isModalOpen(false);
                     invoke("delete_care_instructions", { id: id });
                     router.back();
                   }}
-                />
-                <Button
-                  type="SECONDARY"
-                  label="Never mind"
+                >
+                  Delete
+                </button>
+                <button
+                  className="secondary"
                   onClick={() => {
                     isModalOpen(false);
                   }}
-                />
+                >
+                  Never mind
+                </button>
               </div>
             </Dialog>
           )}
@@ -227,29 +229,33 @@ function EditInstructions() {
         <div className={styles.buttonSaveInstructions}>
           <div className={styles.buttonColumn}>
             {onEditMode ? (
-              <Button
-                type="PRIMARY"
-                label="Save Instructions"
+              <button
+                className="primary"
                 onClick={handleOnSaveClick}
                 disabled={title === "" || content === ""}
-              />
+              >
+                Save Instructions
+              </button>
             ) : (
               <>
-                <Button
-                  type="PRIMARY"
-                  label="Edit Instructions"
+                <button
+                  className="primary"
                   onClick={() => setOnEditMode(!onEditMode)}
-                />
-                <Button
-                  type="DANGER-SECONDARY"
-                  label="Delete Instructions"
+                >
+                  Edit Instructions
+                </button>
+                <button
+                  className="dangerSecondary"
                   onClick={() => isModalOpen(true)}
-                />
-                <Button
-                  type="SECONDARY"
-                  label="Resources"
+                >
+                  Delete Instructions
+                </button>
+                <button
+                  className="secondary"
                   onClick={() => router.push("/resources")}
-                />
+                >
+                  Resources
+                </button>
               </>
             )}
           </div>

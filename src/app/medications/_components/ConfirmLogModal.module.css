@@ -38,37 +38,6 @@
   width: 45%;
 }
 
-.buttonGroup button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
-}
-
-.buttonGroup button:first-child {
-  background-color: #4caf50;
-  color: var(--lm-white);
-}
-
-.buttonGroup button:first-child:hover {
-  background-color: #45a049;
-  cursor: pointer;
-}
-
-.buttonGroup button:last-child {
-  background-color: #f44336;
-  color: var(--lm-white);
-}
-
-.buttonGroup button:last-child:hover {
-  background-color: #e53935;
-  cursor: pointer;
-}
-
 @keyframes scale {
   0% {
     transform: scale(0);
@@ -86,11 +55,5 @@
     color: var(--dm-white);
     border: 2px solid var(--dm-white);
     background-color: var(--dm-black);
-  }
-  .buttonGroup button:first-child {
-    color: var(--dm-black);
-  }
-  .buttonGroup button:last-child {
-    color: var(--dm-black);
   }
 }
