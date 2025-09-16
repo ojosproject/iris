@@ -41,9 +41,9 @@
   overflow-y: auto; /* Enables scrolling */
   padding: 10px; /* Space for scrollbar */
 
-  border: 2px solid #000000; /* Light gray border */
+  border: 1px solid var(--lm-black); /* Light gray border */
   border-radius: 8px; /* Rounded corners */
-  background-color: var(--white); /* Optional: White background */
+  background-color: var(--lm-white); /* Optional: White background */
 }
 
 .contactDetails {
@@ -82,4 +82,11 @@
 .deleteSelectedContainer {
   margin: 1rem 0;
   text-align: center;
+}
+
+@media (prefers-color-scheme: dark) {
+  .contactsList {
+    border: 1px solid var(--dm-gray);
+    background-color: var(--dm-black);
+  }
 }

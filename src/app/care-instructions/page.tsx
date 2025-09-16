@@ -9,11 +9,11 @@ import { CareInstruction } from "@/types/care-instructions";
 import { invoke } from "@tauri-apps/api/core";
 import { useEffect, useState } from "react";
 import styles from "./page.module.css";
-import Button from "@/components/Button";
 import CareInstructionsButton from "./_components/CareInstructionButton";
 import useKeyPress from "@/components/useKeyPress";
 import { useRouter } from "next/navigation";
 import Layout from "@/components/Layout";
+import Link from "next/link";
 
 export default function CareInstructions() {
   const [instructions, setInstructions] = useState<CareInstruction[]>([]);
@@ -52,15 +52,18 @@ export default function CareInstructions() {
 
         <div className={styles.backMenuContainer}>
           <div className={styles.buttonMenu}>
-            <Button
-              type="PRIMARY"
-              label="Add Instructions"
-              link={{
+            <Link
+              className="linkButton"
+              href={{
                 pathname: "./care-instructions/view/",
               }}
-            />
+            >
+              <button className="primary">Add Instructions</button>
+            </Link>
 
-            <Button type="SECONDARY" label="Resources" link="/resources" />
+            <Link className="linkButton" href="/resources">
+              <button className="secondary">Resources</button>
+            </Link>
           </div>
         </div>
       </div>

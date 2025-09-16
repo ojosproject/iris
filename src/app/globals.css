@@ -5,21 +5,33 @@
    License:  GNU General Public License v3.0
    ========================================================================== */
 :root {
-  --black: #1c1c1c;
-  --blue: #0063d7;
-  --dark-blue: #094595;
-  --light-blue: #83b3f3;
-  --gray: grey;
-  --dark-gray: #3e454d;
-  --red: #b10b08;
-  --light-red: #dc0f0b;
-  --white: #fcfcfc;
+  /*light mode*/
+  --lm-black: #1c1c1c;
+  --lm-blue: #0063d7;
+  --lm-dark-blue: #094595;
+  --lm-light-blue: #83b3f3;
+  --lm-gray: grey;
+  --lm-dark-gray: #3e454d;
+  --lm-red: #b10b08;
+  --lm-light-red: #dc0f0b;
+  --lm-white: #fcfcfc;
 
-  color: var(--black);
+  /*dark mode*/
+  --dm-black: #0f0f0f;
+  --dm-blue: #3b7fff;
+  --dm-dark-blue: #094595;
+  --dm-light-blue: #99c5ff;
+  --dm-gray: grey;
+  --dm-dark-gray: #3e454d;
+  --dm-red: #ff3330;
+  --dm-dark-red: #dc0f0b;
+  --dm-white: #fcfcfc;
+
+  color: var(--lm-black);
 }
 
 body {
-  background-color: var(--white);
+  background-color: var(--lm-white);
 }
 
 h1 {
@@ -30,7 +42,7 @@ h1 {
 h2 {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--dark-blue);
+  color: var(--lm-dark-blue);
 }
 
 h3 {
@@ -38,7 +50,206 @@ h3 {
   font-weight: 700;
 }
 
+/* ==========================================================================
+   BUTTONS
+   ========================================================================== */
+
+.linkButton {
+  text-decoration: none;
+  display: inline-block;
+  margin: 5px;
+}
+
+.linkButton button {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
 button {
+  padding: 10px 25px;
+  min-width: 100px;
+  border: solid transparent 2px;
+  border-radius: 10px;
+  margin: 5px;
   font-size: 1rem;
-  font-weight: 700;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+button:hover {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+button:hover:disabled {
+  cursor: not-allowed;
+}
+
+button.primary {
+  color: var(--lm-white);
+  background-color: var(--lm-blue);
+}
+
+button.primary:hover {
+  color: var(--lm-white);
+  background-color: var(--lm-dark-blue);
+}
+
+button.primary:disabled,
+button.dangerPrimary:disabled {
+  background-color: var(--lm-gray);
+}
+
+button.primary:hover:disabled,
+button.dangerPrimary:hover:disabled {
+  background-color: var(--lm-gray);
+}
+
+button.secondary {
+  color: var(--lm-blue);
+  background-color: var(--lm-white);
+  border-color: var(--lm-blue);
+}
+
+button.secondary:hover {
+  color: var(--lm-blue);
+}
+
+button.secondary:disabled,
+button.dangerSecondary:disabled {
+  color: var(--lm-gray);
+  border-color: var(--lm-gray);
+}
+
+button.secondary:hover:disabled,
+button.dangerSecondary:hover:disabled {
+  color: var(--lm-gray);
+  border-color: var(--lm-gray);
+}
+
+button.dangerPrimary {
+  color: var(--lm-white);
+  background-color: var(--lm-red);
+}
+
+button.dangerPrimary:hover {
+  color: var(--lm-white);
+  background-color: var(--lm-light-red);
+}
+
+button.dangerSecondary {
+  color: var(--lm-red);
+  background-color: var(--lm-white);
+  border-color: var(--lm-red);
+}
+
+/* ==========================================================================
+   TEXT INPUTS
+   ========================================================================== */
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"] {
+  resize: none;
+  color: var(--lm-black);
+  background-color: var(--lm-white);
+
+  border: solid var(--lm-black) 2px;
+  border-radius: 15px;
+
+  font-size: 1rem;
+  font-family: var(--font-noto-sans);
+
+  padding: 5px 10px;
+  min-width: 3rem;
+  min-height: 2rem;
+}
+
+textarea {
+  resize: none;
+  padding: 10px;
+  border-radius: 10px;
+  border: solid var(--lm-black) 2px;
+  font-size: 1rem;
+  font-family: var(--font-noto-sans);
+  min-height: 50px;
+  min-width: 300px;
+}
+
+/* ==========================================================================
+   DARK MODE
+   ========================================================================== */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: var(--dm-white);
+  }
+
+  body {
+    background-color: var(--dm-black);
+  }
+
+  h2 {
+    color: var(--dm-blue);
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="date"] {
+    background-color: var(--dm-dark-gray);
+    color: var(--dm-white);
+    border-color: var(--dm-gray);
+  }
+
+  textarea {
+    background-color: var(--dm-dark-gray);
+    color: var(--dm-white);
+    border-color: var(--dm-gray);
+  }
+
+  button.primary {
+    background-color: var(--dm-blue);
+  }
+
+  button.primary:hover {
+    background-color: var(--dm-dark-blue);
+  }
+
+  button.secondary {
+    color: var(--dm-blue);
+    background-color: var(--dm-white);
+    border-color: var(--dm-blue);
+  }
+
+  button.secondary:hover {
+    color: var(--dm-blue);
+  }
+
+  button.dangerPrimary {
+    color: var(--dm-white);
+    background-color: var(--dm-red);
+  }
+
+  button.dangerPrimary:hover {
+    color: var(--dm-white);
+    background-color: var(--dm-dark-red);
+  }
+
+  button.dangerSecondary {
+    color: var(--dm-red);
+    background-color: var(--dm-white);
+    border-color: var(--dm-red);
+  }
+
+  button.dangerSecondary:hover {
+    color: var(--dm-red);
+  }
+
+  button a {
+    text-decoration: none;
+    color: var(--dm-white);
+  }
 }

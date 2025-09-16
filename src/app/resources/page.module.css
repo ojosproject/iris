@@ -37,3 +37,9 @@
 .notFoundIcon {
   margin: 20px;
 }
+
+@media (prefers-color-scheme: dark) {
+  .notFoundIcon {
+    filter: invert(1);
+  }
+}

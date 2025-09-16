@@ -6,7 +6,6 @@
  */
 "use client";
 import styles from "./page.module.css";
-import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
 import Dialog from "@/components/Dialog";
 import { useState } from "react";
@@ -27,9 +26,10 @@ export default function Onboarding() {
       <div className={styles.onboardingCenter}>
         {dataPackDialog.enabled && (
           <Dialog title={dataPackDialog.title} content={dataPackDialog.content}>
-            <Button
-              type={dataPackDialog.hideSelectButton ? "PRIMARY" : "SECONDARY"}
-              label={dataPackDialog.hideSelectButton ? "Done" : "Back"}
+            <button
+              className={
+                dataPackDialog.hideSelectButton ? "primary" : "secondary"
+              }
               onClick={() =>
                 setDataPackDialog({
                   enabled: false,
@@ -38,11 +38,12 @@ export default function Onboarding() {
                   hideSelectButton: false,
                 })
               }
-            />
+            >
+              {dataPackDialog.hideSelectButton ? "Done" : "Back"}
+            </button>
             {!dataPackDialog.hideSelectButton && (
-              <Button
-                type="PRIMARY"
-                label="Select JSON..."
+              <button
+                className="primary"
                 onClick={() => {
                   invoke<DataPackReceipt>("import_data_pack")
                     .then((receipt) => {
@@ -93,7 +94,9 @@ export default function Onboarding() {
                     hideSelectButton: false,
                   });
                 }}
-              />
+              >
+                Select JSON...
+              </button>
             )}
           </Dialog>
         )}
@@ -101,9 +104,8 @@ export default function Onboarding() {
         <h3>Your care management system</h3>
 
         <div className={styles.buttonOnBottom}>
-          <Button
-            type="SECONDARY"
-            label="Import Data Pack"
+          <button
+            className="secondary"
             onClick={() => {
               setDataPackDialog({
                 enabled: true,
@@ -113,14 +115,17 @@ export default function Onboarding() {
                 hideSelectButton: false,
               });
             }}
-          />
-          <Button
-            type="PRIMARY"
-            label="Get Started"
+          >
+            Import Data Pack
+          </button>
+          <button
+            className="primary"
             onClick={() => {
               router.push("/onboarding/patient/");
             }}
-          />
+          >
+            Get Started
+          </button>
         </div>
       </div>
     </Layout>

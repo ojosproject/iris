@@ -6,7 +6,6 @@
  */
 "use client";
 import styles from "../page.module.css";
-import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
 import { invoke } from "@tauri-apps/api/core";
 import Layout from "@/components/Layout";
@@ -18,15 +17,16 @@ export default function OnboardingComplete() {
       <div className={styles.onboardingCenter}>
         <h3>Onboarding completed!</h3>
         <div className={styles.buttonOnBottom}>
-          <Button
-            type="PRIMARY"
-            label="Continue"
+          <button
+            className="primary"
             onClick={() => {
               invoke("complete_onboarding").then(() => {
                 router.push("/onboarding/donate/");
               });
             }}
-          />
+          >
+            Continue
+          </button>
         </div>
       </div>
     </Layout>

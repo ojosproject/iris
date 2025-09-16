@@ -9,11 +9,11 @@ import { Contact } from "@/types/contacts";
 import { invoke } from "@tauri-apps/api/core";
 import { useEffect, useState } from "react";
 import styles from "./page.module.css";
-import Button from "@/components/Button";
 import Dialog from "@/components/Dialog";
 import { parsePhoneNumber } from "@/utils/parsing";
 import { useRouter } from "next/navigation";
 import Layout from "@/components/Layout";
+import Link from "next/link";
 
 export default function Contacts() {
   const [contacts, setContacts] = useState<Contact[]>([]);
@@ -70,7 +70,6 @@ export default function Contacts() {
     });
     setSelectedContact(contact);
   }
-  
 
   return (
     <Layout title="Contacts" handleBackClick={() => router.push("/")}>
@@ -90,9 +89,7 @@ export default function Contacts() {
                         <input
                           type="checkbox"
                           checked={selectedContactIds.has(contact.id)}
-                          onChange={() =>
-                            toggleSelectContact(contact)
-                          }
+                          onChange={() => toggleSelectContact(contact)}
                         />
                         <p
                           className={styles.contactName}
@@ -124,22 +121,25 @@ export default function Contacts() {
                     <strong>Company:</strong> {selectedContact.company || "N/A"}
                   </p>
                   <div className={styles.buttonGroup}>
-                    <Button
-                      type="DANGER-SECONDARY"
-                      label="Delete"
+                    <button
+                      className="dangerSecondary"
                       onClick={() => {
                         setModalOpen(true);
                       }}
                       disabled={selectedContact.contact_type === "PATIENT"}
-                    />
-                    <Button
-                      type="PRIMARY"
-                      label="Edit"
-                      link={{
+                    >
+                      Delete
+                    </button>
+
+                    <Link
+                      className="linkButton"
+                      href={{
                         pathname: "./contacts/view/",
                         query: { id: selectedContact.id },
                       }}
-                    />
+                    >
+                      <button className="primary">Edit</button>
+                    </Link>
                   </div>
                 </>
               ) : (
@@ -153,16 +153,15 @@ export default function Contacts() {
         )}
         {selectedContactIds.size > 0 && (
           <div className={styles.deleteSelectedContainer}>
-            <Button
-              type="DANGER-PRIMARY"
-              label={
-                selectedContactIds.has(patientId as any)
-                  ? "Cannot Delete Patient"
-                  : `Delete Selected (${selectedContactIds.size})`
-              }
+            <button
+              className="dangerPrimary"
               onClick={() => setModalOpen(true)}
               disabled={selectedContactIds.has(patientId as any)}
-            />
+            >
+              {selectedContactIds.has(patientId as any)
+                ? "Cannot Delete Patient"
+                : `Delete Selected (${selectedContactIds.size})`}
+            </button>
           </div>
         )}
 
@@ -179,9 +178,8 @@ export default function Contacts() {
                 alignContent: "center",
               }}
             >
-              <Button
-                type="DANGER-PRIMARY"
-                label="Delete"
+              <button
+                className="dangerPrimary"
                 onClick={async () => {
                   isModalOpen(false);
                   const idsToDelete = Array.from(selectedContactIds);
@@ -204,27 +202,31 @@ export default function Contacts() {
                   setSelectedContactIds(new Set());
                   setSelectedContact(null);
                 }}
-              />
-              <Button
-                type="SECONDARY"
-                label="Never mind"
+              >
+                Delete
+              </button>
+              <button
+                className="secondary"
                 onClick={() => {
                   isModalOpen(false);
                 }}
-              />
+              >
+                Never mind
+              </button>
             </div>
           </Dialog>
         )}
 
         <div className={styles.buttonMenuContainer}>
           <div className={styles.buttonMenu}>
-            <Button
-              type="PRIMARY"
-              label="Add Contacts"
-              link={{
+            <Link
+              className="linkButton"
+              href={{
                 pathname: "./contacts/view/",
               }}
-            />
+            >
+              <button className="primary">Add Contacts</button>
+            </Link>
           </div>
         </div>
       </div>

@@ -7,3 +7,9 @@
 .backButton:hover {
   cursor: pointer;
 }
+
+@media (prefers-color-scheme: dark) {
+  .backButton {
+    filter: invert(1);
+  }
+}

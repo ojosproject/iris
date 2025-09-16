@@ -15,7 +15,7 @@
 .circle {
   width: 78px;
   height: 78px;
-  background-color: var(--gray);
+  background-color: var(--lm-gray);
   border-radius: 50%;
   margin: 10px auto;
 }
@@ -34,9 +34,9 @@
   width: calc(33.333% - 20px);
   min-width: 250px;
   margin: 15px;
-  border: 4px solid var(--dark-blue);
+  border: 4px solid var(--lm-dark-blue);
   border-radius: 6px;
-  background-color: var(--white);
+  background-color: var(--lm-white);
   align-items: center;
   min-height: 200px;
   padding: 10px;
@@ -58,9 +58,9 @@
   max-width: 800px;
   margin: 20px auto;
   padding: 20px;
-  border: 2px solid #000000;
+  border: 2px solid var(--lm-black);
   border-radius: 10px;
-  background-color: #f9f9f9;
+  background-color: var(--lm-white);
 }
 
 .searchBarContainer {
@@ -74,15 +74,18 @@
 
 .searchInput {
   flex: 2;
-  background-color: var(--white);
-  color: var(--black);
-  padding: 15px;
   width: 100%;
-  height: 20px;
-  font-size: 15px;
-  outline: none;
-  /* Should be changed back at some point for accessibility. */
-  border: black 1px solid;
-  border-radius: 10px;
-  box-shadow: none;
+  height: 2rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .logMeds {
+    border: 4px solid var(--dm-dark-blue);
+    background-color: var(--dm-black);
+  }
+
+  .medsWrap {
+    border: 2px solid var(--dm-gray);
+    background-color: var(--dm-black);
+  }
 }

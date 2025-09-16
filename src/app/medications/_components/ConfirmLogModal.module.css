@@ -18,9 +18,9 @@
 
 .modalContent {
   padding: 20px;
-  color: var(--black);
-  border: 2px solid var(--black);
-  background-color: var(--white);
+  color: var(--lm-black);
+  border: 2px solid var(--lm-black);
+  background-color: var(--lm-white);
   border-radius: 10px;
   width: 400px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -38,37 +38,6 @@
   width: 45%;
 }
 
-.buttonGroup button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
-}
-
-.buttonGroup button:first-child {
-  background-color: #4caf50;
-  color: var(--white);
-}
-
-.buttonGroup button:first-child:hover {
-  background-color: #45a049;
-  cursor: pointer;
-}
-
-.buttonGroup button:last-child {
-  background-color: #f44336;
-  color: var(--white);
-}
-
-.buttonGroup button:last-child:hover {
-  background-color: #e53935;
-  cursor: pointer;
-}
-
 @keyframes scale {
   0% {
     transform: scale(0);
@@ -81,14 +50,10 @@
   }
 }
 
-.commentBox {
-  margin: 12px 0;
-  padding: 10px;
-  max-height: 100px;
-  resize: none;
-  overflow-y: auto;
-  border-radius: 5px;
-  border: 1px solid var(--dark-blue);
-  font: 14px;
-  font-family: Arial, sans-serif;
+@media (prefers-color-scheme: dark) {
+  .modalContent {
+    color: var(--dm-white);
+    border: 2px solid var(--dm-white);
+    background-color: var(--dm-black);
+  }
 }

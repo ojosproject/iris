@@ -9,7 +9,6 @@ import styles from "./WebcamRecorder.module.css";
 import { useRouter } from "next/navigation";
 import Dialog from "@/components/Dialog";
 import { saveVideo } from "../_helper";
-import Button from "@/components/Button";
 
 export default function WebcamRecorder() {
   const router = useRouter();
@@ -135,37 +134,41 @@ export default function WebcamRecorder() {
           title="You are still recording!"
           content="Recording will end if you leave the page. Leave the page?"
         >
-          <Button
-            type="DANGER-PRIMARY"
-            label="Leave page"
-            onClick={confirmDialog}
-          />
-          <Button type="PRIMARY" label="Stay" onClick={closeDialog} />
+          <button className="dangerPrimary" onClick={confirmDialog}>
+            Leave page
+          </button>
+          <button className="primary" onClick={closeDialog}>
+            Stay
+          </button>
         </Dialog>
       )}
       <div className={styles.controls}>
         {/* Button to go back to the previous page */}
-        <Button
-          type={isRecording ? "SECONDARY" : "PRIMARY"}
-          label="Back"
+        <button
+          className={isRecording ? "secondary" : "primary"}
           onClick={handleEnd}
-        />
-        <Button
-          type={isRecording ? "SECONDARY" : "PRIMARY"}
-          label={isRecording ? "Stop Recording" : "Start Recording"}
+        >
+          Back
+        </button>
+        <button
+          className={isRecording ? "secondary" : "primary"}
           onClick={isRecording ? stopRecording : startRecording}
-        />
+        >
+          {isRecording ? "Stop Recording" : "Start Recording"}
+        </button>
 
-        <Button
-          type={isCameraOn ? "SECONDARY" : "PRIMARY"}
-          label={isCameraOn ? "Stop Camera" : "Start Camera"}
+        <button
+          className={isCameraOn ? "secondary" : "primary"}
           onClick={toggleCamera}
-        />
-        <Button
-          type={isMicOn ? "SECONDARY" : "PRIMARY"}
-          label={isMicOn ? "Stop Mic" : "Start Mic"}
+        >
+          {isCameraOn ? "Stop Camera" : "Start Camera"}
+        </button>
+        <button
+          className={isMicOn ? "secondary" : "primary"}
           onClick={toggleMute}
-        />
+        >
+          {isMicOn ? "Stop Mic" : "Start Mic"}
+        </button>
       </div>
     </div>
   );

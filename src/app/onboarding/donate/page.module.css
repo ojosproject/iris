@@ -20,6 +20,11 @@
   font-size: 1.5rem;
 }
 
+.qr {
+  padding: 20px;
+  border-radius: 10px;
+}
+
 .qrContainer {
   display: flex;
   flex-direction: column;
@@ -27,6 +32,16 @@
 }
 
 .qrContainer p {
-  color: var(--dark-gray);
+  color: var(--lm-dark-gray);
   font-size: 0.8rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .qr {
+    background-color: var(--dm-white);
+  }
+
+  .qrContainer p {
+    color: var(--dm-light-gray);
+  }
 }

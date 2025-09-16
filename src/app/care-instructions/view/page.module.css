@@ -28,7 +28,7 @@
   top: 180px;
   right: 20px;
 
-  color: var(--gray);
+  color: var(--lm-gray);
   font-size: 15px;
 }
 
@@ -52,29 +52,16 @@
   right: 2%;
 }
 
-.inputCareTitle {
+.inputCareTitle[type="text"] {
   width: 80%;
-  height: 50px;
-
+  font-size: 1.6rem;
   margin-bottom: 35px;
-  padding: 0 5px;
-
-  border: solid #094595 2px;
-  border-radius: 8px;
-  font-size: 30px;
-  font-weight: bold;
 }
 
 .inputCareContent {
-  resize: none;
   width: 100%;
   min-height: 52dvh;
-  padding: 5px;
-
-  border: solid #094595 2px;
-  border-radius: 10px;
-  font-size: 20px;
-  font-family: "Noto Sans", "Inter", "sans-serif", "Arial";
+  font-size: 1.2rem;
 }
 
 .modalOverlay {
@@ -96,4 +83,10 @@
   border-radius: 8px;
   width: 100%;
   z-index: 1001; /* Higher than overlay to ensure visibility */
+}
+
+@media (prefers-color-scheme: dark) {
+  .lastUpdated {
+    color: var(--dm-gray);
+  }
 }

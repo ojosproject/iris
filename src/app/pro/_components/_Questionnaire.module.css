@@ -40,7 +40,7 @@
   position: sticky;
   top: 0;
   z-index: 10;
-  background: var(--white);
+  background: var(--lm-white);
 }
 
 .surveyContent {
@@ -87,4 +87,10 @@
   gap: 10px;
   flex-shrink: 1;
   flex-grow: 1;
+}
+
+@media (prefers-color-scheme: dark) {
+  .progressBarContainer {
+    background: var(--dm-black);
+  }
 }

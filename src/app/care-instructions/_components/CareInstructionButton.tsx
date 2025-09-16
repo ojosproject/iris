@@ -18,7 +18,7 @@ export default function CareInstructionButton(props: {
 
   return (
     <Link
-      style={{ color: "black", textDecoration: "none" }}
+      className={styles.link}
       href={{
         pathname: "./care-instructions/view/",
         query: { id },

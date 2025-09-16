@@ -10,7 +10,6 @@
 // todo: Split that CSS Module and create `_components/Questionnaire.module.css`
 import React, { useState, useEffect } from "react";
 import styles from "./_Questionnaire.module.css";
-import Button from "@/components/Button";
 import { ProQuestion } from "@/types/pro";
 
 type RatingProps = {
@@ -221,28 +220,31 @@ export default function Questionnaire({
 
       <div className={styles.fixedButtonContainer}>
         <div>
-          <Button
-            type="SECONDARY"
-            label="Prev Question"
+          <button
+            className="secondary"
             onClick={handlePrev}
             disabled={pageNumber <= 1}
-          />
+          >
+            Prev Question
+          </button>
         </div>
         <div>
           {end < questions.length ? (
-            <Button
-              type="SECONDARY"
-              label="Next Question"
+            <button
+              className="secondary"
               onClick={handleNext}
               disabled={isNaN(ratings[pageNumber - 1])}
-            />
+            >
+              Next Question
+            </button>
           ) : (
-            <Button
-              type="PRIMARY"
-              label="Submit Survey"
+            <button
+              className="primary"
               onClick={handleSubmit}
               disabled={isNaN(ratings[pageNumber - 1])}
-            />
+            >
+              Submit Survey
+            </button>
           )}
         </div>
       </div>
