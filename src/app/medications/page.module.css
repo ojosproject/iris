@@ -85,7 +85,7 @@
   }
 
   .medsWrap {
-    border: 2px solid var(--dm-white);
+    border: 2px solid var(--dm-gray);
     background-color: var(--dm-black);
   }
 }

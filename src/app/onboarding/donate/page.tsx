@@ -25,7 +25,7 @@ export default function Page() {
         </Link>
       </section>
       <section className={styles.qrContainer}>
-        <QRCode value="https://ko-fi.com/ojosproject" />
+        <QRCode className={styles.qr} value="https://ko-fi.com/ojosproject" />
         <p>Scan the QR code to donate and support our work.</p>
       </section>
     </div>

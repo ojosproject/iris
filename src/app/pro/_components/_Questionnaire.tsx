@@ -239,7 +239,7 @@ export default function Questionnaire({
             </button>
           ) : (
             <button
-              className="PRIMARY"
+              className="primary"
               onClick={handleSubmit}
               disabled={isNaN(ratings[pageNumber - 1])}
             >

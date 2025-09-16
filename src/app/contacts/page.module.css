@@ -86,7 +86,7 @@
 
 @media (prefers-color-scheme: dark) {
   .contactsList {
-    border: 1px solid var(--dm-white);
+    border: 1px solid var(--dm-gray);
     background-color: var(--dm-black);
   }
 }
