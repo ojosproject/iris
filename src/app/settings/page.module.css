@@ -4,25 +4,27 @@
    Authors:  Ojos Project & Iris contributors
    License:  GNU General Public License v3.0
    ========================================================================== */
-.containerSettings {
+
+.menuAndContent {
+  display: flex;
+}
+
+.menuContainer {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  max-width: 200px;
+  width: 100%;
+  margin: 0 3rem;
 }
 
-.column {
-  max-width: 300px;
-  margin: 20px;
+.bigVersion {
+  font-size: 3rem;
+  font-weight: bold;
+  color: var(--lm-blue);
 }
 
-.columnOfContainers {
-  display: flex;
-}
-
-.labelRow {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+@media (prefers-color-scheme: dark) {
+  .bigVersion {
+    color: var(--dm-blue);
+  }
 }

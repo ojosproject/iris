@@ -15,6 +15,8 @@ import { invoke } from "@tauri-apps/api/core";
 import { Config } from "@/types/settings";
 import { platform } from "@tauri-apps/plugin-os";
 import { useRouter } from "next/navigation";
+import { getCurrentWindow } from "@tauri-apps/api/window";
+import { isEnabled } from "@tauri-apps/plugin-autostart";
 
 export default function Hub() {
   const [onboardingCompleted, setOnboardingCompleted] = useState(false);
@@ -24,6 +26,17 @@ export default function Hub() {
   useEffect(() => {
     invoke<Config>("get_config").then((c) => {
       setOnboardingCompleted(c.onboarding_completed);
+
+      async function setFullscreen() {
+        const window = getCurrentWindow();
+        const autostart = await isEnabled();
+
+        if (autostart) {
+          await window.setFullscreen(true);
+        }
+      }
+
+      setFullscreen();
 
       if (!c.onboarding_completed) {
         router.push("/onboarding");

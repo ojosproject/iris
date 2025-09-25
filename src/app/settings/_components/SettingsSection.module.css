@@ -1,0 +1,26 @@
+/* ==========================================================================
+   File:     settings/_components/SettingsSection.module.css
+   Purpose:  Styles the SettingsSection component.
+   Authors:  Ojos Project & Iris contributors
+   License:  GNU General Public License v3.0
+   ========================================================================== */
+.section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.information p {
+  max-width: 350px;
+}
+
+.extra {
+  margin-left: 6rem;
+}
+
+.extra img {
+  width: 100%;
+  border: solid 1px var(--black);
+  border-radius: 10px;
+  max-width: 10rem;
+}
