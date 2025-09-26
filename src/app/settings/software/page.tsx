@@ -154,7 +154,7 @@ export default function Page() {
         </SettingSection>
         <SettingSection
           label={`${platform} version`}
-          description="This is the version number of your device."
+          description="This is the version number of your operating system."
         >
           <span className={styles.bigVersion}>v{osVersion}</span>
         </SettingSection>

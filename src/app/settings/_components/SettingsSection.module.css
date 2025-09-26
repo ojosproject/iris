@@ -10,8 +10,8 @@
   align-items: center;
 }
 
-.information p {
-  max-width: 350px;
+.information {
+  flex: 2;
 }
 
 .extra {
