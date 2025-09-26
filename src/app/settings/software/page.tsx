@@ -124,7 +124,7 @@ export default function Page() {
           )}
         </Dialog>
       )}
-      <section>
+      <section className={styles.sectionContainer}>
         <SettingSection
           label="Software updates"
           description="Software updates keep your system up to date with new features and security improvements."

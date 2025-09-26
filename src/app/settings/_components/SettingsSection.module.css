@@ -15,7 +15,9 @@
 }
 
 .extra {
-  margin-left: 6rem;
+  display: flex;
+  justify-content: flex-end;
+  min-width: 200px;
 }
 
 .extra img {

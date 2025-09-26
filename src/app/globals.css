@@ -51,6 +51,32 @@ h3 {
 }
 
 /* ==========================================================================
+   react-toggle
+   ========================================================================== */
+
+.toggle.react-toggle--checked .react-toggle-track {
+  background-color: var(--lm-blue) !important;
+}
+
+.toggle.react-toggle--checked:hover .react-toggle-track {
+  background-color: var(--lm-dark-blue) !important;
+}
+
+.toggle:hover .react-toggle-track {
+  background-color: var(--lm-dark-gray) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .toggle.react-toggle--checked .react-toggle-track {
+    background-color: var(--dm-blue) !important;
+  }
+
+  .toggle.react-toggle--checked:hover .react-toggle-track {
+    background-color: var(--dm-dark-blue) !important;
+  }
+}
+
+/* ==========================================================================
    BUTTONS
    ========================================================================== */
 

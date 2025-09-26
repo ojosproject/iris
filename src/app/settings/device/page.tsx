@@ -13,6 +13,7 @@ import useKeyPress from "@/components/useKeyPress";
 import { useRouter } from "next/navigation";
 import { disable, enable, isEnabled } from "@tauri-apps/plugin-autostart";
 import { getCurrentWindow } from "@tauri-apps/api/window";
+import styles from "../page.module.css";
 
 export default function Page() {
   const [kioskEnabled, setKioskEnabled] = useState(false);
@@ -31,7 +32,7 @@ export default function Page() {
   }, []);
 
   return (
-    <section>
+    <section className={styles.sectionContainer}>
       <SettingSection
         label="Provider information"
         description="This software is provided to you by Ojos Project."
@@ -45,6 +46,7 @@ export default function Page() {
         <Toggle
           icons={false}
           checked={kioskEnabled}
+          className="toggle"
           onChange={(e) => {
             setKioskEnabled(e.target.checked);
 

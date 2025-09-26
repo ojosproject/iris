@@ -23,6 +23,11 @@
   color: var(--lm-blue);
 }
 
+.sectionContainer {
+  width: 100%;
+  margin: 0 3rem;
+}
+
 @media (prefers-color-scheme: dark) {
   .bigVersion {
     color: var(--dm-blue);
