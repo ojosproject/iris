@@ -6,7 +6,6 @@
  */
 "use client";
 import styles from "./page.module.css";
-import Button from "@/components/Button";
 import { invoke } from "@tauri-apps/api/core";
 import WebcamRecorder from "./_components/WebcamRecorder";
 import useKeyPress from "@/components/useKeyPress";
@@ -22,13 +21,14 @@ export default function Call() {
   return (
     <>
       <header className={styles.header}>
-        <Button
-          type="SECONDARY"
-          label="View Recordings"
+        <button
+          className="secondary"
           onClick={() => {
             invoke("open_recordings_folder");
           }}
-        />
+        >
+          View Recordings
+        </button>
       </header>
       <main className={styles.videoMain}>
         <WebcamRecorder />

@@ -13,15 +13,20 @@ mod onboarding;
 mod pro;
 mod resources;
 mod settings;
-mod updater;
 use helpers::data_dir;
 use menu::menu;
 use onboarding::helpers::setup_onboarding;
 use std::{env, process};
 use tauri::Manager;
+use tauri_plugin_autostart::MacosLauncher;
 
 fn main() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_autostart::init(
+            MacosLauncher::LaunchAgent,
+            Some(vec![]),
+        ))
+        .plugin(tauri_plugin_process::init())
         .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_os::init())
@@ -38,6 +43,7 @@ fn main() {
             settings::commands::set_config,
             settings::commands::import_data_pack,
             settings::commands::complete_onboarding,
+            settings::commands::delete_data,
             care_instructions::commands::get_all_care_instructions,
             care_instructions::commands::create_care_instructions,
             care_instructions::commands::get_single_care_instruction,
@@ -56,7 +62,6 @@ fn main() {
             contacts::commands::delete_contact,
             contacts::commands::get_patient_contact,
             contacts::commands::disable_relay_for_contacts,
-            updater::commands::check_update,
             // updater::commands::delete_iris_data, we'll bring this back in a later iteration
         ])
         .setup(|app| {

@@ -33,7 +33,7 @@ export const hubTools: HubTool[] = [
     icon: "/images/tools/call.png",
   },
   {
-    link: "./settings",
+    link: "./settings/device",
     name: "Settings",
     icon: "/images/tools/settings.png",
   },

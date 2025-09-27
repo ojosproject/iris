@@ -28,3 +28,14 @@
   font-size: 14px;
   color: grey;
 }
+
+.link {
+  color: var(--lm-black);
+  text-decoration: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  .link {
+    color: var(--dm-white);
+  }
+}

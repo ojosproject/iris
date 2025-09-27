@@ -1,87 +1,43 @@
-# Iris: The Care Management System
+# Iris for Desktop
 
-![Iris v0 summary](https://ojosproject.org/images/iris-v0-summary.png)
-
-## Table of Contents
-
-- [Iris: The Care Management System](#iris-the-care-management-system)
-  - [Table of Contents](#table-of-contents)
-  - [Description](#description)
-    - [Features](#features)
-    - [Background](#background)
-  - [Installation](#installation)
-  - [Support](#support)
-    - [GitHub Issues](#github-issues)
-    - [Contact Us](#contact-us)
-  - [Roadmap](#roadmap)
-  - [Acknowledgements](#acknowledgements)
-  - [License](#license)
-
-## Description
-
-Iris is an all-in-one caregiver tool developed by Ojos Project. It makes your
-device into a full-fledged care management system.
-
-### Features
-
-- 💊 Medication management - A simple to navigate interface to manage and log
-  taken medication
-- 📈 Patient Reported Outcome tracking - A questionnaire for patients to keep
-  track of their quality of care
-- 📝 Care instructions documentation - Leave notes for all caregivers to stay on
-  the same page
-- 📹️ Video monitoring - Record your patient while you're away to ensure they're
-  getting the best possible quality (Windows/macOS only)
-- 👥 Contacts - A list of contacts for nurses and caregivers to keep in contact
-
-### Background
-
-Many of us in Ojos Project have experienced needing to care for a family member
-with a serious illness. We saw first-hand the limits of technology in the
-hospice space. We came together to build modern tools not just for the hospice
-space, but for the palliative care space as a whole. 🩵
+This is the repository for [Iris](https://ojosproject.org/iris/), the all-in-one
+caregiver tool.
 
 ## Installation
 
-> [!NOTE]
-> Iris v0 may be incompatible with future versions as its still in early
-> development.
-
 You can download the latest release of Iris
-[here](https://github.com/ojosproject/iris/releases/latest/).
+[on GitHub](https://github.com/ojosproject/iris/releases/latest/).
 
-## Support
+## Getting started
 
-### GitHub Issues
+1. [Install pnpm](https://pnpm.io/installation)
+   * Windows: `Invoke-WebRequest https://get.pnpm.io/install.ps1 -UseBasicParsing | Invoke-Expression`
+   * macOS/Linux: `curl -fsSL https://get.pnpm.io/install.sh | sh -`
+2. [Install Rust](https://www.rust-lang.org/tools/install)
+3. [Install system dependencies](https://tauri.app/start/prerequisites/#system-dependencies)
+4. [Install VSCode extensions](https://code.visualstudio.com/docs/configure/extensions/extension-marketplace#_recommended-extensions)
 
-Please check this
-[repositories' issues](https://github.com/ojosproject/iris/issues?q=is%3Aissue)
-to see if anybody else has had the same issue.
+### Clone the repository
 
-If nobody's had the same issue,
-[please open an issue here](https://github.com/ojosproject/iris/issues/new/choose)!
+```shell
+git clone https://github.com/ojosproject/iris/
+cd iris
+```
 
-### Contact Us
+### Run the program
 
-To contact the team, you can join our
-[Discord server](https://discord.gg/qZyQadbuMG) or email us at
-<developers@ojosproject.org>.
+> [!IMPORTANT]
+> At least 5 GB of storage is recommended.
 
-## Roadmap
+Please install the npm dependencies:
 
-The Iris developers keep their sprint tasks documented
-[in the repository](./docs/maintenance/sprint.md).
+```shell
+pnpm env use --global v22.16.0
+pnpm i
+```
 
-## Acknowledgements
+... then run this to run the full program:
 
-Iris was built with the support from many amazing people!
-
-- [Dr. Mark S. Baldwin](https://markbaldw.in/)
-- [Dr. Alberto Krone-Martins](https://www.albertokronemartins.com/)
-- [Dr. Gillian Hayes](https://www.gillianhayes.com/)
-- UC Irvine's [Undergraduate Research Opportunities Program](https://urop.uci.edu/)
-- Our interviewees & contributors
-
-## License
-
-[GNU General Public License v3.0](https://choosealicense.com/licenses/gpl-3.0/)
+```shell
+pnpm run dev
+```

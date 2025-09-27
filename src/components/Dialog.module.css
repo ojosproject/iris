@@ -18,7 +18,7 @@
 }
 
 .dialogPopup {
-  background-color: white;
+  background-color: var(--lm-white);
   padding: 25px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -52,5 +52,11 @@
   100% {
     transform: scale(1);
     opacity: 1;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .dialogPopup {
+    background-color: var(--dm-dark-gray);
   }
 }

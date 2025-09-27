@@ -23,7 +23,7 @@
   justify-content: space-between;
   margin-top: 20px;
   border: 1px solid #ddd;
-  background-color: #f9f9f9;
+  background-color: var(--lm-white);
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -55,8 +55,8 @@
   justify-content: center;
   width: 150px;
   height: 150px;
-  background-color: var(--white);
-  border: 1px solid var(--white);
+  background-color: var(--lm-white);
+  border: 1px solid var(--lm-white);
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -88,8 +88,8 @@
 }
 
 .logHeader {
-  background-color: var(--white);
-  color: var(--black);
+  background-color: var(--lm-white);
+  color: var(--lm-black);
   font-weight: bold;
 }
 
@@ -113,5 +113,22 @@
   .rightPanel {
     width: 100%;
     border-right: none;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .content {
+    background-color: var(--dm-black);
+  }
+
+  .detailBox {
+    background-color: var(--dm-black);
+    border: 1px solid var(--dm-white);
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+  }
+
+  .logHeader {
+    background-color: var(--dm-black);
+    color: var(--dm-white);
   }
 }

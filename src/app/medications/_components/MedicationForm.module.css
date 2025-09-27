@@ -6,13 +6,10 @@
    ========================================================================== */
 .input {
   width: 48%;
-  border-radius: 4px;
-  padding: 8px;
-  border-radius: 4px;
 }
 
 .pageContainer {
-  background-color: var(--white);
+  background-color: var(--lm-white);
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -33,7 +30,10 @@
   margin-bottom: 15px;
 }
 
-.pageContent input,
+.pageContent input {
+  margin-bottom: 15px;
+}
+
 .pageContent select {
   width: 45%;
   box-sizing: border-box;
@@ -72,43 +72,36 @@
 
 .unitButton {
   padding: 8px 12px;
-  background: white;
-  color: var(--dark-blue);
+  background: var(--lm-white);
+  color: var(--lm-dark-blue);
   cursor: pointer;
   border-radius: 4px;
   font-size: 16px;
-  border: 1px solid var(--dark-blue);
+  border: 1px solid var(--lm-dark-blue);
   transition: all 0.3s ease;
   margin-right: 6px;
 }
 
 .unitButton:hover {
-  background: #094595 !important;
-  color: var(--white) !important;
+  background: var(--lm-dark-blue) !important;
+  color: var(--lm-white) !important;
 }
 
 .unitButton.selected {
-  background: var(--dark-blue);
-  color: var(--white);
+  background: var(--lm-dark-blue);
+  color: var(--lm-white);
 }
 
 .unitButton:not(.selected) {
-  background: var(--white);
-  color: var(--dark-blue);
+  background: var(--lm-white);
+  color: var(--lm-dark-blue);
 }
 
-.quantityBox {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  margin-right: 5px;
-}
-
-.pageContent button {
+.unitOptions button {
   padding: 10px 20px;
   border-radius: 5px;
   border: none;
-  color: var(--white);
+  color: var(--lm-white);
   font-size: 16px;
   cursor: pointer;
   transition:
@@ -117,130 +110,9 @@
   margin-right: 10px;
 }
 
-.pageContent .submitButton {
-  background-color: var(--dark-blue);
-  color: var(--white);
-}
-
-.pageContent .submitButton:hover {
-  background-color: #062c5f;
-}
-
-.yesNoButtons {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
 .textStructure {
   padding: 5px;
   font-weight: bold;
-}
-
-.yesNoButtons button,
-.daySelection button {
-  padding: 10px 15px;
-  border-radius: 5px;
-  border: 2px solid var(--dark-blue);
-  background: var(--white);
-  color: var(--dark-blue);
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.yesNoButtons button.selected,
-.daySelection button.selected {
-  background: #094595;
-  color: var(--white);
-}
-
-.daySelection button {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: transparent;
-  border: 2px solid var(--dark-blue);
-  font-size: 14px;
-  color: var(--dark-blue);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-right: 5px;
-}
-
-.daySelection button:hover {
-  background-color: #a9a9a9;
-}
-
-.addTimeButton {
-  padding: 8px 12px;
-  background: var(--dark-blue);
-  color: white;
-  cursor: pointer;
-  border-radius: 4px;
-  font-size: 16px;
-  transition: all 0.3s ease;
-}
-
-.addTimeButton:hover {
-  background: #062c5f;
-  color: white;
-}
-
-.removeTimeButton {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: var(--dark-blue);
-  border: 2px solid var(--dark-blue);
-  font-size: 14px;
-  color: var(--white);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-left: 10px;
-}
-
-.removeTimeButton:hover {
-  background: var(--dark-blue);
-  color: var(--white);
-}
-
-.scheduleDetails {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding-right: 10px;
-}
-
-.daySelection {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.timeSelection {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 15px;
-}
-
-.timeSelection input,
-.timeSelection select {
-  width: 70px;
-  padding: 5px;
-  text-align: center;
-  border: 2px solid #094595;
-  border-radius: 6px;
-  font-size: 16px;
 }
 
 .modalActions {
@@ -249,30 +121,31 @@
   margin-top: 15px;
 }
 
-.modalActions button {
-  padding: 10px 15px;
-  border-radius: 5px;
-  border: 2px solid var(--dark-blue);
-  background: white;
-  color: var(--dark-blue);
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
+@media (prefers-color-scheme: dark) {
+  .pageContainer {
+    background-color: var(--dm-black);
+  }
 
-.modalActions button:hover {
-  background: var(--dark-blue);
-  color: white;
-}
+  .unitButton {
+    color: var(--dm-dark-blue);
+    border: 1px solid var(--dm-dark-blue);
+  }
 
-.disabled {
-  pointer-events: none;
-  opacity: 0.5;
-}
+  .unitButton:hover {
+    color: var(--dm-white) !important;
+  }
 
-.disabledButton {
-  background-color: #a9a9a9;
-  color: #d3d3d3;
-  border-color: #a9a9a9;
-  cursor: not-allowed;
+  .unitButton.selected {
+    background: var(--dm-dark-blue);
+    color: var(--dm-white);
+  }
+
+  .unitButton:not(.selected) {
+    background: var(--dm-black);
+    color: var(--dm-dark-blue);
+  }
+
+  .unitOptions button {
+    color: var(--lm-black);
+  }
 }

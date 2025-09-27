@@ -6,7 +6,6 @@
  */
 "use client";
 import styles from "../page.module.css";
-import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
@@ -28,9 +27,8 @@ export default function OnboardingPatient() {
           onChange={(e) => setPatientName(e.target.value)}
         />
         <div className={styles.buttonOnBottom}>
-          <Button
-            type="PRIMARY"
-            label="Continue"
+          <button
+            className="primary"
             disabled={patientName === ""}
             onClick={() => {
               if (patientName === "") {
@@ -45,7 +43,9 @@ export default function OnboardingPatient() {
                 router.push("/onboarding/caregiver/");
               });
             }}
-          />
+          >
+            Continue
+          </button>
         </div>
       </div>
     </Layout>

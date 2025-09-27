@@ -13,7 +13,7 @@
 }
 
 .appList li:hover {
-  color: var(--blue);
+  color: var(--lm-blue);
 }
 
 .flex {

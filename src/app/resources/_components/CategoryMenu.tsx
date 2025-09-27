@@ -9,7 +9,6 @@ import { useState } from "react";
 import styles from "./CategoryMenu.module.css";
 import { Resource } from "@/types/resources";
 import { invoke } from "@tauri-apps/api/core";
-import Button from "@/components/Button";
 
 type CategoryMenuProps = {
   labels: string[];
@@ -36,12 +35,13 @@ export default function CategoryMenu({
 
   function CategoryMenuItem({ label }: { label: string }) {
     return (
-      <Button
-        type={label === selectedLabel ? "PRIMARY" : "SECONDARY"}
-        label={label}
+      <button
+        className={label === selectedLabel ? "primary" : "secondary"}
         onClick={() => handleMenuClick(label)}
         style={{ textTransform: "capitalize" }}
-      />
+      >
+        {label}
+      </button>
     );
   }
 

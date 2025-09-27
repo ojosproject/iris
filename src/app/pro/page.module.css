@@ -16,7 +16,7 @@
 
 .box {
   padding: 10px;
-  border: 1mm solid var(--dark-blue);
+  border: 1mm solid var(--lm-dark-blue);
   box-sizing: border-box;
   overflow: auto;
 }
@@ -50,4 +50,8 @@
   transform: scale(1);
   transition: transform 0.3s;
   transform-origin: top left;
+}
+
+.question {
+  max-width: 90%;
 }

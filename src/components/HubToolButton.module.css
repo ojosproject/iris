@@ -28,7 +28,7 @@
 }
 
 .iconPlaceholder {
-  background-color: var(--light-blue);
+  background-color: var(--lm-light-blue);
   width: 200px;
   height: 200px;
   border-radius: 12px;

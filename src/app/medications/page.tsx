@@ -9,7 +9,6 @@ import React, { useState, useEffect } from "react";
 import styles from "./page.module.css";
 import { Medication } from "@/types/medications";
 import { invoke } from "@tauri-apps/api/core";
-import Button from "@/components/Button";
 import ConfirmLogModal from "./_components/ConfirmLogModal";
 import { timestampToString } from "@/utils/parsing";
 import useKeyPress from "@/components/useKeyPress";
@@ -19,6 +18,7 @@ import Image from "next/image";
 import Dialog from "@/components/Dialog";
 import MedicationIconPicker from "./_components/MedicationIconPicker";
 import Layout from "@/components/Layout";
+import Link from "next/link";
 
 export default function MedicationView() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -174,11 +174,9 @@ export default function MedicationView() {
               className={styles.searchInput}
               disabled={medications.length === 0}
             />
-            <Button
-              type="PRIMARY"
-              label="Add Medication"
-              onClick={handleOpenForm}
-            />
+            <button className="primary" onClick={handleOpenForm}>
+              Add Medication
+            </button>
           </div>
           <ConfirmLogModal
             isOpen={isConfirmLogModalOpen}
@@ -229,21 +227,24 @@ export default function MedicationView() {
                     </>
                   </div>
                   <div key={medication.name} className={styles.logButtons}>
-                    <Button
-                      type="PRIMARY"
-                      label="Log"
+                    <button
+                      className="primary"
                       onClick={() => handleLogClick(medication)}
-                    />
-                    <Button
-                      type="SECONDARY"
-                      label="View"
-                      link={{
+                    >
+                      Log
+                    </button>
+
+                    <Link
+                      className="linkButton"
+                      href={{
                         pathname: "/medications/view/",
                         query: {
                           id: medication.id,
                         },
                       }}
-                    />
+                    >
+                      <button className="secondary">View</button>
+                    </Link>
                   </div>
                 </div>
               ))
@@ -271,11 +272,12 @@ export default function MedicationView() {
               });
             }}
           />
-          <Button
-            type="SECONDARY"
-            label="Cancel"
+          <button
+            className="secondary"
             onClick={() => setIconDialogOpen(false)}
-          />
+          >
+            Cancel
+          </button>
         </Dialog>
       )}
     </Layout>

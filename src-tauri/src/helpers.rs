@@ -27,5 +27,13 @@ pub fn db_connect(app: &AppHandle) -> Connection {
 }
 
 pub fn data_dir(app: &AppHandle) -> PathBuf {
-    app.path().app_data_dir().unwrap()
+    app.path()
+        .app_data_dir()
+        .expect("Failed to open the app_data_dir. Read the docs: https://docs.rs/tauri/latest/tauri/path/struct.PathResolver.html#method.app_data_dir")
+}
+
+pub fn config_dir(app: &AppHandle) -> PathBuf {
+    app.path()
+        .app_config_dir()
+        .expect("Failed to open the config_data_dir. Read the docs: https://docs.rs/tauri/latest/tauri/path/struct.PathResolver.html#method.app_config_dir")
 }

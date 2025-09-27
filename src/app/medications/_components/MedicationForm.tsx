@@ -80,35 +80,6 @@ export default function MedicationForm({
     onSubmit(newMedication);
   };
 
-  const [scheduleMedication, setScheduleMedication] = useState<boolean | null>(
-    null,
-  );
-  const [selectedDays, setSelectedDays] = useState<string[]>([]);
-  const [times, setTimes] = useState<
-    { hour: string; minute: string; period: "AM" | "PM" }[]
-  >([{ hour: "", minute: "", period: "AM" }]);
-
-  const toggleDaySelection = (day: string) => {
-    setSelectedDays((prev) =>
-      prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day],
-    );
-  };
-
-  const addTimeSlot = () => {
-    setTimes([...times, { hour: "", minute: "", period: "AM" }]);
-  };
-
-  const updateTimeSlot = (index: number, field: string, value: string) => {
-    const newTimes = [...times];
-    newTimes[index] = { ...newTimes[index], [field]: value };
-    setTimes(newTimes);
-  };
-
-  const removeTimeSlot = (index: number) => {
-    const newTimes = times.filter((_, i) => i !== index);
-    setTimes(newTimes);
-  };
-
   return (
     isOpen && (
       <div className={styles.pageContainer}>
@@ -281,86 +252,8 @@ export default function MedicationForm({
               />
             </>
           )}
-          {/*
-                <p className={styles.textStructure}>Would you like to add scheduling for this medication?</p>
-                <div className={styles.yesNoButtons}>
-                    <button
-                        className={scheduleMedication === true ? styles.selected : ""}
-                        onClick={() => setScheduleMedication(true)}
-                    >
-                        Yes
-                    </button>
-                    <button
-                        className={scheduleMedication === false ? styles.selected : ""}
-                        onClick={() => setScheduleMedication(false)}
-                    >
-                        No
-                    </button>
-                </div>
-                <p className={styles.textStructure}>Select Days</p>
-                <div className={`${styles.scheduleDetails} ${scheduleMedication ? "" : styles.disabled}`}>
-                    <div className={styles.daySelection}>
-                        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-                            <button
-                                key={day}
-                                className={`${selectedDays.includes(day) ? styles.selected : ""} ${!scheduleMedication ? styles.disabledButton : ""}`}
-                                onClick={() => scheduleMedication && toggleDaySelection(day)}
-                                disabled={!scheduleMedication}
-                            >
-                                {day}
-                            </button>
-                        ))}
-                    </div>
-                    <p className={styles.textStructure}>Select Time</p>
-                    {times.map((time, index) => (
-                        <div key={index} className={`${styles.timeSelection} ${!scheduleMedication ? styles.disabled : ""}`}>
-                            <input
-                                type="number"
-                                min="1"
-                                max="12"
-                                placeholder="HH"
-                                value={time.hour}
-                                onChange={(e) => scheduleMedication && updateTimeSlot(index, "hour", e.target.value)}
-                                disabled={!scheduleMedication}
-                            />
-                            <input
-                                type="number"
-                                min="0"
-                                max="59"
-                                placeholder="MM"
-                                value={time.minute}
-                                onChange={(e) => scheduleMedication && updateTimeSlot(index, "minute", e.target.value)}
-                                disabled={!scheduleMedication}
-                            />
-                            <select
-                                value={time.period}
-                                onChange={(e) => scheduleMedication && updateTimeSlot(index, "period", e.target.value)}
-                                disabled={!scheduleMedication}
-                            >
-                                <option>AM</option>
-                                <option>PM</option>
-                            </select>
-
-                            <button
-                                className={styles.removeTimeButton}
-                                onClick={() => removeTimeSlot(index)}
-                                disabled={!scheduleMedication}
-                            >
-                                X
-                            </button>
-                        </div>
-                    ))}
-                    <button
-                        className={styles.addTimeButton}
-                        onClick={addTimeSlot}
-                        disabled={!scheduleMedication}
-                    >
-                        + Add Another Time
-                    </button>
-                </div>
-                */}
           <div className={styles.modalActions}>
-            <button className={styles.cancelButton} onClick={onClose}>
+            <button className="secondary" onClick={onClose}>
               Previous
             </button>
             <button
@@ -370,7 +263,7 @@ export default function MedicationForm({
                 medicationData.medicationSupply === 0
               }
               onClick={handleSubmit}
-              className={styles.submitButton}
+              className="primary"
             >
               Add Medication
             </button>

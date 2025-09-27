@@ -19,9 +19,15 @@
 
 .videoContainer {
   height: 90dvh;
-  border: solid 2px var(--black);
+  border: solid 2px var(--lm-black);
   border-radius: 20px;
 
   min-width: 500px;
   min-height: 500px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .videoContainer {
+    border: solid 2px var(--dm-white);
+  }
 }

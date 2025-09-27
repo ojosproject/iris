@@ -55,4 +55,5 @@ pub struct DataPackReceipt {
 #[derive(Serialize, Deserialize)]
 pub struct Config {
     pub onboarding_completed: bool,
+    pub appearance: Option<String>,
 }

@@ -5,16 +5,15 @@
  * License:  GNU General Public License v3.0
  */
 "use client";
-import React, { useEffect, useState } from "react";
-import Questionnaire from "./_Questionnaire";
-import { useRouter } from "next/navigation";
-import styles from "./page.module.css";
-import { invoke } from "@tauri-apps/api/core";
-import Button from "@/components/Button";
 import Dialog from "@/components/Dialog";
+import Layout from "@/components/Layout";
 import useKeyPress from "@/components/useKeyPress";
 import { ProQuestion } from "@/types/pro";
-import Layout from "@/components/Layout";
+import { invoke } from "@tauri-apps/api/core";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import Questionnaire from "../_components/_Questionnaire";
+import styles from "./page.module.css";
 
 export default function Survey() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -65,11 +64,9 @@ export default function Survey() {
           title="Thank you!"
           content="You have completed your survey for today"
         >
-          <Button
-            type="PRIMARY"
-            label="Return to Pros"
-            onClick={handleGoBack}
-          />
+          <button className="primary" onClick={handleGoBack}>
+            Return to Pros
+          </button>
         </Dialog>
       )}
     </Layout>
