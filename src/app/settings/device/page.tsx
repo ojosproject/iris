@@ -14,9 +14,12 @@ import { useRouter } from "next/navigation";
 import { disable, enable, isEnabled } from "@tauri-apps/plugin-autostart";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import styles from "../page.module.css";
+import { Config } from "@/types/settings";
+import { invoke } from "@tauri-apps/api/core";
 
 export default function Page() {
   const [kioskEnabled, setKioskEnabled] = useState(false);
+  const [config, setConfig] = useState<Config | null>(null);
   const router = useRouter();
 
   useKeyPress("Escape", () => {
@@ -28,7 +31,12 @@ export default function Page() {
       setKioskEnabled(await isEnabled());
     }
 
+    async function initConfig() {
+      setConfig(await invoke<Config>("get_config"));
+    }
+
     getAutostartInfo();
+    initConfig();
   }, []);
 
   return (
@@ -38,6 +46,32 @@ export default function Page() {
         description="This software is provided to you by Ojos Project."
       >
         <img src="https://ojosproject.org/images/header.png" />
+      </SettingSection>
+      <SettingSection
+        label="Appearance"
+        description="Change the appearance of the system."
+      >
+        <div className={styles.appearanceToggleContainer}>
+          <p>Light</p>
+          <Toggle
+            icons={false}
+            checked={config ? config.appearance === "dark" : false}
+            className="toggle"
+            onChange={(e) => {
+              const newConfig = {
+                onboarding_completed: config?.onboarding_completed,
+                appearance: e.target.checked ? "dark" : "light",
+              } as Config;
+
+              const window = getCurrentWindow();
+              window.setTheme(newConfig.appearance);
+
+              setConfig(newConfig);
+              invoke("set_config", { config: newConfig });
+            }}
+          />
+          <p>Dark</p>
+        </div>
       </SettingSection>
       <SettingSection
         label="Kiosk mode"

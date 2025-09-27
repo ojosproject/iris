@@ -28,6 +28,14 @@
   margin: 0 3rem;
 }
 
+.appearanceToggleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+
+  width: 200px;
+}
+
 @media (prefers-color-scheme: dark) {
   .bigVersion {
     color: var(--dm-blue);

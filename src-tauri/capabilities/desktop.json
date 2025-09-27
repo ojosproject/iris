@@ -6,6 +6,7 @@
     "updater:default",
     "updater:default",
     "autostart:default",
-    "core:window:allow-set-fullscreen"
+    "core:window:allow-set-fullscreen",
+    "core:window:allow-set-theme"
   ]
 }

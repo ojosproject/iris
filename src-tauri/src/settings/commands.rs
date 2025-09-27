@@ -34,6 +34,7 @@ pub fn get_config(app: AppHandle) -> Config {
             ErrorKind::NotFound => {
                 let template_config = Config {
                     onboarding_completed: false,
+                    appearance: None,
                 };
                 if !app_config_dir.exists() {
                     fs::create_dir(&app_config_dir).unwrap();

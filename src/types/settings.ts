@@ -6,6 +6,7 @@
  */
 export type Config = {
   onboarding_completed: boolean;
+  appearance: "light" | "dark" | null;
 };
 
 export type DataPackReceipt = {

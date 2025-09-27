@@ -24,24 +24,43 @@ export default function Hub() {
   const router = useRouter();
 
   useEffect(() => {
-    invoke<Config>("get_config").then((c) => {
-      setOnboardingCompleted(c.onboarding_completed);
+    const window = getCurrentWindow();
 
-      async function setFullscreen() {
-        const window = getCurrentWindow();
-        const autostart = await isEnabled();
+    async function setFullscreen() {
+      const autostart = await isEnabled();
 
-        if (autostart) {
-          await window.setFullscreen(true);
-        }
+      if (autostart) {
+        await window.setFullscreen(true);
       }
+    }
 
-      setFullscreen();
+    async function setAppearance(c: Config) {
+      if (c.appearance) {
+        await window.setTheme(c.appearance);
+      } else {
+        await invoke("set_config", {
+          config: {
+            onboarding_completed: c.onboarding_completed,
+            appearance: await window.theme(),
+          } as Config,
+        });
+      }
+    }
+
+    async function initConfig() {
+      const c = await invoke<Config>("get_config");
+
+      setOnboardingCompleted(c.onboarding_completed);
 
       if (!c.onboarding_completed) {
         router.push("/onboarding");
       }
-    });
+
+      setAppearance(c);
+      setFullscreen();
+    }
+
+    initConfig();
 
     if (!["windows", "macos"].includes(platform())) {
       setAvailableTools(hubTools.filter((hubTool) => hubTool.name !== "Video"));
