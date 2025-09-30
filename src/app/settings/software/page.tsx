@@ -115,7 +115,7 @@ export default function Page() {
     <>
       {dialog && (
         <Dialog title={status} content={description}>
-          {["Something went wrong", "You're up to date!"].includes(status) && (
+          {["Something went wrong.", "You're up to date!"].includes(status) && (
             <>
               <button className="secondary" onClick={() => setDialog(false)}>
                 Okay
