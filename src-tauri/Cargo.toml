@@ -10,6 +10,10 @@ repository = "https://github.com/ojosproject/iris/"
 edition = "2021"
 rust-version = "1.60"
 
+[lib]
+name = "iris_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [build-dependencies]
