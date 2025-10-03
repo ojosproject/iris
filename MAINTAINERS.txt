@@ -16,4 +16,5 @@ Undergraduate Research Lab
 This is the UC Irvine group working on bringing Iris to Palliaview.
 
 - Jason Martin
+- Annabel Wang
 - Jacqueline Lara Hernandez
