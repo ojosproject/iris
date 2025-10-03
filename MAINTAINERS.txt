@@ -1,0 +1,18 @@
+MAINTAINERS
+===========
+
+Iris team
+---------
+
+This is the primary group working on Iris.
+
+- Carlos Valdez
+- Jesse David
+- Mai Luong
+
+Undergraduate Research Lab
+--------------------------
+
+This is the UC Irvine group working on bringing Iris to Palliaview.
+
+- Jason Martin
