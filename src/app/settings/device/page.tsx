@@ -81,20 +81,16 @@ export default function Page() {
           icons={false}
           checked={kioskEnabled}
           className="toggle"
-          onChange={(e) => {
+          onChange={async (e) => {
             setKioskEnabled(e.target.checked);
+            const window = getCurrentWindow();
 
             if (e.target.checked) {
-              enable()
-                .then(() => {
-                  const window = getCurrentWindow();
-                  window.setFullscreen(true).then();
-                })
-                .catch((e) => console.error(e));
+              await enable();
+              await window.setFullscreen(true);
             } else {
-              disable()
-                .then()
-                .catch((e) => console.error(e));
+              await disable();
+              await window.setFullscreen(false);
             }
           }}
         />
