@@ -11,10 +11,16 @@
       "identifier": "fs:scope",
       "allow": [
         {
-          "path": "$APPDATA/recordings/*"
+          "path": "$APPDATA/user/*"
         },
         {
-          "path": "$APPDATA\\recordings\\*"
+          "path": "$APPDATA/user/recordings/*"
+        },
+        {
+          "path": "$APPDATA\\user\\*"
+        },
+        {
+          "path": "$APPDATA\\user\\recordings\\*"
         }
       ]
     },

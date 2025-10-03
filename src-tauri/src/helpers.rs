@@ -22,18 +22,24 @@ pub fn stamp() -> (i64, String) {
 }
 
 pub fn db_connect(app: &AppHandle) -> Connection {
-    Connection::open(app.path().app_data_dir().unwrap().join("iris.db"))
-        .expect("Connection to iris.db failed.")
+    Connection::open(
+        app.path()
+            .app_data_dir()
+            .unwrap()
+            .join("user/")
+            .join("iris.db"),
+    )
+    .expect("Connection to iris.db failed.")
 }
 
 pub fn data_dir(app: &AppHandle) -> PathBuf {
     app.path()
         .app_data_dir()
-        .expect("Failed to open the app_data_dir. Read the docs: https://docs.rs/tauri/latest/tauri/path/struct.PathResolver.html#method.app_data_dir")
+        .expect("Failed to open the user data folder. Read the docs: https://docs.rs/tauri/latest/tauri/path/struct.PathResolver.html#method.app_data_dir").join("user/")
 }
 
 pub fn config_dir(app: &AppHandle) -> PathBuf {
     app.path()
         .app_config_dir()
-        .expect("Failed to open the config_data_dir. Read the docs: https://docs.rs/tauri/latest/tauri/path/struct.PathResolver.html#method.app_config_dir")
+        .expect("Failed to open the user config folder. Read the docs: https://docs.rs/tauri/latest/tauri/path/struct.PathResolver.html#method.app_config_dir").join("user/")
 }

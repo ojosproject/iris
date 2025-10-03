@@ -9,9 +9,9 @@ import { platform } from "@tauri-apps/plugin-os";
 
 function properPath(): string {
   if (platform() === "windows") {
-    return "recordings\\";
+    return "user\\recordings\\";
   } else {
-    return "recordings/";
+    return "user/recordings/";
   }
 }
 

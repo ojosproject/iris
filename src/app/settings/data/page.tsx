@@ -54,8 +54,7 @@ export default function Page() {
             <button
               className="dangerPrimary"
               onClick={async () => {
-                // todo: https://github.com/ojosproject/iris/issues/115
-                await remove("", {
+                await remove("user/", {
                   baseDir: BaseDirectory.AppData,
                   recursive: true,
                 });
