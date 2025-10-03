@@ -21,6 +21,7 @@ export default function Page() {
   const [dialogDataPacks, setDialogDataPacks] = useState(false);
   const [dpTitle, setDpTitle] = useState("");
   const [dpContent, setDpContent] = useState("");
+  const [disableDpButton, setDisableDpButton] = useState(false);
   const router = useRouter();
 
   useKeyPress("Escape", () => {
@@ -74,7 +75,9 @@ export default function Page() {
         >
           <button
             className="secondary"
+            disabled={disableDpButton}
             onClick={() => {
+              setDisableDpButton(true);
               invoke<DataPackReceipt>("import_data_pack")
                 .then((receipt) => {
                   let title = "Sorry, something went wrong.";
@@ -109,6 +112,9 @@ export default function Page() {
                   setDpTitle("Sorry, something went wrong.");
                   setDpContent(e);
                   setDialogDataPacks(true);
+                })
+                .finally(() => {
+                  setDisableDpButton(false);
                 });
             }}
           >
