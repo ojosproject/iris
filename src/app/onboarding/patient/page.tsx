@@ -8,8 +8,8 @@
 import styles from "../page.module.css";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { invoke } from "@tauri-apps/api/core";
 import Layout from "@/components/Layout";
+import { createContact } from "@/utils/contacts";
 
 export default function OnboardingPatient() {
   const [patientName, setPatientName] = useState("");
@@ -30,18 +30,21 @@ export default function OnboardingPatient() {
           <button
             className="primary"
             disabled={patientName === ""}
-            onClick={() => {
+            onClick={async () => {
               if (patientName === "") {
                 return;
               }
 
-              invoke("create_contact", {
-                name: patientName,
-                contact_type: "PATIENT",
-                enabled_relay: false,
-              }).then(() => {
-                router.push("/onboarding/caregiver/");
-              });
+              await createContact(
+                patientName,
+                undefined,
+                undefined,
+                undefined,
+                "PATIENT",
+                false,
+              );
+
+              router.push("/onboarding/caregiver/");
             }}
           >
             Continue

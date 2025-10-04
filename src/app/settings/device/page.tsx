@@ -15,7 +15,7 @@ import { disable, enable, isEnabled } from "@tauri-apps/plugin-autostart";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import styles from "../page.module.css";
 import { Config } from "@/types/settings";
-import { invoke } from "@tauri-apps/api/core";
+import { getConfig, setAppearanceConfig } from "@/utils/settings";
 
 export default function Page() {
   const [kioskEnabled, setKioskEnabled] = useState(false);
@@ -32,7 +32,8 @@ export default function Page() {
     }
 
     async function initConfig() {
-      setConfig(await invoke<Config>("get_config"));
+      const c = await getConfig();
+      setConfig(c);
     }
 
     getAutostartInfo();
@@ -57,7 +58,7 @@ export default function Page() {
             icons={false}
             checked={config ? config.appearance === "dark" : false}
             className="toggle"
-            onChange={(e) => {
+            onChange={async (e) => {
               const newConfig = {
                 onboarding_completed: config?.onboarding_completed,
                 appearance: e.target.checked ? "dark" : "light",
@@ -67,7 +68,7 @@ export default function Page() {
               window.setTheme(newConfig.appearance);
 
               setConfig(newConfig);
-              invoke("set_config", { config: newConfig });
+              await setAppearanceConfig(newConfig.appearance);
             }}
           />
           <p>Dark</p>

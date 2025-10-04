@@ -9,11 +9,11 @@ import Dialog from "@/components/Dialog";
 import Layout from "@/components/Layout";
 import useKeyPress from "@/components/useKeyPress";
 import { ProQuestion } from "@/types/pro";
-import { invoke } from "@tauri-apps/api/core";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Questionnaire from "../_components/_Questionnaire";
 import styles from "./page.module.css";
+import { addPros, getProQuestions } from "@/utils/pro";
 
 export default function Survey() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -28,9 +28,10 @@ export default function Survey() {
   });
 
   useEffect(() => {
-    invoke<ProQuestion[]>("get_pro_questions").then((questions) => {
-      setQuestions(questions);
-    });
+    async function initPage() {
+      setQuestions(await getProQuestions());
+    }
+    initPage();
   }, []);
 
   // Function to go back
@@ -40,9 +41,11 @@ export default function Survey() {
   };
 
   // Store responses in sessionStorage and open modal
-  const handleSurveySubmit = (responses: (string | number)[][]) => {
+  const handleSurveySubmit = async (responses: (string | number)[][]) => {
     sessionStorage.setItem("surveyResults", JSON.stringify(responses));
-    invoke("add_pros", { pros: responses });
+
+    await addPros(responses as any);
+
     setSurveyResults(responses);
     setModalOpen(true);
   };

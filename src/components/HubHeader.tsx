@@ -5,11 +5,10 @@
  * License:  GNU General Public License v3.0
  */
 "use client";
-import { invoke } from "@tauri-apps/api/core";
 import styles from "./HubHeader.module.css";
 import { daysOfWeek, getTimeOfDay, timestampToString } from "@/utils/parsing";
 import { useEffect, useState } from "react";
-import { Contact } from "@/types/contacts";
+import { getPatientContact } from "@/utils/contacts";
 
 export default function HubHeader() {
   const [userName, setUserName] = useState("Name");
@@ -18,12 +17,15 @@ export default function HubHeader() {
   const epoch = date.getTime() / 1000;
 
   useEffect(() => {
-    invoke<Contact>("get_patient_contact").then((contact) => {
+    async function initPage() {
+      const contact = await getPatientContact();
+
       if (contact.contact_type === "PATIENT") {
         setUserName(contact.name.split(" ")[0]);
       }
-    });
+    }
 
+    initPage();
     setTimeOfDay(getTimeOfDay());
   }, [userName]);
 

@@ -8,8 +8,6 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import styles from "./page.module.css";
 import { Suspense, useEffect, useState } from "react";
-import { invoke } from "@tauri-apps/api/core";
-import { Contact } from "@/types/contacts";
 import {
   parsePhoneNumber,
   sanitizePhoneNumber,
@@ -17,6 +15,7 @@ import {
 } from "@/utils/parsing";
 import Dialog from "@/components/Dialog";
 import Layout from "@/components/Layout";
+import { createContact, getContact, updateContact } from "@/utils/contacts";
 
 function EditContacts() {
   // If `id` is empty, you're creating a contact
@@ -40,60 +39,76 @@ function EditContacts() {
 
   const router = useRouter();
 
-  function fetchInformation(fetch_id: string) {
-    invoke<Contact>("get_single_contact", { id: fetch_id }).then((i) => {
-      setId(i.id);
-      setName(i.name);
-      setPhoneNumber(i.phone_number ? parsePhoneNumber(i.phone_number) : "");
-      setCompany(i.company ?? "");
-      setEmail(i.email ?? "");
-      setContactType(i.contact_type ?? "CAREGIVER");
-      setEnabledRelay(i.enabled_relay);
-      setLastUpdated(i.last_updated);
-      setOnEditMode(!onEditMode);
-    });
-  }
-
   useEffect(() => {
-    let paramsId = params.get("id");
-    if (paramsId) {
-      fetchInformation(paramsId);
-    } else {
-      setOnEditMode(true);
+    async function initPage() {
+      let paramsId = params.get("id");
+      if (paramsId) {
+        const contact = await getContact(paramsId);
+
+        if (contact) {
+          setId(contact.id);
+          setName(contact.name);
+          setPhoneNumber(
+            contact.phone_number ? parsePhoneNumber(contact.phone_number) : "",
+          );
+          setCompany(contact.company ?? "");
+          setEmail(contact.email ?? "");
+          setContactType(contact.contact_type ?? "CAREGIVER");
+          setEnabledRelay(contact.enabled_relay);
+          setLastUpdated(contact.last_updated);
+          setOnEditMode(!onEditMode);
+        }
+      } else {
+        setOnEditMode(true);
+      }
     }
+
+    initPage();
   }, []);
 
-  function handleOnSaveClick() {
+  async function handleOnSaveClick() {
     // If last_updated is 0, it means that this is a newly created contact
 
-    invoke<Contact>(lastUpdated === 0 ? "create_contact" : "update_contact", {
-      id: id,
-      name: name,
-      phone_number: phoneNumber,
-      company: company,
-      email: email,
-      contact_type: contactType,
-      enabled_relay: enabledRelay,
-    }).then((i) => {
-      setOnEditMode(false);
-      setId(i.id);
-      setName(i.name);
-      setPhoneNumber(i.phone_number ? parsePhoneNumber(i.phone_number) : "");
-      setCompany(i.company ?? "");
-      setEmail(i.email ?? "");
-      setContactType(i.contact_type ?? "CAREGIVER");
-      setEnabledRelay(i.enabled_relay);
+    const contact =
+      lastUpdated === 0
+        ? await createContact(
+            name,
+            phoneNumber,
+            company,
+            email,
+            contactType,
+            enabledRelay,
+          )
+        : await updateContact(
+            id,
+            name,
+            phoneNumber,
+            company,
+            email,
+            contactType,
+            enabledRelay,
+          );
 
-      setJustSaved(true);
-      setSaveMessage(true);
+    setOnEditMode(false);
+    setId(contact.id);
+    setName(contact.name);
+    setPhoneNumber(
+      contact.phone_number ? parsePhoneNumber(contact.phone_number) : "",
+    );
+    setCompany(contact.company ?? "");
+    setEmail(contact.email ?? "");
+    setContactType(contact.contact_type ?? "CAREGIVER");
+    setEnabledRelay(contact.enabled_relay);
 
-      // Hide the pop-up after 2 seconds
-      setTimeout(() => {
-        setSaveMessage(false);
-        setJustSaved(false);
-        router.push("/contacts");
-      }, 1500);
-    });
+    setJustSaved(true);
+    setSaveMessage(true);
+
+    // Hide the pop-up after 2 seconds
+    setTimeout(() => {
+      setSaveMessage(false);
+      setJustSaved(false);
+      router.push("/contacts");
+    }, 1500);
   }
   return (
     <Layout

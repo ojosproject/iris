@@ -6,10 +6,11 @@
  */
 "use client";
 import styles from "./page.module.css";
-import { invoke } from "@tauri-apps/api/core";
 import WebcamRecorder from "./_components/WebcamRecorder";
 import useKeyPress from "@/components/useKeyPress";
 import { useRouter } from "next/navigation";
+import { userDataDir } from "@/utils/folders";
+import { openPath } from "@tauri-apps/plugin-opener";
 
 export default function Call() {
   const router = useRouter();
@@ -23,8 +24,9 @@ export default function Call() {
       <header className={styles.header}>
         <button
           className="secondary"
-          onClick={() => {
-            invoke("open_recordings_folder");
+          onClick={async () => {
+            const dataDir = await userDataDir();
+            await openPath(dataDir);
           }}
         >
           View Recordings

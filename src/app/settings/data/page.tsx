@@ -12,8 +12,6 @@ import { useState } from "react";
 import Dialog from "@/components/Dialog";
 import { remove, BaseDirectory } from "@tauri-apps/plugin-fs";
 import { relaunch } from "@tauri-apps/plugin-process";
-import { invoke } from "@tauri-apps/api/core";
-import { DataPackReceipt } from "@/types/settings";
 import styles from "../page.module.css";
 
 export default function Page() {
@@ -69,6 +67,7 @@ export default function Page() {
         </Dialog>
       )}
       <section className={styles.sectionContainer}>
+        {/* 
         <SettingSection
           label="Data Packs"
           description="A Data Pack is a JSON file you can import to quickly add resources at once without needing to add everything manually."
@@ -121,6 +120,7 @@ export default function Page() {
             Select a file...
           </button>
         </SettingSection>
+        */}
         <SettingSection
           label="Delete all data"
           description="Delete all your data and reset the software. This is irreversible, so be careful!"

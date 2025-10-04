@@ -7,20 +7,26 @@
     "core:default",
     "fs:allow-app-write",
     "fs:allow-app-meta",
+    "fs:allow-read-text-file",
+    "sql:allow-load",
+    "sql:default",
+    "sql:allow-execute",
+    {
+      "identifier": "opener:allow-open-path",
+      "allow": [
+        {
+          "path": "$APPDATA/**"
+        }
+      ]
+    },
     {
       "identifier": "fs:scope",
       "allow": [
         {
-          "path": "$APPDATA/user/*"
+          "path": "$APPDATA/**"
         },
         {
-          "path": "$APPDATA/user/recordings/*"
-        },
-        {
-          "path": "$APPDATA\\user\\*"
-        },
-        {
-          "path": "$APPDATA\\user\\recordings\\*"
+          "path": "$APPCONFIG/**"
         }
       ]
     },

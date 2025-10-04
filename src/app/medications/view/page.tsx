@@ -15,6 +15,7 @@ import { parsePhoneNumber, timestampToString } from "@/utils/parsing";
 import useKeyPress from "@/components/useKeyPress";
 import { useRouter } from "next/navigation";
 import Layout from "@/components/Layout";
+import { getMedicationLogs, getMedications } from "@/utils/medications";
 
 const LeftPanel = ({
   prescribedBy,
@@ -95,17 +96,13 @@ function MedicineView() {
   });
   {
     useEffect(() => {
-      invoke<MedicationLog[]>("get_medication_logs", {
-        medication_id: medicationId,
-      }).then((medication_log) => {
-        setVisibleLogs(medication_log);
-      });
-
-      invoke<Medication[]>("get_medications", { id: medicationId }).then(
-        (m) => {
-          setMedication(m[0]);
-        },
-      );
+      async function initPage() {
+        if (medicationId) {
+          setVisibleLogs(await getMedicationLogs(medicationId));
+          setMedication((await getMedications(medicationId))[0]);
+        }
+      }
+      initPage();
     }, [logsToShow, prescriptionNurse]);
   }
 

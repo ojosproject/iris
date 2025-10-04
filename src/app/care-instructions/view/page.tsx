@@ -8,12 +8,17 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import styles from "./page.module.css";
 import { Suspense, useEffect, useState } from "react";
-import { invoke } from "@tauri-apps/api/core";
-import { CareInstruction } from "@/types/care-instructions";
 import { timestampToString } from "@/utils/parsing";
 import Dialog from "@/components/Dialog";
 import useKeyPress from "@/components/useKeyPress";
 import Layout from "@/components/Layout";
+import {
+  createCareInstruction,
+  deleteCareInstruction,
+  getCareInstruction,
+  neighboringIds,
+  updateCareInstruction,
+} from "@/utils/care_instructions";
 
 function EditInstructions() {
   // Params get passed from AllCareInstructions.tsx
@@ -46,23 +51,19 @@ function EditInstructions() {
     }
   });
 
-  function fetchInformation(fetch_id: string) {
-    invoke<CareInstruction>("get_single_care_instruction", {
-      id: fetch_id,
-    }).then((i) => {
+  async function fetchInformation(fetch_id: string) {
+    const i = await getCareInstruction(fetch_id);
+
+    if (i) {
       setId(i.id);
       setTitle(i.title);
       setContent(i.content);
-      setAddedBy(i.added_by);
       setLastUpdated(i.last_updated);
 
-      invoke("care_instructions_previous_next_ids", {
-        id: fetch_id,
-      }).then((previousNext) => {
-        setPreviousTopic((previousNext as string[])[0]);
-        setNextTopic((previousNext as string[])[1]);
-      });
-    });
+      const [previous, next] = await neighboringIds(fetch_id);
+      setPreviousTopic(previous);
+      setNextTopic(next);
+    }
   }
 
   function isModalOpen(valueForModal: boolean) {
@@ -83,37 +84,25 @@ function EditInstructions() {
     }
   }, []);
 
-  function handleOnSaveClick() {
+  async function handleOnSaveClick() {
     // If last_updated is 0, it means that this is a newly created instruction
 
-    invoke<CareInstruction>(
+    const i =
       lastUpdated === 0
-        ? "create_care_instructions"
-        : "update_care_instructions",
-      {
-        id: id,
-        title: title,
-        content: content,
-        frequency: null,
-        added_by: "Nobody", // todo: should be fixed, somehow
-      },
-    ).then((i) => {
-      setOnEditMode(false);
-      setId(i.id);
-      setTitle(i.title);
-      setContent(i.content);
-      setAddedBy(i.added_by);
-      setLastUpdated(i.last_updated);
+        ? await createCareInstruction(title, content)
+        : await updateCareInstruction(id, title, content);
 
-      router.replace(`/care-instructions/view/?id=${id}`);
+    setOnEditMode(false);
+    setId(i.id);
+    setTitle(i.title);
+    setContent(i.content);
+    setLastUpdated(i.last_updated);
 
-      invoke("care_instructions_previous_next_ids", {
-        id: id,
-      }).then((previousNext) => {
-        setPreviousTopic((previousNext as string[])[0]);
-        setNextTopic((previousNext as string[])[1]);
-      });
-    });
+    router.replace(`/care-instructions/view/?id=${i.id}`);
+
+    const [previous, next] = await neighboringIds(i.id);
+    setPreviousTopic(previous);
+    setNextTopic(next);
   }
 
   return (
@@ -151,16 +140,16 @@ function EditInstructions() {
                 <div className={styles.topicsButton}>
                   <button
                     className="secondary"
-                    onClick={() => {
-                      fetchInformation(previousTopic);
+                    onClick={async () => {
+                      await fetchInformation(previousTopic);
                     }}
                   >
                     Previous Topic
                   </button>
                   <button
                     className="secondary"
-                    onClick={() => {
-                      fetchInformation(nextTopic);
+                    onClick={async () => {
+                      await fetchInformation(nextTopic);
                     }}
                   >
                     Next Topic
@@ -188,9 +177,9 @@ function EditInstructions() {
               >
                 <button
                   className="dangerPrimary"
-                  onClick={() => {
+                  onClick={async () => {
                     isModalOpen(false);
-                    invoke("delete_care_instructions", { id: id });
+                    await deleteCareInstruction(id);
                     router.back();
                   }}
                 >

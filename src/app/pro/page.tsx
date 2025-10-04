@@ -9,12 +9,11 @@ import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 import Chart from "chart.js/auto";
-import { invoke } from "@tauri-apps/api/core";
 import { sortChartData } from "./_helper";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import { PatientReportedOutcome } from "@/types/pro";
 import useKeyPress from "@/components/useKeyPress";
 import Layout from "@/components/Layout";
+import { getPros } from "@/utils/pro";
 
 interface ChartData {
   [question: string]: [response: number, recorded_date: Date][];
@@ -39,14 +38,12 @@ export default function ProChart() {
   });
 
   useEffect(() => {
-    invoke<PatientReportedOutcome[]>("get_all_pros")
-      .then((allPros) => {
-        const sortedData = sortChartData(allPros);
-        setPros(sortedData);
-      })
-      .catch((error) => {
-        console.error("Error fetching PROs data: ", error);
-      });
+    async function initPage() {
+      const sortedData = sortChartData(await getPros());
+      setPros(sortedData);
+    }
+
+    initPage();
   }, []);
 
   useEffect(() => {
