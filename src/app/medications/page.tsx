@@ -19,6 +19,13 @@ import Dialog from "@/components/Dialog";
 import MedicationIconPicker from "./_components/MedicationIconPicker";
 import Layout from "@/components/Layout";
 import Link from "next/link";
+import {
+  createMedication,
+  getMedications,
+  logMedication,
+  setMedicationIcon,
+  setMedicationQuantity,
+} from "@/utils/medications";
 
 export default function MedicationView() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -27,13 +34,13 @@ export default function MedicationView() {
   };
   const [selectedMedication, setSelectedMedication] =
     useState<Medication | null>(null);
-  const handleLogClick = (medication: Medication) => {
+  const handleLogClick = async (medication: Medication) => {
     setSelectedMedication(medication);
     setIsConfirmLogModalOpen(true);
-    invoke("update_medication", {
-      id: medication.id,
-      quantity: medication.quantity - medication.strength,
-    });
+    await setMedicationQuantity(
+      medication.id,
+      medication.quantity - medication.strength,
+    );
   };
   const [isNewMedFormOpen, setIsNewMedFormOpen] = useState(false);
   const [isConfirmLogModalOpen, setIsConfirmLogModalOpen] = useState(false);
@@ -65,15 +72,11 @@ export default function MedicationView() {
   );
 
   useEffect(() => {
-    invoke<Medication[]>("get_medications")
-      .then((m) => {
-        setMedications(m);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching medications", err);
-        setLoading(false);
-      });
+    async function initPage() {
+      setMedications(await getMedications("all"));
+      setLoading(false);
+    }
+    initPage();
   }, []);
 
   if (loading) {
@@ -92,52 +95,35 @@ export default function MedicationView() {
 
     setMedications((prevMedications) => [...prevMedications, newMedication]);
 
-    invoke<Medication>("create_medication", {
-      name: newMedication.name,
-      generic_name: newMedication.generic_name
-        ? newMedication.generic_name
-        : null,
-      dosage_type: newMedication.dosage_type,
-      strength: newMedication.strength,
-      units: newMedication.units,
-      quantity: newMedication.quantity,
-      start_date: newMedication.start_date,
-      end_date: newMedication.end_date,
-      expiration_date: newMedication.expiration_date,
-      frequency: newMedication.frequency,
-      notes: newMedication.notes,
-      icon: newMedication.icon,
-    })
-      .then((m) => {
-        setMedications([...medications, m]);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    const m = await createMedication(
+      newMedication.name,
+      newMedication.generic_name,
+      newMedication.dosage_type,
+      newMedication.strength,
+      newMedication.units,
+      newMedication.quantity,
+      newMedication.start_date,
+      newMedication.end_date,
+      newMedication.expiration_date,
+      newMedication.frequency,
+      newMedication.notes,
+      newMedication.icon,
+    );
+    setMedications([...medications, m]);
     handleNewMedModelClose();
   };
 
-  const handleCommentSubmit = (comment: string) => {
+  const handleCommentSubmit = async (comment: string) => {
     if (selectedMedication) {
       // Send the medication and comment to your backend or perform the necessary action
-      invoke("log_medication", {
-        id: selectedMedication.id,
-        strength: selectedMedication.strength,
-        units: selectedMedication.units,
-        comments: comment || null,
-      }).then(() => {
-        // After logging the medication, refresh the list of medications
-        invoke<Medication[]>("get_medications")
-          .then((medications) => {
-            setMedications(medications);
-            setLoading(false);
-          })
-          .catch((err) => {
-            console.error("Error fetching medications", err);
-            setLoading(false);
-          });
-      });
-
+      await logMedication(
+        selectedMedication.id,
+        selectedMedication.strength,
+        selectedMedication.units,
+        comment || "",
+      );
+      setMedications(await getMedications("all"));
+      setLoading(false);
       setIsConfirmLogModalOpen(false); // Close the modal after submission
     }
   };
@@ -260,16 +246,10 @@ export default function MedicationView() {
           <MedicationIconPicker
             medium={selectedMedication.dosage_type}
             selectedIcon={selectedMedication.icon}
-            onSelect={(newIcon: string) => {
+            onSelect={async (newIcon: string) => {
               setIconDialogOpen(false);
-              invoke("update_medication", {
-                id: selectedMedication.id,
-                icon: newIcon,
-              }).then(() => {
-                invoke<Medication[]>("get_medications").then((meds) => {
-                  setMedications(meds);
-                });
-              });
+              await setMedicationIcon(selectedMedication.id, newIcon);
+              setMedications(await getMedications("all"));
             }}
           />
           <button

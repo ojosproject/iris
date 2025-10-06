@@ -6,7 +6,6 @@
  */
 "use client";
 import { CareInstruction } from "@/types/care-instructions";
-import { invoke } from "@tauri-apps/api/core";
 import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 import CareInstructionsButton from "./_components/CareInstructionButton";
@@ -14,6 +13,7 @@ import useKeyPress from "@/components/useKeyPress";
 import { useRouter } from "next/navigation";
 import Layout from "@/components/Layout";
 import Link from "next/link";
+import { getCareInstructions } from "@/utils/care_instructions";
 
 export default function CareInstructions() {
   const [instructions, setInstructions] = useState<CareInstruction[]>([]);
@@ -24,9 +24,10 @@ export default function CareInstructions() {
   });
 
   useEffect(() => {
-    invoke<CareInstruction[]>("get_all_care_instructions").then((i) => {
-      setInstructions(i);
-    });
+    async function initPage() {
+      setInstructions(await getCareInstructions());
+    }
+    initPage();
   }, []);
 
   return (

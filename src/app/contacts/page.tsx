@@ -6,7 +6,6 @@
  */
 "use client";
 import { Contact } from "@/types/contacts";
-import { invoke } from "@tauri-apps/api/core";
 import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 import Dialog from "@/components/Dialog";
@@ -14,6 +13,7 @@ import { parsePhoneNumber } from "@/utils/parsing";
 import { useRouter } from "next/navigation";
 import Layout from "@/components/Layout";
 import Link from "next/link";
+import { deleteContact, getContacts } from "@/utils/contacts";
 
 export default function Contacts() {
   const [contacts, setContacts] = useState<Contact[]>([]);
@@ -26,15 +26,17 @@ export default function Contacts() {
   const router = useRouter();
 
   useEffect(() => {
-    invoke<Contact[]>("get_all_contacts").then((i) => {
-      setContacts(i);
-      let foundPatient = i.find(
-        (contact) => contact.contact_type === "PATIENT",
-      );
-      if (foundPatient) {
-        setPatientId(foundPatient.id);
+    async function initPage() {
+      const c = await getContacts();
+      const patient = c.find((cont) => cont.contact_type === "PATIENT");
+      setContacts(c);
+
+      if (patient) {
+        setPatientId(patient.id);
       }
-    });
+    }
+
+    initPage();
   }, []);
 
   // Group contacts alphabetically
@@ -185,7 +187,7 @@ export default function Contacts() {
                   const idsToDelete = Array.from(selectedContactIds);
                   if (idsToDelete.length > 0) {
                     for (const id of idsToDelete) {
-                      await invoke("delete_contact", { id });
+                      await deleteContact(id);
                       setContacts((prev) =>
                         prev.filter(
                           (c) => !selectedContactIds.has(c.id as any),
@@ -193,7 +195,7 @@ export default function Contacts() {
                       );
                     }
                   } else if (selectedContact && !idsToDelete.length) {
-                    await invoke("delete_contact", { id: selectedContact.id });
+                    await deleteContact(selectedContact.id);
                     setContacts((prev) =>
                       prev.filter((c) => c.id !== selectedContact.id),
                     );

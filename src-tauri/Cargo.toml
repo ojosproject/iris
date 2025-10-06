@@ -23,12 +23,12 @@ tauri-build = { version = "2.0.3", features = [] }
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
 tauri = { version = "2.1.0", features = [] }
-rusqlite = { version = "0.32.1", features = ["bundled"] }
-uuid = { version = "1.10.0", features = ["v4"] }
 tauri-plugin-fs = "2"
 tauri-plugin-os = "2"
 tauri-plugin-dialog = "2"
 tauri-plugin-process = "2"
+tauri-plugin-opener = "2"
+tauri-plugin-sql = { version = "2", features = ["sqlite"] }
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem and the built-in dev server is disabled.

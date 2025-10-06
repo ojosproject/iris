@@ -11,12 +11,13 @@ import HubToolButton from "@/components/HubToolButton";
 import { HubTool } from "../types/hub";
 import { hubTools } from "@/utils/hub";
 import { useEffect, useState } from "react";
-import { invoke } from "@tauri-apps/api/core";
 import { Config } from "@/types/settings";
 import { platform } from "@tauri-apps/plugin-os";
 import { useRouter } from "next/navigation";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { isEnabled } from "@tauri-apps/plugin-autostart";
+import { getConfig, setAppearanceConfig } from "@/utils/settings";
+import { setupOnboarding } from "@/utils/onboarding";
 
 export default function Hub() {
   const [onboardingCompleted, setOnboardingCompleted] = useState(false);
@@ -38,29 +39,28 @@ export default function Hub() {
       if (c.appearance) {
         await window.setTheme(c.appearance);
       } else {
-        await invoke("set_config", {
-          config: {
-            onboarding_completed: c.onboarding_completed,
-            appearance: await window.theme(),
-          } as Config,
-        });
+        await setAppearanceConfig(await window.theme());
       }
     }
 
-    async function initConfig() {
-      const c = await invoke<Config>("get_config");
+    async function initPage() {
+      try {
+        await setupOnboarding();
+        const c = await getConfig();
+        setOnboardingCompleted(c.onboarding_completed);
 
-      setOnboardingCompleted(c.onboarding_completed);
+        if (!c.onboarding_completed) {
+          router.push("/onboarding");
+        }
 
-      if (!c.onboarding_completed) {
-        router.push("/onboarding");
+        setAppearance(c);
+        setFullscreen();
+      } catch (err) {
+        console.error(err);
       }
-
-      setAppearance(c);
-      setFullscreen();
     }
 
-    initConfig();
+    initPage();
 
     if (!["windows", "macos"].includes(platform())) {
       setAvailableTools(hubTools.filter((hubTool) => hubTool.name !== "Video"));

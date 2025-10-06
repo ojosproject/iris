@@ -104,7 +104,7 @@ export default function Onboarding() {
         <h3>Your care management system</h3>
 
         <div className={styles.buttonOnBottom}>
-          <button
+          {/*<button
             className="secondary"
             onClick={() => {
               setDataPackDialog({
@@ -117,7 +117,7 @@ export default function Onboarding() {
             }}
           >
             Import Data Pack
-          </button>
+          </button>*/}
           <button
             className="primary"
             onClick={() => {

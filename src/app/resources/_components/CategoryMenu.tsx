@@ -8,7 +8,7 @@
 import { useState } from "react";
 import styles from "./CategoryMenu.module.css";
 import { Resource } from "@/types/resources";
-import { invoke } from "@tauri-apps/api/core";
+import { getResources } from "@/utils/resources";
 
 type CategoryMenuProps = {
   labels: string[];
@@ -21,23 +21,23 @@ export default function CategoryMenu({
 }: CategoryMenuProps) {
   const [selectedLabel, setSelectedLabel] = useState("all");
 
-  function handleMenuClick(label: string) {
+  async function handleMenuClick(label: string) {
     setSelectedLabel(label);
-
-    invoke<Resource[]>("get_resources").then((r) => {
-      setResources(
-        label === "all"
-          ? r
-          : r.filter((resource) => resource.category.toLowerCase() === label),
-      );
-    });
+    const resources = await getResources();
+    setResources(
+      label === "all"
+        ? resources
+        : resources.filter(
+            (resource) => resource.category.toLowerCase() === label,
+          ),
+    );
   }
 
   function CategoryMenuItem({ label }: { label: string }) {
     return (
       <button
         className={label === selectedLabel ? "primary" : "secondary"}
-        onClick={() => handleMenuClick(label)}
+        onClick={async () => await handleMenuClick(label)}
         style={{ textTransform: "capitalize" }}
       >
         {label}
