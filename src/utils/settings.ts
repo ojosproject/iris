@@ -14,7 +14,7 @@ export async function getConfig(): Promise<Config> {
   const configExists = await exists(configPath);
 
   if (!configExists) {
-    if (await exists(configDir)) {
+    if (!(await exists(configDir))) {
       await mkdir(configDir, { recursive: true });
     }
 
