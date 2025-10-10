@@ -15,3 +15,8 @@ export async function userConfigDir() {
   const base = await appConfigDir();
   return await join(base, "user");
 }
+
+export async function providerConfigDir() {
+  const base = await appConfigDir();
+  return await join(base, "provider");
+}

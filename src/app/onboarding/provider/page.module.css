@@ -1,0 +1,40 @@
+.buttons {
+  display: flex;
+  justify-content: center;
+  width: 95dvw;
+}
+
+.buttons a {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  color: var(--lm-black);
+  text-decoration: none;
+
+  background-color: var(--dm-white);
+  height: 400px;
+  width: 350px;
+  text-align: center;
+  margin: 20px;
+  border: 3px solid var(--lm-blue);
+  border-radius: 10px;
+}
+
+.buttons p,
+.buttons strong {
+  color: var(--lm-black);
+  margin: 0;
+}
+
+.icon {
+  width: 150px;
+  margin: 20px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .buttons a {
+    color: var(--dm-white);
+  }
+}
