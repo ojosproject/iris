@@ -1,5 +1,5 @@
 import { Config } from "@/types/settings";
-import { userConfigDir } from "./folders";
+import { userConfigDir, providerConfigDir } from "./folders";
 import {
   exists,
   mkdir,
@@ -8,8 +8,12 @@ import {
 } from "@tauri-apps/plugin-fs";
 import { join } from "@tauri-apps/api/path";
 
-export async function getConfig(): Promise<Config> {
-  const configDir = await userConfigDir();
+export async function getConfig(
+  of = "user" as "user" | "provider",
+): Promise<Config> {
+  const uConfigDir = await userConfigDir();
+  const pConfigDir = await providerConfigDir();
+  const configDir = of === "user" ? uConfigDir : pConfigDir;
   const configPath = await join(configDir, "config.json");
   const configExists = await exists(configPath);
 
@@ -32,8 +36,9 @@ export async function getConfig(): Promise<Config> {
   }
 }
 
-export async function completeOnboarding() {
-  const configDir = await userConfigDir();
+export async function completeOnboarding(of = "user" as "user" | "provider") {
+  const configDir =
+    of === "user" ? await userConfigDir() : await providerConfigDir();
   const configPath = await join(configDir, "config.json");
   const config = await getConfig();
 
