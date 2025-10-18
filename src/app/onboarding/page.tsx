@@ -8,10 +8,11 @@
 import styles from "./page.module.css";
 import { useRouter } from "next/navigation";
 import Dialog from "@/components/Dialog";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { DataPackReceipt } from "@/types/settings";
 import Layout from "@/components/Layout";
+import { getConfig } from "@/utils/settings";
 
 export default function Onboarding() {
   const router = useRouter();
@@ -21,6 +22,18 @@ export default function Onboarding() {
     content: "",
     hideSelectButton: false,
   });
+
+  useEffect(() => {
+    async function initPage() {
+      const providerConfig = await getConfig("provider");
+
+      if (!providerConfig.onboarding_completed) {
+        router.push("/onboarding/provider");
+      }
+    }
+    initPage();
+  }, []);
+
   return (
     <Layout title=" " disabledBackButton={true}>
       <div className={styles.onboardingCenter}>

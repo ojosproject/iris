@@ -1,0 +1,39 @@
+.infoAndIcon {
+  display: flex;
+  justify-content: space-around;
+}
+
+.icon {
+  width: 200px;
+  margin: 20px;
+
+  filter: invert(100%);
+}
+
+.info label {
+  display: flex;
+  flex-direction: column;
+
+  margin: 10px 0;
+  max-width: 75%;
+}
+
+.info label input {
+  margin: 4px 0;
+}
+
+.info {
+  max-width: 40dvw;
+}
+
+.buttons {
+  position: fixed;
+  bottom: 5%;
+  right: 5%;
+}
+
+.buttons div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
