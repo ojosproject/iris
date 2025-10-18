@@ -1,0 +1,36 @@
+.longItemSelected {
+  display: flex;
+  max-width: 350px;
+  height: 150px;
+
+  border: solid 2px var(--dm-blue);
+  border-radius: 10px;
+
+  margin: 15px;
+  padding: 10px 20px;
+}
+
+.longItemSelected:hover {
+  cursor: pointer;
+}
+
+.longItemNotSelected {
+  display: flex;
+  max-width: 350px;
+  height: 150px;
+
+  border: solid 2px var(--dm-gray);
+  border-radius: 10px;
+
+  margin: 15px;
+  padding: 10px 20px;
+}
+
+.longItemNotSelected:hover {
+  cursor: pointer;
+}
+
+.text {
+  display: flex;
+  align-items: flex-start;
+}

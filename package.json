@@ -25,6 +25,7 @@
     "nextBuild": "next build"
   },
   "dependencies": {
+    "@ionic/react": "^8.7.5",
     "@tauri-apps/api": "2.8.0",
     "@tauri-apps/plugin-autostart": "2.5.0",
     "@tauri-apps/plugin-dialog": "2.4.0",
@@ -36,6 +37,7 @@
     "@tauri-apps/plugin-updater": "2.9.0",
     "chart.js": "^4.4.6",
     "chartjs-plugin-datalabels": "^2.2.0",
+    "ionicons": "^8.0.13",
     "moment": "^2.30.1",
     "next": "^15.5.4",
     "react": "^19.2.0",

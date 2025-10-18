@@ -1,0 +1,44 @@
+.basics label {
+  display: flex;
+  flex-direction: column;
+  margin: 35px 0;
+  width: 300px;
+}
+
+.basics label input {
+  margin: 5px 0;
+}
+
+.iconAndInfo {
+  width: 98dvw;
+  display: flex;
+  justify-content: space-around;
+}
+
+.icon {
+  width: 200px;
+  margin: 20px;
+
+  filter: invert(100%);
+}
+
+.orgHeaderPreview {
+  margin: 10px 0;
+  border-radius: 10px;
+}
+
+.buttons {
+  position: fixed;
+  bottom: 5%;
+  right: 5%;
+}
+
+.buttonsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.buttons p {
+  font-size: 0.7rem;
+}

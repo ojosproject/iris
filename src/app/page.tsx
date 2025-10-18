@@ -47,9 +47,12 @@ export default function Hub() {
       try {
         await setupOnboarding();
         const c = await getConfig();
+        const providerConfig = await getConfig("provider");
         setOnboardingCompleted(c.onboarding_completed);
 
-        if (!c.onboarding_completed) {
+        if (!providerConfig.onboarding_completed) {
+          router.push("/onboarding/provider");
+        } else if (!c.onboarding_completed) {
           router.push("/onboarding");
         }
 
