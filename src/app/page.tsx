@@ -20,7 +20,7 @@ import { getConfig, setAppearanceConfig } from "@/utils/settings";
 import { setupOnboarding } from "@/utils/onboarding";
 
 export default function Hub() {
-  const [onboardingCompleted, setOnboardingCompleted] = useState(false);
+  const [config, setConfig] = useState<Config | null>(null);
   const [availableTools, setAvailableTools] = useState<HubTool[]>(hubTools);
   const router = useRouter();
 
@@ -47,7 +47,7 @@ export default function Hub() {
       try {
         await setupOnboarding();
         const c = await getConfig();
-        setOnboardingCompleted(c.onboarding_completed);
+        setConfig(c);
 
         if (!c.onboarding_completed) {
           router.push("/onboarding");
@@ -68,7 +68,8 @@ export default function Hub() {
   }, []);
 
   return (
-    onboardingCompleted && (
+    config &&
+    config.onboarding_completed && (
       <main>
         <HubHeader></HubHeader>
         <section className={styles.sectionTools}>
@@ -78,7 +79,11 @@ export default function Hub() {
               <HubToolButton
                 key={hubTool.name}
                 link={hubTool.link}
-                icon={hubTool.icon}
+                icon={
+                  config.appearance === "dark"
+                    ? hubTool.icon
+                    : hubTool.icon.replace("light", "dark")
+                }
                 name={hubTool.name}
               />
             ))}

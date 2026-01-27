@@ -10,37 +10,37 @@ export const hubTools: HubTool[] = [
   {
     link: "./resources",
     name: "Resources",
-    icon: "/images/tools/resources.png",
+    icon: "/images/tools/resources_light.png",
   },
   {
     link: "./care-instructions",
     name: "Care Instructions",
-    icon: "/images/tools/care-instructions.png",
+    icon: "/images/tools/care_instructions_light.png",
   },
   {
     link: "./pro",
     name: "Survey",
-    icon: "/images/tools/pro.png",
+    icon: "/images/tools/pro_light.png",
   },
   {
     link: "./medications",
     name: "Medications",
-    icon: "/images/tools/medications.png",
+    icon: "/images/tools/medications_light.png",
   },
   {
     link: "./call",
     name: "Video",
-    icon: "/images/tools/call.png",
+    icon: "/images/tools/call_light.png",
   },
   {
     link: "./settings/device",
     name: "Settings",
-    icon: "/images/tools/settings.png",
+    icon: "/images/tools/settings_light.png",
   },
   {
     link: "./contacts",
     name: "Contacts",
-    icon: "/images/tools/contacts.png",
+    icon: "/images/tools/contacts_light.png",
   },
 ].sort((a, b) => {
   // Sorts list by HubTool.name
